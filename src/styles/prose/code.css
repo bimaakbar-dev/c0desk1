@@ -90,7 +90,8 @@
 }
 
 .prose .astro-code code {
-  display: block;
+  display: grid;
+  min-width: 100%;
   background: none !important;
   font-family: inherit;
   line-height: inherit;
