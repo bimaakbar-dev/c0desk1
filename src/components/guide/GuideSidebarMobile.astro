@@ -26,7 +26,7 @@ const {
 const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 ---
 
-<div class="lg:hidden sticky top-(--header-height) z-40 flex items-center justify-between w-full h-12 bg-base border-b border-(--border) px-4">
+<div class="lg:hidden sticky top-(--header-height) z-40 flex items-center justify-between w-full h-12 bg-base border-b border-(--border-subtle) px-4">
   <div class="flex items-center py-1.5">
     <button id="m-sidebar-open" type="button" class="flex items-center p-1.5 gap-1.5 text-muted hover:text-strong active:text-strong hover:bg-subtle active:bg-subtle rounded-md transition-colors" aria-label="Open Menu">
       <Icon name="expanded-open" className="w-5 h-5" />
