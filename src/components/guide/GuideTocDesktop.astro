@@ -21,7 +21,7 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         <svg class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; height: 100%; z-index: 0;">
           <path id="toc-bg-path" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" />
         </svg>
-        <div id="toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden transition-[height] duration-300 ease-out" style="height: 0px; z-index: 1;">
+        <div id="toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1; clip-path: inset(0px 0px 100% 0px);">
           <svg id="toc-fg-svg" class="absolute top-0 left-0 pointer-events-none text-(--accent)" style="width: 100%;">
             <path id="toc-fg-path" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" />
           </svg>
@@ -87,9 +87,32 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
     const linksArray = Array.from(links);
     const targets = linksArray.map(l => document.getElementById(l.dataset.tocDesktopSlug!)).filter(Boolean) as HTMLElement[];
-    let active = "";
 
     const OFFSET = 3;
+    const READ_OFFSET = 140;
+    const TRAIL_EASE = 0.15; // makin kecil = "ekor" makin lambat/panjang
+
+    let headingTops: number[] = [];
+    let liTops: number[] = [];
+    let totalHeight = 0;
+
+    let headY = 0;
+    let tailY = 0;
+    let rafId: number | null = null;
+    let lastActiveIndex = -2;
+
+    const computePositions = () => {
+      headingTops = targets.map(t => {
+        const rect = t.getBoundingClientRect();
+        return rect.top + window.scrollY;
+      });
+      liTops = linksArray.map(l => (l.parentElement as HTMLElement).offsetTop);
+
+      const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
+      totalHeight = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
+
+      mask.style.height = `${totalHeight}px`;
+    };
 
     const drawSvgPath = () => {
       if (nav.offsetHeight === 0) return;
@@ -129,74 +152,84 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
       bgPath.setAttribute("d", d);
       fgPath.setAttribute("d", d);
-      updateProgress();
+
+      computePositions();
     };
 
-    const updateProgress = () => {
-      const activeIndex = linksArray.findIndex(l => l.dataset.tocDesktopSlug === active);
+    const getHeadY = () => {
+      const readPoint = window.scrollY + READ_OFFSET;
 
-      if (activeIndex !== -1) {
-        const activeLink = linksArray[activeIndex];
-        const li = activeLink.parentElement;
-        if (li) {
-          const height = li.offsetTop + li.offsetHeight - OFFSET;
-          mask.style.height = `${height}px`;
-        }
-      } else {
-        mask.style.height = "0px";
+      let activeIndex = -1;
+      for (let i = 0; i < headingTops.length; i++) {
+        if (readPoint >= headingTops[i]) activeIndex = i;
+        else break;
       }
 
+      if (activeIndex === -1) return 0;
+
+      if (activeIndex === headingTops.length - 1) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const segStart = headingTops[activeIndex];
+        const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
+        const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
+        return liTops[activeIndex] + (totalHeight - liTops[activeIndex]) * progress;
+      }
+
+      const segStart = headingTops[activeIndex];
+      const segEnd = headingTops[activeIndex + 1];
+      const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
+      return liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
+    };
+
+    const getActiveIndexFromY = (y: number) => {
+      let idx = -1;
+      for (let i = 0; i < liTops.length; i++) {
+        if (y >= liTops[i] - 0.5) idx = i;
+      }
+      return idx;
+    };
+
+    const applyLinkStyles = (activeIndex: number) => {
+      if (activeIndex === lastActiveIndex) return;
+      lastActiveIndex = activeIndex;
       linksArray.forEach((l, i) => {
         const isSub = l.dataset.isSub === "true";
         if (i === activeIndex) {
           l.classList.add("text-strong");
           l.classList.remove("text-muted", "text-muted/80");
         } else {
-          l.classList.add(isSub ? "text-muted/80" : "text-muted");
           l.classList.remove("text-strong");
+          l.classList.add(isSub ? "text-muted/80" : "text-muted");
         }
       });
     };
 
-    // Observer dengan logika pemilihan heading teratas (sama seperti mobile)
-    const obs = new IntersectionObserver(entries => {
-      const visible = entries
-        .filter(e => e.isIntersecting)
-        .map(e => targets.find(t => t.id === e.target.id))
-        .filter(Boolean) as HTMLElement[];
+    const tick = () => {
+      headY = getHeadY();
+      tailY += (headY - tailY) * TRAIL_EASE;
+      if (Math.abs(headY - tailY) < 0.5) tailY = headY;
 
-      if (visible.length > 0) {
-        const topMost = visible.reduce((a, b) => {
-          const aTop = a.getBoundingClientRect().top;
-          const bTop = b.getBoundingClientRect().top;
-          return aTop <= bTop ? a : b;
-        });
-        active = topMost.id;
-      } else if (window.scrollY < 50) {
-        active = "";
-      }
-      updateProgress();
-    }, { rootMargin: "-10% 0% -70% 0%", threshold: 0 });
+      const top = Math.max(0, Math.min(tailY, headY));
+      const bottom = Math.max(0, totalHeight - Math.max(tailY, headY));
 
-    targets.forEach(t => obs.observe(t));
+      mask.style.clipPath = `inset(${top}px 0px ${bottom}px 0px)`;
 
-    const handleScroll = () => {
-      if (window.scrollY < 50 && active !== "") {
-        active = "";
-        updateProgress();
-      }
+      applyLinkStyles(getActiveIndexFromY(headY));
+
+      rafId = requestAnimationFrame(tick);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    drawSvgPath();
+    headY = getHeadY();
+    tailY = headY;
+    rafId = requestAnimationFrame(tick);
 
     const resizeObs = new ResizeObserver(() => drawSvgPath());
     resizeObs.observe(nav);
 
-    drawSvgPath();
-
     return () => {
-      obs.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
       resizeObs.disconnect();
-      window.removeEventListener("scroll", handleScroll);
     };
   };
 
