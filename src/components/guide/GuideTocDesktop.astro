@@ -18,7 +18,7 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         <p class="text-label-13 font-semibold">Dihalaman ini</p>
       </div>
       <nav id="toc-desktop-nav" class="relative">
-        <svg class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; height: 100%; z-index: 0;">
+        <svg id="toc-bg-svg" class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; z-index: 0;">
           <path id="toc-bg-path" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" />
         </svg>
         <div id="toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1; clip-path: inset(0px 0px 100% 0px);">
@@ -34,7 +34,7 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
                 <a 
                   href={`#${h.slug}`} 
                   class:list={[
-                    "toc-desktop-link block py-1.5 transition-all duration-200 no-underline",
+                    "toc-desktop-link block py-1.5 transition-colors duration-200 no-underline",
                     isSubHeading 
                       ? "pl-9 text-label-14 font-normal text-muted hover:text-strong" 
                       : "pl-6 text-label-14 font-medium text-muted hover:text-strong"
@@ -79,25 +79,28 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
     const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc-desktop-slug]");
     const nav = document.getElementById("toc-desktop-nav");
     const mask = document.getElementById("toc-progress-mask");
+    const bgSvg = document.getElementById("toc-bg-svg");
     const bgPath = document.getElementById("toc-bg-path");
     const fgPath = document.getElementById("toc-fg-path");
     const fgSvg = document.getElementById("toc-fg-svg");
 
-    if (!links.length || !nav || !mask || !bgPath || !fgPath || !fgSvg) return;
+    if (!links.length || !nav || !mask || !bgSvg || !bgPath || !fgPath || !fgSvg) return;
 
     const linksArray = Array.from(links);
     const targets = linksArray.map(l => document.getElementById(l.dataset.tocDesktopSlug!)).filter(Boolean) as HTMLElement[];
 
     const OFFSET = 3;
-    const READ_OFFSET = 140;
-    const TRAIL_EASE = 0.15; // makin kecil = "ekor" makin lambat/panjang
+    const READ_OFFSET = 140;  // jarak dari top viewport yang dianggap "garis baca"
+    const EASE_LEAD = 0.25;   // bottom edge ("ekor") — jatuh duluan, lebih cepat
+    const EASE_FOLLOW = 0.12; // top edge ("kepala") — menyusul, lebih lambat
 
     let headingTops: number[] = [];
     let liTops: number[] = [];
+    let liBottoms: number[] = [];
     let totalHeight = 0;
 
-    let headY = 0;
-    let tailY = 0;
+    let currentTop = 0;
+    let currentBottom = 0;
     let rafId: number | null = null;
     let lastActiveIndex = -2;
 
@@ -106,7 +109,14 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         const rect = t.getBoundingClientRect();
         return rect.top + window.scrollY;
       });
-      liTops = linksArray.map(l => (l.parentElement as HTMLElement).offsetTop);
+
+      liTops = [];
+      liBottoms = [];
+      linksArray.forEach(link => {
+        const li = link.parentElement as HTMLElement;
+        liTops.push(li.offsetTop);
+        liBottoms.push(li.offsetTop + li.offsetHeight - OFFSET);
+      });
 
       const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
       totalHeight = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
@@ -116,7 +126,10 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
     const drawSvgPath = () => {
       if (nav.offsetHeight === 0) return;
-      fgSvg.style.height = `${nav.offsetHeight}px`;
+
+      const fullScrollHeight = nav.scrollHeight;
+      bgSvg.style.height = `${fullScrollHeight}px`;
+      fgSvg.style.height = `${fullScrollHeight}px`;
 
       const H2_X = 4;
       const H3_X = 18;
@@ -145,10 +158,8 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         }
       });
 
-      const lastLi = linksArray[linksArray.length - 1].parentElement;
-      if (lastLi) {
-        d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
-      }
+      const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
+      d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
 
       bgPath.setAttribute("d", d);
       fgPath.setAttribute("d", d);
@@ -156,7 +167,8 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       computePositions();
     };
 
-    const getHeadY = () => {
+    // hitung index heading aktif langsung dari posisi scroll (-1 = belum ada yang aktif / masih di top)
+    const getActiveIndex = () => {
       const readPoint = window.scrollY + READ_OFFSET;
 
       let activeIndex = -1;
@@ -164,34 +176,13 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         if (readPoint >= headingTops[i]) activeIndex = i;
         else break;
       }
-
-      if (activeIndex === -1) return 0;
-
-      if (activeIndex === headingTops.length - 1) {
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const segStart = headingTops[activeIndex];
-        const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
-        const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
-        return liTops[activeIndex] + (totalHeight - liTops[activeIndex]) * progress;
-      }
-
-      const segStart = headingTops[activeIndex];
-      const segEnd = headingTops[activeIndex + 1];
-      const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
-      return liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
-    };
-
-    const getActiveIndexFromY = (y: number) => {
-      let idx = -1;
-      for (let i = 0; i < liTops.length; i++) {
-        if (y >= liTops[i] - 0.5) idx = i;
-      }
-      return idx;
+      return activeIndex;
     };
 
     const applyLinkStyles = (activeIndex: number) => {
       if (activeIndex === lastActiveIndex) return;
       lastActiveIndex = activeIndex;
+
       linksArray.forEach((l, i) => {
         const isSub = l.dataset.isSub === "true";
         if (i === activeIndex) {
@@ -205,27 +196,51 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
     };
 
     const tick = () => {
-      headY = getHeadY();
-      tailY += (headY - tailY) * TRAIL_EASE;
-      if (Math.abs(headY - tailY) < 0.5) tailY = headY;
+      const activeIndex = getActiveIndex();
 
-      const top = Math.max(0, Math.min(tailY, headY));
-      const bottom = Math.max(0, totalHeight - Math.max(tailY, headY));
+      let targetTop: number;
+      let targetBottom: number;
+
+      if (activeIndex === -1) {
+        targetTop = 0;
+        targetBottom = 0;
+      } else {
+        targetTop = liTops[activeIndex];
+        targetBottom = liBottoms[activeIndex];
+      }
+
+      // bottom edge ("ekor") jatuh duluan, lebih cepat
+      currentBottom += (targetBottom - currentBottom) * EASE_LEAD;
+      if (Math.abs(targetBottom - currentBottom) < 0.5) currentBottom = targetBottom;
+
+      // top edge ("kepala") menyusul, lebih lambat
+      currentTop += (targetTop - currentTop) * EASE_FOLLOW;
+      if (Math.abs(targetTop - currentTop) < 0.5) currentTop = targetTop;
+
+      const top = Math.max(0, Math.min(currentTop, currentBottom));
+      const bottom = Math.max(0, totalHeight - Math.max(currentBottom, currentTop));
 
       mask.style.clipPath = `inset(${top}px 0px ${bottom}px 0px)`;
 
-      applyLinkStyles(getActiveIndexFromY(headY));
+      applyLinkStyles(activeIndex);
 
       rafId = requestAnimationFrame(tick);
     };
 
-    drawSvgPath();
-    headY = getHeadY();
-    tailY = headY;
-    rafId = requestAnimationFrame(tick);
-
     const resizeObs = new ResizeObserver(() => drawSvgPath());
     resizeObs.observe(nav);
+
+    // init
+    drawSvgPath();
+    const initIndex = getActiveIndex();
+    if (initIndex === -1) {
+      currentTop = 0;
+      currentBottom = 0;
+    } else {
+      currentTop = liTops[initIndex];
+      currentBottom = liBottoms[initIndex];
+    }
+    rafId = requestAnimationFrame(tick);
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
