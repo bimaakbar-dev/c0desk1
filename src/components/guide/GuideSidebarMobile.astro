@@ -60,7 +60,7 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           <svg id="m-toc-bg-svg" class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; z-index: 0;">
             <path id="m-toc-bg-path" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" />
           </svg>
-          <div id="m-toc-progress-mask" aria-hidden="true" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1;">
+          <div id="m-toc-progress-mask" aria-hidden="true" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1; clip-path: inset(0px 0px 100% 0px);">
             <svg id="m-toc-fg-svg" class="absolute top-0 left-0 pointer-events-none text-accent" style="width: 100%;">
               <path id="m-toc-fg-path" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" />
             </svg>
@@ -73,7 +73,7 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
                   <a 
                     href={`#${h.slug}`} 
                     class:list={[
-                      "toc-mobile-link block py-1.5 transition-all duration-200 no-underline",
+                      "toc-mobile-link block py-1.5 transition-colors duration-200 no-underline",
                       isSubHeading 
                         ? "pl-9 text-body-13 font-normal text-muted hover:text-strong" 
                         : "pl-6 text-body-13 font-medium text-muted hover:text-strong"
@@ -180,7 +180,7 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       });
     }
 
-    // --- TOC: scroll-driven progress ---
+    // --- TOC: comet-trail scroll-driven progress ---
     const tocLinks = document.querySelectorAll<HTMLAnchorElement>("[data-toc-mobile-slug]");
     const activeText = document.getElementById("m-toc-active-text");
     const progressRing = document.getElementById("m-toc-progress-ring") as SVGCircleElement | null;
@@ -200,11 +200,17 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
       const OFFSET = 3;
       const READ_OFFSET = 140; // jarak dari top viewport yang dianggap "garis baca"
+      const TRAIL_EASE = 0.15; // makin kecil = ekor makin lambat/panjang
       const circumference = 69.115;
 
       let headingTops: number[] = [];
       let liTops: number[] = [];
-      let lastLiBottom = 0;
+      let totalHeight = 0;
+
+      let headY = 0;
+      let tailY = 0;
+      let rafId: number | null = null;
+      let lastActiveIndex = -2;
 
       const computePositions = () => {
         headingTops = targets.map(t => {
@@ -212,14 +218,12 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           return rect.top + window.scrollY;
         });
 
-        liTops = [];
-        linksArray.forEach(link => {
-          const li = link.parentElement as HTMLElement;
-          liTops.push(li.offsetTop);
-        });
+        liTops = linksArray.map(l => (l.parentElement as HTMLElement).offsetTop);
 
         const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
-        lastLiBottom = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
+        totalHeight = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
+
+        tocMask.style.height = `${totalHeight}px`;
       };
 
       const drawSvgPath = () => {
@@ -256,15 +260,23 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           currentY = yTop;
         });
 
-        d += ` L ${currentX} ${lastLiBottom}`;
+        d += ` L ${currentX} ${totalHeight || currentY}`;
 
         tocBgPath.setAttribute("d", d);
         tocFgPath.setAttribute("d", d);
 
         computePositions();
+
+        // redraw setelah totalHeight ter-update
+        const lastLi = linksArray[linksArray.length - 1].parentElement;
+        if (lastLi) {
+          let d2 = d.replace(/L [\d.]+ [\d.]+$/, `L ${currentX} ${totalHeight}`);
+          tocBgPath.setAttribute("d", d2);
+          tocFgPath.setAttribute("d", d2);
+        }
       };
 
-      const updateProgress = () => {
+      const getHeadY = () => {
         const readPoint = window.scrollY + READ_OFFSET;
 
         let activeIndex = -1;
@@ -273,7 +285,34 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           else break;
         }
 
-        // label aktif
+        if (activeIndex === -1) return 0;
+
+        if (activeIndex === headingTops.length - 1) {
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const segStart = headingTops[activeIndex];
+          const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
+          const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
+          return liTops[activeIndex] + (totalHeight - liTops[activeIndex]) * progress;
+        }
+
+        const segStart = headingTops[activeIndex];
+        const segEnd = headingTops[activeIndex + 1];
+        const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
+        return liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
+      };
+
+      const getActiveIndexFromY = (y: number) => {
+        let idx = -1;
+        for (let i = 0; i < liTops.length; i++) {
+          if (y >= liTops[i] - 0.5) idx = i;
+        }
+        return idx;
+      };
+
+      const applyLinkStyles = (activeIndex: number) => {
+        if (activeIndex === lastActiveIndex) return;
+        lastActiveIndex = activeIndex;
+
         if (activeIndex === -1) {
           if (activeText.textContent !== "Di Halaman Ini") {
             activeText.textContent = "Di Halaman Ini";
@@ -285,26 +324,6 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           }
         }
 
-        // tinggi mask, diinterpolasi halus antar section
-        let maskHeight = 0;
-        if (activeIndex === -1) {
-          maskHeight = 0;
-        } else if (activeIndex === headingTops.length - 1) {
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const segStart = headingTops[activeIndex];
-          const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
-          const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
-          maskHeight = liTops[activeIndex] + (lastLiBottom - liTops[activeIndex]) * progress;
-        } else {
-          const segStart = headingTops[activeIndex];
-          const segEnd = headingTops[activeIndex + 1];
-          const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
-          maskHeight = liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
-        }
-
-        tocMask.style.height = `${maskHeight}px`;
-
-        // styling teks link
         linksArray.forEach((l, i) => {
           const isSub = l.dataset.isSub === "true";
           if (i === activeIndex) {
@@ -325,28 +344,23 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         progressRing.style.strokeDashoffset = String(circumference * (1 - progress));
       };
 
-      // satu scroll handler, throttle via rAF
-      let ticking = false;
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          updateRingProgress();
-          updateProgress();
-          ticking = false;
-        });
+      const tick = () => {
+        headY = getHeadY();
+        tailY += (headY - tailY) * TRAIL_EASE;
+        if (Math.abs(headY - tailY) < 0.5) tailY = headY;
+
+        const top = Math.max(0, Math.min(tailY, headY));
+        const bottom = Math.max(0, totalHeight - Math.max(tailY, headY));
+
+        tocMask.style.clipPath = `inset(${top}px 0px ${bottom}px 0px)`;
+
+        applyLinkStyles(getActiveIndexFromY(headY));
+        updateRingProgress();
+
+        rafId = requestAnimationFrame(tick);
       };
 
-      window.addEventListener("scroll", onScroll, { passive: true });
-      cleanupTasks.push(() => window.removeEventListener("scroll", onScroll));
-
-      const resizeObs = new ResizeObserver(() => {
-        requestAnimationFrame(() => {
-          drawSvgPath();
-          updateProgress();
-          updateRingProgress();
-        });
-      });
+      const resizeObs = new ResizeObserver(() => drawSvgPath());
       resizeObs.observe(tocListContainer);
       cleanupTasks.push(() => resizeObs.disconnect());
 
@@ -371,10 +385,12 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       cleanupTasks.push(() => document.removeEventListener("click", handleOutsideClick));
 
       // init
-      requestAnimationFrame(() => {
-        drawSvgPath();
-        updateProgress();
-        updateRingProgress();
+      drawSvgPath();
+      headY = getHeadY();
+      tailY = headY;
+      rafId = requestAnimationFrame(tick);
+      cleanupTasks.push(() => {
+        if (rafId) cancelAnimationFrame(rafId);
       });
     }
 
