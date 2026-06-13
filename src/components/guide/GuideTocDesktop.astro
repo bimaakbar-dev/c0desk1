@@ -1,14 +1,25 @@
 ---
 // src/components/guide/desktop/GuideTocDesktop.astro
-import Section from "@/components/ui/Section.astro";
-import Icon from "../ui/icons/Icon.astro";
-import ScrollToTop from "../ui/ScrollToTop.astro";
-import RssSubscribe from "../ui/RssSubscribe.astro";
 
-interface Props { headings: { depth: number; text: string; slug: string }[]; }
+import Section from "@/components/ui/Section.astro";
+import Icon from "@/components/ui/icons/Icon.astro";
+import ScrollToTop from "@/components/ui/ScrollToTop.astro";
+import RssSubscribe from "@/components/ui/RssSubscribe.astro";
+
+interface Props { 
+  headings: { 
+    depth: number; 
+    text: string; 
+    slug: string 
+  }[]; 
+}
+
 const { headings } = Astro.props;
+
 const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 ---
+
+
 
 {filtered.length > 0 && (
   <aside class="hidden lg:block w-56 mx-auto shrink-0 sticky top-(--header-height) h-[calc(100svh-var(--header-height))] overflow-y-auto px-4" style="scrollbar-width: none;">
@@ -18,10 +29,10 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
         <p class="text-label-13 font-semibold">Dihalaman ini</p>
       </div>
       <nav id="toc-desktop-nav" class="relative">
-        <svg id="toc-bg-svg" class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; z-index: 0;">
+        <svg class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; height: 100%; z-index: 0;">
           <path id="toc-bg-path" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" />
         </svg>
-        <div id="toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1; clip-path: inset(0px 0px 100% 0px);">
+        <div id="toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden transition-[height] duration-300 ease-out" style="height: 0px; z-index: 1;">
           <svg id="toc-fg-svg" class="absolute top-0 left-0 pointer-events-none text-(--accent)" style="width: 100%;">
             <path id="toc-fg-path" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" />
           </svg>
@@ -34,7 +45,7 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
                 <a 
                   href={`#${h.slug}`} 
                   class:list={[
-                    "toc-desktop-link block py-1.5 transition-colors duration-200 no-underline",
+                    "toc-desktop-link block py-1.5 transition-all duration-200 no-underline",
                     isSubHeading 
                       ? "pl-9 text-label-14 font-normal text-muted hover:text-strong" 
                       : "pl-6 text-label-14 font-medium text-muted hover:text-strong"
@@ -71,6 +82,7 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
   .toc-desktop-link.text-muted,
   .toc-desktop-link.text-muted\/80 {
     color: var(--fg-muted) !important;
+
   }
 </style>
 
@@ -79,57 +91,23 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
     const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc-desktop-slug]");
     const nav = document.getElementById("toc-desktop-nav");
     const mask = document.getElementById("toc-progress-mask");
-    const bgSvg = document.getElementById("toc-bg-svg");
     const bgPath = document.getElementById("toc-bg-path");
     const fgPath = document.getElementById("toc-fg-path");
     const fgSvg = document.getElementById("toc-fg-svg");
 
-    if (!links.length || !nav || !mask || !bgSvg || !bgPath || !fgPath || !fgSvg) return;
+    if (!links.length || !nav || !mask || !bgPath || !fgPath || !fgSvg) return;
 
     const linksArray = Array.from(links);
     const targets = linksArray.map(l => document.getElementById(l.dataset.tocDesktopSlug!)).filter(Boolean) as HTMLElement[];
 
+    let active = "";
+    
     const OFFSET = 3;
-    const READ_OFFSET = 140;  // jarak dari top viewport yang dianggap "garis baca"
-    const EASE_LEAD = 0.25;   // bottom edge ("ekor") — jatuh duluan, lebih cepat
-    const EASE_FOLLOW = 0.12; // top edge ("kepala") — menyusul, lebih lambat
-
-    let headingTops: number[] = [];
-    let liTops: number[] = [];
-    let liBottoms: number[] = [];
-    let totalHeight = 0;
-
-    let currentTop = 0;
-    let currentBottom = 0;
-    let rafId: number | null = null;
-    let lastActiveIndex = -2;
-
-    const computePositions = () => {
-      headingTops = targets.map(t => {
-        const rect = t.getBoundingClientRect();
-        return rect.top + window.scrollY;
-      });
-
-      liTops = [];
-      liBottoms = [];
-      linksArray.forEach(link => {
-        const li = link.parentElement as HTMLElement;
-        liTops.push(li.offsetTop);
-        liBottoms.push(li.offsetTop + li.offsetHeight - OFFSET);
-      });
-
-      const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
-      totalHeight = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
-
-      mask.style.height = `${totalHeight}px`;
-    };
 
     const drawSvgPath = () => {
       if (nav.offsetHeight === 0) return;
 
-      const fullScrollHeight = nav.scrollHeight;
-      bgSvg.style.height = `${fullScrollHeight}px`;
-      fgSvg.style.height = `${fullScrollHeight}px`;
+      fgSvg.style.height = `${nav.offsetHeight}px`;
 
       const H2_X = 4;
       const H3_X = 18;
@@ -148,113 +126,106 @@ const filtered = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
         if (targetX !== currentX) {
           const turnStartY = Math.max(currentY, yTop - 8);
+          
           if (turnStartY > currentY) {
             d += ` L ${currentX} ${turnStartY}`;
           }
           const turnEndY = yTop + 10;
+
           d += ` L ${targetX} ${turnEndY}`;
           currentX = targetX;
           currentY = turnEndY;
         }
       });
 
-      const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
-      d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
-
+      const lastLi = linksArray[linksArray.length - 1].parentElement;
+      if (lastLi) {
+        d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
+      }
+      
       bgPath.setAttribute("d", d);
       fgPath.setAttribute("d", d);
-
-      computePositions();
+      
+      updateProgress();
     };
-
-    // hitung index heading aktif langsung dari posisi scroll (-1 = belum ada yang aktif / masih di top)
-    const getActiveIndex = () => {
-      const readPoint = window.scrollY + READ_OFFSET;
-
-      let activeIndex = -1;
-      for (let i = 0; i < headingTops.length; i++) {
-        if (readPoint >= headingTops[i]) activeIndex = i;
-        else break;
+    
+    const updateProgress = () => {
+      const activeIndex = linksArray.findIndex(l => l.dataset.tocDesktopSlug === active);
+      
+      if (activeIndex !== -1) {
+        const activeLink = linksArray[activeIndex];
+        const li = activeLink.parentElement;
+        
+        if (li) {
+          const height = li.offsetTop + li.offsetHeight - OFFSET;
+          mask.style.height = `${height}px`;
+        }
+      } else {
+        mask.style.height = "0px";
       }
-      return activeIndex;
-    };
-
-    const applyLinkStyles = (activeIndex: number) => {
-      if (activeIndex === lastActiveIndex) return;
-      lastActiveIndex = activeIndex;
-
+      
       linksArray.forEach((l, i) => {
         const isSub = l.dataset.isSub === "true";
+        
         if (i === activeIndex) {
           l.classList.add("text-strong");
           l.classList.remove("text-muted", "text-muted/80");
         } else {
-          l.classList.remove("text-strong");
           l.classList.add(isSub ? "text-muted/80" : "text-muted");
+          l.classList.remove("text-strong");
         }
       });
     };
 
-    const tick = () => {
-      const activeIndex = getActiveIndex();
+    const obs = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .map(e => targets.find(t => t.id === e.target.id))
+        .filter(Boolean) as HTMLElement[];
 
-      let targetTop: number;
-      let targetBottom: number;
-
-      if (activeIndex === -1) {
-        targetTop = 0;
-        targetBottom = 0;
-      } else {
-        targetTop = liTops[activeIndex];
-        targetBottom = liBottoms[activeIndex];
+      if (visible.length > 0) {
+        const topMost = visible.reduce((a, b) => {
+          const aTop = a.getBoundingClientRect().top;
+          const bTop = b.getBoundingClientRect().top;
+          return aTop <= bTop ? a : b;
+        });
+        
+        active = topMost.id;
+      } else if (window.scrollY < 50) {
+        active = "";
       }
 
-      // bottom edge ("ekor") jatuh duluan, lebih cepat
-      currentBottom += (targetBottom - currentBottom) * EASE_LEAD;
-      if (Math.abs(targetBottom - currentBottom) < 0.5) currentBottom = targetBottom;
+      updateProgress();
+      
+    }, { rootMargin: "-10% 0% -70% 0%", threshold: 0 });
+    targets.forEach(t => obs.observe(t));
 
-      // top edge ("kepala") menyusul, lebih lambat
-      currentTop += (targetTop - currentTop) * EASE_FOLLOW;
-      if (Math.abs(targetTop - currentTop) < 0.5) currentTop = targetTop;
-
-      const top = Math.max(0, Math.min(currentTop, currentBottom));
-      const bottom = Math.max(0, totalHeight - Math.max(currentBottom, currentTop));
-
-      mask.style.clipPath = `inset(${top}px 0px ${bottom}px 0px)`;
-
-      applyLinkStyles(activeIndex);
-
-      rafId = requestAnimationFrame(tick);
+    const handleScroll = () => {
+      if (window.scrollY < 50 && active !== "") {
+        active = "";
+        updateProgress();
+      }
     };
-
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
     const resizeObs = new ResizeObserver(() => drawSvgPath());
     resizeObs.observe(nav);
-
-    // init
-    drawSvgPath();
-    const initIndex = getActiveIndex();
-    if (initIndex === -1) {
-      currentTop = 0;
-      currentBottom = 0;
-    } else {
-      currentTop = liTops[initIndex];
-      currentBottom = liBottoms[initIndex];
-    }
-    rafId = requestAnimationFrame(tick);
+    
+	drawSvgPath();
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
+      obs.disconnect();
       resizeObs.disconnect();
+      
+      window.removeEventListener("scroll", handleScroll);
     };
   };
-
   let cleanup: (() => void) | undefined;
-
   const runSetup = () => {
     cleanup?.();
     cleanup = initDesktopToc();
   };
-
   runSetup();
-  document.addEventListener("astro:page-load", runSetup);
+  //document.addEventListener("astro:page-load", runSetup);
 </script>
