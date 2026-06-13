@@ -57,10 +57,10 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           <p class="text-body-13 font-semibold">Dihalaman ini</p>
         </div>
         <div id="m-toc-list-container" class="relative pb-2">
-          <svg class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; height: 100%; z-index: 0;">
+          <svg id="m-toc-bg-svg" class="absolute inset-0 pointer-events-none text-(--border)" style="width: 100%; z-index: 0;">
             <path id="m-toc-bg-path" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" />
           </svg>
-          <div id="m-toc-progress-mask" class="absolute top-0 left-0 w-full overflow-hidden transition-[height] duration-300 ease-out" style="height: 0px; z-index: 1;">
+          <div id="m-toc-progress-mask" aria-hidden="true" class="absolute top-0 left-0 w-full overflow-hidden" style="height: 0px; z-index: 1;">
             <svg id="m-toc-fg-svg" class="absolute top-0 left-0 pointer-events-none text-accent" style="width: 100%;">
               <path id="m-toc-fg-path" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" />
             </svg>
@@ -134,26 +134,20 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 <script>
   const initMobileNavigation = () => {
     const cleanupTasks: Array<() => void> = [];
+
+    // --- Sidebar drawer open/close ---
     const openBtn = document.getElementById("m-sidebar-open");
     const closeBtn = document.getElementById("m-sidebar-close");
     const sidebar = document.getElementById("m-sidebar");
     const backdrop = document.getElementById("m-sidebar-backdrop");
     const tocDetails = document.getElementById("m-toc-details") as HTMLDetailsElement | null;
-    const tocLinks = document.querySelectorAll<HTMLAnchorElement>("[data-toc-mobile-slug]");
-    const activeText = document.getElementById("m-toc-active-text");
-    const progressRing = document.getElementById("m-toc-progress-ring") as SVGCircleElement | null;
-    const tocListContainer = document.getElementById("m-toc-list-container");
-    const tocMask = document.getElementById("m-toc-progress-mask");
-    const tocBgPath = document.getElementById("m-toc-bg-path");
-    const tocFgPath = document.getElementById("m-toc-fg-path");
-    const tocFgSvg = document.getElementById("m-toc-fg-svg");
 
     if (openBtn && sidebar && backdrop) {
       const open = () => {
         if (tocDetails) tocDetails.removeAttribute("open");
         sidebar.classList.remove("-translate-x-full");
         backdrop.classList.remove("hidden");
-        void sidebar.offsetWidth; 
+        void sidebar.offsetWidth;
         requestAnimationFrame(() => backdrop.classList.add("opacity-100"));
         document.body.style.overflow = "hidden";
       };
@@ -186,35 +180,60 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       });
     }
 
-    if (tocLinks.length && tocDetails && activeText && tocListContainer && tocMask && tocBgPath && tocFgPath && tocFgSvg) {
+    // --- TOC: scroll-driven progress ---
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>("[data-toc-mobile-slug]");
+    const activeText = document.getElementById("m-toc-active-text");
+    const progressRing = document.getElementById("m-toc-progress-ring") as SVGCircleElement | null;
+    const tocListContainer = document.getElementById("m-toc-list-container");
+    const tocMask = document.getElementById("m-toc-progress-mask");
+    const tocBgSvg = document.getElementById("m-toc-bg-svg");
+    const tocBgPath = document.getElementById("m-toc-bg-path");
+    const tocFgPath = document.getElementById("m-toc-fg-path");
+    const tocFgSvg = document.getElementById("m-toc-fg-svg");
+
+    if (
+      tocLinks.length && tocDetails && activeText && tocListContainer &&
+      tocMask && tocBgSvg && tocBgPath && tocFgPath && tocFgSvg
+    ) {
       const linksArray = Array.from(tocLinks);
       const targets = linksArray.map(l => document.getElementById(l.dataset.tocMobileSlug!)).filter(Boolean) as HTMLElement[];
-      let active = "";
 
+      const OFFSET = 3;
+      const READ_OFFSET = 140; // jarak dari top viewport yang dianggap "garis baca"
       const circumference = 69.115;
-      const updateRingProgress = () => {
-        if (!progressRing) return;
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight <= 0 ? 0 : Math.min(scrollTop / docHeight, 1);
-        progressRing.style.strokeDashoffset = String(circumference * (1 - progress));
-      };
-      
-      updateRingProgress();
-      window.addEventListener("scroll", updateRingProgress, { passive: true });
-      cleanupTasks.push(() => window.removeEventListener("scroll", updateRingProgress));
 
-      const OFFSET = 3; 
+      let headingTops: number[] = [];
+      let liTops: number[] = [];
+      let lastLiBottom = 0;
+
+      const computePositions = () => {
+        headingTops = targets.map(t => {
+          const rect = t.getBoundingClientRect();
+          return rect.top + window.scrollY;
+        });
+
+        liTops = [];
+        linksArray.forEach(link => {
+          const li = link.parentElement as HTMLElement;
+          liTops.push(li.offsetTop);
+        });
+
+        const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
+        lastLiBottom = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
+      };
 
       const drawSvgPath = () => {
         if (tocListContainer.offsetHeight === 0) return;
-        tocFgSvg.style.height = `${tocListContainer.offsetHeight}px`;
+
+        const fullScrollHeight = tocListContainer.scrollHeight;
+        tocBgSvg.style.height = `${fullScrollHeight}px`;
+        tocFgSvg.style.height = `${fullScrollHeight}px`;
 
         const H2_X = 4;
         const H3_X = 18;
-        
+
         let currentX = linksArray[0].dataset.isSub === "true" ? H3_X : H2_X;
-        let currentY = OFFSET; 
+        let currentY = OFFSET;
         let d = `M ${currentX} ${currentY}`;
 
         linksArray.forEach((link) => {
@@ -223,107 +242,121 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
           const isSub = link.dataset.isSub === "true";
           const targetX = isSub ? H3_X : H2_X;
-          const yTop = li.offsetTop;
+          const yTop = li.offsetTop + (li.offsetHeight / 2);
 
           if (targetX !== currentX) {
-            const turnStartY = Math.max(currentY, yTop - 8); 
+            const turnStartY = Math.max(currentY, li.offsetTop - 4);
             if (turnStartY > currentY) {
               d += ` L ${currentX} ${turnStartY}`;
             }
-            const turnEndY = yTop + 10;
-            d += ` L ${targetX} ${turnEndY}`;
+            d += ` L ${targetX} ${li.offsetTop + 8}`;
             currentX = targetX;
-            currentY = turnEndY;
           }
+          d += ` L ${targetX} ${yTop}`;
+          currentY = yTop;
         });
 
-        const lastLi = linksArray[linksArray.length - 1].parentElement;
-        if (lastLi) {
-          d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
-        }
+        d += ` L ${currentX} ${lastLiBottom}`;
 
         tocBgPath.setAttribute("d", d);
         tocFgPath.setAttribute("d", d);
-        updateLineProgress();
+
+        computePositions();
       };
 
-      const updateLineProgress = () => {
-        const activeIndex = linksArray.findIndex(l => l.dataset.tocMobileSlug === active);
+      const updateProgress = () => {
+        const readPoint = window.scrollY + READ_OFFSET;
 
-        if (activeIndex !== -1) {
-          const activeLink = linksArray[activeIndex];
-          const li = activeLink.parentElement;
-          if (li) {
-            const height = li.offsetTop + li.offsetHeight - OFFSET;
-            tocMask.style.height = `${height}px`;
-          }
-        } else {
-          tocMask.style.height = "0px";
+        let activeIndex = -1;
+        for (let i = 0; i < headingTops.length; i++) {
+          if (readPoint >= headingTops[i]) activeIndex = i;
+          else break;
         }
 
+        // label aktif
+        if (activeIndex === -1) {
+          if (activeText.textContent !== "Di Halaman Ini") {
+            activeText.textContent = "Di Halaman Ini";
+          }
+        } else {
+          const label = linksArray[activeIndex].textContent?.trim() || "Di Halaman Ini";
+          if (activeText.textContent !== label) {
+            activeText.textContent = label;
+          }
+        }
+
+        // tinggi mask, diinterpolasi halus antar section
+        let maskHeight = 0;
+        if (activeIndex === -1) {
+          maskHeight = 0;
+        } else if (activeIndex === headingTops.length - 1) {
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const segStart = headingTops[activeIndex];
+          const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
+          const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
+          maskHeight = liTops[activeIndex] + (lastLiBottom - liTops[activeIndex]) * progress;
+        } else {
+          const segStart = headingTops[activeIndex];
+          const segEnd = headingTops[activeIndex + 1];
+          const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
+          maskHeight = liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
+        }
+
+        tocMask.style.height = `${maskHeight}px`;
+
+        // styling teks link
         linksArray.forEach((l, i) => {
           const isSub = l.dataset.isSub === "true";
           if (i === activeIndex) {
             l.classList.add("text-strong");
             l.classList.remove("text-muted", "text-muted/80");
           } else {
-            l.classList.add(isSub ? "text-muted/80" : "text-muted");
             l.classList.remove("text-strong");
+            l.classList.add(isSub ? "text-muted/80" : "text-muted");
           }
         });
       };
 
-      const obs = new IntersectionObserver(entries => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .map(e => targets.find(t => t.id === e.target.id))
-          .filter(Boolean) as HTMLElement[];
-
-        if (visible.length > 0) {
-          const topMost = visible.reduce((a, b) => {
-            const aTop = a.getBoundingClientRect().top;
-            const bTop = b.getBoundingClientRect().top;
-            return aTop <= bTop ? a : b;
-          });
-          active = topMost.id;
-        } else if (window.scrollY < 50) {
-          active = "";
-          activeText.textContent = "Di Halaman Ini";
-        }
-
-        if (active) {
-          const activeLink = linksArray.find(l => l.dataset.tocMobileSlug === active);
-          if (activeLink) {
-            activeText.textContent = activeLink.textContent?.trim() || "Di Halaman Ini";
-          }
-        }
-
-        updateLineProgress();
-      }, { rootMargin: "-10% 0% -70% 0%", threshold: 0 });
-
-      targets.forEach(t => obs.observe(t));
-      cleanupTasks.push(() => obs.disconnect());
-
-      const handleScrollTop = () => {
-        if (window.scrollY < 50) {
-          active = "";
-          activeText.textContent = "Di Halaman Ini";
-          updateLineProgress();
-        }
+      const updateRingProgress = () => {
+        if (!progressRing) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight <= 0 ? 0 : Math.min(scrollTop / docHeight, 1);
+        progressRing.style.strokeDashoffset = String(circumference * (1 - progress));
       };
-      window.addEventListener("scroll", handleScrollTop, { passive: true });
-      cleanupTasks.push(() => window.removeEventListener("scroll", handleScrollTop));
 
-      const resizeObs = new ResizeObserver(() => drawSvgPath());
+      // satu scroll handler, throttle via rAF
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateRingProgress();
+          updateProgress();
+          ticking = false;
+        });
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      cleanupTasks.push(() => window.removeEventListener("scroll", onScroll));
+
+      const resizeObs = new ResizeObserver(() => {
+        requestAnimationFrame(() => {
+          drawSvgPath();
+          updateProgress();
+          updateRingProgress();
+        });
+      });
       resizeObs.observe(tocListContainer);
       cleanupTasks.push(() => resizeObs.disconnect());
 
       const closeToc = () => tocDetails.removeAttribute("open");
-      linksArray.forEach(l => {
-        l.addEventListener("click", closeToc);
-        cleanupTasks.push(() => l.removeEventListener("click", closeToc));
+
+      linksArray.forEach(link => {
+        link.addEventListener("click", closeToc);
+        cleanupTasks.push(() => link.removeEventListener("click", closeToc));
       });
-      
+
       if (openBtn) {
         openBtn.addEventListener("click", closeToc);
         cleanupTasks.push(() => openBtn.removeEventListener("click", closeToc));
@@ -336,13 +369,20 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       };
       document.addEventListener("click", handleOutsideClick);
       cleanupTasks.push(() => document.removeEventListener("click", handleOutsideClick));
+
+      // init
+      requestAnimationFrame(() => {
+        drawSvgPath();
+        updateProgress();
+        updateRingProgress();
+      });
     }
 
     return () => cleanupTasks.forEach(cleanupFn => cleanupFn());
   };
 
   let cleanupMobileNav: (() => void) | undefined;
-  
+
   const runSetup = () => {
     cleanupMobileNav?.();
     cleanupMobileNav = initMobileNavigation();
