@@ -180,7 +180,7 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       });
     }
 
-    // --- TOC: comet-trail scroll-driven progress ---
+    // --- TOC: falling-band scroll-driven progress ---
     const tocLinks = document.querySelectorAll<HTMLAnchorElement>("[data-toc-mobile-slug]");
     const activeText = document.getElementById("m-toc-active-text");
     const progressRing = document.getElementById("m-toc-progress-ring") as SVGCircleElement | null;
@@ -200,15 +200,17 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
       const OFFSET = 3;
       const READ_OFFSET = 140; // jarak dari top viewport yang dianggap "garis baca"
-      const TRAIL_EASE = 0.15; // makin kecil = ekor makin lambat/panjang
+      const EASE_LEAD = 0.25;   // bottom edge ("ekor") — jatuh duluan, lebih cepat
+      const EASE_FOLLOW = 0.12; // top edge ("kepala") — menyusul, lebih lambat
       const circumference = 69.115;
 
       let headingTops: number[] = [];
       let liTops: number[] = [];
+      let liBottoms: number[] = [];
       let totalHeight = 0;
 
-      let headY = 0;
-      let tailY = 0;
+      let currentTop = 0;
+      let currentBottom = 0;
       let rafId: number | null = null;
       let lastActiveIndex = -2;
 
@@ -218,7 +220,13 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           return rect.top + window.scrollY;
         });
 
-        liTops = linksArray.map(l => (l.parentElement as HTMLElement).offsetTop);
+        liTops = [];
+        liBottoms = [];
+        linksArray.forEach(link => {
+          const li = link.parentElement as HTMLElement;
+          liTops.push(li.offsetTop);
+          liBottoms.push(li.offsetTop + li.offsetHeight - OFFSET);
+        });
 
         const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
         totalHeight = lastLi.offsetTop + lastLi.offsetHeight - OFFSET;
@@ -260,23 +268,17 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           currentY = yTop;
         });
 
-        d += ` L ${currentX} ${totalHeight || currentY}`;
+        const lastLi = linksArray[linksArray.length - 1].parentElement as HTMLElement;
+        d += ` L ${currentX} ${lastLi.offsetTop + lastLi.offsetHeight - OFFSET}`;
 
         tocBgPath.setAttribute("d", d);
         tocFgPath.setAttribute("d", d);
 
         computePositions();
-
-        // redraw setelah totalHeight ter-update
-        const lastLi = linksArray[linksArray.length - 1].parentElement;
-        if (lastLi) {
-          let d2 = d.replace(/L [\d.]+ [\d.]+$/, `L ${currentX} ${totalHeight}`);
-          tocBgPath.setAttribute("d", d2);
-          tocFgPath.setAttribute("d", d2);
-        }
       };
 
-      const getHeadY = () => {
+      // hitung index heading aktif langsung dari posisi scroll (-1 = belum ada yang aktif / masih di top)
+      const getActiveIndex = () => {
         const readPoint = window.scrollY + READ_OFFSET;
 
         let activeIndex = -1;
@@ -284,29 +286,7 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
           if (readPoint >= headingTops[i]) activeIndex = i;
           else break;
         }
-
-        if (activeIndex === -1) return 0;
-
-        if (activeIndex === headingTops.length - 1) {
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const segStart = headingTops[activeIndex];
-          const segEnd = Math.max(docHeight + READ_OFFSET, segStart + 1);
-          const progress = Math.min((readPoint - segStart) / (segEnd - segStart), 1);
-          return liTops[activeIndex] + (totalHeight - liTops[activeIndex]) * progress;
-        }
-
-        const segStart = headingTops[activeIndex];
-        const segEnd = headingTops[activeIndex + 1];
-        const progress = Math.min(Math.max((readPoint - segStart) / (segEnd - segStart), 0), 1);
-        return liTops[activeIndex] + (liTops[activeIndex + 1] - liTops[activeIndex]) * progress;
-      };
-
-      const getActiveIndexFromY = (y: number) => {
-        let idx = -1;
-        for (let i = 0; i < liTops.length; i++) {
-          if (y >= liTops[i] - 0.5) idx = i;
-        }
-        return idx;
+        return activeIndex;
       };
 
       const applyLinkStyles = (activeIndex: number) => {
@@ -345,16 +325,33 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
       };
 
       const tick = () => {
-        headY = getHeadY();
-        tailY += (headY - tailY) * TRAIL_EASE;
-        if (Math.abs(headY - tailY) < 0.5) tailY = headY;
+        const activeIndex = getActiveIndex();
 
-        const top = Math.max(0, Math.min(tailY, headY));
-        const bottom = Math.max(0, totalHeight - Math.max(tailY, headY));
+        let targetTop: number;
+        let targetBottom: number;
+
+        if (activeIndex === -1) {
+          targetTop = 0;
+          targetBottom = 0;
+        } else {
+          targetTop = liTops[activeIndex];
+          targetBottom = liBottoms[activeIndex];
+        }
+
+        // bottom edge ("ekor") jatuh duluan, lebih cepat
+        currentBottom += (targetBottom - currentBottom) * EASE_LEAD;
+        if (Math.abs(targetBottom - currentBottom) < 0.5) currentBottom = targetBottom;
+
+        // top edge ("kepala") menyusul, lebih lambat
+        currentTop += (targetTop - currentTop) * EASE_FOLLOW;
+        if (Math.abs(targetTop - currentTop) < 0.5) currentTop = targetTop;
+
+        const top = Math.max(0, Math.min(currentTop, currentBottom));
+        const bottom = Math.max(0, totalHeight - Math.max(currentBottom, currentTop));
 
         tocMask.style.clipPath = `inset(${top}px 0px ${bottom}px 0px)`;
 
-        applyLinkStyles(getActiveIndexFromY(headY));
+        applyLinkStyles(activeIndex);
         updateRingProgress();
 
         rafId = requestAnimationFrame(tick);
@@ -386,8 +383,14 @@ const filteredToc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 
       // init
       drawSvgPath();
-      headY = getHeadY();
-      tailY = headY;
+      const initIndex = getActiveIndex();
+      if (initIndex === -1) {
+        currentTop = 0;
+        currentBottom = 0;
+      } else {
+        currentTop = liTops[initIndex];
+        currentBottom = liBottoms[initIndex];
+      }
       rafId = requestAnimationFrame(tick);
       cleanupTasks.push(() => {
         if (rafId) cancelAnimationFrame(rafId);
