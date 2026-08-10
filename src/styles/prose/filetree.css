@@ -294,6 +294,13 @@
   -webkit-mask-image: var(--ic-ft-git);
 }
 
+.prose .file-tree li[data-ext="woff2"] span.tree-file::before,
+.prose .file-tree li[data-ext="woff"] span.tree-file::before,
+.prose .file-tree li[data-ext="ttf"] span.tree-file::before {
+  mask-image: var(--ic-ft-font);
+  -webkit-mask-image: var(--ic-ft-font);
+}
+
 .prose .file-tree div.tree-label[data-highlight] {
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
   color: var(--accent) !important;
