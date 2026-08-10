@@ -51,7 +51,7 @@ It provides a complete foundation. Ready to clone, customize, and deploy.
 
 ## Explore Further
 
-- [Tech Stack](/docs/getting-started/tech-stack/) — See the technologies behind Unloyd
+- [Tech Stack](/docs/tech-stack/) — See the technologies behind Unloyd
 - [Guide](/docs/guide/) — Learn how to use and customize the template
 - [Components](/docs/components/) — Explore all custom directives
 
