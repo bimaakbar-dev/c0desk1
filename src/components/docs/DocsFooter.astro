@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DocsPager from "./DocsPager.astro";
+import { formatDate } from "@lib/utils";
+
+interface Props {
+    prev?: CollectionEntry<"docs"> | null;
+    next?: CollectionEntry<"docs"> | null;
+    lastUpdated?: Date;
+}
+
+const { 
+    prev, 
+    next, 
+    lastUpdated 
+} = Astro.props;
+
+const $ = {
+    wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) space-y-6",
+    date: "text-body-14 text-(--fg-muted) py-4"
+}
+---
+<div data-pagefind-ignore class={$.wrapper}>
+    {lastUpdated && (
+        <p class={$.date}>
+            <time 
+              data-page-meta="date" 
+              data-pagefind-sort="date" 
+              datetime={lastUpdated.toISOString()}
+            >
+                <span>Diperbarui: </span>
+                {formatDate(lastUpdated)}
+            </time>
+        </p>
+    )}
+    
+    <DocsPager 
+      prev={prev} 
+      next={next} 
+    />
+</div>

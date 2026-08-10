@@ -1,0 +1,97 @@
+---
+// src/components/docs/mobile/MobileHeader.astro
+import Container from "./ui/Container.astro";
+import Icon from "@ui/Icons.astro";
+import Logo from "@ui/Logo.astro";
+import SearchBar from "./ui/SearchBar.astro";
+// import AI from "./AI.astro";
+import Theme from "./Theme.astro";
+import GithubStar from "@components/GithubStar.astro";
+
+const $ = {
+  header: [
+    "sticky top-0 z-50 w-full h-full pt-(--safe-top)",
+    "bg-none border-b lg:border-b-none border-(--border-subtle)",
+    "transition-opacity duration-(--duration-fast) ease-(--ease-out)",
+  ].join(" "),
+
+  wrapper: [
+    "flex flex-1 h-(--header-height) w-full items-center mx-auto justify-between",
+  ].join(" "),
+
+  left: "flex items-center shrink-0 gap-4",
+  right: "flex items-center shrink-0 gap-2",
+  iconSize: "size-6"
+};
+
+const label = "Buka Menu";
+---
+
+<header id="mobile-header" class={$.header}>
+  <Container size="full">
+    <div class={$.wrapper}>
+      <div class={$.left}>
+        <Logo />
+      </div>
+      <div class={$.right}>
+        <div class="hidden md:flex">
+          <SearchBar class="min-w-64" />
+        </div>
+        <div class="flex md:hidden">
+          <SearchBar iconOnly />
+        </div>
+        <div class="hidden md:flex gap-2">
+          <Theme />
+          <GithubStar repo="c0desk1/c0desk1" />
+        </div>
+        <div class="flex md:hidden gap-1">
+          <label 
+            for="mobile-nav-toggle" 
+            class="inline-flex items-center justify-center size-8 cursor-pointer text-(--fg-muted) aspect-square hover:bg-(--bg-muted) hover:text-(--fg-strong) rounded-md outline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)"
+            aria-label={label}
+          ><span class="sr-only" set:text="Buka menu navigasi" />
+            <Icon name="menu" class={$.iconSize} />
+          </label>
+        </div>
+      </div>
+    </div>
+  </Container>
+</header>
+
+<script is:inline>
+  (() => {
+    const header = document.getElementById("mobile-header");
+    if (!header) return;
+
+    const toggleHeader = () => {
+      if (window.scrollY > 10) {
+        header.classList.add(
+          "bg-(--bg)/80",
+          "backdrop-blur-sm",
+          "lg:border-(--border-subtle)",
+          "shadow-(--shadow-sm)"
+        );
+        header.classList.remove(
+          "bg-none",
+          "lg:border-none"
+        );
+      } else {
+        header.classList.remove(
+          "bg-(--bg)/80",
+          "backdrop-blur-sm",
+          "lg:border-(--border-subtle)",
+          "shadow-(--shadow-sm)"
+        );
+        header.classList.add(
+          "bg-none",
+          "lg:border-none"
+        );
+      }
+    };
+
+    window.removeEventListener("scroll", toggleHeader);
+    window.addEventListener("scroll", toggleHeader, { passive: true });
+    
+    toggleHeader();
+  })();
+</script>
