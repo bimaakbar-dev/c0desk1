@@ -1,5 +1,0 @@
-allowBuilds:
-  esbuild: false
-  sharp: false
-minimumReleaseAgeExclude:
-  - '@astrojs/react@5.0.7'
