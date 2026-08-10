@@ -1,0 +1,47 @@
+---
+// src/pages/404.astro
+import {
+  ROUTES,
+  SITE,
+  buildMeta,
+} from "@/consts";
+import { NOT_FOUND_PAGE } from "@/config/pages/404";
+
+import Layout from "@/layouts/Layout.astro";
+import Section from "@ui/Section.astro";
+import Container from "@ui/Container.astro";
+import Button from "@/components/ui/Button.astro";
+import Icons from "@/components/ui/Icons.astro";
+
+const { title, description, button } = NOT_FOUND_PAGE;
+
+const meta = buildMeta({
+  title: title,
+  description: description,
+  canonical: `${SITE.url}/404/`,
+  noindex: true,
+});
+---
+
+<Layout hideHeader hideFooter meta={meta}>
+  <main id="main-content" data-pagefind-ignore class="min-h-screen flex items-center">
+    <Section size="lg" class="w-full">
+      <Container size="md" class="text-center items-center">
+        <h1 class="text-heading-56 text-display-64 font-bold text-(--fg-strong) mb-4">
+          404
+        </h1>
+        <p class="text-body-16 text-(--fg-muted) mb-6">
+          {description}
+        </p>
+        <Button
+          href={`${SITE.url}${ROUTES.home}`}
+          variant="primary"
+          size="md"
+          prefix={<Icons name="arrow-left" class="size-4" />}
+        >
+          {button.label}
+        </Button>
+      </Container>
+    </Section>
+  </main>
+</Layout>

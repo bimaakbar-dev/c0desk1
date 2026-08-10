@@ -1,0 +1,172 @@
+---
+// src/pages/blog/index.astro
+import { getCollection } from "astro:content";
+import {
+  SITE,
+  PAGINATION,
+  buildMeta,
+  schemaWebPage,
+  schemaBreadcrumb,
+  ROUTES
+} from "@/consts";
+import { BLOG_PAGE } from "@/config/pages/blog";
+
+import Layout from "@/layouts/Layout.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+
+import BlogHero from "@/components/blog/BlogHero.astro";
+import BlogCard from "@/components/blog/BlogCard.astro";
+import Pagination from "@/components/Pagination.astro";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+
+  const publishedPosts = allPosts
+    .filter((post) => !post.data.draft)
+    .sort(
+      (a, b) =>
+        (b.data.pubDate?.getTime() ?? 0) -
+        (a.data.pubDate?.getTime() ?? 0)
+    );
+
+  const totalPosts = publishedPosts.length;
+  const totalPages = Math.ceil(totalPosts / PAGINATION.postsPerPage);
+
+  const paths = [];
+
+  for (let page = 1; page <= totalPages; page++) {
+    const start = (page - 1) * PAGINATION.postsPerPage;
+    const end = start + PAGINATION.postsPerPage;
+    const postsForThisPage = publishedPosts.slice(start, end);
+    const params = { page: page === 1 ? undefined : String(page) };
+
+    paths.push({
+      params,
+      props: {
+        posts: postsForThisPage,
+        currentPage: page,
+        totalPages,
+        featuredPosts: publishedPosts.slice(0, 3),
+      },
+    });
+  }
+
+  return paths;
+}
+
+const { 
+  posts: pagePosts, 
+  currentPage, 
+  totalPages, 
+  featuredPosts 
+} = Astro.props;
+
+const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
+
+const baseUrl = SITE.url.replace(/\/$/, "");
+const blogUrl = `${baseUrl}${ROUTES.blog}/`;
+
+const currentUrl = currentPage === 1
+  ? blogUrl
+  : `${baseUrl}${ROUTES.blog}/${currentPage}/`;
+
+const prevPageUrl = currentPage > 2
+  ? `${baseUrl}${ROUTES.blog}/${currentPage - 1}/`
+  : currentPage === 2
+    ? blogUrl
+    : undefined;
+
+const nextPageUrl = currentPage < totalPages
+  ? `${baseUrl}${ROUTES.blog}/${currentPage + 1}/`
+  : undefined;
+
+const isFirstPage = currentPage === 1;
+const { title, description, noPosts } = BLOG_PAGE;
+
+const meta = buildMeta({
+  title,
+  description,
+  canonical: currentUrl,
+  noindex: !isFirstPage,
+});
+
+const schema = [
+  schemaWebPage({
+    title,
+    description,
+    url: currentUrl,
+    type: "CollectionPage",
+  }),
+  schemaBreadcrumb([
+    { name: "Home", url: `${baseUrl}${ROUTES.home}` },
+    { name: title, url: blogUrl },
+  ])
+];
+---
+
+<Layout 
+  meta={meta} 
+  schema={schema} 
+  prev={prevPageUrl} 
+  next={nextPageUrl}
+>
+  <main id="main-content" class="w-full min-w-0 flex-1">
+    <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+      <Container size="xl">
+        <Section
+          size="md"
+         
+        >
+          <BlogHero title={title} description={description} />
+        </Section>
+      </Container>
+      <Container size="xl">
+        <Section size="lg">
+          {pagePosts.length === 0 && totalPages === 1 ? (
+            <div class="text-center py-12">
+              <p class="text-heading-18 font-medium text-(--fg-strong)">{noPosts.title}</p>
+              <p class="text-body-14 text-(--fg-muted) mt-2">{noPosts.description}</p>
+            </div>
+          ) : (
+            <>
+              {currentPage === 1 && featuredPosts && featuredPosts.length > 0 && (
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+                  {featuredPosts.map((post, index) => (
+                    <BlogCard entry={post} index={index} />
+                  ))}
+                </div>
+              )}
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {displayPosts.map((post, index) => {
+                  const cleanPostData = {
+                    ...post,
+                    data: {
+                      ...post.data,
+                      cover: undefined
+                    }
+                  };
+                  
+                  return <BlogCard entry={cleanPostData} index={index + 3} />;
+                })}
+              </div>
+
+              {totalPages > 1 && (
+                <div class="mt-10">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    href={(page) =>
+                      page === 1 ? `${ROUTES.blog}/` : `${ROUTES.blog}/${page}/`
+                    }
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </Section>
+      </Container>
+    </div>
+  </main>
+</Layout>
