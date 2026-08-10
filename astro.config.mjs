@@ -1,197 +1,183 @@
 // @ts-check
-import { 
-  defineConfig, 
-  fontProviders, 
-  passthroughImageService 
-} from 'astro/config';
+import {
+  defineConfig,
+  fontProviders,
+  passthroughImageService,
+} from "astro/config";
 
-import { SITE } from './src/consts';
-import sitemap, {ChangeFreqEnum } from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
-import react from '@astrojs/react';
-import mdx from '@astrojs/mdx';
-import { satteri } from '@astrojs/markdown-satteri';
+import { SITE } from "./src/consts";
+
 import { 
-  transformerNotationDiff, 
-  transformerNotationHighlight, 
-  transformerNotationWordHighlight,
-  transformerNotationErrorLevel,
+  satteri, 
+  satteriHeadingIdsPlugin 
+} from "@astrojs/markdown-satteri";
+
+import mdx from "@astrojs/mdx";
+import tailwindcss from "@tailwindcss/vite";
+
+import {
   transformerMetaHighlight,
+  transformerMetaWordHighlight,
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationHighlight,
+  transformerNotationWordHighlight,
   transformerRemoveLineBreak,
-  transformerMetaWordHighlight
+} from "@shikijs/transformers";
 
-} from '@shikijs/transformers'
+import {
+  satteriHeadingAnchor,
+  satteriExternalLink,
+  satteriTabsHast,
+  satteriCallout,
+  satteriSteps,
+  satteriTabs,
+  satteriFileTree,
+  satteriAccordion,
+  satteriUser,
+  satteriBadge,
+  satteriButton,
+  satteriFigure,
+  satteriVideo,
+  satteriCard,
+  satteriIcon,
+  satteriGrid,
+  satteriQuote,
+  satteriChangelog,
+  satteriCodeBlock,
+  satteriKbd,
+} from "./src/lib/plugins";
 
-import { satteriCallout } from './src/lib/mdx/satteri-callout';
-import { satteriQuote } from './src/lib/mdx/satteri-blockquote';
-import { satteriSteps } from './src/lib/mdx/satteri-steps';
-import { satteriTimeline } from './src/lib/mdx/satteri-timeline';
-import { satteriChangelog } from './src/lib/mdx/satteri-changelog';
-import { satteriDetails } from './src/lib/mdx/satteri-details';
-import { satteriBadge } from './src/lib/mdx/satteri-badge';
-import { satteriKbd } from './src/lib/mdx/satteri-kbd';
-import { satteriCodeBlock } from './src/lib/mdx/satteri-code-block';
-import { satteriBanner } from './src/lib/mdx/satteri-banner';
-import { satteriFigure } from './src/lib/mdx/satteri-figure';
-import { satteriFileTree } from './src/lib/mdx/satteri-filetree';
-import { remarkHeadingId } from './src/lib/mdx/remark-heading-id';
-import { satteriAccordion } from './src/lib/mdx/satteri-accordion';
+import pagefind from "astro-pagefind";
+
+
+// import sitemap from "@astrojs/sitemap";
+
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
   base: "/",
-  trailingSlash: "never",
-  output: 'static',
-  vite: {
-    plugins: [tailwindcss()]
-  },
-  build: {
-    inlineStylesheets: 'auto'
-  },
-  integrations: [
-    react(),
-    mdx(),
-    sitemap({
-      filter: (page) => !page.match(/\/(401|403|404|500)$/),
-      serialize(item) {
-        const url = new URL(item.url);
-        if (url.pathname === '/') {
-          item.changefreq = ChangeFreqEnum.DAILY;
-          item.priority = 1.0;
-        } 
-        else if (url.pathname.startsWith('/blog')) {
-          item.changefreq = ChangeFreqEnum.WEEKLY;
-          item.priority = 0.8;
-        }
-        else {
-          item.changefreq = ChangeFreqEnum.MONTHLY;
-          item.priority = 0.5;
-        }
-        return item;
-      },
-    }),
-  ],
+  trailingSlash: "always",
+  output: "static",
   markdown: {
     processor: satteri({
-      features: { 
+      features: {
         directive: true,
-        gfm: true,
-        math: true,
-        frontmatter: true,
+        headingAttributes: true,
+        smartPunctuation: true,
+        gfm: {
+          footnotes: {
+            label: "Referensi",
+            backContent: "↑",
+            backLabel: "Kembali ke referensi {reference}",
+          },
+        },
+        wikilinks: true,
+        superscript: true,
+        subscript: true,
+        math: { 
+          singleDollarTextMath: false 
+        },
       },
+      hastPlugins: [
+        satteriHeadingIdsPlugin(),
+        satteriHeadingAnchor,
+        satteriExternalLink,
+        satteriTabsHast
+      ],
       mdastPlugins: [
-        //satteriHeading,
-        remarkHeadingId,
+        satteriCallout,
+        satteriSteps,
+        satteriButton,
+        satteriBadge,
+        satteriFileTree,
+        satteriTabs,
+        satteriUser,
+        satteriAccordion,
+        
         satteriFigure,
+        satteriVideo,
+        satteriCard,
+        satteriIcon,
+        satteriGrid,
+
         satteriQuote,
         satteriCodeBlock,
         satteriKbd,
-        satteriCallout,
-        satteriSteps,
-        satteriTimeline,
         satteriChangelog,
-        satteriDetails,
-        satteriBadge,
-        satteriBanner,
-        satteriFileTree,
-        satteriAccordion,
-      ]
-      
+        
+      ],
     }),
+    syntaxHighlight: "shiki",
     shikiConfig: {
       themes: {
-        light: 'github-light',
+        light: "github-light",
         dark: 'github-dark',
       },
       transformers: [
         transformerMetaHighlight(),
         transformerMetaWordHighlight(),
-        transformerNotationDiff({matchAlgorithm: 'v3', }),
-        transformerNotationHighlight({matchAlgorithm: 'v3', }),
-        transformerNotationWordHighlight({matchAlgorithm: 'v3', }),
-        transformerNotationErrorLevel({matchAlgorithm: 'v3', }),
+        transformerNotationDiff({ matchAlgorithm: "v3" }),
+        transformerNotationHighlight({ matchAlgorithm: "v3" }),
+        transformerNotationWordHighlight({ matchAlgorithm: "v3" }),
+        transformerNotationErrorLevel({ matchAlgorithm: "v3" }),
         transformerRemoveLineBreak(),
       ],
       wrap: false,
-    },
-    syntaxHighlight: 'shiki',
+    }
+  },
+  integrations: [
+    //sitemap(),
+    mdx({
+      optimize: true,
+      extendMarkdownConfig: true,
+    }), 
+    pagefind(), 
+  ],
+  vite: {
+    plugins: [tailwindcss()],
   },
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Syne',
-      cssVariable: '--font-Syne',
-      fallbacks: ['sans-serif'],
+      name: "Geist",
+      cssVariable: "--font-Geist",
       options: {
         variants: [
           {
-            src: ['./src/assets/fonts/Syne-Regular.woff2'],
-            weight: 400,
-            style: 'normal',
-            display: 'swap',
-          },
-          {
-            src: ['./src/assets/fonts/Syne-Medium.woff2'],
-            weight: 500,
-            style: 'normal',
-            display: 'swap',
-          },
-          {
-            src: ['./src/assets/fonts/Syne-SemiBold.woff2'],
-            weight: 600,
-            style: 'normal',
-            display: 'swap',
-          },
-          {
-            src: ['./src/assets/fonts/Syne-Bold.woff2'],
-            weight: 700,
-            style: 'normal',
-            display: 'swap',
-          },
-          {
-            src: ['./src/assets/fonts/Syne-ExtraBold.woff2'],
-            weight: 800,
-            style: 'normal',
-            display: 'swap',
+            src: ["./src/assets/fonts/Geist.woff2"],
+            weight: "100 800",
+            style: "normal",
+            display: "swap",
           },
         ],
       },
     },
     {
       provider: fontProviders.local(),
-      name: 'Geist',
-      cssVariable: '--font-Geist',
+      name: "GeistMono",
+      cssVariable: "--font-GeistMono",
       options: {
         variants: [
           {
-            src: ['./src/assets/fonts/Geist.woff2'],
+            src: ["./src/assets/fonts/GeistMono.woff2"],
             weight: "100 800",
-            style: 'normal',
-            display: 'swap',
-          },
-        ],
-      },
-    },
-    {
-      provider: fontProviders.local(),
-      name: 'GeistMono',
-      cssVariable: '--font-GeistMono',
-      options: {
-        variants: [
-          {
-            src: ['./src/assets/fonts/GeistMono.woff2'],
-            weight: "100 800",
-            style: 'normal',
-            display: 'swap',
+            style: "normal",
+            display: "swap",
           },
         ],
       },
     },
   ],
   image: {
-    domains: ["cdn.c0desk1.my.id", "play-lh.googleusercontent.com", "avatars.githubusercontent.com", "next.nexusmods.com"],
     remotePatterns: [{ protocol: "https" }],
-    service: passthroughImageService()
+    service: passthroughImageService(),
+  },
+  build: {
+    inlineStylesheets: "auto",
+  },
+  experimental: {
+    incrementalBuild: true,
   },
 });
