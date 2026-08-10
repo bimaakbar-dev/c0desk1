@@ -1,0 +1,350 @@
+.prose .file-tree {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.75rem 2rem;
+  margin: 2rem 0;
+  background-color: var(--bg-subtle);
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose .file-tree,
+.prose .file-tree * {
+  @apply text-code-14;
+  font-size: 14px !important;
+}
+
+.prose .file-tree ul {
+  display: block;
+  min-width: max-content;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prose .file-tree ul ul {
+  margin: 0;
+  padding: 0 !important;
+}
+
+.prose .file-tree *:first-child { margin-top: 0; }
+.prose .file-tree *:last-child { margin-bottom: 0; }
+
+.prose .file-tree li {
+  position: relative;
+  margin: 0;
+  padding-block: 0.25rem;
+}
+
+.prose .file-tree li.tree-depth-0 { padding-inline-start: 0 !important; }
+.prose .file-tree li.tree-depth-1 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-2 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-3 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-4 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-5 { padding-inline-start: 2.5rem !important; }
+.prose .file-tree li.tree-depth-6 { padding-inline-start: 2.5rem !important; }
+
+.prose .file-tree ul ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.55rem;
+  top: 0.9rem;
+  width: 0.5rem;
+  border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
+}
+
+.prose .file-tree ul ul > li::after {
+  content: "";
+  position: absolute;
+  left: 0.55rem;
+  top: 0;
+  bottom: 0;
+  border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
+}
+
+.prose .file-tree ul ul > li:last-child::after {
+  height: 0.9rem;
+}
+
+.prose .file-tree .tree-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 0.25rem;
+  color: var(--fg);
+  box-sizing: border-box;
+}
+
+.prose .file-tree .tree-label span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.prose .file-tree .tree-folder > details > summary {
+  display: list-item !important;
+  list-style: disclosure-closed !important;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  margin: 0 !important;
+}
+
+.prose .file-tree .tree-folder > details[open] > summary {
+  list-style: disclosure-open !important;
+}
+
+.prose .file-tree .tree-folder > details > summary::marker,
+.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  color: inherit !important;
+  transform: translateY(0.5rem);
+}
+
+.prose .file-tree .tree-folder > details > summary span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.prose .file-tree span.tree-folder::before,
+.prose .file-tree span.tree-file::before {
+  content: "";
+  display: inline-block;
+  width: 1.125em;
+  height: 1.125em;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.prose .file-tree span.tree-folder::before {
+  mask-image: var(--ic-ft-folder);
+  -webkit-mask-image: var(--ic-ft-folder);
+}
+
+.prose .file-tree span.tree-file::before,
+.prose .file-tree li[data-ext="file"] span.tree-file::before {
+  mask-image: var(--ic-ft-file);
+  -webkit-mask-image: var(--ic-ft-file);
+}
+
+.prose .file-tree li[data-ext="astro"] span.tree-file::before {
+  mask-image: var(--ic-ft-astro);
+  -webkit-mask-image: var(--ic-ft-astro);
+}
+.prose .file-tree li[data-ext="ts"] span.tree-file::before {
+  mask-image: var(--ic-ft-ts);
+  -webkit-mask-image: var(--ic-ft-ts);
+}
+.prose .file-tree li[data-ext="js"] span.tree-file::before {
+  mask-image: var(--ic-ft-js);
+  -webkit-mask-image: var(--ic-ft-js);
+}
+.prose .file-tree li[data-ext="css"] span.tree-file::before {
+  mask-image: var(--ic-ft-css);
+  -webkit-mask-image: var(--ic-ft-css);
+}
+.prose .file-tree li[data-ext="html"] span.tree-file::before {
+  mask-image: var(--ic-ft-html);
+  -webkit-mask-image: var(--ic-ft-html);
+}
+.prose .file-tree li[data-ext="json"] span.tree-file::before {
+  mask-image: var(--ic-ft-json);
+  -webkit-mask-image: var(--ic-ft-json);
+}
+.prose .file-tree li[data-ext="md"] span.tree-file::before {
+  mask-image: var(--ic-ft-md);
+  -webkit-mask-image: var(--ic-ft-md);
+}
+.prose .file-tree li[data-ext="svg"] span.tree-file::before {
+  mask-image: var(--ic-ft-svg);
+  -webkit-mask-image: var(--ic-ft-svg);
+}
+.prose .file-tree li[data-ext="png"] span.tree-file::before {
+  mask-image: var(--ic-ft-png);
+  -webkit-mask-image: var(--ic-ft-png);
+}
+.prose .file-tree li[data-ext="apk"] span.tree-file::before {
+  mask-image: var(--ic-ft-apk);
+  -webkit-mask-image: var(--ic-ft-apk);
+}
+.prose .file-tree li[data-ext="jpg"] span.tree-file::before {
+  mask-image: var(--ic-ft-jpg);
+  -webkit-mask-image: var(--ic-ft-jpg);
+}
+.prose .file-tree li[data-ext="ico"] span.tree-file::before {
+  mask-image: var(--ic-ft-ico);
+  -webkit-mask-image: var(--ic-ft-ico);
+}
+.prose .file-tree li[data-ext="pdf"] span.tree-file::before {
+  mask-image: var(--ic-ft-pdf);
+  -webkit-mask-image: var(--ic-ft-pdf);
+}
+.prose .file-tree li[data-ext="zip"] span.tree-file::before {
+  mask-image: var(--ic-ft-zip);
+  -webkit-mask-image: var(--ic-ft-zip);
+}
+.prose .file-tree li[data-ext="env"] span.tree-file::before {
+  mask-image: var(--ic-ft-env);
+  -webkit-mask-image: var(--ic-ft-env);
+}
+.prose .file-tree li[data-ext="sh"] span.tree-file::before {
+  mask-image: var(--ic-ft-sh);
+  -webkit-mask-image: var(--ic-ft-sh);
+}
+.prose .file-tree li[data-ext="py"] span.tree-file::before {
+  mask-image: var(--ic-ft-py);
+  -webkit-mask-image: var(--ic-ft-py);
+}
+.prose .file-tree li[data-ext="go"] span.tree-file::before {
+  mask-image: var(--ic-ft-go);
+  -webkit-mask-image: var(--ic-ft-go);
+}
+.prose .file-tree li[data-ext="rs"] span.tree-file::before {
+  mask-image: var(--ic-ft-rs);
+  -webkit-mask-image: var(--ic-ft-rs);
+}
+.prose .file-tree li[data-ext="vue"] span.tree-file::before {
+  mask-image: var(--ic-ft-vue);
+  -webkit-mask-image: var(--ic-ft-vue);
+}
+.prose .file-tree li[data-ext="svelte"] span.tree-file::before {
+  mask-image: var(--ic-ft-svelte);
+  -webkit-mask-image: var(--ic-ft-svelte);
+}
+.prose .file-tree li[data-ext="jsx"] span.tree-file::before {
+  mask-image: var(--ic-ft-jsx);
+  -webkit-mask-image: var(--ic-ft-jsx);
+}
+.prose .file-tree li[data-ext="tsx"] span.tree-file::before {
+  mask-image: var(--ic-ft-tsx);
+  -webkit-mask-image: var(--ic-ft-tsx);
+}
+.prose .file-tree li[data-ext="mjs"] span.tree-file::before {
+  mask-image: var(--ic-ft-mjs);
+  -webkit-mask-image: var(--ic-ft-mjs);
+}
+.prose .file-tree li[data-ext="cjs"] span.tree-file::before {
+  mask-image: var(--ic-ft-cjs);
+  -webkit-mask-image: var(--ic-ft-cjs);
+}
+.prose .file-tree li[data-ext="yaml"] span.tree-file::before {
+  mask-image: var(--ic-ft-yaml);
+  -webkit-mask-image: var(--ic-ft-yaml);
+}
+.prose .file-tree li[data-ext="toml"] span.tree-file::before {
+  mask-image: var(--ic-ft-toml);
+  -webkit-mask-image: var(--ic-ft-toml);
+}
+.prose .file-tree li[data-ext="xml"] span.tree-file::before {
+  mask-image: var(--ic-ft-xml);
+  -webkit-mask-image: var(--ic-ft-xml);
+}
+.prose .file-tree li[data-ext="sql"] span.tree-file::before {
+  mask-image: var(--ic-ft-sql);
+  -webkit-mask-image: var(--ic-ft-sql);
+}
+.prose .file-tree li[data-ext="lock"] span.tree-file::before {
+  mask-image: var(--ic-ft-lock);
+  -webkit-mask-image: var(--ic-ft-lock);
+}
+.prose .file-tree li[data-ext="log"] span.tree-file::before {
+  mask-image: var(--ic-ft-log);
+  -webkit-mask-image: var(--ic-ft-log);
+}
+.prose .file-tree li[data-ext="txt"] span.tree-file::before {
+  mask-image: var(--ic-ft-txt);
+  -webkit-mask-image: var(--ic-ft-txt);
+}
+.prose .file-tree li[data-ext="csv"] span.tree-file::before {
+  mask-image: var(--ic-ft-csv);
+  -webkit-mask-image: var(--ic-ft-csv);
+}
+.prose .file-tree li[data-ext="gitignore"] span.tree-file::before {
+  mask-image: var(--ic-ft-gitignore);
+  -webkit-mask-image: var(--ic-ft-gitignore);
+}
+.prose .file-tree li[data-ext="dockerfile"] span.tree-file::before {
+  mask-image: var(--ic-ft-dockerfile);
+  -webkit-mask-image: var(--ic-ft-dockerfile);
+}
+.prose .file-tree li[data-ext="makefile"] span.tree-file::before {
+  mask-image: var(--ic-ft-makefile);
+  -webkit-mask-image: var(--ic-ft-makefile);
+}
+
+.prose .file-tree li[data-ext="git"] span.tree-file::before {
+  mask-image: var(--ic-ft-git);
+  -webkit-mask-image: var(--ic-ft-git);
+}
+
+.prose .file-tree div.tree-label[data-highlight] {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree summary.tree-label[data-highlight] {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree .tree-label[data-highlight] span.tree-file::before,
+.prose .file-tree .tree-label[data-highlight] span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-label[data-highlight] span strong {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+.prose .file-tree .tree-label[data-placeholder] {
+  opacity: 0.5;
+  color: var(--fg-muted);
+  padding-right: 0 !important;
+}
+
+.prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
+  display: none !important;
+}
+
+.prose .file-tree .tree-comment {
+  color: var(--fg-muted);
+  font-size: 13px !important;
+  margin-left: 0.25rem;
+}
+
+.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-file:hover .tree-label {
+  color: var(--accent);
+  cursor: default;
+}
+
+.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-folder > details > summary:hover .tree-label {
+  color: var(--accent) !important;
+}

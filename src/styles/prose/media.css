@@ -1,0 +1,43 @@
+/* src/styles/prose/components/media.css */
+
+.prose img,
+.prose video,
+.prose .video-wrapper {
+  display: block;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
+.prose figure,
+.prose video,
+.prose .video-wrapper {
+  margin: 2.5rem 0;
+  width: 100%;
+  height: auto;
+}
+
+.prose figcaption {
+  @apply text-caption-13;
+  margin-top: 0.75rem;
+  padding: 0 1rem;
+  color: var(--fg-muted);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+@media (max-width: 45rem) {
+  .prose figure,
+  .prose video,
+  .prose .video-wrapper {
+    margin: 2rem 0;
+  }
+}
+
+@media (min-width: 45rem) {
+  .prose figcaption {
+    @apply text-caption-14;
+  }
+}

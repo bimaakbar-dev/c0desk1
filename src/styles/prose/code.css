@@ -1,0 +1,146 @@
+/* src/styles/prose/code.css */
+
+:root {
+  --plus-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M4 8h8M8 4v8'/%3E%3C/svg%3E");
+  --minus-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M4 8h8'/%3E%3C/svg%3E");
+}
+.prose :not(pre) > code {
+  @apply text-code-14;
+  color: var(--fg-strong);
+  background-color: var(--bg-subtle);
+  border: 1px solid rgb(from var(--border-subtle) r g b / 100%);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.4em;
+  white-space: break-spaces;
+}
+
+.prose h1 code,
+.prose h2 code,
+.prose h3 code,
+.prose h4 code,
+.prose h5 code,
+.prose h6 code {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-family: var(--font-mono) !important;
+  background-color: var(--bg-subtle);
+  border: 1px solid rgb(from var(--border-subtle) r g b / 100%);
+  border-radius: var(--radius-md);
+  padding: 0.15em 0.4em;
+}
+
+.prose summary code,
+.prose a code {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+.prose .astro-code {
+  @apply text-code-14;
+  display: block;
+  margin: 1.5rem 0 !important;
+  padding: 0.75rem 0;
+  line-height: 1.6;
+  background-color: var(--bg-subtle) !important;
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.prose .astro-code::-webkit-scrollbar {
+  display: none;
+}
+.prose .astro-code {
+  scrollbar-width: none;
+}
+
+.prose .astro-code code {
+  display: grid;
+  min-width: 100%;
+  background: transparent !important;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.prose .astro-code .line {
+  display: block;
+  padding: 0 1.5rem !important;
+  line-height: inherit;
+  white-space: pre;
+}
+
+.prose .astro-code .line > span {
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+}
+
+.prose .astro-code .line.diff {
+  position: relative;
+}
+
+.prose .astro-code .line.diff.add::before,
+.prose .astro-code .line.diff.remove::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  aspect-ratio: 1/1;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.prose .astro-code .line.diff.add::before {
+  background-color: var(--color-success);
+  mask: var(--plus-icon);
+  -webkit-mask: var(--plus-icon);
+}
+
+.prose .astro-code .line.diff.remove::before {
+  background-color: var(--color-error);
+  mask: var(--minus-icon);
+  -webkit-mask: var(--minus-icon);
+}
+
+.prose .astro-code .line.diff.add {
+  background-color: rgb(from var(--color-success) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-success) !important;
+}
+
+.prose .astro-code .line.diff.remove {
+  background-color: rgb(from var(--color-error) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
+}
+
+.prose .astro-code .line.highlighted {
+  background-color: rgb(from var(--accent) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--accent) !important;
+}
+
+.prose .astro-code .line.error {
+  background-color: rgb(from var(--color-error) r g b / 0.2) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
+}
+
+.prose .astro-code .line.warning {
+  background-color: rgb(from var(--color-warning) r g b / 0.2) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
+}
+
+[data-theme='dark'] .astro-code {
+  background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
+}
+
+[data-theme='dark'] .astro-code span {
+  background: transparent !important;
+  color: var(--shiki-dark, inherit) !important;
+}

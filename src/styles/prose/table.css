@@ -1,0 +1,125 @@
+/* src/styles/prose/components/table.css */
+
+.prose table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 2.5rem 0;
+
+  color: var(--fg);
+  font-size: inherit;
+  line-height: inherit;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose table::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prose table::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 999px;
+}
+
+.prose table::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-muted);
+}
+
+.prose thead th {
+  background: var(--bg-subtle);
+  color: var(--fg-strong);
+  font-weight: 600;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.prose thead th:first-child {
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+
+.prose thead th:last-child {
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+.prose th,
+.prose td {
+  vertical-align: top;
+  text-wrap: pretty;
+}
+
+.prose tbody td {
+  color: var(--fg);
+  background: transparent;
+  border-bottom: 1px solid rgb(from var(--border-subtle) r g b / 100%);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background: rgb(from var(--bg-muted) r g b / 100%);
+}
+
+.prose td strong {
+  color: var(--fg-strong);
+}
+
+.prose td small {
+  @apply text-label-14;
+  color: var(--fg-subtle);
+}
+
+.prose td code,
+.prose th code {
+  white-space: nowrap;
+}
+
+.prose td a,
+.prose th a {
+  overflow-wrap: anywhere;
+}
+
+.prose thead th a {
+  white-space: nowrap;
+}
+
+.prose td a .external-icon,
+.prose th a .external-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 45rem) {
+  .prose th,
+  .prose td {
+    @apply text-numeric-14;
+
+    padding: 0.625rem 0.875rem;
+  }
+}
+
+@media (min-width: 45rem) {
+  .prose th,
+  .prose td {
+    @apply text-numeric-14;
+
+    padding: 0.75rem 1rem;
+  }
+}

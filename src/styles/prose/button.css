@@ -1,0 +1,60 @@
+/* src/styles/prose/button.css */
+
+.prose .button {
+    @apply text-button-14;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.5rem;
+    background: var(--bg-subtle);
+    color: var(--fg-strong) !important;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-decoration: none !important;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.prose .button.inline-link.is-external::after {
+    display: none;
+}
+
+.prose .button:hover {
+    background: var(--bg-muted);
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none !important;
+}
+
+.prose .button .button-icon {
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    aspect-ratio: 1/1;
+    flex-shrink: 0;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+.prose .button .button-icon[data-icon="download"] {
+    mask-image: var(--ic-download);
+    -webkit-mask-image: var(--ic-download);
+}
+.prose .button .button-icon[data-icon="github"] {
+    mask-image: var(--ic-github);
+    -webkit-mask-image: var(--ic-github);
+}
+.prose .button .button-icon[data-icon="playstore"] {
+    mask-image: var(--ic-playstore);
+    -webkit-mask-image: var(--ic-playstore);
+}
+.prose .button .button-icon[data-icon="arrow"] {
+    mask-image: var(--ic-btn-arrow);
+    -webkit-mask-image: var(--ic-btn-arrow);
+}

@@ -1,0 +1,74 @@
+/* src/styles/prose/details.css */
+
+:root {
+  --details-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.prose .accordion {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
+  user-select: none;
+}
+
+.prose .accordion,
+.prose .accordion summary,
+.prose .accordion[open] > :not(summary) * {
+  @apply text-heading-14;
+}
+
+.prose .accordion summary {
+  list-style: none !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding-block: 0.15rem;
+}
+
+.prose .accordion summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.prose .accordion summary::marker {
+  content: none !important;
+}
+
+.prose .accordion summary::before {
+  content: "";
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.125em;
+  height: 1.125em;
+  margin-right: 0.75rem;
+  color: var(--accent);
+  background-color: currentColor;
+  mask-image: var(--details-icon);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--details-icon);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.prose .accordion[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.prose .accordion[open] > :not(summary) :first-child {
+  margin-top: 0 !important;
+}
+
+.prose .accordion[open] > :not(summary) :last-child {
+  margin-bottom: 0 !important;
+}
+
+.prose .accordion[open] > * + * {
+  margin-top: 0.75rem;
+}
