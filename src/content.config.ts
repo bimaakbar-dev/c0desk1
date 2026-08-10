@@ -1,114 +1,80 @@
+// src/content.config.ts
 import { 
-  defineCollection, 
-  reference 
+  defineCollection
 } from "astro:content";
 
 import { glob } from "astro/loaders";
-import { z } from 'astro/zod';
+import { z } from "astro/zod";
 
-import { CATEGORIES, SERIES } from './consts';
+import { 
+  SIDEBAR_CATEGORIES 
+} from "@/consts";
 
-const categorySlugs = CATEGORIES.map((c) => c.slug) as [string, ...string[]];
-const seriesSlugs = SERIES.map((c) => c.slug) as [string, ...string[]];
+const METADATA = z.object({
+  slug: z.string().optional(),
+  title: z.string(),
+  description: z.string(),
+  pubDate: z.coerce.date().optional(),
+  lastUpdated: z.coerce.date().optional(),
+  cover: z.object({
+    src: z.string(),
+    alt: z.string(),
+  }).optional(),
+});
 
-const seoSchema = z.object({
+const SEO = z.object({
   title: z.string(),
   description: z.string().optional(),
   ogImage: z.string().optional(),
-  canonical: z.string().optional(),
-  noIndex: z.boolean().default(false),
+  noIndex: z.boolean().default(false).optional(),
 });
 
-const metadataSchema = z.object({
-  lang: z.string().optional(),
-	title: z.string(),
-	description: z.string(),
-	slug: z.string().optional(),
-  pubDate: z.coerce.date(),
-	updatedDate: z.coerce.date().optional(),
-});
-
-const socialSchema = z.array(z.object({
-    href: z.string(),
-    label: z.string(),
-})).optional();
-
-const authors = defineCollection({
-  loader: glob({ base: './src/content/authors', pattern: '**/*.{json,md}' }),
-  schema: z.object({
+const AUTHOR = z.object({
+  author: z.object({
     name: z.string(),
-    slug: z.string().optional(),
     role: z.string().optional(),
     avatar: z.string().optional(),
-    bio: z.string().optional(),
-    mail: z.string().optional(),
-    facebook: z.string().optional(),
-    twitter: z.string().optional(),
-    social: socialSchema,
-  }),
+    url: z.url().optional(),
+    email: z.email().optional(),
+  }).optional()
 });
 
 const blog = defineCollection({
-  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
-    ...metadataSchema.shape,
-    heroImage: z.object({
-      src: z.string(),
-      alt: z.string(),
-    }).optional(),
-    draft: z.boolean().default(false),
-    author: reference("authors"),
-    category: z.enum(categorySlugs),
+    ...METADATA.shape,
+    ...AUTHOR.shape,
+    category: z.string().optional(),
     tags: z.array(z.string()).default([]),
-    overview: z.array(z.string()).optional(),
-    appDetails: z.object({
-      operatingSystem: z.string().optional(),
-      applicationCategory: z.string().optional(),
-      price: z.string().optional(),
-      priceCurrency: z.string().optional(),
-    }).optional(),
-    seo: seoSchema,
+    draft: z.boolean().default(false),
+    seo: SEO,
   }),
 });
 
-const guide = defineCollection({
-  loader: glob({ base: './src/content/guide', pattern: '**/*.{md,mdx}' }),
+const docs = defineCollection({
+  loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
-    ...metadataSchema.shape,
-    heroImage: z.object({
-      src: z.string(),
-      alt: z.string(),
-    }).optional(),
-    draft:       z.boolean().default(false),
-    series: z.enum(seriesSlugs),
-    tags:        z.array(z.string()).default([]),
-    author: reference("authors"),
-    overview: z.array(z.string()).optional(),
-    appDetails: z.object({
-      operatingSystem: z.string().optional(),
-      applicationCategory: z.string().optional(),
-      price: z.string().optional(),
-      priceCurrency: z.string().optional(),
-    }).optional(),
-    seo: seoSchema.optional(),
+    ...METADATA.shape,
+    ...AUTHOR.shape,
+    category: z.enum(SIDEBAR_CATEGORIES).optional(),
+    order: z.number().optional(),
+    draft: z.boolean().default(false),
+    seo: SEO,
   }),
-})
+});
 
 const legal = defineCollection({
-  loader: glob({ base: './src/content/legal', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/legal", pattern: "**/*.{md,mdx}", deferRender: true }),
   schema: z.object({
-    lang: z.string().optional(),
-    title: z.string(),
-    slug: z.string(),
-    description: z.string().optional(),
-    lastUpdated: z.coerce.date().optional(),
-    seo: seoSchema,
+  ...METADATA.shape,
+  draft: z.boolean().default(false),
+  tags: z.array(z.string()).default([]).optional(),
+  seo: SEO,
   }),
 });
 
 export const collections = {
-  authors,
   blog,
-  guide,
+  docs,
   legal
 };
