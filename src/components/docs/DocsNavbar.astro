@@ -3,24 +3,35 @@
 import { NAV } from "@/consts";
 import Select from "@ui/Select.astro";
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.endsWith('/') 
+  ? Astro.url.pathname 
+  : `${Astro.url.pathname}/`;
 
-const navItems = NAV.navBar.map((item) => ({
-  label: item.label,
-  value: item.label.toLowerCase(),
-  href: item.href,
-  icon: item.icon,
-  isExternal: item.isExternal,
-}));
+const navItems = NAV.navBar.map((item) => {
+  const isExternal = item.isExternal || item.href.startsWith('http') || item.href.startsWith('#');
+  const formattedHref = !isExternal && !item.href.endsWith('/') 
+    ? `${item.href}/` 
+    : item.href;
+
+  return {
+    label: item.label,
+    value: item.label.toLowerCase(),
+    href: formattedHref,
+    icon: item.icon,
+    isExternal: item.isExternal,
+  };
+});
 
 const activeNavItem = navItems.find((item) => {
-  const cleanHref = item.href.replace(/\/$/, "");
-  const cleanPath = currentPath.replace(/\/$/, "");
-
-  if (cleanHref === "") {
-    return cleanPath === "";
+  if (item.isExternal || item.href.startsWith('http') || item.href.startsWith('#')) {
+    return false;
   }
-  return cleanPath === cleanHref || cleanPath.startsWith(`${cleanHref}/`);
+
+  if (item.href === '/') {
+    return currentPath === '/';
+  }
+
+  return currentPath === item.href || currentPath.startsWith(item.href);
 });
 ---
 
