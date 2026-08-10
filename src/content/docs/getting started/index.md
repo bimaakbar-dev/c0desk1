@@ -1,74 +1,59 @@
 ---
-slug: 'overview'
-title: 'Getting Started'
-description: 'Learn how to set up and use this documentation template.'
-lastUpdated: 2026-08-10T18:25:00Z
-order: 1
+slug: 'introduction'
+title: "Introduction"
+description: "Unloyd is a modern, open-source template for building documentation sites and blogs with Astro, TailwindCSS, and Sätteri."
 category: "Getting Started"
+order: 1
 draft: false
 author:
-  name: "Your Name"
+  name: "Unloyd Team"
   role: "Developer"
-  url: "https://github.com/your-username"
-  email: "hello@example.com"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 seo:
-  title: "Getting Started"
-  description: "Learn how to set up and use this documentation template."
+  title: "Introduction"
+  description: "Unloyd is a modern, open-source template for building documentation sites and blogs with Astro, TailwindCSS, and Sätteri."
   noIndex: false
+lastUpdated: 2026-08-10T19:30:00Z
 ---
 
-Welcome to the documentation template! This guide will help you get started with setting up and customizing your documentation site.
+**Unloyd** is a modern, open‑source template for building fast, content‑rich documentation sites and blogs with [Astro](https://astro.build), [TailwindCSS](https://tailwindcss.com), and [Sätteri](https://satteri.bruits.org).
 
-## Quick Start
+It provides a complete foundation. Ready to clone, customize, and deploy.
 
-```bash
-# Clone the repository
-git clone https://github.com/bimaakbar-dev/unloyd.git
+## What Unloyd Offers
 
-# Install dependencies
-npm install
+| Feature | Description |
+|---------|-------------|
+| **Documentation System** | Full-featured docs with sidebar, TOC, and search |
+| **Blog Engine** | Blog with pagination, archive, RSS, and author profiles |
+| **Custom Directives** | Callout, Steps, Tabs, Filetree, Accordion, Grid, Card, and more |
+| **Dark Mode** | Built-in theme switcher |
+| **SEO Ready** | Open Graph, Twitter Cards, structured data |
+| **Contact Form** | Working form with Formspree integration |
 
-# Start development server
-npm run dev
-```
+## Who Is This For?
 
-## Project Structure
+- **Developers** building documentation for their projects
+- **Content creators** publishing tutorials, guides, and articles
+- **Open source projects** needing a clean, modern docs site
+- **Anyone** who wants a fast, beautiful, and customizable static site
 
-:::filetree
-- public/
-  - favicons/           # Favicons
-- src/
-  - assets/
-    - fonts/
-      - fontGeist.woff2 # Custom fonts (if any)
-    - images/
-      - logo.svg        # Site logo — replace with your own branding
-      - og-image.svg    # Default Open Graph image for social sharing (1200×630)
-      - cover.svg       # Placeholder cover image for articles (1200×630)
-      - author.jpg      # Placeholder avatar for authors (96×96)
-    - icons/            # Icon pack (if any)
-  - content/
-    - blog/          # Blog articles
-    - docs/          # Documentation (you are here)
-    - legal/         # Legal pages
-  - components/      # Astro components
-  - config/          # Configuration files
-  - layouts/         # Page layouts
-  - lib/             # Utilities and plugins
-  - pages/           # Static pages
-  - styles/          # Global styles
-  - consts.ts        # Central export for all configuration (site, seo, schema, etc.) 
-  - content.config.ts # Content collection schema and loader configuration
-- astro.config.mjs # Astro framework configuration (build, integrations, markdown, etc.)
-- package-lock.json # Lockfile for exact dependency versions (auto-generated)
-- package.json # Project metadata, scripts, and dependencies
-- tsconfig.json # TypeScript configuration for the project
+## Get the Template
+
+:::steps
+1. Fork the [Unloyd repository](https://github.com/unloyd/unloyd)
+2. Clone your fork locally
+3. run `npm install`
+4. run `npm run dev`
 :::
 
-## Next Steps
 
-- Explore the **Components** section to see all available custom directives.
-- Check out the **Blog** for example articles.
-- Customize the configuration in `src/config/`.
+## Explore Further
+
+- [Tech Stack](/docs/getting-started/tech-stack/) — See the technologies behind Unloyd
+- [Guide](/docs/guide/) — Learn how to use and customize the template
+- [Components](/docs/components/) — Explore all custom directives
+
 
 Happy building! 🚀
