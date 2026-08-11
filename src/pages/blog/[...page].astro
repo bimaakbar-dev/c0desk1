@@ -3,12 +3,17 @@
 import { getCollection } from "astro:content";
 import {
   SITE,
+  ROUTES,
   PAGINATION,
   buildMeta,
   schemaWebPage,
-  schemaBreadcrumb,
-  ROUTES
+  schemaBreadcrumb 
 } from "@/consts";
+
+import { 
+  canonicalUrl 
+} from "@/lib/utils";
+
 import { BLOG_PAGE } from "@/config/pages/blog";
 
 import Layout from "@/layouts/Layout.astro";
@@ -64,26 +69,31 @@ const {
 
 const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
 
-const baseUrl = SITE.url.replace(/\/$/, "");
-const blogUrl = `${baseUrl}${ROUTES.blog}/`;
-
+// ===== canonicalUrl =====
+const blogUrl = canonicalUrl(ROUTES.blog);
 const currentUrl = currentPage === 1
   ? blogUrl
-  : `${baseUrl}${ROUTES.blog}/${currentPage}/`;
+  : canonicalUrl(`${ROUTES.blog}/${currentPage}`);
 
 const prevPageUrl = currentPage > 2
-  ? `${baseUrl}${ROUTES.blog}/${currentPage - 1}/`
+  ? canonicalUrl(`${ROUTES.blog}/${currentPage - 1}`)
   : currentPage === 2
     ? blogUrl
     : undefined;
 
 const nextPageUrl = currentPage < totalPages
-  ? `${baseUrl}${ROUTES.blog}/${currentPage + 1}/`
+  ? canonicalUrl(`${ROUTES.blog}/${currentPage + 1}`)
   : undefined;
 
 const isFirstPage = currentPage === 1;
-const { title, description, noPosts } = BLOG_PAGE;
 
+const { 
+  title, 
+  description, 
+  noPosts 
+} = BLOG_PAGE;
+
+// ===== Meta =====
 const meta = buildMeta({
   title,
   description,
@@ -91,6 +101,7 @@ const meta = buildMeta({
   noindex: !isFirstPage,
 });
 
+// ===== Schema =====
 const schema = [
   schemaWebPage({
     title,
@@ -99,25 +110,22 @@ const schema = [
     type: "CollectionPage",
   }),
   schemaBreadcrumb([
-    { name: "Home", url: `${baseUrl}${ROUTES.home}` },
+    { name: "Home", url: canonicalUrl() },
     { name: title, url: blogUrl },
-  ])
+  ]),
 ];
 ---
 
-<Layout 
-  meta={meta} 
-  schema={schema} 
-  prev={prevPageUrl} 
+<Layout
+  meta={meta}
+  schema={schema}
+  prev={prevPageUrl}
   next={nextPageUrl}
 >
   <main id="main-content" class="w-full min-w-0 flex-1">
     <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
       <Container size="xl">
-        <Section
-          size="md"
-         
-        >
+        <Section size="md">
           <BlogHero title={title} description={description} />
         </Section>
       </Container>
@@ -144,10 +152,9 @@ const schema = [
                     ...post,
                     data: {
                       ...post.data,
-                      cover: undefined
-                    }
+                      cover: undefined,
+                    },
                   };
-                  
                   return <BlogCard entry={cleanPostData} index={index + 3} />;
                 })}
               </div>
