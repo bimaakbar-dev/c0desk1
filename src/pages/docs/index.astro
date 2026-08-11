@@ -1,99 +1,89 @@
 ---
-// src/pages/docs/index.astro
-import { getCollection } from "astro:content";
-import {
-  SITE,
-  ROUTES,
-  buildMeta,
-  SIDEBAR_CONFIG  
-} from "@/consts";
+import { ROUTES } from "@/consts";
 
-import { 
-  canonicalUrl, 
-  getSlug 
-} from "@/lib/utils";
-
-import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
+
 import Icon from "@ui/Icons.astro";
-import DocsHero from "@/components/docs/DocsHero.astro";
+import Button from "@ui/Button.astro";
+import Badge from "@ui/Badge.astro";
 
-const allDocs = await getCollection("docs", ({ data }) => !data.draft);
-const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+interface Props {
+  title?: string;
+  description?: string;
+  badge?: string;
+  primaryText?: string;
+  primaryHref?: string;
+  secondaryText?: string;
+  secondaryHref?: string;
+}
 
-const docsByCategory = Object.groupBy(
-  sortedDocs,
-  (doc) => doc.data.category ?? "Uncategorized"
-) as Partial<Record<string, typeof allDocs>>;
+const {
+  title = "Modern Documentation,<br/>Built for Developers",
+  description = "A clean, fast, and customizable documentation template built with Astro, TailwindCSS. Start building in seconds.",
+  badge = "",
+  primaryText = "Get Started",
+  primaryHref = `${ROUTES.docs}/getting-started/`,
+  secondaryText = "Read Blog",
+  secondaryHref = `${ROUTES.blog}/`,
+} = Astro.props;
 
-// ===== Meta =====
-const meta = buildMeta({
-  title: "Documentation",
-  description: "Explore our guides, component references, and Integration documentation.",
-  canonical: canonicalUrl(ROUTES.docs),
-  ogType: "website",
-});
-
-// ===== Helper =====
-const docUrl = (doc: any) => `${ROUTES.docs}/${getSlug(doc)}/`;
-
-// ===== Styles =====
 const $ = {
-  card: [
-    "group flex flex-col gap-3 p-6 rounded-xl ring-1 ring-(--border)",
-    "bg-(--bg-muted)/50 hover:bg-(--bg-muted) no-underline",
+  section: [
+    "relative py-16 lg:py-24 border-b border-(--border-subtle)/80",
+    "bg-(--bg)",
   ].join(" "),
-  cardTitle: "text-title-20 font-semibold text-(--fg-strong)",
-  cardDesc: "text-body-14 text-(--fg-muted)",
-  linkList: "mt-4 space-y-2",
-  linkItem: "flex items-center gap-2 text-label-14 text-(--fg-muted) hover:text-(--fg-strong)",
+  
+  backgroundPattern: [
+    "absolute inset-0 z-0",
+    "bg-[radial-gradient(var(--fg)_1px,transparent_1px)]",
+    "[background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)]",
+    "opacity-60"
+  ].join(" "),
+
+  container: "relative z-10 mx-auto max-w-4xl text-center flex flex-col items-center",
+  
+  badge: [
+    "gap-1.5 mb-5",
+    "text-label-12 font-medium",
+    badge ? "" : "hidden"
+  ].join(" "),
+
+  title: [
+    "text-heading-40 md:text-heading-48 font-semibold text-(--fg-strong)",
+    "tracking-tighter mb-5 leading-tight",
+  ].join(" "),
+
+  description: "text-body-18 text-(--fg-muted) mb-10 max-w-2xl",
+
+  actions: "flex flex-wrap gap-4 items-center justify-center",
 };
 ---
 
-<Layout meta={meta}>
-  <DocsHero
-    title="Welcome to My Docs"
-    description="Everything you need to know about my project."
-    primaryText="Start Reading"
-    primaryHref={docUrl(sortedDocs[0])}
-  />
-  <Section size="md" class="py-12 lg:py-16">
-    <Container size="lg">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {SIDEBAR_CONFIG.map((config) => {
-          const categoryDocs = docsByCategory[config.category] ?? [];
-          if (categoryDocs.length === 0) return null;
+<Section class={$.section}>
+  <div class={$.backgroundPattern} aria-hidden="true" />
+  
+  <Container size="lg" class={$.container}>
 
-          const firstDoc = categoryDocs[0];
-          const mainHref = docUrl(firstDoc);
+    {badge && (
+      <Badge variant="accent" class={$.badge}>
+        <Icon name="sparkle" class="size-3.5 text-(--accent)" />
+        <span>{badge}</span>
+      </Badge>
+    )}
 
-          return (
-            <div class={$.card}>
-              <h2 class={$.cardTitle}>{config.label}</h2>
-              <p class={$.cardDesc}>
-                Explore {categoryDocs.length} articles in {config.label.toLowerCase()}.
-              </p>
+    <h1 class={$.title} set:html={title} />
+    
+    <p class={$.description}>{description}</p>
 
-              <div class={$.linkList}>
-                {categoryDocs.slice(0, 3).map((doc) => (
-                  <a href={docUrl(doc)} class={$.linkItem}>
-                    <Icon name="file-text" class="size-4 shrink-0" />
-                    <span class="truncate">{doc.data.title}</span>
-                  </a>
-                ))}
-              </div>
+    <div class={$.actions}>
+      <Button href={primaryHref} variant="primary" size="lg" suffix={<Icon name="arrow-right" class="size-4" />}>
+        {primaryText}
+      </Button>
+      <Button href={secondaryHref} variant="outline" size="lg">
+        {secondaryText}
+      </Button>
+    </div>
 
-              <a
-                href={mainHref}
-                class="mt-auto pt-4 text-label-14 font-medium text-brand flex items-center gap-1"
-              >
-                View all <Icon name="arrow-right" class="size-4" />
-              </a>
-            </div>
-          );
-        })}
-      </div>
-    </Container>
-  </Section>
-</Layout>
+  </Container>
+</Section>
