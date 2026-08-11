@@ -1,4 +1,7 @@
 //src/lib/utils.ts
+import { 
+  SITE 
+} from "@/consts";
 
 const CDN_ORIGIN = "https://cdn.c0desk1.my.id";
 
@@ -56,6 +59,18 @@ export function getSlug(entry: any): string {
     return entry.data.slug;
   }
   return entry.id?.split('/').pop() ?? '';
+}
+
+export function canonicalUrl(path: string = ""): string {
+  const base = SITE.url.replace(/\/+$/, "");
+  
+  const cleanPath = path
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+  if (!cleanPath) {
+    return `${base}/`;
+  }
+  return `${base}/${cleanPath}/`;
 }
 
 export function stripMarkdown(content: string): string {
