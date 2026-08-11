@@ -1,7 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Icon from "@ui/Icons.astro";
 import { ROUTES } from "@/consts";
+import { getSlug } from "@/lib/utils";
+
+import Icon from "@ui/Icons.astro";
 
 interface Props {
   prev?: CollectionEntry<"docs"> | null;
@@ -11,11 +13,10 @@ interface Props {
 const { prev, next } = Astro.props;
 
 const getHref = (item: CollectionEntry<"docs">) => {
-  const rawSlug = item.data.slug ?? item.id.split('/').pop() ?? '';
-  const cleanSlug = rawSlug.replace(/^\/+/, '').replace(/\/+$/, '');
+  const slug = getSlug(item);
   const baseDocsRoute = ROUTES.docs.replace(/\/$/, '');
-  
-  return `${baseDocsRoute}/${cleanSlug}/`;
+  if (!slug) return `${baseDocsRoute}/`;
+  return `${baseDocsRoute}/${slug}/`;
 };
 
 const aria = "Docs pagination";
