@@ -1,30 +1,32 @@
 ---
 slug: "badge"
 title: "Badge"
-description: "Badge digunakan untuk label kecil dengan berbagai variant warna dan ikon."
+description: "Small inline label with color variants and optional icon."
 category: "Components"
 order: 8
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T02:40:00Z
 seo:
-  title: "Badge — Komponen Kustom"
-  description: "Badge digunakan untuk label kecil dengan berbagai variant warna dan ikon."
-  noIndex: true
+  title: "Badge"
+  description: "Small inline label with color variants and optional icon."
+  noIndex: false
 ---
 
-Badge digunakan untuk label kecil dengan berbagai variant warna dan ikon. Cocok untuk menandai status, versi, kategori, atau informasi singkat lainnya.
+Badge renders a small inline label with optional color variant and icon.
 
-## Sintaks
+---
 
-Gunakan `:badge[label]` dengan atribut opsional:
+## Syntax
 
+::::tabs
+:::tab[Markdown]
 ```md
-:badge[Stabil]
+:badge[Stable]
 
 :badge[Beta]{variant="warning"}
 
@@ -32,10 +34,23 @@ Gunakan `:badge[label]` dengan atribut opsional:
 
 :badge[Deprecated]{variant="danger"}
 ```
+:::
+:::tab[MDX]
+```mdx
+<Badge>Stable</Badge>
+
+<Badge variant="warning">Beta</Badge>
+
+<Badge variant="success" icon="star">New</Badge>
+
+<Badge variant="danger">Deprecated</Badge>
+```
+:::
+::::
 
 ## Preview
 
-:badge[Stabil]
+:badge[Stable]
 
 :badge[Beta]{variant="warning"}
 
@@ -43,44 +58,28 @@ Gunakan `:badge[label]` dengan atribut opsional:
 
 :badge[Deprecated]{variant="danger"}
 
-## Varian
+## Variants
 
-| Varian | Warna | Cocok untuk |
-|--------|-------|-------------|
-| `default` | Netral | Default / biasa |
-| `new` | Aksen | Fitur baru |
-| `warning` | Kuning | Peringatan |
-| `success` | Hijau | Berhasil / stabil |
-| `info` | Biru | Informasi |
-| `danger` | Merah | Berbahaya / deprecated |
-| `outline` | Transparan | Gaya ringan |
-| `ghost` | Transparan | Sangat ringan |
+| Variant | Color |
+| --- | --- |
+| `default` | Neutral |
+| `new` | Accent |
+| `warning` | Yellow |
+| `success` | Green |
+| `info` | Blue |
+| `danger` | Red |
+| `outline` | Transparent |
+| `ghost` | Transparent |
 
-## Ikon
+## Attributes
 
-| Ikon | Data Attribute | Contoh |
-|------|----------------|--------|
-| Bintang | `icon="star"` | `:badge[Populer]{icon="star"}` |
-| Centang | `icon="check"` | `:badge[Selesai]{icon="check"}` |
+| Attribute | Required | Description |
+| --- | --- | --- |
+| `variant` | No | Badge color variant (default: `default`) |
+| `icon` | No | Icon displayed before the label |
+| `class` | No | Additional CSS classes |
 
-## Atribut
+## Notes
 
-| Atribut | Wajib | Fungsi |
-|---------|-------|--------|
-| `variant` | ❌ | Menentukan warna badge (default: `default`) |
-| `icon` | ❌ | Menambahkan ikon di depan label |
-| `class` | ❌ | Menambahkan class CSS tambahan |
-
-## Catatan
-
-- Label ditulis di dalam `[]`
-- Badge bersifat inline, bisa diletakkan di dalam paragraf
-- Varian menentukan warna dan gaya badge
-- Ikon bersifat opsional dan akan muncul di sebelah kiri label
-- Badge bisa dikombinasikan dengan komponen inline lain dalam satu paragraf
-
-## Lihat Juga
-
-- [User](/docs/user) — Profil pengguna dengan avatar
-- [Button](/docs/button) — Tombol dengan ikon
-- [Callout](/docs/callout) — Menyorot informasi penting
+- Badge is an inline component — it can be placed inside a paragraph
+- Icon appears on the left side of the label
