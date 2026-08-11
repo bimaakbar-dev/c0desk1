@@ -27,11 +27,11 @@ type Socials = {
 };
 
 export const SITE = {
-  name: env.PUBLIC_SITE_NAME || "Unloyd",
-  tagline: env.PUBLIC_SITE_TAGLINE || "A modern documentation template",
-  description: env.PUBLIC_SITE_DESCRIPTION || "A clean, modern, and customizable documentation template built with Astro, TailwindCSS and Sätteri.",
+  name: "Unloyd",
+  tagline: "A modern documentation template",
+  description: "A clean, modern, and customizable documentation template built with Astro",
   url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
-  email: env.PUBLIC_SITE_EMAIL || "hello@unloyd.web.id",
+  email: "hello@unloyd.web.id",
 
   locale: "id-ID",
   lang: "id",
