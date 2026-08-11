@@ -1,6 +1,6 @@
 // src/components/layout/MDXComponents.ts
 import User from "./User.astro";
-import Blockquote from "./Blockquote.astro";
+import Quote from "./Quote.astro";
 import Changelog from "./Changelog.astro";
 import Code from "./Code.astro";
 import Kbd from "./KBD.astro";
@@ -10,12 +10,12 @@ import CardGrid from "./CardGrid.astro";
 
 export const components = {
   User,
+  Quote,
   ChangelogContainer: Changelog,
   ChangelogItem: Changelog,
   Code,
   Kbd,
   Video,
-  Blockquote,
   LinkCard,
   CardGrid,
 };
