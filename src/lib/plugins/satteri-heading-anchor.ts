@@ -4,7 +4,7 @@ export const satteriHeadingAnchor = defineHastPlugin({
   name: "satteri-heading-anchor",
 
   element: {
-    filter: ["h1", "h2", "h3", "h4", "h5", "h6"],
+    filter: ["h2", "h3"],
 
     visit(node, ctx) {
       const id = node.properties?.id;
