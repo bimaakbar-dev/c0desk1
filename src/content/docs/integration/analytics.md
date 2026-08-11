@@ -81,7 +81,3 @@ Both services collect user data. Make sure your site has:
 :::card[Form]{href="/docs/form/" icon='learn'}
 Contact form integration with Formspree
 :::
-
-:::card[Pagefind]{href="/docs/pagefind/" icon='learn'}
-Static search engine configuration
-:::
