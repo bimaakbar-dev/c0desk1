@@ -1,30 +1,30 @@
 ---
 slug: "user"
 title: "User"
-description: "User digunakan untuk menampilkan profil pengguna dengan avatar, nama, dan role."
+description: "Display a user profile with avatar, name, and role."
 category: "Components"
 order: 7
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T02:40:00Z
 seo:
-  title: "User — Komponen Kustom"
-  description: "User digunakan untuk menampilkan profil pengguna dengan avatar, nama, dan role."
-  noIndex: true
+  title: "User"
+  description: "Display a user profile with avatar, name, and role."
+  noIndex: false
 ---
 
-# User
+User renders an inline profile with an avatar, name, optional role, and optional link.
 
-User digunakan untuk menampilkan profil pengguna dengan avatar, nama, dan role. Cocok untuk menampilkan penulis artikel, kontributor, atau anggota tim.
+---
 
-## Sintaks
+## Syntax
 
-Gunakan `:user[name]` dengan atribut opsional:
-
+::::tabs
+:::tab[Markdown]
 ```md
 :user[Bima Akbar]
 
@@ -34,6 +34,19 @@ Gunakan `:user[name]` dengan atribut opsional:
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 ```
+:::
+:::tab[MDX]
+```mdx
+<User>Bima Akbar</User>
+
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">Bima Akbar</User>
+
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">Bima Akbar</User>
+
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
+```
+:::
+::::
 
 ## Preview
 
@@ -45,27 +58,17 @@ Gunakan `:user[name]` dengan atribut opsional:
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 
-## Atribut
+## Attributes
 
-| Atribut | Wajib | Fungsi |
-|---------|-------|--------|
-| `avatar` | ❌ | URL avatar (akan ditampilkan sebagai gambar bulat) |
-| `role` | ❌ | Peran pengguna (ditampilkan setelah nama dengan pemisah `·`) |
-| `url` | ❌ | Link ke profil (membungkus user dalam link) |
-| `class` | ❌ | Menambahkan class CSS tambahan |
+| Attribute | Required | Description |
+| --- | --- | --- |
+| `avatar` | No | Avatar image URL — renders as a rounded image |
+| `role` | No | Role label displayed after the name with a `·` separator |
+| `url` | No | Wraps the user in a link |
+| `class` | No | Additional CSS classes |
 
-## Catatan
+## Notes
 
-- Nama ditulis di dalam `[]`
-- Avatar akan otomatis berbentuk bulat (`rounded-full`)
-- Jika `url` diberikan, user akan menjadi link
-- Link eksternal otomatis memiliki `rel="noopener noreferrer nofollow"`
-- User bersifat inline, bisa diletakkan di dalam paragraf
-- Role akan ditampilkan setelah nama dengan pemisah `·`
-- Avatar placeholder akan muncul jika avatar tidak diisi
-
-## Lihat Juga
-
-- [Badge](/docs/badge/) — Label kecil dengan warna
-- [Button](/docs/button/) — Tombol dengan ikon
-- [Callout](/docs/callout/) — Menyorot informasi penting
+- User is an inline component — it can be placed inside a paragraph
+- A placeholder avatar is shown if `avatar` is not provided
+- External links automatically include `rel="noopener noreferrer nofollow"`
