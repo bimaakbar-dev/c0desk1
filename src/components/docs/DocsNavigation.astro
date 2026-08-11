@@ -1,14 +1,10 @@
 ---
-// src/components/docs/DocsNavigation.astro
 import { getCollection } from 'astro:content';
 import { 
   ROUTES, 
   SIDEBAR_CONFIG 
 } from '@/consts';
-import { 
-  getSlug, 
-  canonicalUrl 
-} from '@/lib/utils';
+import { getSlug } from '@/lib/utils';
 
 import SidebarGroup from '@ui/SidebarGroup.astro';
 import SidebarLink from '@ui/SidebarLink.astro';
@@ -42,12 +38,12 @@ const currentPath = Astro.url.pathname.endsWith('/')
   ? Astro.url.pathname 
   : `${Astro.url.pathname}/`;
 
-const baseDocsRoute = canonicalUrl(ROUTES.docs);
+const baseDocsRoute = ROUTES.docs.endsWith('/') ? ROUTES.docs : `${ROUTES.docs}/`;
 
 const getHref = (doc: (typeof allDocs)[number]) => {
   const slug = getSlug(doc);
   if (!slug) return baseDocsRoute;
-  return canonicalUrl(`${ROUTES.docs}/${slug}`);
+  return `${ROUTES.docs}/${slug}/`;
 };
 
 const checkIsActive = (href: string) => {
