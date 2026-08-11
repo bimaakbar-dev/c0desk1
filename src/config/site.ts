@@ -30,7 +30,7 @@ export const SITE = {
   name: env.PUBLIC_SITE_NAME || "Unloyd",
   tagline: env.PUBLIC_SITE_TAGLINE || "A modern documentation template",
   description: env.PUBLIC_SITE_DESCRIPTION || "A clean, modern, and customizable documentation template built with Astro, TailwindCSS and Sätteri.",
-  url: env.PUBLIC_SITE_URL || "https://c0desk1.my.id",
+  url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
   email: env.PUBLIC_SITE_EMAIL || "hello@unloyd.web.id",
 
   locale: "id-ID",
