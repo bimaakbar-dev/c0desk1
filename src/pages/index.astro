@@ -22,7 +22,6 @@ import HeroImage from "@/assets/images/logo.webp";
 
 // ===== Meta & Schema =====
 const meta = buildMeta({
-  title: SITE.name,
   description: SITE.description,
   canonical: canonicalUrl(),
   ogType: "website",
@@ -30,6 +29,7 @@ const meta = buildMeta({
 
 const schema = [
   schemaWebPage({
+    title: SITE.name,
     description: SITE.description,
     url: canonicalUrl(),
   })
