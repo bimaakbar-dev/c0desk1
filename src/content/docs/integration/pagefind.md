@@ -171,9 +171,3 @@ npx pagefind --site dist --force-language en
 - Check that `data-pagefind-body` is on the main content container
 - Verify that the content is in the HTML output
 :::
-
-## Next Steps
-
-:::card[Cloudflare]{href="/docs/cloudflare-pages/" icon="learn"}
-Cloudflare Pages and Workers setup
-:::
