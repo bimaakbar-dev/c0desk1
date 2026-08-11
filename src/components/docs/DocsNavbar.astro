@@ -1,6 +1,7 @@
 ---
 // src/components/docs/DocsNavbar.astro
 import { NAV } from "@/consts";
+import { canonicalUrl } from "@/lib/utils";
 import Select from "@ui/Select.astro";
 
 const currentPath = Astro.url.pathname.endsWith('/') 
@@ -9,14 +10,12 @@ const currentPath = Astro.url.pathname.endsWith('/')
 
 const navItems = NAV.navBar.map((item) => {
   const isExternal = item.isExternal || item.href.startsWith('http') || item.href.startsWith('#');
-  const formattedHref = !isExternal && !item.href.endsWith('/') 
-    ? `${item.href}/` 
-    : item.href;
+  const href = isExternal ? item.href : canonicalUrl(item.href);
 
   return {
     label: item.label,
     value: item.label.toLowerCase(),
-    href: formattedHref,
+    href: href,
     icon: item.icon,
     isExternal: item.isExternal,
   };
@@ -26,12 +25,7 @@ const activeNavItem = navItems.find((item) => {
   if (item.isExternal || item.href.startsWith('http') || item.href.startsWith('#')) {
     return false;
   }
-
-  if (item.href === '/') {
-    return currentPath === '/';
-  }
-
-  return currentPath === item.href || currentPath.startsWith(item.href);
+  return currentPath === item.href;
 });
 ---
 
