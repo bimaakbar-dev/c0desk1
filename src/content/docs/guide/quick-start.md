@@ -110,11 +110,3 @@ This guide will help you set up Unloyd locally so you can start customizing it r
 :::card[Project Structure]{href="/docs/project-structure/" icon='learn'}
 Understand the folder layout in depth
 :::
-
-:::card[Configuration]{href="/docs/configuration/" icon='learn'}
-Customize site settings
-:::
-
-:::card[Deployment]{href="/docs/deployment/" icon='learn'}
-Deploy to production
-:::
