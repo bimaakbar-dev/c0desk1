@@ -7,26 +7,41 @@ import {
   schemaBreadcrumb,
   IMAGE,
 } from "@/consts";
+
+import { canonicalUrl } from "@/lib/utils";
 import { ABOUT_PAGE } from "@/config/pages/about";
 
 import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/ui/Container.astro";
-import Section from "@/components/ui/Section.astro";
-import Button from "@/components/ui/Button.astro";
-import Icons from "@/components/ui/Icons.astro";
-import Card from "@/components/ui/Card.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+import Button from "@ui/Button.astro";
+import Icons from "@ui/Icons.astro";
+import Card from "@ui/Card.astro";
 
-const { title, description, hero, features, team, cta } = ABOUT_PAGE;
+const { 
+  title, 
+  description, 
+  hero, 
+  features, 
+  team, 
+  cta 
+} = ABOUT_PAGE;
 
-const baseUrl = SITE.url.replace(/\/$/, "");
-const currentUrl = `${baseUrl}${ROUTES.about}/`;
+// ===== canonicalUrl =====
+const currentUrl = canonicalUrl(ROUTES.about);
 
 const meta = buildMeta({
   title,
   description,
   canonical: currentUrl,
   ogType: "website",
-  keywords: ["about", "team", "project", "documentation", "template"],
+  keywords: [
+    "about", 
+    "team", 
+    "project",
+    "documentation", 
+    "template"
+  ],
 });
 
 const schema = [
@@ -38,14 +53,14 @@ const schema = [
     image: {
       url: SITE.logo.startsWith("http")
         ? SITE.logo
-        : `${baseUrl}${SITE.logo}`,
+        : `${SITE.url.replace(/\/$/, "")}${SITE.logo}`,
       width: 500,
       height: 500,
       caption: title,
     },
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: `${baseUrl}/` },
+    { name: "Home", url: canonicalUrl() },
     { name: title, url: currentUrl },
   ]),
 ];
@@ -54,7 +69,6 @@ const schema = [
 <Layout {meta} {schema}>
   <main id="main-content" class="w-full min-w-0 flex-1">
     <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
-      <!-- Hero Section -->
       <Container size="xl">
         <Section
           size="lg"
@@ -72,7 +86,7 @@ const schema = [
               </p>
               <div class="flex flex-wrap items-start gap-4">
                 <Button
-                  href={hero.primaryAction.href}
+                  href={hero.primaryAction.href.startsWith("http") ? hero.primaryAction.href : canonicalUrl(hero.primaryAction.href)}
                   variant="primary"
                   size="lg"
                   suffix={<Icons name="arrow-right" class="size-4.5" />}
@@ -80,7 +94,7 @@ const schema = [
                   {hero.primaryAction.label}
                 </Button>
                 <Button
-                  href={hero.secondaryAction.href}
+                  href={hero.secondaryAction.href.startsWith("http") ? hero.secondaryAction.href : canonicalUrl(hero.secondaryAction.href)}
                   variant="ghost"
                   size="lg"
                 >
@@ -91,8 +105,6 @@ const schema = [
           </div>
         </Section>
       </Container>
-
-      <!-- Features -->
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
           <div class="grid grid-cols-12 gap-x-6 gap-y-6 mb-12 md:mb-16">
@@ -121,8 +133,6 @@ const schema = [
           </ul>
         </Section>
       </Container>
-
-      <!-- Team -->
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
           <div class="grid grid-cols-12 gap-x-6 gap-y-6 mb-12 md:mb-16">
@@ -168,8 +178,6 @@ const schema = [
           </ul>
         </Section>
       </Container>
-
-      <!-- CTA -->
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
@@ -179,7 +187,7 @@ const schema = [
               </h2>
               <div class="flex flex-wrap items-center justify-center gap-4">
                 <Button
-                  href={cta.primaryAction.href}
+                  href={cta.primaryAction.href.startsWith("http") ? cta.primaryAction.href : canonicalUrl(cta.primaryAction.href)}
                   variant="primary"
                   size="lg"
                   suffix={<Icons name="arrow-right" class="size-4.5" />}
@@ -187,7 +195,7 @@ const schema = [
                   {cta.primaryAction.label}
                 </Button>
                 <Button
-                  href={cta.secondaryAction.href}
+                  href={cta.secondaryAction.href.startsWith("http") ? cta.secondaryAction.href : canonicalUrl(cta.secondaryAction.href)}
                   variant="ghost"
                   size="lg"
                 >
