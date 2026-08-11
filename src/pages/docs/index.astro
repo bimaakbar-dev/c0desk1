@@ -1,89 +1,135 @@
 ---
-import { ROUTES } from "@/consts";
+// src/pages/docs/index.astro
+import { getCollection } from "astro:content";
+import {
+  SITE,
+  ROUTES,
+  buildMeta,
+  SIDEBAR_CONFIG,
+  schemaWebPage,
+  schemaBreadcrumb,
+} from "@/consts";
 
+import { getSlug } from "@/lib/utils";
+
+import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
-
 import Icon from "@ui/Icons.astro";
-import Button from "@ui/Button.astro";
-import Badge from "@ui/Badge.astro";
+import DocsHero from "@docs/DocsHero.astro";
 
-interface Props {
-  title?: string;
-  description?: string;
-  badge?: string;
-  primaryText?: string;
-  primaryHref?: string;
-  secondaryText?: string;
-  secondaryHref?: string;
+// ===== Data Docs =====
+const allDocs = await getCollection("docs", ({ data }) => !data.draft);
+const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const docsByCategory = Object.groupBy(
+  sortedDocs,
+  (doc) => doc.data.category ?? "Uncategorized"
+) as Partial<Record<string, typeof allDocs>>;
+
+const firstCategoryConfig = SIDEBAR_CONFIG[0];
+let startReadingDoc = null;
+
+if (firstCategoryConfig) {
+  const categoryKey = firstCategoryConfig.category;
+  const categoryDocs = docsByCategory[categoryKey] || [];
+  if (categoryDocs.length > 0) {
+    const sortedCategoryDocs = [...categoryDocs].sort(
+      (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)
+    );
+    startReadingDoc = sortedCategoryDocs[0];
+  }
 }
 
-const {
-  title = "Modern Documentation,<br/>Built for Developers",
-  description = "A clean, fast, and customizable documentation template built with Astro, TailwindCSS. Start building in seconds.",
-  badge = "",
-  primaryText = "Get Started",
-  primaryHref = `${ROUTES.docs}/getting-started/`,
-  secondaryText = "Read Blog",
-  secondaryHref = `${ROUTES.blog}/`,
-} = Astro.props;
+if (!startReadingDoc) {
+  startReadingDoc = sortedDocs[0];
+}
 
+// ===== Helper =====
+const docUrl = (doc: any) => `${ROUTES.docs}/${getSlug(doc)}/`;
+const startReadingHref = startReadingDoc ? docUrl(startReadingDoc) : `${ROUTES.docs}/`;
+
+// ===== Meta =====
+const meta = buildMeta({
+  title: "Documentation",
+  description: "Explore our guides, component references, and Integration documentation.",
+  canonical: `${SITE.url}${ROUTES.docs}/`,
+  ogType: "website",
+});
+
+// ===== Schema =====
+const schema = [
+  schemaWebPage({
+    title: "Documentation",
+    description: "Explore our guides, component references, and Integration documentation.",
+    url: `${SITE.url}${ROUTES.docs}/`,
+    type: "CollectionPage",
+  }),
+  schemaBreadcrumb([
+    { name: "Home", url: SITE.url },
+    { name: "Documentation", url: `${SITE.url}${ROUTES.docs}/` },
+  ]),
+];
+
+// ===== Styles =====
 const $ = {
-  section: [
-    "relative py-16 lg:py-24 border-b border-(--border-subtle)/80",
-    "bg-(--bg)",
+  card: [
+    "group flex flex-col gap-3 p-6 rounded-xl ring-1 ring-(--border)",
+    "bg-(--bg-muted)/50 hover:bg-(--bg-muted) no-underline",
   ].join(" "),
-  
-  backgroundPattern: [
-    "absolute inset-0 z-0",
-    "bg-[radial-gradient(var(--fg)_1px,transparent_1px)]",
-    "[background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)]",
-    "opacity-60"
-  ].join(" "),
-
-  container: "relative z-10 mx-auto max-w-4xl text-center flex flex-col items-center",
-  
-  badge: [
-    "gap-1.5 mb-5",
-    "text-label-12 font-medium",
-    badge ? "" : "hidden"
-  ].join(" "),
-
-  title: [
-    "text-heading-40 md:text-heading-48 font-semibold text-(--fg-strong)",
-    "tracking-tighter mb-5 leading-tight",
-  ].join(" "),
-
-  description: "text-body-18 text-(--fg-muted) mb-10 max-w-2xl",
-
-  actions: "flex flex-wrap gap-4 items-center justify-center",
+  cardTitle: "text-title-20 font-semibold text-(--fg-strong)",
+  cardDesc: "text-body-14 text-(--fg-muted)",
+  linkList: "mt-4 space-y-2",
+  linkItem:
+    "flex items-center gap-2 text-label-14 text-(--fg-muted) hover:text-(--fg-strong)",
 };
 ---
 
-<Section class={$.section}>
-  <div class={$.backgroundPattern} aria-hidden="true" />
-  
-  <Container size="lg" class={$.container}>
+<Layout meta={meta} schema={schema}>
+  <DocsHero
+    title="Welcome to My Docs"
+    description="Everything you need to know about my project."
+    primaryText="Start Reading"
+    primaryHref={startReadingHref}
+    secondaryText="Read Blog"
+    secondaryHref={ROUTES.blog}
+  />
+  <Section size="md" class="py-12 lg:py-16">
+    <Container size="lg">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {SIDEBAR_CONFIG.map((config) => {
+          const categoryDocs = docsByCategory[config.category] ?? [];
+          if (categoryDocs.length === 0) return null;
 
-    {badge && (
-      <Badge variant="accent" class={$.badge}>
-        <Icon name="sparkle" class="size-3.5 text-(--accent)" />
-        <span>{badge}</span>
-      </Badge>
-    )}
+          const firstDoc = categoryDocs[0];
+          const mainHref = docUrl(firstDoc);
 
-    <h1 class={$.title} set:html={title} />
-    
-    <p class={$.description}>{description}</p>
+          return (
+            <div class={$.card}>
+              <h2 class={$.cardTitle}>{config.label}</h2>
+              <p class={$.cardDesc}>
+                Explore {categoryDocs.length} articles in {config.label.toLowerCase()}.
+              </p>
 
-    <div class={$.actions}>
-      <Button href={primaryHref} variant="primary" size="lg" suffix={<Icon name="arrow-right" class="size-4" />}>
-        {primaryText}
-      </Button>
-      <Button href={secondaryHref} variant="outline" size="lg">
-        {secondaryText}
-      </Button>
-    </div>
+              <div class={$.linkList}>
+                {categoryDocs.slice(0, 3).map((doc) => (
+                  <a href={docUrl(doc)} class={$.linkItem}>
+                    <Icon name="file-text" class="size-4 shrink-0" />
+                    <span class="truncate">{doc.data.title}</span>
+                  </a>
+                ))}
+              </div>
 
-  </Container>
-</Section>
+              <a
+                href={mainHref}
+                class="mt-auto pt-4 text-label-14 font-medium text-brand flex items-center gap-1"
+              >
+                View all <Icon name="arrow-right" class="size-4" />
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </Container>
+  </Section>
+</Layout>
