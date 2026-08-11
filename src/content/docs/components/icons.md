@@ -1,33 +1,27 @@
 ---
 slug: "icons"
 title: "Icons"
-description: "Icon digunakan untuk menampilkan ikon SVG dengan berbagai ukuran."
+description: "Inline SVG icon with size variants."
 category: "Components"
 order: 12
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T02:55:00Z
 seo:
   title: "Icons"
-  description: "Icon digunakan untuk menampilkan ikon SVG dengan berbagai ukuran."
-  noIndex: true
+  description: "Inline SVG icon with size variants."
+  noIndex: false
 ---
 
-Icon digunakan untuk menampilkan ikon SVG dengan berbagai ukuran. Cocok untuk menambahkan ikon di dalam teks, tombol, atau sebagai elemen dekoratif.
+Icon renders an inline SVG icon. Color follows `currentColor` and can be overridden with CSS.
 
-## Preview
+---
 
-:icon[star] :icon[star]{size="lg"} :icon[star]{size="sm"}
-
-:icon[github] :icon[twitter] :icon[youtube]
-
-## Sintaks
-
-Gunakan `:icon[nama]` dengan atribut ukuran:
+## Syntax
 
 ```md
 :icon[star]
@@ -36,73 +30,31 @@ Gunakan `:icon[nama]` dengan atribut ukuran:
 
 :icon[github]{size="sm"}
 
-Klik :icon[arrow] untuk melanjutkan.
-
+Click :icon[arrow] to continue.
 ```
 
-## Penggunaan
+## Preview
 
-### Ikon Dasar
+:icon[star] :icon[star]{size="md"} :icon[star]{size="lg"}
 
-Ikon dengan ukuran default `md`.
+:icon[github] :icon[twitter] :icon[youtube]
 
-:icon[star] :icon[info] :icon[check]
+## Sizes
 
-### Ikon dengan Ukuran
+| Value | Size |
+| --- | --- |
+| `sm` | 12px |
+| `md` | 16px (default) |
+| `lg` | 20px |
 
-Atur ukuran menggunakan atribut `size`.
+## Attributes
 
-| Ukuran | Preview |
-|--------|------------|
-| `sm` | :icon[star]{size="sm"} |
-| `md` | :icon[star]{size="md"} |
-| `lg` | :icon[star]{size="lg"} |
+| Attribute | Required | Description |
+| --- | --- | --- |
+| `size` | No | Icon size — `sm`, `md`, or `lg` (default: `md`) |
+| `class` | No | Additional CSS classes |
 
-### Ikon di Dalam Teks
+## Notes
 
-Ikon bisa diletakkan di dalam paragraf
-
-## Atribut
-Icon menerima properti berikut:
-
-### `size`
-
-**Tipe:** `"sm" | "md" | "lg"`
-
-**Default:** `"md"`
-
-**Wajib:** Tidak
-
-Ukuran ikon.
-
-| Nilai | Ukuran |
-|--------|------------|
-| `sm` | 0.75rem (12px) |
-| `md` | 1rem (16px) |
-| `lg` | 1.25rem (20px) |
-
-### `class`
-
-**Tipe:** `string`
-
-**Wajib:** Tidak
-
-Class CSS tambahan untuk kustomisasi styling.
-
-## Catatan
-
-- Nama ikon ditulis di dalam `[]`
-- Icon menggunakan SVG mask, konsisten dengan komponen lain (filetree, button, badge, card)
-- Ukuran default adalah `md` (1rem / 16px)
-- Ikon bersifat inline, bisa diletakkan di dalam paragraf
-- Warna ikon mengikuti `currentColor`, bisa diubah dengan CSS
-
-## Lihat Juga
-
-- [Card](/docs/cards/) — Kotak informasi dengan ikon
-
-- [Badge](/docs/badge/) — Label kecil dengan warna
-
-- [Button](/docs/button/) — Tombol dengan ikon
-
-- [Callout](/docs/callout/) — Menyorot informasi penting
+- Icon is an inline component — it can be placed inside a paragraph
+- Icons use SVG mask, consistent with Button, Badge, Card, and Filetree
