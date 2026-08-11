@@ -157,14 +157,14 @@ const schema = [
               author={entry.data.author}
             />
           </Container>
-          <div class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
+          <hr class="bg-none border-none border-(--border-subtle)/80 my-6 md:my-8" />
           <Container size="md">
             <div class="prose">
               <Content components={components} />
             </div>
           </Container>
-          <Container size="md">
-            <div class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
+          <hr class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
+          <Container size="md">         
             <BlogFooter
               tags={entry.data.tags}
               lastUpdated={entry.data.lastUpdated}
