@@ -1,36 +1,43 @@
 ---
 import { 
-  getCollection,
+  getCollection, 
   render 
 } from "astro:content";
 
-import { 
+import {
   SITE,
   ROUTES,
-  buildMeta, 
+  IMAGE,
+  buildMeta,
   schemaArticle,
   schemaBreadcrumb,
-  IMAGE,
 } from "@/consts";
+
+import { 
+  getSlug, 
+  canonicalUrl 
+} from "@/lib/utils";
 
 import { components } from "@components/mdx/MDXComponents";
 
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
+import BlogHeader from "@/components/blog/BlogHeader.astro";
+import BlogFooter from "@/components/blog/BlogFooter.astro";
+
 import Toc from "@components/TableOfContent.astro";
 import MobileToc from "@components/MobileToc.astro";
-import ScrollToTop from "@docs/ScrollToTop.astro";
-import BlogFooter from "@/components/blog/BlogFooter.astro";
-import BlogHeader from "@/components/blog/BlogHeader.astro";
-import CopyCode from "@/components/CopyCode.astro";
+
 import RelatedPosts from "@/components/blog/BlogRelated.astro";
+import CopyCode from "@components/CopyCode.astro";
+import ScrollToTop from "@docs/ScrollToTop.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("blog", ({ data }) => !data.draft);
 
   return entries.map((entry) => {
-    const cleanSlug = entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '');
+    const cleanSlug = getSlug(entry);
     return {
       params: {
         slug: cleanSlug,
@@ -60,22 +67,18 @@ const allPosts = (await getCollection("blog"))
 const currentIndex = allPosts.findIndex((item) => item.id === entry.id);
 
 const prevEntry =
-  currentIndex < allPosts.length - 1
-    ? allPosts[currentIndex + 1]
-    : null;
+  currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
-const nextEntry =
-  currentIndex > 0
-    ? allPosts[currentIndex - 1]
-    : null;
+const nextEntry = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
-const cleanSlug = Astro.params.slug;
-const baseUrl = SITE.url.replace(/\/$/, "");
-const currentUrl = `${baseUrl}${ROUTES.blog}/${cleanSlug}/`;
+const cleanSlug = getSlug(entry);
+
+// ===== URL menggunakan canonicalUrl =====
+const currentUrl = canonicalUrl(`${ROUTES.blog}/${cleanSlug}`);
 
 const breadcrumbItems = [
-  { label: "Beranda", href: `${baseUrl}${ROUTES.home}` },
-  { label: "Blog", href: `${baseUrl}${ROUTES.blog}/` },
+  { label: "Beranda", href: canonicalUrl() },
+  { label: "Blog", href: canonicalUrl(ROUTES.blog) },
   ...(entry.data.category
     ? [{ label: entry.data.category, href: "" }]
     : []),
@@ -84,6 +87,7 @@ const breadcrumbItems = [
 const author = entry.data.author?.name || SITE.name;
 const publisher = SITE.name;
 
+// ===== Meta =====
 const meta = buildMeta({
   title: entry.data.seo.title,
   description: entry.data.seo.description ?? entry.data.description,
@@ -97,6 +101,7 @@ const meta = buildMeta({
   keywords: entry.data.tags || [],
 });
 
+// ===== Schema =====
 const schema = [
   schemaArticle({
     title: entry.data.title,
@@ -105,26 +110,29 @@ const schema = [
     datePublished: entry.data.pubDate?.toISOString(),
     dateModified: entry.data.lastUpdated?.toISOString(),
     authorName: author,
-    authorUrl: entry.data.author?.url ||SITE.url,
-    image: entry.data.cover ? {
-      url: typeof entry.data.cover === 'string' 
-        ? entry.data.cover 
-        : entry.data.cover.src,
-      width: IMAGE.og.width,
-      height: IMAGE.og.height,
-      caption: entry.data.title
-    } : undefined
+    authorUrl: entry.data.author?.url || SITE.url,
+    image: entry.data.cover
+      ? {
+          url:
+            typeof entry.data.cover === "string"
+              ? entry.data.cover
+              : entry.data.cover.src,
+          width: IMAGE.og.width,
+          height: IMAGE.og.height,
+          caption: entry.data.title,
+        }
+      : undefined,
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: `${baseUrl}/` },
-    { name: "Blog", url: `${baseUrl}${ROUTES.blog}/` },
-    { name: entry.data.title, url: currentUrl }, 
+    { name: "Home", url: canonicalUrl() },
+    { name: "Blog", url: canonicalUrl(ROUTES.blog) },
+    { name: entry.data.title, url: currentUrl },
   ]),
 ];
 ---
 
-<BlogLayout 
-  meta={meta} 
+<BlogLayout
+  meta={meta}
   schema={schema}
   author={author}
   publisher={publisher}
@@ -132,7 +140,7 @@ const schema = [
   <div data-pagefind-weight="3" class="hidden" />
   <MobileToc title={entry.data.title} headings={headings} />
   <Fragment slot="left">
-    <div/>
+    <div />
   </Fragment>
   <Fragment>
     <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
@@ -154,14 +162,15 @@ const schema = [
             <div class="prose">
               <Content components={components} />
             </div>
-          </Container>  
+          </Container>
           <Container size="md">
             <div class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
-            <BlogFooter 
+            <BlogFooter
               tags={entry.data.tags}
               lastUpdated={entry.data.lastUpdated}
               prev={prevEntry}
-              next={nextEntry} />
+              next={nextEntry}
+            />
           </Container>
         </article>
       </Section>
