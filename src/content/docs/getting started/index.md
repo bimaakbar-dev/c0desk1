@@ -47,14 +47,6 @@ lastUpdated: 2026-08-10T19:30:00Z
 
 ## Next Steps
 
-:::card[Quick Start]{href="/docs/quick-start/" icon='learn'}
-Detailed setup and local development guide
-:::
-
 :::card[Tech Stack]{href="/docs/tech-stack/" icon='learn'}
 Technologies behind Unloyd
-:::
-
-:::card[Components]{href="/docs/components/" icon='learn'}
-Explore all custom directives
 :::
