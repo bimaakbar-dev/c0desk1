@@ -2,8 +2,17 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
-import { SITE, ROUTES, PAGINATION } from "@/consts";
-import { getSlug } from "@/lib/utils";
+
+import { 
+  SITE, 
+  ROUTES, 
+  PAGINATION 
+} from "@/consts";
+
+import { 
+  getSlug, 
+  canonicalUrl 
+} from "@/lib/utils";
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
@@ -64,7 +73,7 @@ export const GET: APIRoute = async (context) => {
   const items = [
     ...blog.map((post) => ({
       ...post.data,
-      url: `${ROUTES.blog}/${getSlug(post)}/`,
+      url: canonicalUrl(`${ROUTES.blog}/${getSlug(post)}`),
       date:
         post.data.pubDate ??
         post.data.lastUpdated ??
@@ -74,7 +83,7 @@ export const GET: APIRoute = async (context) => {
 
     ...docs.map((doc) => ({
       ...doc.data,
-      url: `${ROUTES.docs}/${getSlug(doc)}/`,
+      url: canonicalUrl(`${ROUTES.docs}/${getSlug(doc)}`),
       date:
         doc.data.pubDate ??
         doc.data.lastUpdated ??
@@ -124,7 +133,7 @@ export const GET: APIRoute = async (context) => {
 
       return {
         title: item.title,
-        link: new URL(item.url, baseUrl).toString(),
+        link: item.url,
         pubDate: item.date,
         description:
           item.description ??
