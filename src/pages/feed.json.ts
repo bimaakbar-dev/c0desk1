@@ -2,15 +2,8 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-import { 
-  SITE, 
-  ROUTES, 
-  PAGINATION 
-} from '@/consts';
-
-function getSlug(doc: any): string {
-  return doc.slug ?? doc.id.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
-}
+import { SITE, ROUTES, PAGINATION } from '@/consts';
+import { getSlug } from '@/lib/utils';
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
