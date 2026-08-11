@@ -21,10 +21,10 @@ export const GET: APIRoute = async ({ site }) => {
 
   const urls: { loc: string; lastmod?: string; changefreq?: string; priority?: number }[] = [];
 
+  // ===== Static Routes (tanpa /docs/ karena sudah di home) =====
   const staticRoutes = [
-    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },
-    { path: ROUTES.docs, priority: 0.9, changefreq: 'weekly' },
-    { path: ROUTES.blog, priority: 0.8, changefreq: 'weekly' },
+    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },      // home = root
+    { path: ROUTES.blog, priority: 0.9, changefreq: 'weekly' },     // blog indeks prioritas kedua
     { path: ROUTES.archive, priority: 0.5, changefreq: 'monthly' },
   ];
 
@@ -33,6 +33,7 @@ export const GET: APIRoute = async ({ site }) => {
     urls.push({ loc, priority, changefreq });
   });
 
+  // ===== Blog Posts (prioritas sedang) =====
   blog.forEach((post) => {
     const slug = post.data.slug || post.id.replace(/\.(md|mdx)$/, '');
     const date = post.data.lastUpdated || post.data.pubDate;
@@ -41,10 +42,11 @@ export const GET: APIRoute = async ({ site }) => {
       loc: `${baseUrl}${ROUTES.blog}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
-      priority: 0.7,
+      priority: 0.6, // turun dari 0.7
     });
   });
 
+  // ===== Docs Detail (prioritas menengah) =====
   docs.forEach((doc) => {
     const slug = doc.data.slug || doc.id.replace(/\.(md|mdx)$/, '');
     const date = doc.data.lastUpdated || doc.data.pubDate;
@@ -53,16 +55,17 @@ export const GET: APIRoute = async ({ site }) => {
       loc: `${baseUrl}${ROUTES.docs}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
-      priority: 0.9,
+      priority: 0.7, // turun dari 0.9
     });
   });
 
+  // ===== Legal Pages (prioritas rendah) =====
   legal.forEach((item) => {
     const slug = item.data.slug || item.id.replace(/\.(md|mdx)$/, '');
     const date = item.data.lastUpdated || item.data.pubDate;
     
     urls.push({
-      loc: `${baseUrl}/${slug}/`, 
+      loc: `${baseUrl}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'yearly',
       priority: 0.2,
