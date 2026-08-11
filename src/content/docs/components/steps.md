@@ -1,86 +1,81 @@
 ---
 slug: "steps"
 title: "Steps"
-description: "Steps digunakan untuk membuat panduan langkah-demi-langkah dengan penomoran otomatis."
+description: "Step-by-step guide component with automatic numbering."
 category: "Components"
 order: 3
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T02:35:00Z
 seo:
-  title: "Steps — Komponen Kustom"
-  description: "Steps digunakan untuk membuat panduan langkah-demi-langkah dengan penomoran otomatis."
-  noIndex: true
+  title: "Steps"
+  description: "Step-by-step guide component with automatic numbering."
+  noIndex: false
 ---
 
-Steps digunakan untuk membuat panduan langkah-demi-langkah dengan penomoran otomatis. Cocok untuk tutorial, panduan instalasi, atau prosedur yang membutuhkan urutan jelas.
+Steps renders an ordered list as a styled step-by-step guide with automatic numbering. Works in both `.md` and `.mdx` files.
 
-## Sintaks
+---
 
-Gunakan `:::steps` sebagai pembungkus. Di dalamnya, tulis ordered list (`1.`, `2.`, `3.`, dst) untuk setiap langkah.
+## Syntax
 
-Setiap langkah bisa berisi paragraf, list, code block, heading, atau inline code — semuanya opsional.
+Wrap an ordered list with `:::steps`. Each list item becomes a step.
 
 ```md
 :::steps
-1.  Step 1
-<!-- Beri jarak 1 line agar tidak dianggap judul --> <!-- [!code ++] -->
-    isi steps
+1. Plain text title
 
-2. ## Step 2
-   isi steps
+   Step content here.
 
-3. `Step 3`
-    - isi steps
-    - isi steps
-4.  Step 4
-    isi steps
+2. ## Heading title
+
+   Step content here.
+
+3. `Code title`
+   - Item one
+   - Item two
+
+4. No title, just content.
 :::
 ```
 
-### Variasi Penulisan
+> [!NOTE]
+> Add a blank line after a plain text title to prevent it from being parsed as a heading.
 
-| Variasi | Contoh | Keterangan |
-|---------|--------|------------|
-| Teks biasa | `1. Step 1` | Judul berupa teks biasa |
-| Heading | `2. ## Step 2` | Judul berupa heading (lebih besar) |
-| Inline code | `3. Step 3` | Judul berupa inline code |
-| Tanpa judul | `4.` | Langsung konten tanpa judul |
+## Title Variants
+
+| Variant | Example | Result |
+| --- | --- | --- |
+| Plain text | `1. Step title` | Regular text title |
+| Heading | `2. ## Step title` | Larger heading title |
+| Inline code | `3. \`Step title\`` | Code-styled title |
+| No title | `4.` | Content only, no title |
 
 ## Preview
 
 :::steps
-1. Step 1
-  
-   isi steps
+1. Plain text title
 
-2. ## Step 2
-   isi steps
+   Step content here.
 
-3. `Step 3`
-    - isi steps
-    - isi steps
-4.  Step 4
-    isi steps
+2. ## Heading title
+
+   Step content here.
+
+3. `Code title`
+   - Item one
+   - Item two
+
+4. No title, just content.
 :::
 
-## Aturan Penulisan
+## Notes
 
-| Aturan | Keterangan |
-|--------|------------|
-| Pembungkus | Gunakan `:::steps` dan tutup dengan `:::` |
-| Setiap langkah | Tulis sebagai ordered list (`1.`, `2.`, `3.`, dst) |
-| Judul | Opsional — bisa teks biasa, heading (`##`/`###`), atau inline code |
-| Konten | Bisa berupa paragraf, list, code block, atau komponen lain |
-| Indentasi | Gunakan indentasi 2 atau 4 spasi untuk konten di dalam langkah |
-
-## Catatan
-
-- Penomoran akan muncul secara otomatis (`1.`, `2.`, `3.`, dst)
-- Judul langkah bersifat opsional — bisa diisi atau dikosongi
-- Steps bisa berisi callout, code block, list, atau komponen lain di dalamnya
-- Steps adalah komponen block, jadi harus ditulis di baris sendiri
+- Numbering is automatic — always start from `1.`
+- Step content can include paragraphs, lists, code blocks, and other components
+- Use 2 or 4 spaces to indent content inside a step
+- Must be written as a block-level element, not inline
