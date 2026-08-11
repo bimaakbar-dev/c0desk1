@@ -30,6 +30,9 @@ export const satteriQuote = defineMdastPlugin({
       type: "blockquote",
       data: {
         hName: "blockquote",
+        hProperties: {
+          className: ["quote-body"],
+        },
       },
       children: blockquoteChildren,
     };
@@ -38,6 +41,9 @@ export const satteriQuote = defineMdastPlugin({
       type: "paragraph",
       data: {
         hName: "figcaption",
+        hProperties: {
+          className: ["quote-footer"],
+        },
       },
       children: figcaptionChildren.flatMap((p: any) => p.children),
     };
@@ -49,6 +55,9 @@ export const satteriQuote = defineMdastPlugin({
 
     ctx.setProperty(node, "data", {
       hName: "figure",
+      hProperties: {
+        className: ["quote"],
+      },
     });
 
     ctx.setProperty(node, "children", newChildren);
