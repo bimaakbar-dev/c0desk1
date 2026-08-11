@@ -1,12 +1,11 @@
 ---
 // src/components/docs/mobile/MobileHeader.astro
-import Container from "./ui/Container.astro";
+import Container from "@ui/Container.astro";
 import Icon from "@ui/Icons.astro";
 import Logo from "@ui/Logo.astro";
-import SearchBar from "./ui/SearchBar.astro";
-// import AI from "./AI.astro";
+import SearchBar from "@ui/SearchBar.astro";
 import Theme from "./Theme.astro";
-import GithubStar from "@components/GithubStar.astro";
+// import GithubStar from "@components/GithubStar.astro";
 
 const $ = {
   header: [
@@ -23,8 +22,6 @@ const $ = {
   right: "flex items-center shrink-0 gap-2",
   iconSize: "size-6"
 };
-
-const label = "Buka Menu";
 ---
 
 <header id="mobile-header" class={$.header}>
@@ -42,15 +39,16 @@ const label = "Buka Menu";
         </div>
         <div class="hidden md:flex gap-2">
           <Theme />
-          <GithubStar repo="c0desk1/c0desk1" />
+          <!--<GithubStar repo="c0desk1/c0desk1" />-->
         </div>
         <div class="flex md:hidden gap-1">
           <label 
             for="mobile-nav-toggle" 
             class="inline-flex items-center justify-center size-8 cursor-pointer text-(--fg-muted) aspect-square hover:bg-(--bg-muted) hover:text-(--fg-strong) rounded-md outline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)"
-            aria-label={label}
-          ><span class="sr-only" set:text="Buka menu navigasi" />
-            <Icon name="menu" class={$.iconSize} />
+            aria-label="Buka Menu"
+          >
+            <span class="sr-only">Buka menu navigasi</span>
+            <Icon name="menu" id="mobile-nav-icon" class={$.iconSize} />
           </label>
         </div>
       </div>
@@ -91,7 +89,24 @@ const label = "Buka Menu";
 
     window.removeEventListener("scroll", toggleHeader);
     window.addEventListener("scroll", toggleHeader, { passive: true });
-    
     toggleHeader();
+
+    const checkbox = document.getElementById("mobile-nav-toggle");
+    const icon = document.getElementById("mobile-nav-icon");
+    const labelEl = document.querySelector('label[for="mobile-nav-toggle"]');
+
+    if (checkbox && icon) {
+      const updateIcon = () => {
+        const isOpen = checkbox.checked;
+        icon.setAttribute("name", isOpen ? "close" : "menu");
+        if (labelEl) {
+          labelEl.setAttribute("aria-label", isOpen ? "Tutup Menu" : "Buka Menu");
+        }
+      };
+
+      updateIcon();
+
+      checkbox.addEventListener("change", updateIcon);
+    }
   })();
 </script>
