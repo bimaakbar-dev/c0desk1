@@ -1,8 +1,17 @@
 // src/pages/feed.atom.ts
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { SITE, ROUTES, PAGINATION } from '@/consts';
-import { getSlug } from '@/lib/utils';
+
+import { 
+  SITE, 
+  ROUTES, 
+  PAGINATION 
+} from '@/consts';
+
+import { 
+  getSlug, 
+  canonicalUrl 
+} from '@/lib/utils';
 
 function escapeXml(str: string): string {
   return str
@@ -49,7 +58,7 @@ export const GET: APIRoute = async (context) => {
       const slug = getSlug(post);
       return {
         ...post.data,
-        url: `${baseUrl}${ROUTES.blog}/${slug}/`,
+        url: canonicalUrl(`${ROUTES.blog}/${slug}`),
         date: post.data.pubDate ?? post.data.lastUpdated ?? new Date(0),
         updated: post.data.lastUpdated ?? post.data.pubDate ?? new Date(0),
         cover: post.data.cover,
@@ -64,7 +73,7 @@ export const GET: APIRoute = async (context) => {
       const slug = getSlug(doc);
       return {
         ...doc.data,
-        url: `${baseUrl}${ROUTES.docs}/${slug}/`,
+        url: canonicalUrl(`${ROUTES.docs}/${slug}`),
         date: doc.data.pubDate ?? doc.data.lastUpdated ?? new Date(0),
         updated: doc.data.lastUpdated ?? doc.data.pubDate ?? new Date(0),
         cover: doc.data.cover,
@@ -90,13 +99,13 @@ export const GET: APIRoute = async (context) => {
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${SITE.lang}">
   <title>${escapeXml(SITE.name)}</title>
   <subtitle>${escapeXml(SITE.description)}</subtitle>
-  <link href="${baseUrl}${ROUTES.feedAtom}" rel="self" type="application/atom+xml"/>
-  <link href="${baseUrl}/" rel="alternate" type="text/html"/>
+  <link href="${canonicalUrl(ROUTES.feedAtom)}" rel="self" type="application/atom+xml"/>
+  <link href="${canonicalUrl()}" rel="alternate" type="text/html"/>
   <updated>${feedUpdated.toISOString()}</updated>
   <id>${feedId}</id>
   <rights>&#xA9; ${new Date().getFullYear()} ${escapeXml(SITE.name)}</rights>
   <generator uri="${baseUrl}" version="1.0">Astro</generator>
-  <icon>${baseUrl}/favicon/favicon.ico</icon>
+  <icon>${canonicalUrl('favicon/favicon.ico')}</icon>
   
   <author>
     <name>${escapeXml(SITE.name)}</name>
