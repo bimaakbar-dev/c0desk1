@@ -216,7 +216,3 @@ PUBLIC_ANALYTICS_YANDEX=
 :::card[Deployment]{href="/docs/deployment/" icon='learn'}
 Deploy your site to production
 :::
-
-:::card[Components]{href="/docs/components/" icon='learn'}
-Explore all custom directives
-:::
