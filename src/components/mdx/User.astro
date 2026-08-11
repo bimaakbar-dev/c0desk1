@@ -1,0 +1,38 @@
+---
+// src/components/mdx/User.astro
+
+interface Props {
+  avatar?: string;
+  role?: string;
+  url?: string;
+  class?: string;
+}
+
+const { avatar, role, url, class: className } = Astro.props;
+const name = await Astro.slots.render('default');
+
+const isExternal = url?.startsWith('http');
+const Tag = url ? 'a' : 'span';
+---
+
+<Tag
+  class={url ? `user-link${className ? ` ${className}` : ''}` : `user${className ? ` ${className}` : ''}`}
+  href={url || undefined}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer nofollow' : undefined}
+>
+  {avatar ? (
+    <img
+      src={avatar}
+      alt={name}
+      class="user-avatar"
+      loading="lazy"
+      width={24}
+      height={24}
+    />
+  ) : (
+    <span class="user-avatar user-avatar-placeholder" aria-hidden="true" />
+  )}
+  <Fragment set:html={name} />
+  {role && <span> · {role}</span>}
+</Tag>
