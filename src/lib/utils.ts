@@ -55,8 +55,7 @@ export function getSlug(entry: any): string {
   if (entry.data?.slug) {
     return entry.data.slug;
   }
-  const id = entry.id || '';
-  return id.split('/').pop() || '';
+  return entry.id?.split('/').pop() ?? '';
 }
 
 export function stripMarkdown(content: string): string {
