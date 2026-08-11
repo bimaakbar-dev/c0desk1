@@ -6,7 +6,6 @@
   --font-sans: var(--font-Geist);
   --font-mono: var(--font-GeistMono);
 
-  /* Refined OKLCH Grays */
   --color-gray-50: oklch(0.98 0.005 250);
   --color-gray-100: oklch(0.96 0.008 250);
   --color-gray-200: oklch(0.92 0.012 250);
@@ -235,7 +234,7 @@
     line-height: 1.6;
     scroll-behavior: smooth;
     scroll-padding-top: var(--scroll-padding);
-    scrollbar-gutter: stable;
+    
     hanging-punctuation: first last;
     font-family: var(--font-sans);
     font-feature-settings:
@@ -283,7 +282,6 @@
 
   input::placeholder,
   textarea::placeholder {
-    opacity: 1;
     color: var(--fg-subtle);
   }
 
@@ -322,7 +320,7 @@
   kbd,
   samp,
   pre {
-    font-size: 14px;
+    font-size: 13px;
     font-family: var(--font-mono);
   }
 
@@ -412,8 +410,8 @@
   }
 
   progress {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
     width: 100%;
     height: 8px;
     overflow: hidden;
