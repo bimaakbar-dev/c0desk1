@@ -1,20 +1,17 @@
 ---
 // src/pages/[slug].astro
-import { 
-  getCollection, 
-  render 
-} from "astro:content";
+import { getCollection, render } from "astro:content";
 
-import { 
-  buildMeta, 
-  IMAGE, 
+import {
+  buildMeta,
+  IMAGE,
   schemaWebPage,
   schemaBreadcrumb,
   ROUTES,
-  SITE 
+  SITE,
 } from "@/consts";
 
-import { formatDate } from '@lib/utils';
+import { formatDate, getSlug } from "@/lib/utils";
 import { components } from "@/components/mdx/MDXComponents";
 
 import Layout from "@/layouts/Layout.astro";
@@ -23,11 +20,11 @@ import Container from "@ui/Container.astro";
 
 export async function getStaticPaths() {
   const legalEntries = await getCollection("legal", ({ data }) => !data.seo?.noIndex);
-  
+
   return legalEntries.map((entry) => ({
-    params: { slug: entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '') },
+    params: { slug: getSlug(entry) },
     props: { entry },
-    cacheKey: (entry as any).digest
+    cacheKey: (entry as any).digest,
   }));
 }
 
@@ -39,18 +36,20 @@ if (!entry) {
 
 const { Content } = await render(entry);
 
-const currentSlug = entry.data.slug || entry.id.replace(/\.(md|mdx)$/, '');
+const currentSlug = getSlug(entry);
 const baseUrl = SITE.url.replace(/\/$/, "");
 const currentUrl = `${baseUrl}/${currentSlug}/`;
 
 let pageType: "PrivacyPolicy" | "TermsOfService" | "WebPage" = "WebPage";
 if (currentSlug.includes("privacy")) pageType = "PrivacyPolicy";
-else if (currentSlug.includes("terms") || currentSlug.includes("service")) pageType = "TermsOfService";
+else if (currentSlug.includes("terms") || currentSlug.includes("service"))
+  pageType = "TermsOfService";
 
 const breadcrumbName = entry.data.title;
-const metaDescription = entry.data.seo?.description 
-  ?? entry.data.description 
-  ?? `Read ${entry.data.title} full at ${SITE.name}.`;
+const metaDescription =
+  entry.data.seo?.description ??
+  entry.data.description ??
+  `Read ${entry.data.title} full at ${SITE.name}.`;
 
 const keywords = entry.data.tags || [
   entry.data.title.toLowerCase(),
@@ -74,13 +73,11 @@ const pageSchema = [
     type: pageType,
     dateModified: entry.data.lastUpdated?.toISOString(),
     image: {
-      url: SITE.logo.startsWith('http') 
-        ? SITE.logo 
-        : `${baseUrl}${SITE.logo}`,
+      url: SITE.logo.startsWith("http") ? SITE.logo : `${baseUrl}${SITE.logo}`,
       width: IMAGE.logo.width,
       height: IMAGE.logo.height,
-      caption: entry.data.title
-    }
+      caption: entry.data.title,
+    },
   }),
   schemaBreadcrumb([
     { name: "Beranda", url: `${baseUrl}${ROUTES.home}` },
@@ -90,12 +87,14 @@ const pageSchema = [
 
 const $ = {
   main: "w-full min-w-0 flex-1",
-  divider: "bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8",
+  divider:
+    "bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8",
   header: "mb-6 md:mb-8",
-  title: "mb-4 text-heading-32 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)",
+  title:
+    "mb-4 text-heading-32 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)",
   meta: "justify-center items-center gap-4 space-y-2 text-sm text-(--fg-muted)",
-  description: "text-sm text-(--fg-muted)"
-}
+  description: "text-sm text-(--fg-muted)",
+};
 ---
 
 <Layout meta={metaProps} schema={pageSchema}>
@@ -111,9 +110,9 @@ const $ = {
             <div class={$.meta}>
               {entry.data.lastUpdated && (
                 <p>
-                  <time 
-                    data-pagefind-meta="date" 
-                    data-pagefind-sort="date" 
+                  <time
+                    data-pagefind-meta="date"
+                    data-pagefind-sort="date"
                     datetime={entry.data.lastUpdated.toISOString()}
                   >
                     Last updated: {formatDate(entry.data.lastUpdated)}
@@ -126,7 +125,7 @@ const $ = {
             </div>
           </header>
         </Container>
-        <div class={$.divider} />
+        <hr class={$.divider} />
         <Container size="md">
           <div class="prose">
             <Content components={components} />
