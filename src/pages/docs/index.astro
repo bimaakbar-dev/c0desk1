@@ -86,50 +86,55 @@ const $ = {
 ---
 
 <Layout meta={meta} schema={schema}>
-  <DocsHero
-    title="Welcome to My Docs"
-    description="Everything you need to know about my project."
-    primaryText="Start Reading"
-    primaryHref={startReadingHref}
-    secondaryText="Read Blog"
-    secondaryHref={ROUTES.blog}
-  />
-  <Section size="md" class="py-12 lg:py-16">
-    <Container size="lg">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {SIDEBAR_CONFIG.map((config) => {
-          const categoryDocs = docsByCategory[config.category] ?? [];
-          if (categoryDocs.length === 0) return null;
+  <main id="main-content" class="w-full min-w-0 flex-1">
+      <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+        <DocsHero
+          title="Welcome to My Docs"
+          description="Everything you need to know about my project."
+          primaryText="Start Reading"
+          primaryHref={startReadingHref}
+          secondaryText="Read Blog"
+          secondaryHref={ROUTES.blog}
+        />
+        <Section size="md" class="py-12 lg:py-16">
+          <Container size="lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        	  {SIDEBAR_CONFIG.map((config) => {
+                const categoryDocs = docsByCategory[config.category] ?? [];
+                if (categoryDocs.length === 0) return null;
 
-          const firstDoc = categoryDocs[0];
-          const mainHref = docUrl(firstDoc);
+                const firstDoc = categoryDocs[0];
+                const mainHref = docUrl(firstDoc);
 
-          return (
-            <div class={$.card}>
-              <h2 class={$.cardTitle}>{config.label}</h2>
-              <p class={$.cardDesc}>
-                Explore {categoryDocs.length} articles in {config.label.toLowerCase()}.
-              </p>
+                return (
+                  <div class={$.card}>
+                    <h2 class={$.cardTitle}>{config.label}</h2>
+                    <p class={$.cardDesc}>
+                      Explore {categoryDocs.length} articles in {config.label.toLowerCase()}.
+                  </p>
 
-              <div class={$.linkList}>
-                {categoryDocs.slice(0, 3).map((doc) => (
-                  <a href={docUrl(doc)} class={$.linkItem}>
-                    <Icon name="file-text" class="size-4 shrink-0" />
-                    <span class="truncate">{doc.data.title}</span>
+                  <div class={$.linkList}>
+                    {categoryDocs.slice(0, 3).map((doc) => (
+                      <a href={docUrl(doc)} aria-label="view-document" class={$.linkItem}>
+                        <Icon name="file-text" class="size-4 shrink-0" />
+                        <span class="truncate">{doc.data.title}</span>
+                      </a>
+                    ))}
+                  </div>
+
+                  <a
+                    href={mainHref}
+                    aria-label="view-all"
+                    class="mt-auto mt-4 text-label-14 font-medium flex items-center gap-1"
+                  >
+                  View all <Icon name="arrow-right" class="size-4" />
                   </a>
-                ))}
-              </div>
-
-              <a
-                href={mainHref}
-                class="mt-auto pt-4 text-label-14 font-medium text-brand flex items-center gap-1"
-              >
-                View all <Icon name="arrow-right" class="size-4" />
-              </a>
-            </div>
-          );
-        })}
-      </div>
-    </Container>
-  </Section>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+    </div>
+  </main>
 </Layout>
