@@ -5,15 +5,20 @@ import {
   SITE,
   buildMeta,
 } from "@/consts";
+
 import { NOT_FOUND_PAGE } from "@/config/pages/404";
 
 import Layout from "@/layouts/Layout.astro";
 import Section from "@ui/Section.astro";
 import Container from "@ui/Container.astro";
-import Button from "@/components/ui/Button.astro";
-import Icons from "@/components/ui/Icons.astro";
+import Button from "@ui/Button.astro";
+import Icons from "@ui/Icons.astro";
 
-const { title, description, button } = NOT_FOUND_PAGE;
+const { 
+  title, 
+  description, 
+  button 
+} = NOT_FOUND_PAGE;
 
 const meta = buildMeta({
   title: title,
@@ -21,6 +26,8 @@ const meta = buildMeta({
   canonical: `${SITE.url}/404/`,
   noindex: true,
 });
+
+const homeUrl = SITE.url;
 ---
 
 <Layout hideHeader hideFooter meta={meta}>
@@ -34,7 +41,7 @@ const meta = buildMeta({
           {description}
         </p>
         <Button
-          href={`${SITE.url}${ROUTES.home}`}
+          href={homeUrl}
           variant="primary"
           size="md"
           prefix={<Icons name="arrow-left" class="size-4" />}
