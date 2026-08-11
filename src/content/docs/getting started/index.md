@@ -17,43 +17,44 @@ seo:
 lastUpdated: 2026-08-10T19:30:00Z
 ---
 
-**Unloyd** is a modern, open‑source template for building fast, content‑rich documentation sites and blogs with [Astro](https://astro.build), [TailwindCSS](https://tailwindcss.com), and [Sätteri](https://satteri.bruits.org).
+**Unloyd** is an open-source template for building fast, content-rich documentation sites and blogs with [Astro](https://astro.build), [TailwindCSS](https://tailwindcss.com), and [Sätteri](https://satteri.bruits.org). Clone, customize, and deploy.
 
-It provides a complete foundation. Ready to clone, customize, and deploy.
+---
 
-## What Unloyd Offers
+## What's Included
 
 | Feature | Description |
-|---------|-------------|
-| **Documentation System** | Full-featured docs with sidebar, TOC, and search |
-| **Blog Engine** | Blog with pagination, archive, RSS, and author profiles |
-| **Custom Directives** | Callout, Steps, Tabs, Filetree, Accordion, Grid, Card, and more |
-| **Dark Mode** | Built-in theme switcher |
-| **SEO Ready** | Open Graph, Twitter Cards, structured data |
-| **Contact Form** | Working form with Formspree integration |
+| --- | --- |
+| Documentation system | Sidebar, TOC, and search |
+| Blog engine | Pagination, archive, RSS, and author profiles |
+| Custom directives | Callout, Steps, Tabs, Filetree, Accordion, Card, and more |
+| Dark mode | Built-in theme switcher |
+| SEO | Open Graph, Twitter Cards, and structured data |
+| Contact form | Formspree integration |
 
-## Who Is This For?
+---
 
-- **Developers** building documentation for their projects
-- **Content creators** publishing tutorials, guides, and articles
-- **Open source projects** needing a clean, modern docs site
-- **Anyone** who wants a fast, beautiful, and customizable static site
-
-## Get the Template
+## Get Started
 
 :::steps
 1. Fork the [Unloyd repository](https://github.com/unloyd/unloyd)
 2. Clone your fork locally
-3. run `npm install`
-4. run `npm run dev`
+3. Run `npm install`
+4. Run `npm run dev`
 :::
 
+---
 
-## Explore Further
+## Next Steps
 
-- [Tech Stack](/docs/tech-stack/) — See the technologies behind Unloyd
-- [Guide](/docs/guide/) — Learn how to use and customize the template
-- [Components](/docs/components/) — Explore all custom directives
+:::card[Quick Start]{href="/docs/quick-start/" icon='learn'}
+Detailed setup and local development guide
+:::
 
+:::card[Tech Stack]{href="/docs/tech-stack/" icon='learn'}
+Technologies behind Unloyd
+:::
 
-Happy building! 🚀
+:::card[Components]{href="/docs/components/" icon='learn'}
+Explore all custom directives
+:::
