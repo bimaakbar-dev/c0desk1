@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { ROUTES } from "@/consts";
+import { getSlug } from "@/lib/utils";
 
 import Icon from "@ui/Icons.astro";
 
@@ -12,8 +13,10 @@ interface Props {
 const { prev, next } = Astro.props;
 
 const getHref = (item: CollectionEntry<"blog">) => {
-  const slug = item.data.slug || item.id.replace(/\.(md|mdx)$/, '');
-  return `${ROUTES.blog}/${slug}/`;
+  const slug = getSlug(item);
+  const baseBlogRoute = ROUTES.blog.replace(/\/$/, '');
+  if (!slug) return `${baseBlogRoute}/`;
+  return `${baseBlogRoute}/${slug}/`;
 };
 
 const $ = {
