@@ -1,42 +1,34 @@
 ---
-// src/components/docs/DocsNavbar.astro
 import { NAV } from "@/consts";
 import Select from "@ui/Select.astro";
 
-const currentPath = Astro.url.pathname.endsWith('/') 
-  ? Astro.url.pathname 
-  : `${Astro.url.pathname}/`;
+const currentPath = Astro.url.pathname;
 
-const navItems = NAV.navBar.map((item) => {
-  const isExternal = item.isExternal || item.href.startsWith('http') || item.href.startsWith('#');
-  const formattedHref = !isExternal && !item.href.endsWith('/') 
-    ? `${item.href}/` 
-    : item.href;
-
-  return {
-    label: item.label,
-    value: item.label.toLowerCase(),
-    href: formattedHref,
-    icon: item.icon,
-    isExternal: item.isExternal,
-  };
-});
+const navItems = NAV.navBar.map((item) => ({
+  label: item.label,
+  value: item.label.toLowerCase(),
+  href: item.href,
+  icon: item.icon,
+  isExternal: item.isExternal,
+}));
 
 const activeNavItem = navItems.find((item) => {
-  if (item.isExternal || item.href.startsWith('http') || item.href.startsWith('#')) {
-    return false;
-  }
-  return currentPath === item.href;
+  if (item.isExternal || item.href.startsWith('http') || item.href.startsWith('#')) return false;
+  const cleanHref = item.href.replace(/\/$/, "");
+  const cleanPath = currentPath.replace(/\/$/, "");
+  if (cleanHref === "") return cleanPath === "";
+  return cleanPath === cleanHref || cleanPath.startsWith(`${cleanHref}/`);
 });
 ---
 
 <header>
-  <div class="flex flex-col px-4">
-    <Select 
+  <div class="flex flex-col gap-3 px-4">
+    <Select
+      id="docs-navigasi"
       size="md"
-      options={navItems} 
-      selectedValue={activeNavItem?.value} 
-      placeholder="Select Page"
+      options={navItems}
+      selectedValue={activeNavItem?.value}
+      placeholder="Navigasi ke..."
     />
   </div>
 </header>
