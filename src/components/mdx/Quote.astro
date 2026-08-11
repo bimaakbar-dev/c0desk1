@@ -1,0 +1,23 @@
+---
+// src/components/mdx/Quote.astro
+
+interface Props {
+  user?: string;
+  avatar?: string;
+  role?: string;
+  url?: string;
+}
+
+const { user, avatar, role, url } = Astro.props;
+---
+
+<figure>
+  <blockquote>
+    <slot />
+  </blockquote>
+  {user && (
+    <figcaption>
+      <User avatar={avatar} role={role} url={url}>{user}</User>
+    </figcaption>
+  )}
+</figure>
