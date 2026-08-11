@@ -11,8 +11,8 @@ interface Props {
 const { user, avatar, role, url } = Astro.props;
 ---
 
-<figure>
-  <blockquote>
+<figure class="quote">
+  <blockquote class="quote-body">
     <slot />
   </blockquote>
   {user && (
