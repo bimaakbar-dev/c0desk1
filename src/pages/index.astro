@@ -1,103 +1,108 @@
 ---
 // src/pages/index.astro
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 import {
+  ROUTES,
   buildMeta,
+  SIDEBAR_CONFIG,
+  SITE,
   schemaWebPage,
   schemaBreadcrumb,
-  ROUTES,
-  SITE,
 } from "@/consts";
 
 import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/ui/Container.astro";
-import Section from "@/components/ui/Section.astro";
-import Hero from "@/components/Hero.astro";
-import LatestBlog from '@/components/blog/BlogLatest.astro';
-import Button from '@/components/ui/Button.astro';
-import Icons from '@/components/ui/Icons.astro';
-import HeroImage from '@/assets/images/logo.webp';
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+import DocsHero from "@/components/docs/DocsHero.astro";
+import Icon from "@ui/Icons.astro";
 
-const allBlog = await getCollection('blog', ({ data }) => !data.draft);
+const allDocs = await getCollection("docs", ({ data }) => !data.draft);
+const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
-const latestBlog = allBlog
-  .sort((a, b) => {
-    const dateA = a.data.pubDate || new Date(0);
-    const dateB = b.data.pubDate || new Date(0);
-    return dateB.getTime() - dateA.getTime();
-  })
-  .slice(0, 6);
-
-const rootUrl = `${SITE.url}/`;
+const docsByCategory = Object.groupBy(
+  sortedDocs,
+  (doc) => doc.data.category ?? "Uncategorized"
+) as Partial<Record<string, typeof allDocs>>;
 
 const meta = buildMeta({
-  description: SITE.description,
-  canonical: rootUrl,
+  title: SITE.name,
+  description: "Explore our guides, component references, and API documentation.",
+  canonical: SITE.url,
   ogType: "website",
-  keywords: [
-    "c0desk1",
-    "unloyd",
-    "bima akbar",
-    "tutorial", 
-    "modding", 
-    "pop culture", 
-    "anime", 
-    "game"],
 });
 
 const schema = [
   schemaWebPage({
     title: SITE.name,
     description: SITE.description,
-    url: rootUrl,
+    url: SITE.url,
   }),
-  schemaBreadcrumb([
-    { name: "Beranda", url: rootUrl },
-  ]),
+  schemaBreadcrumb([{ name: "Beranda", url: SITE.url }]),
 ];
 
 const $ = {
-  main: "w-full min-w-0 flex-1",
-}
+  card: [
+    "group flex flex-col gap-3 p-6 rounded-xl ring-1 ring-(--border)",
+    "bg-(--bg-muted)/50 hover:bg-(--bg-muted) no-underline",
+  ].join(" "),
+  cardTitle: "text-title-20 font-semibold text-(--fg-strong)",
+  cardDesc: "text-body-14 text-(--fg-muted)",
+  linkList: "mt-4 space-y-2",
+  linkItem:
+    "flex items-center gap-2 text-label-14 text-(--fg-muted) hover:text-(--fg-strong)",
+};
 ---
 
 <Layout {meta} {schema} isHome>
-  <main id="main-content" class={$.main}>
-    <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
-      <Container size="xl">
-        <Section size="sm">
-          <Hero 
-            tagline="v1.0.0"
-            image={HeroImage}
-            imageAlt="Hero illustration"
-            title={SITE.description}
-            action={`${ROUTES.docs}/`}
-            actionLabel='Get Started'
-            action2={`${ROUTES.blog}/`}
-            action2Label='Read Blog' />
-        </Section>
-      </Container>
-      <Container size="xl">
-        <Section size="sm">
-          {latestBlog && latestBlog.length > 0 && (
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
-                Terbaru.
-              </h2>
-              <Button
-                href={`${ROUTES.blog}/`}
-                variant='ghost'
-                size='md'
-                suffix={<Icons name="arrow-right" class='size-4.5'/>}
-                class="text-sm"
+  <DocsHero
+    title="Welcome to My Docs"
+    description="Everything you need to know about my project."
+    primaryText="Start Reading"
+    primaryHref={`${ROUTES.docs}/introduction/`}
+  />
+  <Section size="md" class="py-12 lg:py-16">
+    <Container size="lg">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {SIDEBAR_CONFIG.map((config) => {
+          const categoryDocs = docsByCategory[config.category] ?? [];
+          if (categoryDocs.length === 0) return null;
+
+          const firstDoc = categoryDocs[0];
+          const mainHref = `${ROUTES.docs}/${
+            firstDoc.data.slug ?? firstDoc.id.replace(/\.(md|mdx)$/, "")
+          }/`;
+
+          return (
+            <div class={$.card}>
+              <h2 class={$.cardTitle}>{config.label}</h2>
+              <p class={$.cardDesc}>
+                Explore {categoryDocs.length} articles in {config.label.toLowerCase()}.
+              </p>
+
+              <div class={$.linkList}>
+                {categoryDocs.slice(0, 3).map((doc) => {
+                  const docHref = `${ROUTES.docs}/${
+                    doc.data.slug ?? doc.id.replace(/\.(md|mdx)$/, "")
+                  }/`;
+                  return (
+                    <a href={docHref} class={$.linkItem}>
+                      <Icon name="file-text" class="size-4 shrink-0" />
+                      <span class="truncate">{doc.data.title}</span>
+                    </a>
+                  );
+                })}
+              </div>
+
+              <a
+                href={mainHref}
+                class="mt-auto pt-4 text-label-14 font-medium text-brand flex items-center gap-1"
               >
-                Lihat Semua
-              </Button>
+                View all <Icon name="arrow-right" class="size-4" />
+              </a>
             </div>
-            <LatestBlog items={latestBlog} />
-          )}
-        </Section>
-      </Container>
-    </div>
-  </main>
+          );
+        })}
+      </div>
+    </Container>
+  </Section>
 </Layout>
