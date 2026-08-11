@@ -1,87 +1,87 @@
 ---
 slug: "callout"
 title: "Callout"
-description: "Callout digunakan untuk menyorot informasi penting dengan warna dan ikon berbeda."
+description: "Highlight important information with colored callout blocks."
 category: "Components"
 order: 2
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T03:20:00Z
 seo:
-  title: "Callout — Komponen Kustom"
-  description: "Callout digunakan untuk menyorot informasi penting dengan warna dan ikon berbeda."
-  noIndex: true
+  title: "Callout"
+  description: "Highlight important information with colored callout blocks."
+  noIndex: false
 ---
 
-Callout digunakan untuk menyorot informasi penting dengan warna dan ikon berbeda. Cocok untuk catatan, tips, peringatan, dan informasi penting lainnya.
+Callout blocks highlight important information with a colored accent and icon. They work in both `.md` and `.mdx` files — the syntax is identical in both.
 
-## Sintaks
+---
 
-Gunakan format blockquote dengan `[!TYPE]` di awal:
+## Syntax
 
 ```md
 > [!NOTE]
-> Ini adalah catatan penting.
+> General information.
 
 > [!TIP]
-> Gunakan ini untuk hasil lebih baik.
-
-> [!WARNING]
-> Jangan lupa backup database.
+> A helpful suggestion.
 
 > [!IMPORTANT]
-> Ini sangat penting untuk diperhatikan.
+> Something critical to know.
+
+> [!WARNING]
+> Proceed with caution.
 
 > [!CAUTION]
-> Hati-hati dengan langkah ini.
+> A stronger warning.
 
 > [!DANGER]
-> Ini berbahaya.
+> This may cause irreversible effects.
 ```
+
+---
 
 ## Preview
 
 > [!NOTE]
-> Ini adalah catatan penting.
+> General information.
 
 > [!TIP]
-> Gunakan ini untuk hasil lebih baik.
-
-> [!WARNING]
-> Jangan lupa backup database.
+> A helpful suggestion.
 
 > [!IMPORTANT]
-> Ini sangat penting untuk diperhatikan.
+> Something critical to know.
+
+> [!WARNING]
+> Proceed with caution.
 
 > [!CAUTION]
-> Hati-hati dengan langkah ini.
+> A stronger warning.
 
 > [!DANGER]
-> Ini berbahaya.
+> This may cause irreversible effects.
 
-## Varian
+---
 
-| Varian | Warna | Ikon | Cocok untuk |
-|--------|-------|------|-------------|
-| `NOTE` | Muted | ℹ️ | Informasi umum |
-| `TIP` | Aksen | 💡 | Tips dan saran |
-| `IMPORTANT` | Ungu | ⭐ | Hal penting |
-| `WARNING` | Kuning | ⚠️ | Peringatan |
-| `CAUTION` | Oranye | 🚨 | Hati-hati |
-| `DANGER` | Merah | 🔥 | Berbahaya |
+## Variants
 
-## Atribut
+| Type | Color |
+| --- | --- |
+| `NOTE` | Muted |
+| `TIP` | Accent |
+| `IMPORTANT` | Purple |
+| `WARNING` | Yellow |
+| `CAUTION` | Orange |
+| `DANGER` | Red |
 
-Callout tidak memiliki atribut tambahan. Cukup tulis `[!TYPE]` di awal blockquote.
+---
 
-## Catatan
+## Notes
 
-- Tipe callout harus ditulis dengan huruf kapital: `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`, `DANGER`
-- Spasi setelah `>` dan `[!TYPE]` bersifat opsional
-- Konten bisa terdiri dari beberapa paragraf
-- Callout juga bisa berisi list, code block, dan komponen lain di dalamnya
-- Callout adalah komponen block, jadi harus ditulis di baris sendiri
+- Type must be uppercase: `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`, `DANGER`
+- Content can include multiple paragraphs, lists, and code blocks
+- Must be written as a block-level element, not inline
