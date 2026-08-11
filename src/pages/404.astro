@@ -6,6 +6,10 @@ import {
   buildMeta,
 } from "@/consts";
 
+import { 
+  canonicalUrl 
+} from "@/lib/utils";
+
 import { NOT_FOUND_PAGE } from "@/config/pages/404";
 
 import Layout from "@/layouts/Layout.astro";
@@ -23,11 +27,11 @@ const {
 const meta = buildMeta({
   title: title,
   description: description,
-  canonical: `${SITE.url}/404/`,
+  canonical: canonicalUrl("404"),
   noindex: true,
 });
 
-const homeUrl = SITE.url;
+const homeUrl = canonicalUrl();
 ---
 
 <Layout hideHeader hideFooter meta={meta}>
