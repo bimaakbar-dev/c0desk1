@@ -27,7 +27,7 @@ export const satteriQuote = defineMdastPlugin({
     }
 
     const blockquote = {
-      type: "element",
+      type: "blockquote",
       data: {
         hName: "blockquote",
       },
@@ -35,20 +35,22 @@ export const satteriQuote = defineMdastPlugin({
     };
 
     const figcaption = {
-      type: "element",
+      type: "paragraph",
       data: {
         hName: "figcaption",
       },
-      children: figcaptionChildren,
+      children: figcaptionChildren.flatMap((p: any) => p.children),
     };
+
+    const newChildren = [
+      blockquote,
+      ...(figcaptionChildren.length > 0 ? [figcaption] : []),
+    ];
 
     ctx.setProperty(node, "data", {
       hName: "figure",
     });
 
-    ctx.setProperty(node, "children", [
-      blockquote,
-      ...(figcaptionChildren.length > 0 ? [figcaption] : []),
-    ]);
+    ctx.setProperty(node, "children", newChildren);
   },
 });
