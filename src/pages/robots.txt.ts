@@ -6,10 +6,13 @@ import {
   SEO 
 } from '@/consts';
 
+import { canonicalUrl } from '@/lib/utils';
+
 export const GET: APIRoute = ({ site }) => {
   const isIndexable = SEO.robots.index;
   const baseUrl = (site?.href || SITE.url).replace(/\/$/, '');
-  const sitemapUrl = `${baseUrl}${ROUTES.sitemap}`;
+  
+  const sitemapUrl = canonicalUrl(ROUTES.sitemap).replace(/\/$/, '');
   const pureHost = baseUrl.replace(/^https?:\/\//, '');
 
   const robotsTxt = `
@@ -17,9 +20,9 @@ User-agent: *
 ${isIndexable ? 'Allow: /' : 'Disallow: /'}
 
 Disallow: /api/
-Disallow: /_astro/
+# Disallow: /_astro/
 Disallow: /*?*
-Disallow: /*.json$
+# Disallow: /*.json$
 
 Sitemap: ${sitemapUrl}
 
