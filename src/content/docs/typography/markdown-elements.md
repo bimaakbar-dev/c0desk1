@@ -11,7 +11,7 @@ author:
   url: "https://github.com/unloyd"
   email: "hello@unloyd.web.id"
 seo:
-  title: "Markdown Elements — Unloyd"
+  title: "Markdown Elements"
   description: "Visual reference for all standard Markdown elements in Unloyd."
   noIndex: false
 ---
