@@ -2,8 +2,16 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-import { SITE, ROUTES, PAGINATION } from '@/consts';
-import { getSlug } from '@/lib/utils';
+import { 
+  SITE, 
+  ROUTES, 
+  PAGINATION 
+} from '@/consts';
+
+import { 
+  getSlug, 
+  canonicalUrl 
+} from '@/lib/utils';
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
@@ -41,7 +49,7 @@ export const GET: APIRoute = async (context) => {
       const slug = getSlug(post);
       return {
         ...post.data,
-        url: `${baseUrl}${ROUTES.blog}/${slug}/`,
+        url: canonicalUrl(`${ROUTES.blog}/${slug}`),
         date: post.data.pubDate || post.data.lastUpdated || new Date(0),
         updated: post.data.lastUpdated || post.data.pubDate || new Date(0),
         cover: post.data.cover,
@@ -56,7 +64,7 @@ export const GET: APIRoute = async (context) => {
       const slug = getSlug(doc);
       return {
         ...doc.data,
-        url: `${baseUrl}${ROUTES.docs}/${slug}/`,
+        url: canonicalUrl(`${ROUTES.docs}/${slug}`),
         date: doc.data.pubDate || doc.data.lastUpdated || new Date(0),
         updated: doc.data.lastUpdated || doc.data.pubDate || new Date(0),
         cover: doc.data.cover,
@@ -74,8 +82,8 @@ export const GET: APIRoute = async (context) => {
   const feed = {
     version: 'https://jsonfeed.org/version/1.1',
     title: SITE.name,
-    home_page_url: `${baseUrl}/`,
-    feed_url: `${baseUrl}${ROUTES.feedJson}`,
+    home_page_url: canonicalUrl(),
+    feed_url: canonicalUrl(ROUTES.feedJson),
     description: SITE.description,
     authors: [
       {
