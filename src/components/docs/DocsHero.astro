@@ -1,13 +1,12 @@
 ---
-// src/components/docs/DocsHero.astro
 import { ROUTES } from "@/consts";
+
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
 
 import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
 import Badge from "@ui/Badge.astro";
-
-import Container from "@ui/Container.astro";
-import Section from "@ui/Section.astro";
 
 interface Props {
   title?: string;
@@ -21,12 +20,12 @@ interface Props {
 
 const {
   title = "Modern Documentation,<br/>Built for Developers",
-  description = "A clean, fast, and customizable documentation template built with Astro, TailwindCSS, and Sätteri. Start building in seconds.",
+  description = "A clean, fast, and customizable documentation template built with Astro, TailwindCSS. Start building in seconds.",
   badge = "",
   primaryText = "Get Started",
   primaryHref = `${ROUTES.docs}/getting-started/`,
-  secondaryText = "View Components",
-  secondaryHref = `${ROUTES.docs}/components/`,
+  secondaryText = "Read Blog",
+  secondaryHref = `${ROUTES.blog}/`,
 } = Astro.props;
 
 const $ = {
