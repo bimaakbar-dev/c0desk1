@@ -1,11 +1,16 @@
 // src/pages/feed.json.ts
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+
 import { 
   SITE, 
   ROUTES, 
   PAGINATION 
 } from '@/consts';
+
+function getSlug(doc: any): string {
+  return doc.slug ?? doc.id.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+}
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
@@ -40,7 +45,7 @@ export const GET: APIRoute = async (context) => {
 
   const rawItems = [
     ...blog.map((post) => {
-      const slug = post.data.slug || post.id.replace(/\.(md|mdx)$/, '');
+      const slug = getSlug(post);
       return {
         ...post.data,
         url: `${baseUrl}${ROUTES.blog}/${slug}/`,
@@ -55,7 +60,7 @@ export const GET: APIRoute = async (context) => {
       };
     }),
     ...docs.map((doc) => {
-      const slug = doc.data.slug || doc.id.replace(/\.(md|mdx)$/, '');
+      const slug = getSlug(doc);
       return {
         ...doc.data,
         url: `${baseUrl}${ROUTES.docs}/${slug}/`,
