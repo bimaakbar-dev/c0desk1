@@ -1,37 +1,52 @@
 ---
 slug: "button"
 title: "Button"
-description: "Button digunakan untuk tombol dengan ikon dan berbagai gaya."
+description: "Inline button with icon and style variants."
 category: "Components"
 order: 9
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T02:45:00Z
 seo:
-  title: "Button — Komponen Kustom"
-  description: "Button digunakan untuk tombol dengan ikon dan berbagai gaya."
-  noIndex: true
+  title: "Button"
+  description: "Inline button with icon and style variants."
+  noIndex: false
 ---
 
-Button digunakan untuk tombol dengan ikon dan berbagai gaya. Cocok untuk link download, tautan eksternal, atau aksi lain yang membutuhkan tombol.
+Button renders an inline link styled as a button, with optional icon and variant.
 
-## Sintaks {#penggunaan-syntak-button}
+---
 
-Gunakan `:button[label]` dengan atribut:
+## Syntax
 
+::::tabs
+:::tab[Markdown]
 ```md
 :button[Download]{url="/" icon="download"}
 
 :button[GitHub]{url="https://github.com" icon="github"}
 
-:button[Lihat Demo]{url="/" variant="primary"}
+:button[View Demo]{url="/" variant="primary"}
 
-:button[Selengkapnya]{url="/" variant="secondary"}
+:button[Learn More]{url="/" variant="secondary"}
 ```
+:::
+:::tab[MDX]
+```mdx
+<Button url="/" icon="download">Download</Button>
+
+<Button url="https://github.com" icon="github">GitHub</Button>
+
+<Button url="/" variant="primary">View Demo</Button>
+
+<Button url="/" variant="secondary">Learn More</Button>
+```
+:::
+::::
 
 ## Preview
 
@@ -39,55 +54,37 @@ Gunakan `:button[label]` dengan atribut:
 
 :button[GitHub]{url="https://github.com" icon="github"}
 
-:button[Lihat Demo]{url="/" variant="primary"}
+:button[View Demo]{url="/" variant="primary"}
 
-:button[Selengkapnya]{url="/" variant="secondary"}
+:button[Learn More]{url="/" variant="secondary"}
 
-## Varian
+## Variants
 
-| Varian | Gaya | Cocok untuk |
-|--------|------|-------------|
-| `primary` | Solid (default) | Aksi utama / CTA |
-| `secondary` | Outline ringan | Aksi sekunder |
-| `success` | Hijau | Berhasil / sukses |
-| `danger` | Merah | Hapus / bahaya |
-| `outline` | Transparan dengan border | Gaya ringan |
-| `ghost` | Transparan tanpa border | Sangat ringan |
+| Variant | Style |
+| --- | --- |
+| `primary` | Solid (default) |
+| `secondary` | Light outline |
+| `success` | Green |
+| `danger` | Red |
+| `outline` | Transparent with border |
+| `ghost` | Transparent, no border |
 
-## Ikon
+---
 
-| Ikon | Data Attribute | Contoh |
-|------|----------------|--------|
-| Download | `icon="download"` | `:button[Download]{icon="download"}` |
-| GitHub | `icon="github"` | `:button[GitHub]{icon="github"}` |
-| Eksternal | `icon="external"` | `:button[Link]{icon="external"}` |
-| Panah | `icon="arrow"` | `:button[Selanjutnya]{icon="arrow"}` |
-| Bintang | `icon="star"` | `:button[Favorit]{icon="star"}` |
-| Info | `icon="info"` | `:button[Info]{icon="info"}` |
-| Peringatan | `icon="warning"` | `:button[Peringatan]{icon="warning"}` |
+## Attributes
 
-## Atribut
+| Attribute | Required | Description |
+| --- | --- | --- |
+| `url` | Yes | Link destination |
+| `icon` | No | Icon name (e.g. `download`, `github`, `external`, `arrow`, `star`) |
+| `variant` | No | Button style (default: `primary`) |
+| `block` | No | Full-width button |
+| `class` | No | Additional CSS classes |
 
-| Atribut | Wajib | Fungsi |
-|---------|-------|--------|
-| `url` | ✅ | Tujuan link (dapat dari `[]` atau `url="..."`) |
-| `icon` | ❌ | Nama ikon (lihat daftar di atas) |
-| `variant` | ❌ | Gaya tombol (default: `primary`) |
-| `block` | ❌ | Tombol lebar penuh |
-| `class` | ❌ | Menambahkan class CSS tambahan |
+## Notes
 
-## Catatan
-
-- Label ditulis di dalam `[]`
-- Jika `url` tidak diberikan di atribut, nilai `[]` akan dianggap sebagai URL
-- Tombol akan terbuka di tab baru jika URL eksternal (http/https)
-- Tombol internal (`/`, `#`) akan terbuka di tab yang sama
-- Ikon akan muncul di sebelah kiri label
-- Tombol bersifat inline, bisa diletakkan di dalam paragraf
-- `block` membuat tombol melebar penuh dan cocok untuk CTA
-
-## Lihat Juga
-
-- [Badge](/docs/badge) — Label kecil dengan warna
-- [User](/docs/user) — Profil pengguna dengan avatar
-- [Callout](/docs/callout) — Menyorot informasi penting
+- Button is an inline component — it can be placed inside a paragraph
+- External URLs (`http`/`https`) open in a new tab automatically
+- Internal URLs (`/`, `#`) open in the same tab
+- Icon appears on the left side of the label
+- `block` makes the button full-width, useful for CTAs
