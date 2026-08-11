@@ -23,7 +23,7 @@ export { satteriGrid } from './satteri-grid';
 
 
 // ===== UTILITY PLUGINS =====
-export { satteriQuote } from './satteri-blockquote';
+export { satteriQuote } from './satteri-quote';
 export { satteriChangelog } from './satteri-changelog';
 export { satteriCodeBlock } from './satteri-code-block';
 export { satteriKbd } from './satteri-kbd';
