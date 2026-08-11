@@ -51,6 +51,14 @@ export function formatDateISO(date: Date | string | number): string {
   return d.toISOString().split('T')[0];
 }
 
+export function getSlug(entry: any): string {
+  if (entry.data?.slug) {
+    return entry.data.slug;
+  }
+  const id = entry.id || '';
+  return id.split('/').pop() || '';
+}
+
 export function stripMarkdown(content: string): string {
   if (!content?.trim()) return '';
 
