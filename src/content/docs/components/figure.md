@@ -1,51 +1,49 @@
 ---
 slug: "figure"
 title: "Figure"
-description: "Figure digunakan untuk menampilkan gambar dengan caption yang mendukung Markdown."
+description: "Image with an optional caption."
 category: "Components"
 order: 10
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T11:21:00Z
 seo:
-  title: "Figure — Komponen Kustom"
-  description: "Figure digunakan untuk menampilkan gambar dengan caption yang mendukung Markdown."
-  noIndex: true
+  title: "Figure"
+  description: "Image with an optional caption."
+  noIndex: false
 ---
 
-Figure digunakan untuk menampilkan gambar dengan caption. Caption ditulis di dalam kurung kurawal `{...}` setelah URL gambar.
+Figure wraps an image in a `<figure>` element with an optional caption. Without a caption, the image renders as a plain `<img>`.
 
-## Sintaks
+---
 
-Tulis gambar seperti biasa dengan `![alt](url)`, lalu tambahkan caption di dalam `{...}`:
+## Syntax
 
+::::tabs
+:::tab[Markdown]
 ```md
-![Gambar bagus](https://placehold.co/600x400){Ini adalah caption gambar}
+![Alt text](https://placehold.co/600x400){This is a caption}
 ```
+:::
+:::tab[MDX]
+```mdx
+<Figure src="https://placehold.co/600x400" alt="Alt text">
+  This is a caption
+</Figure>
+```
+:::
+::::
 
 ## Preview
 
-![Gambar bagus](https://placehold.co/600x400){Ini adalah caption gambar}
+![Alt text](https://placehold.co/600x400){This is a caption}
 
-## Atribut
+## Notes
 
-Figure tidak memiliki atribut tambahan. Cukup tulis caption di dalam `{...}`.
-
-## Catatan
-
-- Caption ditulis di dalam `{...}` setelah URL gambar
-- Caption tidak mendukung Markdown: bold `**text**`, italic `*text*`, dan link `[text](url)`
-- Gambar akan otomatis dibungkus dengan `<figure>` jika ada caption
-- Jika tidak ada caption, gambar tetap `<img>` biasa
-- Caption bersifat opsional — bisa dihilangkan kapan saja
-- Figure adalah komponen block, jadi harus ditulis di baris sendiri
-
-## Lihat Juga
-
-- [Video](/docs/video/) — Embed video dari YouTube, Vimeo, atau lokal
-- [Callout](/docs/callout/) — Menyorot informasi penting
-- [Steps](/docs/steps/) — Panduan langkah-demi-langkah
+- Caption is plain text only — emphasis and links are not supported
+- Caption is optional — without it, the image renders as a plain `<img>`
+- Must be written as a block-level element, not inline
