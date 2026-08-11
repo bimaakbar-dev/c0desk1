@@ -1,27 +1,27 @@
 ---
 slug: "video"
 title: "Video"
-description: "Video digunakan untuk menampilkan video dari YouTube, Vimeo, atau file lokal."
+description: "Embed video from YouTube, Vimeo, or a local file."
 category: "Components"
 order: 11
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T11:15:00Z
 seo:
-  title: "Video — Komponen Kustom"
-  description: "Video digunakan untuk menampilkan video dari YouTube, Vimeo, atau file lokal."
-  noIndex: true
+  title: "Video"
+  description: "Embed video from YouTube, Vimeo, or a local file."
+  noIndex: false
 ---
 
-Video digunakan untuk menampilkan video dari YouTube, Vimeo, atau file lokal. Mendukung berbagai platform dan format video.
+Video embeds a YouTube, Vimeo, or local video file. Platform is detected automatically from the URL.
 
-## Sintaks
+---
 
-Gunakan `::video[url]` dengan atribut opsional:
+## Syntax
 
 ```md
 ::video[https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ]
@@ -31,35 +31,25 @@ Gunakan `::video[url]` dengan atribut opsional:
 
 ::video[https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ]
 
-## Platform yang Didukung
+## Supported Platforms
 
-| Platform | URL Contoh | Keterangan |
-|----------|------------|------------|
-| YouTube | `youtube.com/watch?v=ID` | Otomatis di-embed |
-| YouTube Shorts | `youtube.com/shorts/ID` | Otomatis di-embed (9:16) |
-| YouTube | `youtu.be/ID` | Short URL otomatis di-embed |
-| Vimeo | `vimeo.com/123456789` | Otomatis di-embed |
-| File Lokal | `/videos/file.mp4` | Menggunakan `<video>` native |
+| Platform | Format |
+| --- | --- |
+| YouTube | `youtube.com/watch?v=ID` or `youtu.be/ID` |
+| YouTube Shorts | `youtube.com/shorts/ID` — embedded as 9:16 |
+| Vimeo | `vimeo.com/123456789` |
+| Local file | `/videos/file.mp4` — renders as native `<video>` |
 
-## Atribut
+## Attributes
 
-| Atribut | Fungsi |
-|---------|--------|
-| `width` | Lebar video (default: `100%`) |
-| `height` | Tinggi video (default: `400`) |
-| `title` | Judul untuk aksesibilitas (default: `"Video embed"`) |
+| Attribute | Description |
+| --- | --- |
+| `width` | Video width (default: `100%`) |
+| `height` | Video height (default: `400`) |
+| `title` | Accessibility label (default: `"Video embed"`) |
 
-## Catatan
+## Notes
 
-- URL ditulis di dalam `[]`
-- YouTube Shorts otomatis dikenali dan di-embed
-- Video lokal (`/videos/...`) akan menggunakan elemen `<video>` native
-- Video responsif dengan aspect-ratio 16:9
-- Tombol fullscreen tersedia di semua platform
-- `title` digunakan untuk aksesibilitas screen reader
-
-## Lihat Juga
-
-- [Figure](/docs/figure/) — Gambar dengan caption
-- [Callout](/docs/callout/) — Menyorot informasi penting
-- [Steps](/docs/steps/) — Panduan langkah-demi-langkah
+- Renders with a 16:9 aspect ratio by default
+- Local files use a native `<video>` element
+- `title` is used by screen readers
