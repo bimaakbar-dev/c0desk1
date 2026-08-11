@@ -7,6 +7,10 @@ import {
   PAGINATION 
 } from '@/consts';
 
+function getSlug(doc: any): string {
+  return doc.slug ?? doc.id.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+}
+
 function escapeXml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
@@ -49,7 +53,7 @@ export const GET: APIRoute = async (context) => {
 
   const rawItems = [
     ...blog.map((post) => {
-      const slug = post.data.slug || post.id.replace(/\.(md|mdx)$/, '');
+      const slug = getSlug(post);
       return {
         ...post.data,
         url: `${baseUrl}${ROUTES.blog}/${slug}/`,
@@ -64,7 +68,7 @@ export const GET: APIRoute = async (context) => {
       };
     }),
     ...docs.map((doc) => {
-      const slug = doc.data.slug || doc.id.replace(/\.(md|mdx)$/, '');
+      const slug = getSlug(doc);
       return {
         ...doc.data,
         url: `${baseUrl}${ROUTES.docs}/${slug}/`,
