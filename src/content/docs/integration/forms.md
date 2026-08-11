@@ -123,7 +123,3 @@ Form submissions may contain personal information. Make sure to:
 :::card[Pagefind]{href="/docs/pagefinde/" icon='book-2'}
 Static search engine configuration
 :::
-
-:::card[Cloudflare]{href="/docs/cloudflare/" icon='book-2'}
-Cloudflare Pages and Workers setup
-:::
