@@ -2,12 +2,8 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
-
-import {
-  SITE,
-  ROUTES,
-  PAGINATION,
-} from "@/consts";
+import { SITE, ROUTES, PAGINATION } from "@/consts";
+import { getSlug } from "@/lib/utils";
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
@@ -68,7 +64,7 @@ export const GET: APIRoute = async (context) => {
   const items = [
     ...blog.map((post) => ({
       ...post.data,
-      url: `${ROUTES.blog}/${post.data.slug || post.id.replace(/\.(md|mdx)$/, "")}/`,
+      url: `${ROUTES.blog}/${getSlug(post)}/`,
       date:
         post.data.pubDate ??
         post.data.lastUpdated ??
@@ -78,7 +74,7 @@ export const GET: APIRoute = async (context) => {
 
     ...docs.map((doc) => ({
       ...doc.data,
-      url: `${ROUTES.docs}/${doc.data.slug || doc.id.replace(/\.(md|mdx)$/, "")}/`,
+      url: `${ROUTES.docs}/${getSlug(doc)}/`,
       date:
         doc.data.pubDate ??
         doc.data.lastUpdated ??
@@ -124,11 +120,6 @@ export const GET: APIRoute = async (context) => {
             : ""
         }
         <p>${item.description ?? ""}</p>
-        <p>
-          <a href="${new URL(item.url, baseUrl)}">
-            Baca selengkapnya →
-          </a>
-        </p>
       `.trim();
 
       return {
