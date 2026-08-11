@@ -1,33 +1,36 @@
 ---
 // src/pages/blog/archive.astro
 
-import { 
-  getCollection, 
-  type CollectionEntry 
-} from 'astro:content';
+import { getCollection, type CollectionEntry } from "astro:content";
 
-import { 
-  buildMeta, 
-  schemaWebPage, 
-  schemaBreadcrumb, 
-  SITE, 
-  ROUTES, 
-  IMAGE
+import {
+  SITE,
+  ROUTES,
+  IMAGE,
+  buildMeta,
+  schemaWebPage,
+  schemaBreadcrumb    
 } from "@/consts";
+import { 
+  canonicalUrl, 
+  getSlug,
+  formatDate,
+  formatDateCompact
+} from "@/lib/utils";
+
 import { ARCHIVE_PAGE } from "@/config/pages/archive";
 
-import Layout from '@/layouts/Layout.astro';
-import Section from "@/components/ui/Section.astro";
-import Container from '@/components/ui/Container.astro';
-import Card from '@ui/Card.astro';
-import Button from '@ui/Button.astro';
-import Badge from '@/components/ui/Badge.astro';
-import Breadcrumb from '@/components/Breadcrumb.astro';
-import { formatDate, formatDateCompact } from '@lib/utils';
+import Layout from "@/layouts/Layout.astro";
+import Section from "@ui/Section.astro";
+import Container from "@ui/Container.astro";
+import Card from "@ui/Card.astro";
+import Button from "@ui/Button.astro";
+import Badge from "@ui/Badge.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 
-type BlogEntry = CollectionEntry<'blog'>;
+type BlogEntry = CollectionEntry<"blog">;
 
-const allPosts: BlogEntry[] = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts: BlogEntry[] = await getCollection("blog", ({ data }) => !data.draft);
 
 const sortedPosts = allPosts.sort((a, b) => {
   const dateA = a.data.pubDate ?? new Date(0);
@@ -36,7 +39,9 @@ const sortedPosts = allPosts.sort((a, b) => {
 });
 
 const formatMonthName = (monthIndex: number) => {
-  return new Intl.DateTimeFormat(ARCHIVE_PAGE.locale, { month: 'long' }).format(new Date(2000, monthIndex, 1));
+  return new Intl.DateTimeFormat(ARCHIVE_PAGE.locale, { month: "long" }).format(
+    new Date(2000, monthIndex, 1),
+  );
 };
 
 type GroupedArchive = Record<number, Record<number, BlogEntry[]>>;
@@ -63,10 +68,10 @@ function getYearActivity(year: number) {
   if (!archive[year]) return [];
   const posts = Object.values(archive[year]).flat();
   const postCounts: Record<string, number> = {};
-  
-  posts.forEach(post => {
+
+  posts.forEach((post) => {
     if (!post.data.pubDate) return;
-    const dateStr = post.data.pubDate.toISOString().split('T')[0];
+    const dateStr = post.data.pubDate.toISOString().split("T")[0];
     postCounts[dateStr] = (postCounts[dateStr] || 0) + 1;
   });
 
@@ -81,9 +86,9 @@ function getYearActivity(year: number) {
   }
 
   while (current <= endDate) {
-    const dateStr = current.toISOString().split('T')[0];
+    const dateStr = current.toISOString().split("T")[0];
     const count = postCounts[dateStr] || 0;
-    
+
     let level = 0;
     if (count === 1) level = 1;
     else if (count === 2) level = 2;
@@ -92,7 +97,7 @@ function getYearActivity(year: number) {
     grid.push({ date: dateStr, count, level });
     current.setUTCDate(current.getUTCDate() + 1);
   }
-  
+
   return grid;
 }
 
@@ -100,14 +105,14 @@ const activityGrid = getYearActivity(activeYear);
 const activeYearTotal = archive[activeYear] ? Object.values(archive[activeYear]).flat().length : 0;
 const hasPosts = allPosts.length > 0;
 
-const baseUrl = SITE.url.replace(/\/$/, "");
-const canonicalURL = `${baseUrl}${ROUTES.archive}/`;
+// ===== canonicalUrl =====
+const canonicalURL = canonicalUrl(ROUTES.archive);
 
 const { title, description } = ARCHIVE_PAGE;
 
 const breadcrumbItems = [
-  { label: breadcrumb.home, href: `${baseUrl}${ROUTES.home}`},
-  { label: breadcrumb.blog, href: `${baseUrl}${ROUTES.blog}/` },
+  { label: breadcrumb.home, href: canonicalUrl() },
+  { label: breadcrumb.blog, href: canonicalUrl(ROUTES.blog) },
   { label: title, href: canonicalURL },
 ];
 
@@ -125,15 +130,17 @@ const schema = [
     url: canonicalURL,
     type: "CollectionPage",
     image: {
-      url: SITE.logo.startsWith('http') ? SITE.logo : `${baseUrl}${SITE.logo}`,
+      url: SITE.logo.startsWith("http")
+        ? SITE.logo
+        : `${SITE.url.replace(/\/$/, "")}${SITE.logo}`,
       width: IMAGE.logo.width,
       height: IMAGE.logo.height,
-      caption: title
-    }
+      caption: title,
+    },
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: `${baseUrl}/` },
-    { name: "Blog", url: `${baseUrl}${ROUTES.blog}/` },
+    { name: "Home", url: canonicalUrl() },
+    { name: "Blog", url: canonicalUrl(ROUTES.blog) },
     { name: title, url: canonicalURL },
   ]),
 ];
@@ -142,7 +149,6 @@ const schema = [
 <Layout {meta} {schema}>
   <main id="main-content" class="w-full min-w-0 flex-1">
     <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
-      
       <Container size="xl">
         <Section
           size="lg"
@@ -173,7 +179,7 @@ const schema = [
           ) : (
             <>
               <div class="mb-16">
-                <Card padding='lg' radius='md' variant='secondary' class="shadow-sm">
+                <Card padding="lg" radius="md" variant="secondary" class="shadow-sm">
                   <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                     <div>
                       <h2 class="text-heading-18 font-semibold text-(--fg-strong) flex items-center gap-2">
@@ -182,7 +188,7 @@ const schema = [
                       <p class="text-sm text-(--fg-muted) mt-1">{heatmap.articlesLabel(activeYearTotal)}</p>
                     </div>
                   </div>
-                  
+
                   <div class="w-full overflow-x-auto pb-4 custom-scrollbar">
                     <div class="min-w-180 flex flex-col gap-2">
                       <div class="flex text-xs font-medium text-(--fg-muted) ml-8 justify-between pr-4">
@@ -201,16 +207,20 @@ const schema = [
 
                         <div class="inline-grid grid-rows-7 grid-flow-col gap-1.5 flex-1">
                           {activityGrid.map((day, index) => (
-                            <div 
-                              class={`heatmap-cell size-3 rounded-sm hover:ring-1 hover:ring-(--accent) cursor-default ${day.date ? colors[`level${day.level}` as keyof typeof colors] : 'bg-transparent'}`}
-                              title={day.date ? `${day.count} ${heatmap.postsLabel(day.count)} on ${new Date(day.date).toLocaleDateString(ARCHIVE_PAGE.locale, { day: 'numeric', month: 'long', year: 'numeric' })}` : undefined}
+                            <div
+                              class={`heatmap-cell size-3 rounded-sm hover:ring-1 hover:ring-(--accent) cursor-default ${day.date ? colors[`level${day.level}` as keyof typeof colors] : "bg-transparent"}`}
+                              title={
+                                day.date
+                                  ? `${day.count} ${heatmap.postsLabel(day.count)} on ${new Date(day.date).toLocaleDateString(ARCHIVE_PAGE.locale, { day: "numeric", month: "long", year: "numeric" })}`
+                                  : undefined
+                              }
                             />
                           ))}
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="flex items-center justify-end gap-2 mt-4 text-xs font-medium text-(--fg-muted)">
                     <span class="mr-1">{heatmap.legendLow}</span>
                     <div class={`size-3.5 rounded-sm ${colors.level0}`}></div>
@@ -227,8 +237,8 @@ const schema = [
                     {years.map((year) => (
                       <Button
                         href={`#year-${year}`}
-                        variant='outline'
-                        size='md'
+                        variant="outline"
+                        size="md"
                         data-year-pill={year}
                         class="year-pill"
                       >
@@ -246,7 +256,7 @@ const schema = [
                       {year}
                       <span class="h-px flex-1 bg-linear-to-r from-(--border-subtle) to-transparent"></span>
                     </h2>
-                    
+
                     <div class="relative border-l border-(--border) ml-3 md:ml-4 space-y-12 py-2">
                       {Object.keys(archive[year])
                         .map(Number)
@@ -254,23 +264,23 @@ const schema = [
                         .map((month) => (
                           <div class="relative pl-6 md:pl-8">
                             <div class="absolute -left-2 top-1 size-4 bg-(--bg) border-2 border-(--accent) ring-4 ring-(--bg)"></div>
-                            
+
                             <h3 class="flex items-center gap-3 text-label-14 font-semibold text-(--fg-strong) mb-5">
                               {formatMonthName(month)}
-                              <Badge variant='accent'>
+                              <Badge variant="accent">
                                 {archive[year][month].length} {heatmap.postsLabel(archive[year][month].length)}
                               </Badge>
                             </h3>
-                            
+
                             <ul class="space-y-2">
                               {archive[year][month].map((post) => {
-                                const slug = post.data.slug ?? post.id.replace(/\.(md|mdx)$/, '');
+                                const slug = getSlug(post); // ✅ pakai helper
                                 const pubDate = post.data.pubDate;
                                 return (
                                   <li class="group">
-                                    <Card padding='none' radius='sm' variant='primary'>
+                                    <Card padding="none" radius="sm" variant="primary">
                                       <a
-                                        href={`${baseUrl}${ROUTES.blog}/${slug}/`}
+                                        href={canonicalUrl(`${ROUTES.blog}/${slug}`)} // ✅ pakai canonicalUrl
                                         class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2 hover:text-(--accent) transition-colors"
                                       >
                                         <span class="text-body-14 font-medium text-(--fg-muted) group-hover:text-(--fg-strong) line-clamp-1">
@@ -278,7 +288,7 @@ const schema = [
                                         </span>
                                         <div class="flex items-center gap-3 shrink-0">
                                           <time class="text-xs! text-(--fg-muted)/80 bg-(--bg-muted) px-2 py-1 rounded">
-                                            {pubDate ? formatDateCompact(pubDate, ARCHIVE_PAGE.locale) : '-'}
+                                            {pubDate ? formatDateCompact(pubDate, ARCHIVE_PAGE.locale) : "-"}
                                           </time>
                                         </div>
                                       </a>
@@ -331,22 +341,22 @@ const schema = [
 </style>
 
 <script>
-  document.querySelectorAll('.year-pill').forEach((pill) => {
-    pill.addEventListener('click', (e) => {
+  document.querySelectorAll(".year-pill").forEach((pill) => {
+    pill.addEventListener("click", (e) => {
       e.preventDefault();
-      const targetId = pill.getAttribute('href');
+      const targetId = pill.getAttribute("href");
       if (!targetId) return;
       const target = document.querySelector(targetId);
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-        document.querySelectorAll('.year-pill').forEach((p) => p.classList.remove('is-active'));
-        pill.classList.add('is-active');
+        target.scrollIntoView({ behavior: "smooth" });
+        document.querySelectorAll(".year-pill").forEach((p) => p.classList.remove("is-active"));
+        pill.classList.add("is-active");
       }
     });
   });
 
   const yearBlocks = document.querySelectorAll('[id^="year-"]');
-  const pills = document.querySelectorAll('.year-pill');
+  const pills = document.querySelectorAll(".year-pill");
 
   if (yearBlocks.length > 0) {
     const onScroll = () => {
@@ -359,12 +369,12 @@ const schema = [
       });
       if (currentId) {
         pills.forEach((pill) => {
-          const isActive = pill.getAttribute('href') === `#${currentId}`;
-          pill.classList.toggle('is-active', isActive);
+          const isActive = pill.getAttribute("href") === `#${currentId}`;
+          pill.classList.toggle("is-active", isActive);
         });
       }
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
   }
 </script>
