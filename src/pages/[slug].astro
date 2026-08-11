@@ -1,17 +1,25 @@
 ---
 // src/pages/[slug].astro
-import { getCollection, render } from "astro:content";
+import { 
+  getCollection, 
+  render 
+} from "astro:content";
 
 import {
-  buildMeta,
-  IMAGE,
-  schemaWebPage,
-  schemaBreadcrumb,
-  ROUTES,
   SITE,
+  ROUTES,
+  IMAGE,
+  buildMeta,  
+  schemaWebPage,
+  schemaBreadcrumb 
 } from "@/consts";
 
-import { formatDate, getSlug } from "@/lib/utils";
+import { 
+  formatDate, 
+  getSlug, 
+  canonicalUrl 
+} from "@/lib/utils";
+
 import { components } from "@/components/mdx/MDXComponents";
 
 import Layout from "@/layouts/Layout.astro";
@@ -37,8 +45,7 @@ if (!entry) {
 const { Content } = await render(entry);
 
 const currentSlug = getSlug(entry);
-const baseUrl = SITE.url.replace(/\/$/, "");
-const currentUrl = `${baseUrl}/${currentSlug}/`;
+const currentUrl = canonicalUrl(currentSlug);
 
 let pageType: "PrivacyPolicy" | "TermsOfService" | "WebPage" = "WebPage";
 if (currentSlug.includes("privacy")) pageType = "PrivacyPolicy";
@@ -73,14 +80,16 @@ const pageSchema = [
     type: pageType,
     dateModified: entry.data.lastUpdated?.toISOString(),
     image: {
-      url: SITE.logo.startsWith("http") ? SITE.logo : `${baseUrl}${SITE.logo}`,
+      url: SITE.logo.startsWith("http")
+        ? SITE.logo
+        : `${SITE.url.replace(/\/$/, "")}${SITE.logo}`,
       width: IMAGE.logo.width,
       height: IMAGE.logo.height,
       caption: entry.data.title,
     },
   }),
   schemaBreadcrumb([
-    { name: "Beranda", url: `${baseUrl}${ROUTES.home}` },
+    { name: "Home", url: canonicalUrl() },
     { name: breadcrumbName, url: currentUrl },
   ]),
 ];
