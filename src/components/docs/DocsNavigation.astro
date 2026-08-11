@@ -12,36 +12,31 @@ import SidebarLink from '@ui/SidebarLink.astro';
 
 const allDocs = await getCollection('docs', ({ data }) => !data.draft);
 
-const categoryMap = new Map(
-  SIDEBAR_CONFIG.map((c) => [c.category.toLowerCase(), c.label])
-);
-const validCategories = new Set(categoryMap.keys());
-
 const docsByCategory = Object.groupBy(
   allDocs,
-  (doc) => {
-    const rawCategory = doc.data.category?.toLowerCase() ?? 'uncategorized';
-    return validCategories.has(rawCategory) ? rawCategory : 'uncategorized';
-  }
+  (doc) => doc.data.category ?? 'Uncategorized'
 ) as Partial<Record<string, typeof allDocs>>;
 
 for (const category in docsByCategory) {
   docsByCategory[category]?.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 }
 
-const sortedCategories = SIDEBAR_CONFIG
-  .map(c => c.category.toLowerCase())
-  .filter((cat) => cat !== 'uncategorized' && (docsByCategory[cat]?.length ?? 0) > 0);
+const categoryMap = new Map(SIDEBAR_CONFIG.map((c) => [c.category, c.label]));
+const configCategories = SIDEBAR_CONFIG.map(c => c.category);
+const availableCategories = Object.keys(docsByCategory);
 
-const ungroupedDocs = docsByCategory['uncategorized'] ?? [];
+const sortedCategories = [
+  ...configCategories.filter((cat) => cat in docsByCategory),
+  ...availableCategories.filter((cat) => !categoryMap.has(cat as any)),
+];
 
-const currentPath = Astro.url.pathname.endsWith('/') 
-  ? Astro.url.pathname 
+const ungroupedDocs = (docsByCategory['Uncategorized'] ?? []).filter((doc) => !doc.data.category);
+
+const currentPath = Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname
   : `${Astro.url.pathname}/`;
-  
-const baseDocsRoute = ROUTES.docs.endsWith('/') 
-  ? ROUTES.docs 
-  : `${ROUTES.docs}/`;
+
+const baseDocsRoute = ROUTES.docs.endsWith('/') ? ROUTES.docs : `${ROUTES.docs}/`;
 
 const getHref = (doc: (typeof allDocs)[number]) => {
   const slug = getSlug(doc);
@@ -58,10 +53,10 @@ const $ = {
 
 <div class={$.wrapper}>
   {
-    sortedCategories.map((categoryKey) => {
-      const categoryDocs = docsByCategory[categoryKey] ?? [];
+    sortedCategories.map((category) => {
+      const categoryDocs = docsByCategory[category] ?? [];
       const hasActiveChild = categoryDocs.some((doc) => checkIsActive(getHref(doc)));
-      const label = categoryMap.get(categoryKey) ?? categoryKey;
+      const label = categoryMap.get(category as any) ?? category;
 
       return (
         <SidebarGroup title={label} open={hasActiveChild}>
