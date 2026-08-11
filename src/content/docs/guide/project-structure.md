@@ -208,11 +208,3 @@ Schemas are validated with Zod. If you add new frontmatter fields, update the sc
 :::card[Configuration]{href="/docs/configuration/" icon='learn'}
 Deep dive into site configuration
 :::
-
-:::card[Deployment]{href="/docs/deployment/" icon='learn'}
-Deploy your site to production
-:::
-
-:::card[Components]{href="/docs/components/" icon='learn'}
-Explore all custom directives
-:::
