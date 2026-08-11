@@ -5,7 +5,7 @@ import Icon from "@ui/Icons.astro";
 import Logo from "@ui/Logo.astro";
 import SearchBar from "@ui/SearchBar.astro";
 import Theme from "./Theme.astro";
-// import GithubStar from "@components/GithubStar.astro";
+import GithubStar from "@components/GithubStar.astro";
 
 const $ = {
   header: [
@@ -13,14 +13,12 @@ const $ = {
     "bg-none border-b lg:border-b-none border-(--border-subtle)",
     "transition-opacity duration-(--duration-fast) ease-(--ease-out)",
   ].join(" "),
-
   wrapper: [
     "flex flex-1 h-(--header-height) w-full items-center mx-auto justify-between",
   ].join(" "),
-
   left: "flex items-center shrink-0 gap-4",
   right: "flex items-center shrink-0 gap-2",
-  iconSize: "size-6"
+  iconSize: "size-6",
 };
 ---
 
@@ -39,11 +37,11 @@ const $ = {
         </div>
         <div class="hidden md:flex gap-2">
           <Theme />
-          <!--<GithubStar repo="c0desk1/c0desk1" />-->
+          <GithubStar repo="c0desk1/c0desk1" />
         </div>
         <div class="flex md:hidden gap-1">
-          <label 
-            for="mobile-nav-toggle" 
+          <label
+            for="mobile-nav-toggle"
             class="inline-flex items-center justify-center size-8 cursor-pointer text-(--fg-muted) aspect-square hover:bg-(--bg-muted) hover:text-(--fg-strong) rounded-md outline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)"
             aria-label="Buka Menu"
           >
@@ -69,10 +67,7 @@ const $ = {
           "lg:border-(--border-subtle)",
           "shadow-(--shadow-sm)"
         );
-        header.classList.remove(
-          "bg-none",
-          "lg:border-none"
-        );
+        header.classList.remove("bg-none", "lg:border-none");
       } else {
         header.classList.remove(
           "bg-(--bg)/80",
@@ -80,10 +75,7 @@ const $ = {
           "lg:border-(--border-subtle)",
           "shadow-(--shadow-sm)"
         );
-        header.classList.add(
-          "bg-none",
-          "lg:border-none"
-        );
+        header.classList.add("bg-none", "lg:border-none");
       }
     };
 
@@ -91,11 +83,21 @@ const $ = {
     window.addEventListener("scroll", toggleHeader, { passive: true });
     toggleHeader();
 
-    const checkbox = document.getElementById("mobile-nav-toggle");
-    const icon = document.getElementById("mobile-nav-icon");
-    const labelEl = document.querySelector('label[for="mobile-nav-toggle"]');
+    const initIconToggle = () => {
+      const checkbox = document.getElementById("mobile-nav-toggle");
+      const icon = document.getElementById("mobile-nav-icon");
+      const labelEl = document.querySelector('label[for="mobile-nav-toggle"]');
 
-    if (checkbox && icon) {
+      if (!checkbox) {
+        setTimeout(initIconToggle, 100);
+        return;
+      }
+
+      if (!icon) {
+        setTimeout(initIconToggle, 100);
+        return;
+      }
+
       const updateIcon = () => {
         const isOpen = checkbox.checked;
         icon.setAttribute("name", isOpen ? "close" : "menu");
@@ -107,6 +109,13 @@ const $ = {
       updateIcon();
 
       checkbox.addEventListener("change", updateIcon);
-    }
+      
+      if (labelEl) {
+        labelEl.addEventListener("click", (e) => {
+        });
+      }
+    };
+
+    initIconToggle();
   })();
 </script>
