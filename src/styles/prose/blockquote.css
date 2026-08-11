@@ -38,14 +38,7 @@
   margin-top: 1rem;
 }
 
-.prose .quote-cite a,
-.prose .quote-cite cite {
-  margin-top: 0;
-  padding-left: 0.5rem;
-}
-
-.prose .quote-cite,
-.prose blockquote cite,
+.prose .quote .quote-footer,
 .prose blockquote footer {
   @apply text-body-14;
   display: flex;
@@ -61,7 +54,7 @@
   padding-right: 0.25rem;
 }
 
-.prose blockquote.quote::before {
+.prose figure.quote blockquote::before {
   display: none;
 }
 
@@ -106,7 +99,7 @@
   font-family: var(--font-serif);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 45rem) {
   .prose .quote,
   .prose blockquote {
     margin: 2.5rem 0;
