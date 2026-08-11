@@ -5,9 +5,13 @@ import {
   ROUTES, 
   SIDEBAR_CONFIG 
 } from '@/consts';
+import { 
+  getSlug, 
+  canonicalUrl 
+} from '@/lib/utils';
 
-import SidebarGroup from '@/components/ui/SidebarGroup.astro';
-import SidebarLink from '@/components/ui/SidebarLink.astro';
+import SidebarGroup from '@ui/SidebarGroup.astro';
+import SidebarLink from '@ui/SidebarLink.astro';
 
 const allDocs = await getCollection('docs', ({ data }) => !data.draft);
 
@@ -38,19 +42,12 @@ const currentPath = Astro.url.pathname.endsWith('/')
   ? Astro.url.pathname 
   : `${Astro.url.pathname}/`;
 
-const baseDocsRoute = ROUTES.docs.endsWith('/') 
-  ? ROUTES.docs 
-  : `${ROUTES.docs}/`;
+const baseDocsRoute = canonicalUrl(ROUTES.docs);
 
 const getHref = (doc: (typeof allDocs)[number]) => {
-  const rawSlug = doc.data.slug ?? doc.id.split('/').pop() ?? '';
-  const cleanSlug = rawSlug.replace(/^\/+/, '').replace(/\/+$/, '');
-  
-  if (!cleanSlug) {
-    return baseDocsRoute;
-  }
-  
-  return `${baseDocsRoute}${cleanSlug}/`;
+  const slug = getSlug(doc);
+  if (!slug) return baseDocsRoute;
+  return canonicalUrl(`${ROUTES.docs}/${slug}`);
 };
 
 const checkIsActive = (href: string) => {
