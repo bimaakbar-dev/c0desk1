@@ -174,6 +174,6 @@ npx pagefind --site dist --force-language en
 
 ## Next Steps
 
-:::card[Cloudflare]{href="/docs/cloudflare/" icon="learn"}
+:::card[Cloudflare]{href="/docs/cloudflare-pages/" icon="learn"}
 Cloudflare Pages and Workers setup
 :::
