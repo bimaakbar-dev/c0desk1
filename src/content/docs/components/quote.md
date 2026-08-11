@@ -3,7 +3,7 @@ slug: "quote"
 title: "Quote"
 description: "Styled quote block with optional user attribution."
 category: "Components"
-order: 14
+order: 15
 draft: false
 author:
   name: "Unloyd Team"
