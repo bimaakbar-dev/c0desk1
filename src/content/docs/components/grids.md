@@ -1,59 +1,54 @@
 ---
 slug: "grids"
 title: "Grids"
-description: "Grid digunakan untuk membuat layout 2 kolom yang responsif untuk komponen."
+description: "Responsive 2-column layout wrapper for components."
 category: "Components"
 order: 13
 draft: false
 author:
-  name: Tim Unloyd
-  role: Developer
-  url: https://c0desk1.my.id/
-  email: hello@c0desk1.my.id
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T03:00:00Z
 seo:
   title: "Grids"
-  description: "Grid digunakan untuk membuat layout 2 kolom yang responsif untuk komponen."
-  noIndex: true
+  description: "Responsive 2-column layout wrapper for components."
+  noIndex: false
 ---
 
-Grid digunakan untuk membuat layout 2 kolom yang responsif. Cocok untuk menampilkan card, callout, atau komponen lain secara berdampingan.
+Grid wraps components into a responsive 2-column layout. Collapses to 1 column on mobile.
 
-## Preview
+---
 
-::::grid
-:::card[Judul Card]{icon="info"}
-Card dengan ikon dan judul.
-:::
-
-:::card[Judul Card]{icon="info"}
-Card dengan ikon dan judul.
-:::
-::::
-
-## Sintaks
+## Syntax
 
 ```md
 ::::grid
-:::card[Judul Card]{icon="info"}
-Konten card 1
+:::card[Title]{icon="info"}
+Card content 1
 :::
 
-:::card[Judul Card]{icon="info"}
-Konten card 2
+:::card[Title]{icon="info"}
+Card content 2
 :::
 ::::
 ```
 
-Grid otomatis membagi child menjadi 2 kolom. Di mobile, menjadi 1 kolom.
+## Preview
 
-## Aturan
+::::grid
+:::card[Title]{icon="info"}
+Card content 1
+:::
 
-- Grid hanya untuk membungkus komponen (`card, callout, dll`)
-- Tidak ada atribut tambahan (default 2 kolom, gap `1rem`)
-- Di mobile: 1 kolom, gap `0.75rem`
+:::card[Title]{icon="info"}
+Card content 2
+:::
+::::
 
-## Lihat Juga
+## Notes
 
-- [Card](/docs/cards/) — Kotak informasi dengan ikon
-- [Callout](/docs/callout/) — Menyorot informasi penting
+- Grid has no attributes — always 2 columns with a `1rem` gap
+- Intended for wrapping block components like Card and Callout
+- On mobile: 1 column, `0.75rem` gap
