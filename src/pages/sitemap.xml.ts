@@ -2,6 +2,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, ROUTES } from '@/consts';
+import { getSlug } from '@/lib/utils';
 
 function escapeXml(str: string): string {
   return str
@@ -21,10 +22,10 @@ export const GET: APIRoute = async ({ site }) => {
 
   const urls: { loc: string; lastmod?: string; changefreq?: string; priority?: number }[] = [];
 
-  // ===== Static Routes (tanpa /docs/ karena sudah di home) =====
+  // ===== Static Routes =====
   const staticRoutes = [
-    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },      // home = root
-    { path: ROUTES.blog, priority: 0.9, changefreq: 'weekly' },     // blog indeks prioritas kedua
+    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },
+    { path: ROUTES.blog, priority: 0.9, changefreq: 'weekly' },
     { path: ROUTES.archive, priority: 0.5, changefreq: 'monthly' },
   ];
 
@@ -33,37 +34,34 @@ export const GET: APIRoute = async ({ site }) => {
     urls.push({ loc, priority, changefreq });
   });
 
-  // ===== Blog Posts (prioritas sedang) =====
+  // ===== Blog Posts =====
   blog.forEach((post) => {
-    const slug = post.data.slug || post.id.replace(/\.(md|mdx)$/, '');
+    const slug = getSlug(post);
     const date = post.data.lastUpdated || post.data.pubDate;
-    
     urls.push({
       loc: `${baseUrl}${ROUTES.blog}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
-      priority: 0.6, // turun dari 0.7
+      priority: 0.6,
     });
   });
 
-  // ===== Docs Detail (prioritas menengah) =====
+  // ===== Docs Detail =====
   docs.forEach((doc) => {
-    const slug = doc.data.slug || doc.id.replace(/\.(md|mdx)$/, '');
+    const slug = getSlug(doc);
     const date = doc.data.lastUpdated || doc.data.pubDate;
-    
     urls.push({
       loc: `${baseUrl}${ROUTES.docs}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
-      priority: 0.7, // turun dari 0.9
+      priority: 0.7,
     });
   });
 
-  // ===== Legal Pages (prioritas rendah) =====
+  // ===== Legal Pages =====
   legal.forEach((item) => {
-    const slug = item.data.slug || item.id.replace(/\.(md|mdx)$/, '');
+    const slug = getSlug(item);
     const date = item.data.lastUpdated || item.data.pubDate;
-    
     urls.push({
       loc: `${baseUrl}/${slug}/`,
       lastmod: date ? new Date(date).toISOString() : undefined,
