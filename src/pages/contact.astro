@@ -8,14 +8,20 @@ import {
   schemaOrganization,
   schemaBreadcrumb,
 } from "@/consts";
+
 import { CONTACT_PAGE } from "@/config/pages/contact";
 
 import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/ui/Container.astro";
-import Section from "@/components/ui/Section.astro";
+import Container from "@ui/Container.astro";
+import Section from "@ui/Section.astro";
+
 import ContactForm from "@ui/ContactForm.astro";
 
-const { title, description, hero } = CONTACT_PAGE;
+const { 
+  title, 
+  description, 
+  hero 
+} = CONTACT_PAGE;
 
 const baseUrl = SITE.url.replace(/\/$/, "");
 const currentUrl = `${baseUrl}${ROUTES.contact}/`;
@@ -42,7 +48,7 @@ const schema = [
   }),
   schemaOrganization,
   schemaBreadcrumb([
-    { name: "Beranda", url: `${baseUrl}/` },
+    { name: "Home", url: `${baseUrl}/` },
     { name: title, url: currentUrl },
   ]),
 ];
@@ -70,7 +76,6 @@ const schema = [
           </div>
         </Section>
       </Container>
-
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
