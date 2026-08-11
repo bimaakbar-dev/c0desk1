@@ -1,32 +1,36 @@
 ---
 // src/components/MobileNav.astro
-import { NAV, SITE } from "../consts";
-import Icon from "./ui/Icons.astro";
-import Socials from "./Socials.astro";
+import {
+  SITE, 
+  NAV 
+} from "@/consts";
+
+import { canonicalUrl } from "@/lib/utils";
+
+import Card from "@ui/Card.astro";
+import Icon from "@ui/Icons.astro";
 import Theme from "./Theme.astro";
-import Card from "./ui/Card.astro";
+import Socials from "./Socials.astro";
 
 const currentPath = Astro.url.pathname;
-const baseUrl = SITE.url.replace(/\/$/, "");
 
-const links = [
-  ...NAV.mobileNavBar.map((item) => {
-    const isExternal = item.href.startsWith("http");
-    const href = isExternal ? item.href : `${baseUrl}${item.href.endsWith('/') ? item.href : `${item.href}/`}`;
-    return {
-      label: item.label,
-      href,
-      icon: item.icon,
-    };
-  }),
-];
+const links = NAV.mobileNavBar.map((item) => {
+  const isExternal = item.href.startsWith("http");
+  const href = isExternal ? item.href : canonicalUrl(item.href);
+  return {
+    label: item.label,
+    href,
+    icon: item.icon,
+    isExternal,
+  };
+});
 
 const $ = {
   wrapper: "group/nav md:hidden relative select-none",
   trigger: [
     "block aspect-square items-center justify-center shrink-0 p-1 rounded-md",
     "text-(--fg-muted) hover:bg-(--bg-muted) active:bg-(--bg-muted)",
-    "cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+    "cursor-pointer list-none [&::-webkit-details-marker]:hidden",
   ].join(" "),
   triggerIcon: [
     "size-6 rotate-0",
@@ -44,7 +48,7 @@ const $ = {
   panel: [
     "fixed left-0 right-0 top-[var(--header-height)] z-40",
     "bg-(--bg)/95 backdrop-blur-md rounded-b-lg border-b shadow-(--shadow-md) border-(--border)",
-    "overscroll-contain"
+    "overscroll-contain",
   ].join(" "),
   panelWrapper: "px-2 py-3 space-y-2 gap-2",
   panelItem: [
@@ -52,11 +56,11 @@ const $ = {
     "flex gap-3 p-2 items-center text-body-14 font-medium",
     "hover:text-(--fg-strong) active:text-(--fg-strong)",
     "opacity-0 translate-y-full group-open/nav:opacity-100 group-open/nav:translate-0",
-    "transition-[opacity,transform] duration-(--duration) ease-(--ease-out)"
+    "transition-[opacity,transform] duration-(--duration) ease-(--ease-out)",
   ].join(" "),
   panelPrefix: "inline-flex items-center justify-center size-5",
-  panelFooter: "flex items-center justify-between"
-}
+  panelFooter: "flex items-center justify-between",
+};
 ---
 
 <details id="mobile-menu-details" class={$.wrapper}>
@@ -69,9 +73,8 @@ const $ = {
   <div id="mobile-menu-panel" class={$.panel}>
     <nav class={$.panelWrapper}>
       {links.map((item, i) => {
-        const cleanHref = item.href.replace(/\/$/, "");
-        const cleanPath = currentPath.replace(/\/$/, "");
-        const isActive = cleanPath === cleanHref;
+        const hrefPath = item.isExternal ? "" : new URL(item.href).pathname;
+        const isActive = !item.isExternal && currentPath === hrefPath;
 
         return (
           <a
@@ -80,9 +83,7 @@ const $ = {
             style={`transition-delay: ${i * 30}ms`}
             class:list={[
               $.panelItem,
-              isActive 
-              ? "text-(--fg-strong)" 
-              : "text-(--fg-muted)"
+              isActive ? "text-(--fg-strong)" : "text-(--fg-muted)",
             ]}
           >
             <Icon name={item.icon as any} class={$.panelPrefix} />
@@ -90,7 +91,13 @@ const $ = {
           </a>
         );
       })}
-      <Card variant="outline" padding="xs" radius="sm" class="mt-4" style={`transition-delay: ${links.length * 30}ms`}>
+      <Card
+        variant="outline"
+        padding="xs"
+        radius="sm"
+        class="mt-4"
+        style={`transition-delay: ${links.length * 30}ms`}
+      >
         <div class={$.panelFooter}>
           <div class="flex items-center gap-1">
             <Socials />
