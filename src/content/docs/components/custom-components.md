@@ -51,8 +51,4 @@ There are two directive types:
 
 | Component | Syntax | Description |
 | --- | --- | --- |
-| [Figure](/docs/components/figure) | `
-
-![alt](url)
-
-{caption}` | Image with caption |
+| [Figure](/docs/components/figure) | `![alt](url){caption}` | Image with caption |
