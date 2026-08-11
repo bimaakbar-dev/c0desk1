@@ -1,8 +1,16 @@
 // src/pages/sitemap.xml.ts
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { SITE, ROUTES } from '@/consts';
-import { getSlug } from '@/lib/utils';
+
+import { 
+  SITE, 
+  ROUTES 
+} from '@/consts';
+
+import { 
+  getSlug, 
+  canonicalUrl 
+} from '@/lib/utils';
 
 function escapeXml(str: string): string {
   return str
@@ -14,8 +22,6 @@ function escapeXml(str: string): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const baseUrl = (site?.href || SITE.url).replace(/\/$/, '');
-
   const blog = await getCollection('blog', ({ data }) => !data.draft && !data.seo?.noIndex);
   const docs = await getCollection('docs', ({ data }) => !data.draft && !data.seo?.noIndex);
   const legal = await getCollection('legal', ({ data }) => !data.draft && !data.seo?.noIndex);
@@ -25,12 +31,17 @@ export const GET: APIRoute = async ({ site }) => {
   // ===== Static Routes =====
   const staticRoutes = [
     { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },
-    { path: ROUTES.blog, priority: 0.9, changefreq: 'weekly' },
+    { path: ROUTES.docs, priority: 0.9, changefreq: 'weekly' },
+    { path: ROUTES.blog, priority: 0.8, changefreq: 'weekly' },
     { path: ROUTES.archive, priority: 0.5, changefreq: 'monthly' },
   ];
 
+  if (ROUTES.about) {
+    staticRoutes.push({ path: ROUTES.about, priority: 0.7, changefreq: 'monthly' });
+  }
+
   staticRoutes.forEach(({ path, priority, changefreq }) => {
-    const loc = path === '/' ? `${baseUrl}/` : `${baseUrl}${path}/`;
+    const loc = canonicalUrl(path);
     urls.push({ loc, priority, changefreq });
   });
 
@@ -39,7 +50,7 @@ export const GET: APIRoute = async ({ site }) => {
     const slug = getSlug(post);
     const date = post.data.lastUpdated || post.data.pubDate;
     urls.push({
-      loc: `${baseUrl}${ROUTES.blog}/${slug}/`,
+      loc: canonicalUrl(`${ROUTES.blog}/${slug}`),
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
       priority: 0.6,
@@ -51,7 +62,7 @@ export const GET: APIRoute = async ({ site }) => {
     const slug = getSlug(doc);
     const date = doc.data.lastUpdated || doc.data.pubDate;
     urls.push({
-      loc: `${baseUrl}${ROUTES.docs}/${slug}/`,
+      loc: canonicalUrl(`${ROUTES.docs}/${slug}`),
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'weekly',
       priority: 0.7,
@@ -63,7 +74,7 @@ export const GET: APIRoute = async ({ site }) => {
     const slug = getSlug(item);
     const date = item.data.lastUpdated || item.data.pubDate;
     urls.push({
-      loc: `${baseUrl}/${slug}/`,
+      loc: canonicalUrl(slug),
       lastmod: date ? new Date(date).toISOString() : undefined,
       changefreq: 'yearly',
       priority: 0.2,
