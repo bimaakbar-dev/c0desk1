@@ -122,8 +122,4 @@ Static search engine configuration
 
 :::card[Form]{href="/docs/form/" icon='book-2'}
 Contact form integration with Formspree
-:::
-
-:::card[Cloudflare]{href="/docs/cloudflare/" icon='book-2'}
-Cloudflare Pages and Workers setup
-:::
+:::
