@@ -1,15 +1,8 @@
 // src/pages/feed.atom.ts
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { 
-  SITE, 
-  ROUTES, 
-  PAGINATION 
-} from '@/consts';
-
-function getSlug(doc: any): string {
-  return doc.slug ?? doc.id.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
-}
+import { SITE, ROUTES, PAGINATION } from '@/consts';
+import { getSlug } from '@/lib/utils';
 
 function escapeXml(str: string): string {
   return str
