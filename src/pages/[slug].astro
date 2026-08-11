@@ -1,17 +1,16 @@
 ---
-// src/pages/[slug].astro
 import { 
   getCollection, 
   render 
 } from "astro:content";
 
 import {
-  SITE,
-  ROUTES,
+  buildMeta,
   IMAGE,
-  buildMeta,  
   schemaWebPage,
-  schemaBreadcrumb 
+  schemaBreadcrumb,
+  ROUTES,
+  SITE,
 } from "@/consts";
 
 import { 
@@ -47,10 +46,7 @@ const { Content } = await render(entry);
 const currentSlug = getSlug(entry);
 const currentUrl = canonicalUrl(currentSlug);
 
-let pageType: "PrivacyPolicy" | "TermsOfService" | "WebPage" = "WebPage";
-if (currentSlug.includes("privacy")) pageType = "PrivacyPolicy";
-else if (currentSlug.includes("terms") || currentSlug.includes("service"))
-  pageType = "TermsOfService";
+const pageType = "WebPage";
 
 const breadcrumbName = entry.data.title;
 const metaDescription =
@@ -60,8 +56,16 @@ const metaDescription =
 
 const keywords = entry.data.tags || [
   entry.data.title.toLowerCase(),
-  ...(currentSlug.includes("privacy") ? ["privacy", "data", "protection"] : []),
-  ...(currentSlug.includes("terms") ? ["terms", "conditions", "service"] : []),
+  ...(currentSlug.includes("privacy") ? [
+    	"privacy", 
+		"data",
+		"protection"
+	] : []),
+  ...(currentSlug.includes("terms") ? [
+		"terms", 
+		"conditions", 
+		"service"
+	] : []),
 ];
 
 const metaProps = buildMeta({
