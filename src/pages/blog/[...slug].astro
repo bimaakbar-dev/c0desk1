@@ -25,13 +25,14 @@ import { components } from "@components/mdx/MDXComponents";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
-import BlogHeader from "@/components/blog/BlogHeader.astro";
-import BlogFooter from "@/components/blog/BlogFooter.astro";
+
+import BlogHeader from "@blog/BlogHeader.astro";
+import BlogFooter from "@blog/BlogFooter.astro";
 
 import Toc from "@components/TableOfContent.astro";
-import MobileToc from "@components/MobileToc.astro";
+import MobileToc from "@docs/mobile/MobileToc.astro";
 
-import RelatedPosts from "@/components/blog/BlogRelated.astro";
+import RelatedPosts from "@blog/BlogRelated.astro";
 import CopyCode from "@components/CopyCode.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 
