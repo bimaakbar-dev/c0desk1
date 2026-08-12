@@ -7,17 +7,15 @@ import Card from "@ui/Card.astro";
 import GithubStar from "@components/GithubStar.astro";
 ---
 
-<label 
-  for="mobile-nav-toggle"
-  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden peer-checked/nav:block cursor-pointer"
-><span class="sr-only">Tutup menu navigasi</span></label>
+<div
+  id="nav-overlay"
+  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden cursor-pointer"
+  aria-hidden="true"
+/>
 
-<aside 
-  class={
-    "fixed top-[calc(var(--header-height)+0)] inset-x-0 z-50 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden " +
-    "peer-checked/nav:block " +
-    "lg:block lg:border-b-0 lg:border-r lg:w-full lg:sticky lg:top-(--header-height) lg:z-0"
-  }
+<aside
+  id="left-sidebar"
+  class="fixed top-[calc(var(--header-height)+0)] inset-x-0 z-50 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden lg:block lg:border-b-0 lg:border-r lg:sticky lg:top-(--header-height) lg:z-0"
 >
   <div class="flex flex-col h-full">
     <div class="flex-1 overflow-y-auto pt-4 pb-4 lg:py-2 scrollbar-gutter-stable">
@@ -39,7 +37,35 @@ import GithubStar from "@components/GithubStar.astro";
 </aside>
 
 <style is:global>
-  body:has(#mobile-nav-toggle:checked) {
+  [data-nav-expanded] #left-sidebar {
+    display: block;
+  }
+
+  [data-nav-expanded] #nav-overlay {
+    display: block;
+  }
+
+  [data-nav-expanded] {
     overflow: hidden;
   }
+
+  @media (min-width: 64rem) {
+    [data-nav-expanded] {
+      overflow: auto;
+    }
+  }
 </style>
+
+<script>
+  const overlay = document.getElementById('nav-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      document.body.removeAttribute('data-nav-expanded');
+      const btn = document.querySelector('nav-toggle button');
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Buka Menu');
+      }
+    });
+  }
+</script>
