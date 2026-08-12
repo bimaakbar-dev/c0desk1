@@ -11,10 +11,22 @@
   min-width: 0;
 }
 
+.prose .grid *:first-child {
+  margin-top: 0;
+}
+
+.proser .grid *:last-child {
+  margin-bottom: 0;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 45rem) {
   .prose .grid {
     grid-template-columns: 1fr;
     gap: 0.75rem;
+  }
+  
+  .prose .grid * + * {
+    margin: 0
   }
 }
