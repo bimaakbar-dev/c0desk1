@@ -16,7 +16,6 @@
   width: 3px;
   background: var(--accent);
   border-radius: var(--radius-full);
-  box-shadow: 0 0 0 0 transparent;
 }
 
 .prose blockquote *:first-child {
@@ -56,6 +55,7 @@
 
 .prose figure.quote blockquote::before {
   display: none;
+  
 }
 
 .prose .quote {
