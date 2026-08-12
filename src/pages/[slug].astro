@@ -101,7 +101,7 @@ const pageSchema = [
 const $ = {
   main: "w-full min-w-0 flex-1",
   divider:
-    "bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8",
+    "bg-none my-6 md:my-8",
   header: "mb-6 md:mb-8",
   title:
     "mb-4 text-heading-32 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)",
@@ -111,30 +111,23 @@ const $ = {
 ---
 
 <Layout meta={metaProps} schema={pageSchema}>
-  <div data-pagefind-weight="1" class="hidden" />
   <main id="main-content" class={$.main}>
-    <article data-pagefind-body data-pagefind-filter="type:legal">
+    <article data-pagefind-ignore>
       <Section size="lg">
         <Container size="md">
-          <header data-pagefind-ignore class={$.header}>
-            <h1 data-pagefind-meta="title" class={$.title}>
-              {entry.data.title}
-            </h1>
+          <header class={$.header}>
+            <h1 class={$.title} set:html={entry.data.title} />
             <div class={$.meta}>
               {entry.data.lastUpdated && (
                 <p>
                   <time
-                    data-pagefind-meta="date"
-                    data-pagefind-sort="date"
                     datetime={entry.data.lastUpdated.toISOString()}
                   >
                     Last updated: {formatDate(entry.data.lastUpdated)}
                   </time>
                 </p>
               )}
-              <p data-pagefind-meta="description" class={$.description}>
-                {entry.data.description}
-              </p>
+              <p class={$.description} set:html={entry.data.description} />
             </div>
           </header>
         </Container>
