@@ -22,7 +22,7 @@ const {
 
 const $ = {
   wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
-  date: "text-body-14 text-(--fg-muted)",
+  date: "text-body-13 text-(--fg-muted)",
   tags: "text-sm text-(--fg-muted)"
 }
 ---
@@ -35,7 +35,7 @@ const $ = {
         data-pagefind-sort="date" 
         datetime={lastUpdated.toISOString()}
       >
-        <span>Diperbarui: </span>
+        <span>Last update: </span>
         {formatDate(lastUpdated)}
       </time>
     </p>
