@@ -6,16 +6,16 @@ import Theme from "@components/Theme.astro";
 import Card from "@ui/Card.astro";
 import GithubStar from "@components/GithubStar.astro";
 ---
-
+
 <label 
   for="mobile-nav-toggle"
-  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden peer-checked:block cursor-pointer"
+  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden peer-checked/nav:block cursor-pointer"
 ><span class="sr-only">Tutup menu navigasi</span></label>
 
 <aside 
   class={
     "fixed top-[calc(var(--header-height)+0)] inset-x-0 z-50 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden " +
-    "peer-checked:block " +
+    "peer-checked/nav:block " +
     "lg:block lg:border-b-0 lg:border-r lg:w-full lg:sticky lg:top-(--header-height) lg:z-0"
   }
 >
@@ -35,7 +35,6 @@ import GithubStar from "@components/GithubStar.astro";
         </div>
       </Card>
     </div>
-
   </div>
 </aside>
 
