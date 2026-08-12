@@ -1,12 +1,12 @@
 ---
-// src/components/ui/ContactForm.astro
+import { FORM_CONFIG } from "@/config/form";
+
 import Input from "./Input.astro";
 import Textarea from "./Textarea.astro";
 import Button from "./Button.astro";
 import Icon from "./Icons.astro";
 import Spinner from "./Spinner.astro";
 import Card from "./Card.astro";
-import { FORM_CONFIG } from "@/config/form";
 
 const {
   endpoint,
@@ -37,7 +37,7 @@ const {
     </p>
   </div>
 
-  <form id="contact-form" class="space-y-6">
+  <form id="contact-form" class="space-y-6" data-wmcp="contact">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <Input
         id="name"
