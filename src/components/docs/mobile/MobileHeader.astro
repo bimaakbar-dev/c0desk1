@@ -1,0 +1,116 @@
+---
+// src/components/docs/mobile/MobileHeader.astro
+import Container from "@ui/Container.astro";
+import Icon from "@ui/Icons.astro";
+import Logo from "@ui/Logo.astro";
+import SearchBar from "@ui/SearchBar.astro";
+import Button from "@ui/Button.astro";
+import Theme from "@components/Theme.astro";
+import GithubStar from "@components/GithubStar.astro";
+
+const $ = {
+  header: [
+    "sticky top-0 z-50 w-full h-full pt-(--safe-top)",
+    "bg-none border-b lg:border-b-none border-(--border-subtle)",
+    "transition-opacity duration-(--duration-fast) ease-(--ease-out)",
+  ].join(" "),
+  wrapper: [
+    "flex flex-1 h-(--header-height) w-full items-center mx-auto justify-between",
+  ].join(" "),
+  left: "flex items-center shrink-0 gap-4",
+  right: "flex items-center shrink-0 gap-2",
+};
+---
+
+<header id="mobile-header" class={$.header}>
+  <Container size="full">
+    <div class={$.wrapper}>
+      <div class={$.left}>
+        <Logo />
+      </div>
+      <div class={$.right}>
+        <div class="hidden md:flex">
+          <SearchBar class="min-w-64" />
+        </div>
+        <div class="flex md:hidden">
+          <SearchBar iconOnly />
+        </div>
+        <div class="hidden md:flex gap-2">
+          <Theme />
+          <GithubStar repo="c0desk1/c0desk1" />
+        </div>
+        <div class="flex md:hidden gap-1">
+          <nav-toggle>
+            <Button
+              variant="icon"
+              size="md"
+              aria-expanded="false"
+              aria-controls="left-sidebar"
+              aria-label="Buka Menu"
+            >
+              <Icon name="menu" class="open-menu size-5" />
+              <Icon name="close" class="close-menu size-5" />
+            </Button>
+          </nav-toggle>
+        </div>
+      </div>
+    </div>
+  </Container>
+</header>
+
+<script>
+  (() => {
+    const header = document.getElementById("mobile-header");
+    if (!header) return;
+
+    // Scroll header toggle
+    const toggleHeader = () => {
+      if (window.scrollY > 10) {
+        header.classList.add("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
+        header.classList.remove("bg-none", "lg:border-none");
+      } else {
+        header.classList.remove("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
+        header.classList.add("bg-none", "lg:border-none");
+      }
+    };
+
+    window.addEventListener("scroll", toggleHeader, { passive: true });
+    toggleHeader();
+  })();
+
+  class NavToggle extends HTMLElement {
+    btn = this.querySelector('button')!;
+
+    constructor() {
+      super();
+      this.btn.addEventListener('click', () => this.toggleExpanded());
+      matchMedia('(min-width: 64rem)').addEventListener('change', () => this.setExpanded(false));
+    }
+
+    setExpanded(expanded: boolean) {
+      this.btn.setAttribute('aria-expanded', String(expanded));
+      this.btn.setAttribute('aria-label', expanded ? 'Tutup Menu' : 'Buka Menu');
+      document.body.toggleAttribute('data-nav-expanded', expanded);
+    }
+
+    toggleExpanded() {
+      this.setExpanded(this.btn.getAttribute('aria-expanded') !== 'true');
+    }
+  }
+
+  customElements.define('nav-toggle', NavToggle);
+</script>
+
+<style is:global>
+  nav-toggle button .close-menu {
+    display: none;
+  }
+
+  nav-toggle button[aria-expanded='true'] .open-menu {
+    display: none;
+  }
+
+  nav-toggle button[aria-expanded='true'] .close-menu {
+    display: block;
+  }
+</style>

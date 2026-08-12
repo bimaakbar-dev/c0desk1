@@ -1,5 +1,6 @@
 ---
 import {
+  ABOUT_PAGE,
   SITE,
   ROUTES,
   buildMeta,
@@ -9,7 +10,6 @@ import {
 } from "@/consts";
 
 import { canonicalUrl } from "@/lib/utils";
-import { ABOUT_PAGE } from "@/config/pages/about";
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
@@ -27,7 +27,6 @@ const {
   cta 
 } = ABOUT_PAGE;
 
-// ===== canonicalUrl =====
 const currentUrl = canonicalUrl(ROUTES.about);
 
 const meta = buildMeta({

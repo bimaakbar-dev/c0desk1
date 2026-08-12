@@ -8,6 +8,8 @@ import {
   SITE,
   ROUTES,
   IMAGE,
+  HOME_PAGE,
+  BLOG_PAGE,
   buildMeta,
   schemaArticle,
   schemaBreadcrumb,
@@ -73,21 +75,16 @@ const nextEntry = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
 const cleanSlug = getSlug(entry);
 
-// ===== URL menggunakan canonicalUrl =====
 const currentUrl = canonicalUrl(`${ROUTES.blog}/${cleanSlug}`);
 
 const breadcrumbItems = [
-  { label: "Beranda", href: canonicalUrl() },
-  { label: "Blog", href: canonicalUrl(ROUTES.blog) },
-  ...(entry.data.category
-    ? [{ label: entry.data.category, href: "" }]
-    : []),
+  { label: HOME_PAGE.title, href: canonicalUrl() },
+  { label: BLOG_PAGE.title, href: canonicalUrl(ROUTES.blog) }
 ];
 
 const author = entry.data.author?.name || SITE.name;
 const publisher = SITE.name;
 
-// ===== Meta =====
 const meta = buildMeta({
   title: entry.data.seo.title,
   description: entry.data.seo.description ?? entry.data.description,
@@ -101,7 +98,6 @@ const meta = buildMeta({
   keywords: entry.data.tags || [],
 });
 
-// ===== Schema =====
 const schema = [
   schemaArticle({
     title: entry.data.title,
@@ -124,8 +120,8 @@ const schema = [
       : undefined,
   }),
   schemaBreadcrumb([
-    { name: "Home", url: canonicalUrl() },
-    { name: "Blog", url: canonicalUrl(ROUTES.blog) },
+    { name: HOME_PAGE.title, url: canonicalUrl() },
+    { name: BLOG_PAGE.title, url: canonicalUrl(ROUTES.blog) },
     { name: entry.data.title, url: currentUrl },
   ]),
 ];

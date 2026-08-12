@@ -1,0 +1,266 @@
+---
+// src/components/ui/Select.astro
+import Icon from "./Icons.astro";
+
+type SelectSize = "sm" | "md" | "lg";
+
+export interface SelectOption {
+  label: string;
+  value: string;
+  icon?: string;
+  subtitle?: string;
+  href?: string;
+  isExternal?: boolean;
+}
+
+interface Props {
+  options: SelectOption[];
+  selectedValue?: string;
+  placeholder?: string;
+  class?: string;
+  id?: string;
+  suffix?: string;
+  prefix?: string;
+  size?: SelectSize;
+  role?: "listbox" | "menu";
+}
+
+const {
+  options,
+  selectedValue,
+  placeholder = "Pilih opsi...",
+  class: className,
+  id = `select-${Math.random().toString(36).slice(2, 6)}`,
+  prefix = "",
+  suffix = "select",
+  size = "md",
+  role = "menu",
+} = Astro.props;
+
+const isMenu     = role === "menu";
+const optionRole = isMenu ? "menuitem" : "option";
+const activeOption = options.find((opt) => opt.value === selectedValue);
+
+const sizeClasses: Record<SelectSize, string> = {
+  sm: "h-8 px-2.5 text-xs gap-1.5 rounded-md",
+  md: "h-10 px-3.5 text-sm gap-2 rounded-md",
+  lg: "h-12 px-4.5 text-base gap-2.5 rounded-lg",
+};
+
+const itemSizeClasses: Record<SelectSize, string> = {
+  sm: "px-2 py-1.5 text-xs rounded-sm",
+  md: "px-2.5 py-2 text-sm rounded-md",
+  lg: "px-3.5 py-2.5 text-base rounded-lg",
+};
+
+const $ = {
+  wrapper:  "relative w-full",
+  summary: [
+    "flex w-full items-center justify-between",
+    "ring-1 ring-(--border) bg-(--bg-subtle) text-(--fg)",
+    "shadow-[0_1px_2px_rgba(0,0,0,0.02)]",
+    "hover:bg-(--bg-muted) hover:text-(--fg-strong)",
+    "active:bg-(--bg-muted) select-none cursor-pointer",
+    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-(--accent)",
+    "list-none [&::-webkit-details-marker]:hidden",
+    sizeClasses[size],
+    className,
+  ].filter(Boolean).join(" "),
+
+  items:   "flex items-center shrink-0 gap-2 truncate flex-1 text-left",
+  prefix:  "shrink-0 text-(--fg-subtle) size-5",
+  chevron: [
+    "shrink-0 text-(--fg-subtle) size-4",
+    "transition-transform duration-(--duration)",
+    "ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+    "details-open:rotate-180",
+  ].join(" "),
+
+  dropdown: [
+    "select-dropdown",
+    "absolute left-0 right-0 top-full mt-1.5 z-50",
+    "max-h-60 overflow-y-auto rounded-md",
+    "ring-1 ring-(--border) bg-(--bg-subtle)",
+    "p-1.5 shadow-xl space-y-0.5 select-none",
+    "scrollbar-thin origin-top",
+  ].join(" "),
+
+  item: (isActive: boolean, itemSize: string) => [
+    "flex w-full items-start gap-2.5 text-left",
+    "transition-all duration-(--duration) cursor-pointer",
+    "focus:outline-none focus:bg-(--bg-muted) focus:text-(--fg-strong)",
+    itemSize,
+    isActive
+      ? "bg-(--bg-muted) text-(--fg-strong)"
+      : "text-(--fg-muted) hover:bg-(--bg-muted) hover:text-(--fg-strong)",
+  ].join(" "),
+};
+
+const itemSize = itemSizeClasses[size];
+---
+
+<details
+  data-select-wrapper
+  class:list={["custom-select", $.wrapper]}>
+
+  <summary
+    class={$.summary}
+    aria-haspopup={role}
+    aria-label={activeOption?.label || placeholder}>
+
+    <span class={$.items}>
+      {prefix && <Icon name={prefix as any} class={$.prefix} />}
+      {activeOption?.icon && <Icon name={activeOption.icon as any} class={$.prefix} />}
+      <span
+        data-select-label
+        class={activeOption ? "text-(--fg-strong)" : "text-(--fg-muted)"}>
+        {activeOption?.label || placeholder}
+      </span>
+    </span>
+
+    <Icon
+      name={suffix as any}
+      data-select-icon
+      class={$.chevron} />
+  </summary>
+
+  <div
+    role={role}
+    aria-label="Pilihan"
+    class={$.dropdown}>
+    {options.map((option) => {
+      const isActive = option.value === selectedValue;
+      const ariaCurrent = isMenu && isActive ? "page" : undefined;
+      const ariaSelected = !isMenu ? isActive : undefined;
+
+      const inner = (
+        <>
+          {option.icon && <Icon name={option.icon as any} class="size-5 shrink-0" />}
+          <div class="flex-1 min-w-0">
+            <div class="truncate">{option.label}</div>
+            {option.subtitle && (
+              <div class="truncate text-[13px] text-(--fg-subtle) mt-0.5">
+                {option.subtitle}
+              </div>
+            )}
+          </div>
+          {isActive && !isMenu && (
+            <Icon
+              name="check"
+              class="shrink-0 size-4 text-(--accent)"
+            />
+          )}
+        </>
+      );
+
+      return option.href ? (
+        <a
+          href={option.href}
+          target={option.isExternal ? "_blank" : undefined}
+          rel={option.isExternal ? "noopener noreferrer" : undefined}
+          class={$.item(isActive, itemSize)}
+          data-select-option
+          role={optionRole}
+          aria-current={ariaCurrent}
+          aria-selected={ariaSelected}>
+          {inner}
+        </a>
+      ) : (
+        <button
+          type="button"
+          data-value={option.value}
+          class={$.item(isActive, itemSize)}
+          data-select-option
+          role={optionRole}
+          aria-selected={ariaSelected}>
+          {inner}
+        </button>
+      );
+    })}
+  </div>
+</details>
+
+<style is:global>
+  details[open] [data-select-icon] {
+    transform: rotate(180deg);
+  }
+
+  .select-dropdown {
+    animation: none;
+  }
+
+  details[open] .select-dropdown {
+    animation: selectIn 160ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes selectIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    details[open] .select-dropdown {
+      animation: none;
+    }
+  }
+
+  .scrollbar-thin::-webkit-scrollbar       { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--fg-strong); border-radius: 9999px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+</style>
+
+<script>
+  document.addEventListener("click", (e) => {
+    document.querySelectorAll("details[data-select-wrapper][open]").forEach((d) => {
+      if (!d.contains(e.target as Node)) {
+        (d as HTMLDetailsElement).open = false;
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    document.querySelectorAll("details[data-select-wrapper][open]").forEach((d) => {
+      (d as HTMLDetailsElement).open = false;
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    const option = (e.target as HTMLElement).closest("[data-select-option]") as HTMLElement | null;
+    if (!option || option.tagName === "A") return;
+
+    const wrapper  = option.closest("[data-select-wrapper]") as HTMLDetailsElement;
+    const labelEl  = wrapper?.querySelector("[data-select-label]") as HTMLElement;
+    if (!wrapper || !labelEl) return;
+
+    const label = option.querySelector(".truncate")?.textContent?.trim() ?? "";
+    const value = option.dataset.value ?? "";
+
+    labelEl.textContent = label;
+    labelEl.classList.remove("text-(--fg-muted)");
+    labelEl.classList.add("text-(--fg-strong)");
+
+    wrapper.querySelectorAll("[data-select-option]").forEach((opt) => {
+      const el = opt as HTMLElement;
+      const isThis = el === option;
+      el.setAttribute("aria-selected", String(isThis));
+      el.classList.toggle("bg-(--bg-muted)",   isThis);
+      el.classList.toggle("text-(--fg-strong)", isThis);
+      el.classList.toggle("text-(--fg-muted)",  !isThis);
+    });
+
+    wrapper.dispatchEvent(new CustomEvent("select-change", {
+      bubbles: true,
+      detail: { value, label },
+    }));
+
+    wrapper.open = false;
+  });
+</script>

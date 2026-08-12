@@ -1,0 +1,65 @@
+---
+// src/components/mdx/Card.astro
+
+interface Props {
+  title?: string;
+  icon?: string;
+  href?: string;
+  class?: string;
+}
+
+const { title, icon, href, class: className } = Astro.props;
+
+const hasIcon = !!icon;
+const hasTitle = !!title;
+const hasHref = !!href;
+const isExternal = href?.startsWith('http');
+
+const cardClasses = [
+  'card',
+  !hasTitle ? 'card-no-title' : '',
+  !hasIcon ? 'card-no-icon' : '',
+  className || '',
+].filter(Boolean).join(' ');
+---
+
+{hasHref ? (
+  <a
+    href={href}
+    class="card-link"
+    target={isExternal ? '_blank' : '_self'}
+    rel={isExternal ? 'noopener noreferrer' : ''}
+  >
+    <div class={cardClasses}>
+      {(hasIcon || hasTitle) && (
+        <div class="card-header">
+          {hasIcon && (
+            <span class="card-icon-wrapper">
+              <span class="card-icon" data-icon={icon} />
+            </span>
+          )}
+          {hasTitle && <div class="card-title">{title}</div>}
+        </div>
+      )}
+      <div class="card-body">
+        <slot />
+      </div>
+    </div>
+  </a>
+) : (
+  <div class={cardClasses}>
+    {(hasIcon || hasTitle) && (
+      <div class="card-header">
+        {hasIcon && (
+          <span class="card-icon-wrapper">
+            <span class="card-icon" data-icon={icon} />
+          </span>
+        )}
+        {hasTitle && <div class="card-title">{title}</div>}
+      </div>
+    )}
+    <div class="card-body">
+      <slot />
+    </div>
+  </div>
+)}

@@ -1,16 +1,14 @@
 ---
 // src/pages/404.astro
 import {
+  NOT_FOUND_PAGE,
   ROUTES,
-  SITE,
   buildMeta,
 } from "@/consts";
 
 import { 
   canonicalUrl 
 } from "@/lib/utils";
-
-import { NOT_FOUND_PAGE } from "@/config/pages/404";
 
 import Layout from "@/layouts/Layout.astro";
 import Section from "@ui/Section.astro";

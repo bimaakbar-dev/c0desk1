@@ -1,24 +1,28 @@
 ---
 // src/pages/blog/archive.astro
 
-import { getCollection, type CollectionEntry } from "astro:content";
+import { 
+  getCollection, 
+  type CollectionEntry 
+} from "astro:content";
 
 import {
+  HOME_PAGE,
+  BLOG_PAGE,
+  ARCHIVE_PAGE,
   SITE,
   ROUTES,
   IMAGE,
   buildMeta,
   schemaWebPage,
-  schemaBreadcrumb    
+  schemaBreadcrumb
 } from "@/consts";
+
 import { 
   canonicalUrl, 
   getSlug,
-  formatDate,
   formatDateCompact
 } from "@/lib/utils";
-
-import { ARCHIVE_PAGE } from "@/config/pages/archive";
 
 import Layout from "@/layouts/Layout.astro";
 import Section from "@ui/Section.astro";
@@ -26,7 +30,6 @@ import Container from "@ui/Container.astro";
 import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 import Badge from "@ui/Badge.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
 
 type BlogEntry = CollectionEntry<"blog">;
 
@@ -105,16 +108,12 @@ const activityGrid = getYearActivity(activeYear);
 const activeYearTotal = archive[activeYear] ? Object.values(archive[activeYear]).flat().length : 0;
 const hasPosts = allPosts.length > 0;
 
-// ===== canonicalUrl =====
 const canonicalURL = canonicalUrl(ROUTES.archive);
 
-const { title, description } = ARCHIVE_PAGE;
-
-const breadcrumbItems = [
-  { label: breadcrumb.home, href: canonicalUrl() },
-  { label: breadcrumb.blog, href: canonicalUrl(ROUTES.blog) },
-  { label: title, href: canonicalURL },
-];
+const { 
+  title, 
+  description 
+} = ARCHIVE_PAGE;
 
 const meta = buildMeta({
   title,
@@ -139,8 +138,8 @@ const schema = [
     },
   }),
   schemaBreadcrumb([
-    { name: "Home", url: canonicalUrl() },
-    { name: "Blog", url: canonicalUrl(ROUTES.blog) },
+    { name: HOME_PAGE.title, url: canonicalUrl() },
+    { name: BLOG_PAGE.title, url: canonicalUrl(ROUTES.blog) },
     { name: title, url: canonicalURL },
   ]),
 ];
@@ -274,13 +273,13 @@ const schema = [
 
                             <ul class="space-y-2">
                               {archive[year][month].map((post) => {
-                                const slug = getSlug(post); // ✅ pakai helper
+                                const slug = getSlug(post);
                                 const pubDate = post.data.pubDate;
                                 return (
                                   <li class="group">
                                     <Card padding="none" radius="sm" variant="primary">
                                       <a
-                                        href={canonicalUrl(`${ROUTES.blog}/${slug}`)} // ✅ pakai canonicalUrl
+                                        href={canonicalUrl(`${ROUTES.blog}/${slug}`)}
                                         class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 py-2 hover:text-(--accent) transition-colors"
                                       >
                                         <span class="text-body-14 font-medium text-(--fg-muted) group-hover:text-(--fg-strong) line-clamp-1">

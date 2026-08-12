@@ -1,26 +1,27 @@
 ---
 // src/pages/index.astro
 import {
-  buildMeta,
-  schemaWebPage,
-  schemaBreadcrumb,
-  ROUTES,
   SITE,
+  ROUTES,
+  buildMeta,
+  schemaWebPage
 } from "@/consts";
 
 import { 
   canonicalUrl 
 } from "@/lib/utils";
 
+import { features } from "@/config/pages";
+
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
+import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 import Icons from "@ui/Icons.astro";
 import Hero from "@/components/Hero.astro";
 import HeroImage from "@/assets/images/logo.webp";
 
-// ===== Meta & Schema =====
 const meta = buildMeta({
   description: SITE.description,
   canonical: canonicalUrl(),
@@ -34,55 +35,24 @@ const schema = [
     url: canonicalUrl(),
   })
 ];
-
-// ===== Fitur =====
-const features = [
-  {
-    icon: "zap",
-    title: "Lightning Fast",
-    desc: "Built with Astro for near-instant page loads.",
-  },
-  {
-    icon: "shield",
-    title: "Accessible",
-    desc: "Follows WCAG accessibility standards out of the box.",
-  },
-  {
-    icon: "layout",
-    title: "Ready to Use",
-    desc: "Complete with navigation, search, and dark mode.",
-  },
-  {
-    icon: "github",
-    title: "Open Source",
-    desc: "Fully customizable and free to use.",
-  },
-];
 ---
 
 <Layout {meta} {schema} isHome>
   <main id="main-content" class="w-full min-w-0 flex-1">
     <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
-
-      <!-- HERO -->
       <Container size="xl">
-        <Section size="sm">
+        <Section size="md">
           <Hero
-            tagline="a Astro Project"
             image={HeroImage}
             imageAlt="Hero illustration"
             title={SITE.description}
-            action={`${ROUTES.docs}/introduction/`}
-            actionLabel="Get Started"
-            action2={`${ROUTES.docs}/`}
-            action2Label="Documentation"
           />
         </Section>
       </Container>
       <Container size="lg">
-        <Section size="md" class="py-12 lg:py-16">
+        <Section size="md">
           <div class="text-center mb-10">
-            <h2 class="text-heading-32 font-bold text-(--fg-strong)">
+            <h2 class="text-heading-32 text-(--fg-strong)">
               Why Choose This Theme?
             </h2>
             <p class="text-body-16 text-(--fg-muted) mt-2">
@@ -91,22 +61,22 @@ const features = [
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f) => (
-              <div class="p-6 rounded-xl ring-1 ring-(--border) bg-(--bg-muted)/50 text-center transition hover:shadow-md">
+              <Card padding="lg" radius="md" variant='secondary' class="text-center hover:shadow-md">
                 <div class="flex justify-center mb-3">
                   <Icons name={f.icon} class="size-8 text-brand" />
                 </div>
-                <h3 class="text-title-18 font-semibold text-(--fg-strong)">
+                <h3 class="text-heading-18 font-semibold text-(--fg-strong)">
                   {f.title}
                 </h3>
                 <p class="text-body-14 text-(--fg-muted) mt-1">{f.desc}</p>
-              </div>
+              </Card>
             ))}
           </div>
         </Section>
       </Container>
       <Container size="md">
-        <Section size="sm" class="text-center">
-          <h2 class="text-heading-28 font-bold text-(--fg-strong)">
+        <Section size="md" class="text-center">
+          <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
             Ready to Start?
           </h2>
           <p class="text-body-16 text-(--fg-muted) mt-2">

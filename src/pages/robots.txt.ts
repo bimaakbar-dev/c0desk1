@@ -19,9 +19,10 @@ export const GET: APIRoute = ({ site }) => {
 User-agent: *
 ${isIndexable ? 'Allow: /' : 'Disallow: /'}
 
-Disallow: /api/
+# Disallow: /api/
 # Disallow: /_astro/
 Disallow: /*?*
+Disallow: /#*
 # Disallow: /*.json$
 
 Sitemap: ${sitemapUrl}

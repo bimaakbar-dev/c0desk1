@@ -3,7 +3,6 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 import { 
-  SITE, 
   ROUTES 
 } from '@/consts';
 

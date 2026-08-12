@@ -2,19 +2,18 @@
 // src/pages/blog/index.astro
 import { getCollection } from "astro:content";
 import {
-  SITE,
+  HOME_PAGE,
+  BLOG_PAGE,
   ROUTES,
   PAGINATION,
   buildMeta,
   schemaWebPage,
-  schemaBreadcrumb 
+  schemaBreadcrumb
 } from "@/consts";
 
 import { 
   canonicalUrl 
 } from "@/lib/utils";
-
-import { BLOG_PAGE } from "@/config/pages/blog";
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
@@ -69,7 +68,6 @@ const {
 
 const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
 
-// ===== canonicalUrl =====
 const blogUrl = canonicalUrl(ROUTES.blog);
 const currentUrl = currentPage === 1
   ? blogUrl
@@ -93,7 +91,6 @@ const {
   noPosts 
 } = BLOG_PAGE;
 
-// ===== Meta =====
 const meta = buildMeta({
   title,
   description,
@@ -101,7 +98,6 @@ const meta = buildMeta({
   noindex: !isFirstPage,
 });
 
-// ===== Schema =====
 const schema = [
   schemaWebPage({
     title,
@@ -110,7 +106,7 @@ const schema = [
     type: "CollectionPage",
   }),
   schemaBreadcrumb([
-    { name: "Home", url: canonicalUrl() },
+    { name: HOME_PAGE.title, url: canonicalUrl() },
     { name: title, url: blogUrl },
   ]),
 ];

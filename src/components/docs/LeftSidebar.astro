@@ -1,0 +1,67 @@
+---
+// src/components/docs/LeftSidebar.astro
+import SidebarMenu from "./SidebarMenu.astro";
+import Socials from "@components/Socials.astro";
+import Theme from "@components/Theme.astro";
+import Card from "@ui/Card.astro";
+import GithubStar from "@components/GithubStar.astro";
+---
+
+<div
+  id="nav-overlay"
+  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden cursor-pointer"
+  aria-hidden="true"
+/>
+
+<aside id="left-sidebar" class="fixed top-[calc(var(--header-height)+0)] inset-x-0 z-50 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden lg:block lg:border-b-0 lg:border-r lg:sticky lg:top-(--header-height) lg:z-0">
+  <div class="flex flex-col h-full">
+    <div class="flex-1 overflow-y-auto pt-4 pb-4 lg:py-2 scrollbar-gutter-stable">
+      <SidebarMenu />
+    </div>
+    <div class="inline-flex shrink-0 p-4 justify-center lg:hidden pb-(--safe-bottom)">
+      <Card variant="primary" padding="xs" radius="sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
+            <GithubStar repo="c0desk1" />
+            <Socials />
+          </div>
+          <Theme />
+        </div>
+      </Card>
+    </div>
+  </div>
+</aside>
+
+<style is:global>
+  [data-nav-expanded] #left-sidebar {
+    display: block;
+  }
+
+  [data-nav-expanded] #nav-overlay {
+    display: block;
+  }
+
+  [data-nav-expanded] {
+    overflow: hidden;
+  }
+
+  @media (min-width: 64rem) {
+    [data-nav-expanded] {
+      overflow: auto;
+    }
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById('nav-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      document.body.removeAttribute('data-nav-expanded');
+      const btn = document.querySelector('nav-toggle button');
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Buka Menu');
+      }
+    });
+  }
+</script>

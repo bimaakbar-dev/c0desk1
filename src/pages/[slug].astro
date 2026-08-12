@@ -5,12 +5,12 @@ import {
 } from "astro:content";
 
 import {
-  buildMeta,
+  SITE,
   IMAGE,
+  buildMeta,
   schemaWebPage,
   schemaBreadcrumb,
-  ROUTES,
-  SITE,
+HOME_PAGE,
 } from "@/consts";
 
 import { 
@@ -93,7 +93,7 @@ const pageSchema = [
     },
   }),
   schemaBreadcrumb([
-    { name: "Home", url: canonicalUrl() },
+    { name: HOME_PAGE.title, url: canonicalUrl() },
     { name: breadcrumbName, url: currentUrl },
   ]),
 ];
