@@ -16,9 +16,9 @@
   padding-bottom: 0.25;
   padding-inline: 1rem;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 1.5rem;
+  align-vertical: middle;
 }
 
 .prose .card-header .card-icon-wrapper {
@@ -77,14 +77,15 @@
 }
 
 .prose .card-header .card-title {
-  font-weight: 600;
-  font-size: 1rem;
+  @apply-text-heading-16;
+  font-weight: 500;
   color: var(--fg-strong);
 }
 
 /* ===== BODY ===== */
 .prose .card-body,
 .prose .card-body * {
+  @apply text-body-16;
   color: var(--fg-muted);
 }
 
@@ -116,11 +117,12 @@
   background: transparent;
   align-items: flex-start;
   justify-content: flex-start;
+  align-vertical: middle;
 }
 
 .prose .card.card-no-title .card-header .card-icon-wrapper {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .prose .card.card-no-title .card-header .card-icon {
@@ -170,13 +172,8 @@
   display: block;
   color: inherit !important;
   text-decoration: none !important;
-  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .prose .card-link:hover .card {
   background-color: var(--bg-muted);
-}
-
-.prose .card-link:active .card {
-  transform: scale(0.98);
 }
