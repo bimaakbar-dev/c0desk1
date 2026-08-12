@@ -8,7 +8,7 @@
 }
 
 @media (min-width: 40rem) {
-  .grid-card {
+  .prose .grid-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
