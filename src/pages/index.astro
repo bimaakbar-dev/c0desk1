@@ -52,7 +52,7 @@ const schema = [
       <Container size="lg">
         <Section size="md">
           <div class="text-center mb-10">
-            <h2 class="text-heading-32 text-(--fg-strong)">
+            <h2 class="text-heading-40 text-(--fg-strong)">
               Why Choose This Theme?
             </h2>
             <p class="text-body-16 text-(--fg-muted) mt-2">
@@ -74,31 +74,32 @@ const schema = [
           </div>
         </Section>
       </Container>
-      <Container size="md">
-        <Section size="md" class="text-center">
-          <h2 class="text-heading-24 font-semibold text-(--fg-strong)">
-            Ready to Start?
-          </h2>
-          <p class="text-body-16 text-(--fg-muted) mt-2">
-            Explore the documentation and build your project today.
-          </p>
-          <div class="mt-6 flex flex-wrap justify-center gap-4">
-            <Button
-              href={`${ROUTES.docs}/introduction/`}
-              variant="primary"
-              size="lg"
-            >
-              Start Reading
-            </Button>
-            <Button
-              href="https://github.com/bimaakbar-dev"
-              variant="ghost"
-              size="lg"
-              suffix={<Icons name="external" class="size-4" />}
-              aria-label="github-repo"
-            >
-              GitHub
-            </Button>
+      <Container size="xl">
+        <Section size="lg" class="py-12 md:py-16 lg:py-24">
+          <div class="grid grid-cols-12 gap-x-6 gap-y-6">
+            <div class="col-span-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:flex-row lg:gap-12">
+              <h2 class="text-heading-28 md:text-heading-40 lg:text-heading-48 font-medium text-(--fg-strong) text-center lg:text-left text-balance max-w-[16ch]">
+                Ready to Explore?
+              </h2>
+              <div class="flex flex-wrap items-center justify-center gap-4">
+                <Button
+                  href={`${ROUTES.docs}/introduction/`}
+                  variant="primary"
+                  size="lg"
+                  suffix={<Icons name="arrow-right" class="size-4.5" />}
+                >
+                  View Documents
+                </Button>
+                <Button
+                  href="https://github.com/bimaakbar-dev"
+                  variant="ghost"
+                  size="lg"
+                  suffix={<Icons name="external" class="size-4.5" />}
+                >
+                  GitHub
+                </Button>
+              </div>
+            </div>
           </div>
         </Section>
       </Container>
