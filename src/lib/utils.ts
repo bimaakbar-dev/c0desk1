@@ -124,7 +124,7 @@ export function generateExcerpt(
 }
 
 export function getReadingTime(content?: string): string {
-  const suffix = 'menit baca';
+  const suffix = 'min read';
 
   if (!content?.trim()) return `1 ${suffix}`;
   const cleanText = generateExcerpt(content, Infinity);
