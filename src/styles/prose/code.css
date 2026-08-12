@@ -8,7 +8,7 @@
   @apply text-code-14;
   color: var(--fg-strong);
   background-color: var(--bg-muted);
-  border: 1px solid rgb(from var(--border-subtle) r g b / 100%);
+  border: 1px solid rgb(from var(--border) r g b / 100%);
   border-radius: var(--radius-sm);
   padding: 0.15em 0.4em;
   white-space: break-spaces;
@@ -23,8 +23,8 @@
   color: inherit !important;
   font-size: inherit !important;
   font-family: var(--font-mono) !important;
-  background-color: var(--bg-subtle);
-  border: 1px solid rgb(from var(--border-subtle) r g b / 100%);
+  background-color: var(--bg-muted);
+  border: 1px solid rgb(from var(--border) r g b / 100%);
   border-radius: var(--radius-md);
   padding: 0.15em 0.4em;
 }
