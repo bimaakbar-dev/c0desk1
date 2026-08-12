@@ -14,6 +14,7 @@
       "@components/*": ["./src/components/*"],
       "@styles/*": ["./src/styles/*"],
       "@docs/*": ["./src/components/docs/*"],
+      "@blog/*": ["./src/components/blog/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@lib/*": ["./src/lib/*"]
     }
