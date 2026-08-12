@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 
 const $ = {
-    wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) space-y-6",
+    wrapper: "items-center justify-center flex-1 shrink-0 space-y-6",
     date: "text-body-14 text-(--fg-muted) py-4"
 }
 ---
@@ -28,7 +28,7 @@ const $ = {
               data-pagefind-sort="date" 
               datetime={lastUpdated.toISOString()}
             >
-                <span>Diperbarui: </span>
+                <span>Last updated: </span>
                 {formatDate(lastUpdated)}
             </time>
         </p>
