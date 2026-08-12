@@ -1,7 +1,7 @@
 // src/config/pages/landing.ts
 
 export const HOME_PAGE = {
-  title: "home",
+  title: "Home",
 } as const;
 
 export const features = [
