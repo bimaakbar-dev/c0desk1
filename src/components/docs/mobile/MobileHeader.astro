@@ -8,37 +8,45 @@ import Button from "@ui/Button.astro";
 import Theme from "@components/Theme.astro";
 import GithubStar from "@components/GithubStar.astro";
 
-const $ = {
+const styles = {
   header: [
     "sticky top-0 z-50 w-full h-full pt-(--safe-top)",
     "bg-none border-b lg:border-b-none border-(--border-subtle)",
-    "transition-opacity duration-(--duration-fast) ease-(--ease-out)",
+    "transition-opacity duration-(--duration-fast) ease-(--ease-out)"
   ].join(" "),
+
   wrapper: [
-    "flex flex-1 h-(--header-height) w-full items-center mx-auto justify-between",
+    "grid grid-cols-[1fr_auto] items-center h-(--header-height) mx-auto",
+    "gap-4"
   ].join(" "),
-  left: "flex items-center shrink-0 gap-4",
-  right: "flex items-center shrink-0 gap-2",
+
+  left: "flex items-center gap-4",
+  right: "flex items-center gap-2"
 };
 ---
 
-<header id="mobile-header" class={$.header}>
+<header id="mobile-header" class={styles.header}>
   <Container size="full">
-    <div class={$.wrapper}>
-      <div class={$.left}>
+    <div class={styles.wrapper}>
+      <div class={styles.left}>
         <Logo />
       </div>
-      <div class={$.right}>
+
+      <div class={styles.right}>
+
         <div class="hidden md:flex">
           <SearchBar class="min-w-64" />
         </div>
+
         <div class="flex md:hidden">
           <SearchBar iconOnly />
         </div>
+
         <div class="hidden md:flex gap-2">
           <Theme />
           <GithubStar repo="c0desk1/c0desk1" />
         </div>
+
         <div class="flex md:hidden gap-1">
           <nav-toggle>
             <Button
@@ -63,15 +71,14 @@ const $ = {
     const header = document.getElementById("mobile-header");
     if (!header) return;
 
-    // Scroll header toggle
     const toggleHeader = () => {
-      if (window.scrollY > 10) {
-        header.classList.add("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
-        header.classList.remove("bg-none", "lg:border-none");
-      } else {
-        header.classList.remove("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
-        header.classList.add("bg-none", "lg:border-none");
-      }
+      const isScrolled = window.scrollY > 10;
+      header.classList.toggle("bg-(--bg)/80", isScrolled);
+      header.classList.toggle("backdrop-blur-sm", isScrolled);
+      header.classList.toggle("lg:border-(--border-subtle)", isScrolled);
+      header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
+      header.classList.toggle("bg-none", !isScrolled);
+      header.classList.toggle("lg:border-none", !isScrolled);
     };
 
     window.addEventListener("scroll", toggleHeader, { passive: true });
