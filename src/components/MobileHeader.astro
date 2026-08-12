@@ -42,13 +42,13 @@ const $ = {
         <div class="flex md:hidden gap-1">
           <label
             for="mobile-nav-toggle"
+            id="nav-toggle-label"
             class="inline-flex items-center justify-center size-8 cursor-pointer text-(--fg-muted) aspect-square hover:bg-(--bg-muted) hover:text-(--fg-strong) rounded-md outline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)"
             aria-label="Buka Menu"
           >
-            <span class="sr-only peer-checked/nav:hidden">Buka menu navigasi</span>
-            <span class="sr-only hidden peer-checked/nav:inline">Tutup menu navigasi</span>
-            <Icon name="menu" class={`${$.iconSize} peer-checked/nav:hidden`} />
-            <Icon name="close" class={`${$.iconSize} hidden peer-checked/nav:block`} />
+            <span class="sr-only">Toggle menu navigasi</span>
+            <Icon name="menu" id="icon-menu" class={$.iconSize} />
+            <Icon name="close" id="icon-close" class={`${$.iconSize} hidden`} />
           </label>
         </div>
       </div>
@@ -61,28 +61,36 @@ const $ = {
     const header = document.getElementById("mobile-header");
     if (!header) return;
 
+    // Scroll header toggle
     const toggleHeader = () => {
       if (window.scrollY > 10) {
-        header.classList.add(
-          "bg-(--bg)/80",
-          "backdrop-blur-sm",
-          "lg:border-(--border-subtle)",
-          "shadow-(--shadow-sm)"
-        );
+        header.classList.add("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
         header.classList.remove("bg-none", "lg:border-none");
       } else {
-        header.classList.remove(
-          "bg-(--bg)/80",
-          "backdrop-blur-sm",
-          "lg:border-(--border-subtle)",
-          "shadow-(--shadow-sm)"
-        );
+        header.classList.remove("bg-(--bg)/80", "backdrop-blur-sm", "lg:border-(--border-subtle)", "shadow-(--shadow-sm)");
         header.classList.add("bg-none", "lg:border-none");
       }
     };
 
-    window.removeEventListener("scroll", toggleHeader);
     window.addEventListener("scroll", toggleHeader, { passive: true });
     toggleHeader();
+
+    // Icon toggle
+    const checkbox = document.getElementById("mobile-nav-toggle");
+    const iconMenu = document.getElementById("icon-menu");
+    const iconClose = document.getElementById("icon-close");
+    const label = document.getElementById("nav-toggle-label");
+
+    if (!checkbox || !iconMenu || !iconClose || !label) return;
+
+    const updateIcon = () => {
+      const isOpen = checkbox.checked;
+      iconMenu.classList.toggle("hidden", isOpen);
+      iconClose.classList.toggle("hidden", !isOpen);
+      label.setAttribute("aria-label", isOpen ? "Tutup Menu" : "Buka Menu");
+    };
+
+    checkbox.addEventListener("change", updateIcon);
+    updateIcon();
   })();
 </script>
