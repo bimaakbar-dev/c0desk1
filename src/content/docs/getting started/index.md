@@ -17,36 +17,55 @@ seo:
 lastUpdated: 2026-08-10T19:30:00Z
 ---
 
-**Unloyd** is an open-source template for building fast, content-rich documentation sites and blogs with [Astro](https://astro.build), [TailwindCSS](https://tailwindcss.com), and [Sätteri](https://satteri.bruits.org). Clone, customize, and deploy.
+**Unloyd** is an open-source documentation and blog template built with Astro, TailwindCSS, and Sätteri. Designed to be fast, accessible, and easy to customize — clone, configure, and deploy.
 
 ---
 
 ## What's Included
 
-| Feature | Description |
-| --- | --- |
-| Documentation system | Sidebar, TOC, and search |
-| Blog engine | Pagination, archive, RSS, and author profiles |
-| Custom directives | Callout, Steps, Tabs, Filetree, Accordion, Card, and more |
-| Dark mode | Built-in theme switcher |
-| SEO | Open Graph, Twitter Cards, and structured data |
-| Contact form | Formspree integration |
+::::grid
+:::card[Documentation]{icon="learn"}
+Sidebar navigation, table of contents, and full-text search.
+:::
 
----
+:::card[Blog]{icon="blog"}
+Pagination, archive, RSS feeds, and author profiles.
+:::
+
+:::card[Custom Directives]{icon="sparkle"}
+Callout, Steps, Tabs, Filetree, Accordion, Card, Quote, and more.
+:::
+
+:::card[SEO]{icon="info"}
+Open Graph, Twitter Cards, JSON-LD structured data, sitemap, and robots.txt.
+:::
+
+:::card[Dark Mode]{icon="star"}
+Built-in theme switcher with system preference detection.
+:::
+
+:::card[Contact Form]{icon="link"}
+Ready-to-use form with Formspree integration.
+:::
+::::
+
 
 ## Get Started
 
 :::steps
-1. Fork the [Unloyd repository](https://github.com/unloyd/unloyd)
+1. Fork the [Unloyd repository](https://github.com/bimaakbar-dev/unloyd-themes)
 2. Clone your fork locally
 3. Run `npm install`
 4. Run `npm run dev`
 :::
 
----
-
 ## Next Steps
 
+::::grid
 :::card[Tech Stack]{href="/docs/tech-stack/" icon='learn'}
-Technologies behind Unloyd
+Technologies behind Unloyd.
 :::
+:::card[Quick Start]{href="/docs/quick-start/" icon='learn'}
+Detailed setup and local development guide.
+:::
+::::
