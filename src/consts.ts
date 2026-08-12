@@ -2,4 +2,5 @@
 export * from "./config/site";
 export * from "./config/seo";
 export * from "./config/schema";
-export * from "./config/docsNavigation";
+export * from "./config/pages";
+export * from "./config/navs"
