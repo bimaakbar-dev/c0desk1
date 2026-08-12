@@ -7,7 +7,7 @@ export const satteriGrid = defineMdastPlugin({
   containerDirective(node, ctx) {
     const name = node.name?.toLowerCase();
 
-    if (name === 'grid-card') {
+    if (name === 'grid') {
       ctx.setProperty(node, 'data', {
         ...(node.data || {}),
         hName: 'div',
