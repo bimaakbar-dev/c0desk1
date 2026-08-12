@@ -3,6 +3,7 @@ import {
   defineConfig,
   fontProviders,
   passthroughImageService,
+  svgoOptimizer
 } from "astro/config";
 
 import { SITE } from "./src/consts";
@@ -179,5 +180,6 @@ export default defineConfig({
   },
   experimental: {
     incrementalBuild: true,
+    svgOptimizer: svgoOptimizer()
   },
 });
