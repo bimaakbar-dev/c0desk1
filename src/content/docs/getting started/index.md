@@ -32,7 +32,7 @@ Sidebar navigation, table of contents, and full-text search.
 Pagination, archive, RSS feeds, and author profiles.
 :::
 
-:::card[Custom Directives]{icon="sparkle"}
+:::card[Custom Directives]{icon="book-2"}
 Callout, Steps, Tabs, Filetree, Accordion, Card, Quote, and more.
 :::
 
@@ -44,7 +44,7 @@ Open Graph, Twitter Cards, JSON-LD structured data, sitemap, and robots.txt.
 Built-in theme switcher with system preference detection.
 :::
 
-:::card[Contact Form]{icon="user"}
+:::card[Contact Form]{icon="contact"}
 Ready-to-use form with Formspree integration.
 :::
 ::::
