@@ -14,6 +14,7 @@ seo:
   title: "Analytics"
   description: "Integrate Google Analytics and Yandex Metrica with Unloyd."
   noIndex: false
+lastUpdated: 2026-08-12T15:03:00Z
 ---
 
 Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set the environment variable and deploy — no code changes needed.
@@ -40,8 +41,6 @@ Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set th
    > The script uses `data-consent="required"` and is integrated with the cookie consent system.
 :::
 
----
-
 ## Yandex Metrica
 
 :::steps
@@ -58,13 +57,9 @@ Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set th
    The script loads automatically on build. No further setup needed.
 :::
 
----
-
 ## How It Works
 
 Both scripts are conditionally loaded in `Head.astro` — they only render if the corresponding environment variable is set. This keeps your site lightweight when analytics are not configured.
-
----
 
 ## Privacy Considerations
 
@@ -73,8 +68,6 @@ Both services collect user data. Make sure your site has:
 - A **Privacy Policy** page
 - The built-in cookie consent system enabled
 - Clear notice to users about data collection
-
----
 
 ## Next Steps
 
