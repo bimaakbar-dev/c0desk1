@@ -1,31 +1,30 @@
 /* src/styles/prose/grid.css */
 
-.prose .grid {
+.prose .grid-card {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0
 }
 
-.prose .grid .col {
-  min-width: 0;
+.prose .grid-card .col-card {
+  min-width: 0
 }
 
-.prose .grid *:first-child {
-  margin-top: 0;
+.prose .grid-card *:first-child {
+  margin-top: 0
 }
 
-.proser .grid *:last-child {
-  margin-bottom: 0;
+.proser .grid-card *:last-child {
+  margin-bottom: 0
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 45rem) {
-  .prose .grid {
-    grid-template-columns: 1fr;
+  .prose .grid-card {
+    grid-template-columns: 1fr
   }
   
-  .prose .grid * + * {
-    margin: 0 !important;
+  .prose .grid-card > * + * {
+    margin: 0 !important
   }
 }
