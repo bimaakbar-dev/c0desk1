@@ -76,6 +76,11 @@
   -webkit-mask-image: var(--ic-book-2);
 }
 
+.prose .card-header .card-icon[data-icon="contact"] {
+  mask-image: var(--ic-contact);
+  -webkit-mask-image: var(--ic-contact);
+}
+
 .prose .card-header .card-title {
   @apply-text-heading-16;
   font-weight: 500;
