@@ -5,19 +5,17 @@ import Select from "@ui/Select.astro";
 const currentPath = Astro.url.pathname;
 
 const navItems = NAV.navBar.map((item) => ({
-  label: item.label,
+  ...item,
   value: item.label.toLowerCase(),
-  href: item.href,
-  icon: item.icon,
-  isExternal: item.isExternal,
+  href: (!item.isExternal && !item.href.startsWith("http") && !item.href.startsWith("#"))
+    ? (item.href.endsWith("/") ? item.href : item.href + "/")
+    : item.href,
 }));
 
 const activeNavItem = navItems.find((item) => {
-  if (item.isExternal || item.href.startsWith('http') || item.href.startsWith('#')) return false;
-  const cleanHref = item.href.replace(/\/$/, "");
-  const cleanPath = currentPath.replace(/\/$/, "");
-  if (cleanHref === "") return cleanPath === "";
-  return cleanPath === cleanHref || cleanPath.startsWith(`${cleanHref}/`);
+  if (item.isExternal || item.href.startsWith("http") || item.href.startsWith("#")) return false;
+  if (item.href === "/") return currentPath === "/";
+  return currentPath === item.href || currentPath.startsWith(item.href);
 });
 ---
 
