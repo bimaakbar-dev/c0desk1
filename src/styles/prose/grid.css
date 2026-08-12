@@ -1,14 +1,43 @@
-/* styles/prose/grid.css */
+/* styles/grid-card.css */
 
 .prose .grid-card {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 1rem; 
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 @media (min-width: 40rem) {
   .prose .grid-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
   }
+}
+
+.prose .col-card {
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  margin: 0 !important;
+}
+
+.prose .col-card:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.prose .col-card > * {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.prose .col-card > *:first-child {
+  margin-top: 0 !important;
+}
+
+.prose .col-card > *:last-child {
+  margin-bottom: 0 !important;
 }
