@@ -28,7 +28,7 @@ lastUpdated: 2026-08-10T19:30:00Z
 Sidebar navigation, table of contents, and full-text search.
 :::
 
-:::card[Blog]{icon="blog"}
+:::card[Blog]{icon="book"}
 Pagination, archive, RSS feeds, and author profiles.
 :::
 
@@ -44,7 +44,7 @@ Open Graph, Twitter Cards, JSON-LD structured data, sitemap, and robots.txt.
 Built-in theme switcher with system preference detection.
 :::
 
-:::card[Contact Form]{icon="link"}
+:::card[Contact Form]{icon="user"}
 Ready-to-use form with Formspree integration.
 :::
 ::::
@@ -53,7 +53,7 @@ Ready-to-use form with Formspree integration.
 ## Get Started
 
 :::steps
-1. Fork the [Unloyd repository](https://github.com/bimaakbar-dev/unloyd-themes)
+1. Fork the :button[Unloyd repository]{url="https://github.com/bimaakbar-dev/unloyd-themes" icon="github"}
 2. Clone your fork locally
 3. Run `npm install`
 4. Run `npm run dev`
@@ -61,11 +61,6 @@ Ready-to-use form with Formspree integration.
 
 ## Next Steps
 
-::::grid
 :::card[Tech Stack]{href="/docs/tech-stack/" icon='learn'}
 Technologies behind Unloyd.
 :::
-:::card[Quick Start]{href="/docs/quick-start/" icon='learn'}
-Detailed setup and local development guide.
-:::
-::::
