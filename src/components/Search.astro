@@ -1,10 +1,8 @@
 ---
-// src/components/Search.astro
-
-import Button from "./ui/Button.astro";
-import Icon from "./ui/Icons.astro";
-import Input from "./ui/Input.astro";
-import Spinner from "./ui/Spinner.astro";
+import Input from "@ui/Input.astro";
+import Button from "@ui/Button.astro";
+import Icon from "@ui/Icons.astro";
+import Spinner from "@ui/Spinner.astro";
 
 const PAGE_SIZE = 6;
 
@@ -85,7 +83,8 @@ const card = {
 <dialog
   id="search-drawer"
   aria-label="Pencarian"
-  class="search-dialog">
+  class="search-dialog"
+  data-wmcp="search">
 
   <search class={ui.bar}>
     <Input
@@ -276,8 +275,8 @@ const card = {
     left: 14px;
     width: 14px;
     height: 16px;
-    border-left:   1.5px solid var(--border-subtle);
-    border-bottom: 1.5px solid var(--border-subtle);
+    border-left:   1.5px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
   }
 
   .sub-result:not(:last-of-type)::after {
@@ -286,7 +285,7 @@ const card = {
     top: 0;
     bottom: 0;
     left: 14px;
-    border-left: 1.5px solid var(--border-subtle);
+    border-left: 1.5px solid var(--border);
   }
 
   .result-excerpt mark {
