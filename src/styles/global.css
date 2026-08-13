@@ -59,8 +59,6 @@
 }
 
 :root[data-theme='light'] {
-  color-scheme: light;
-
   --bg: #ffffff;
   --bg-subtle: #f0f9ff;
   --bg-muted: #e0f2fe;
@@ -185,6 +183,7 @@
   * {
     scrollbar-color: var(--fg) transparent;
     scrollbar-width: thin;
+    margin: 0;
   }
 
   ::selection {
@@ -227,30 +226,37 @@
   }
 
   html {
-    background: var(--bg);
-    color: var(--fg);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-    scroll-padding-top: var(--scroll-padding);
+    color-scheme: dark;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgb(from var(--accent) r g b / 0.2);
     
-    hanging-punctuation: first last;
+  }
+
+  html[data-theme:'light'] {
+    color-scheme: light;
+  }
+
+  body {
     font-family: var(--font-sans);
     font-feature-settings:
       "ss01" on,
       "ss02" on,
       "kern" on;
     text-rendering: optimizeLegibility;
+    hanging-punctuation: first last;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: rgb(from var(--accent) r g b / 0.2);
-    -moz-osx-font-smoothing: grayscale;
-    
-  }
+    -moz-osx-font-smoothing: grayscale
+    color: var(--fg);
+    background: var(--bg);
 
-  body {
-    min-height: 100svh;
-    overflow-x: hidden;
+    scroll-behavior: block;
+    scroll-padding-top: var(--scroll-padding);
+
+   /* font-weight: 500; */
+   /* font-size: 16px; */
+   /* min-height: 100svh; */
   }
 
   main {
