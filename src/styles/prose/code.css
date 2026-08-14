@@ -69,6 +69,10 @@
   white-space: pre;
 }
 
+.prose :not(.line) .astro-code {
+  padding: 0 0.75rem;
+}
+
 .prose .astro-code .line > span {
   white-space: pre;
   word-break: normal;
