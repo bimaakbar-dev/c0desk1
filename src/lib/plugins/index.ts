@@ -27,3 +27,4 @@ export { satteriQuote } from './satteri-quote';
 export { satteriChangelog } from './satteri-changelog';
 export { satteriCodeBlock } from './satteri-code-block';
 export { satteriKbd } from './satteri-kbd';
+export { tableWrapper } from './satteri-table';
