@@ -44,7 +44,7 @@
   color: var(--fg-muted);
 }
 
-time {
+.prose time {
   @apply text-numeric-14;
 }
 
@@ -178,30 +178,11 @@ time {
   margin: 2.5rem 0;
   border: none;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--border-subtle) 20%,
-    var(--border) 50%,
-    var(--border-subtle) 80%,
-    transparent
-  );
+  background: var(-- border-subtle);
   overflow: visible;
 }
 
-.prose hr::after {
-  content: "✦";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--bg);
-  padding: 0 0.75rem;
-  color: var(--border);
-  font-size: 0.8rem;
-}
-
-@media (max-width: 767px) {
+@media (max-width: 40rem) {
   .prose mark {
     padding: 0.1em 0.2em;
   }
@@ -220,7 +201,7 @@ time {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 50rem) {
   .prose mark {
     padding: 0.1em 0.25em;
   }
