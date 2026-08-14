@@ -32,7 +32,7 @@ function ensureDate(date: Date | string | number): Date {
   return new Date(date);
 }
 
-export function formatDate(date: Date | string | number, locale: string = 'id-ID'): string {
+export function formatDate(date: Date | string | number, locale: string = SITE.locale): string {
   const d = ensureDate(date);
   return d.toLocaleDateString(locale, {
     year: 'numeric',
@@ -41,7 +41,7 @@ export function formatDate(date: Date | string | number, locale: string = 'id-ID
   });
 }
 
-export function formatDateCompact(date: Date | string | number, locale: string = 'id-ID'): string {
+export function formatDateCompact(date: Date | string | number, locale: string = SITE.locale): string {
   const d = ensureDate(date);
   return d.toLocaleDateString(locale, {
     month: 'short',
@@ -124,7 +124,7 @@ export function generateExcerpt(
 }
 
 export function getReadingTime(content?: string): string {
-  const suffix = 'min read';
+  const suffix = SITE.readingTimeLabel;
 
   if (!content?.trim()) return `1 ${suffix}`;
   const cleanText = generateExcerpt(content, Infinity);
