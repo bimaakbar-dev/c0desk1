@@ -38,7 +38,7 @@
   @apply text-code-14;
   display: block;
   margin: 1.5rem 0 !important;
-  padding: 0.75rem ;
+  /* padding: 0.75rem ; */
   line-height: 1.6;
   background-color: var(--bg-subtle) !important;
   border: 1px solid rgb(from var(--border) r g b / 80%);
@@ -64,14 +64,10 @@
 
 .prose .astro-code .line {
   display: block;
-  /* padding: 1.5rem !important; */
+  padding: 0.75rem !important;
   line-height: inherit;
   white-space: pre;
 }
-
-/* .prose :not(.line) .astro-code {
-  padding: 0 0.75rem;
-} */
 
 .prose .astro-code .line > span {
   white-space: pre;
