@@ -1,11 +1,11 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
+  display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 2.5rem 0;
   max-width: 100%;
-  border-radius: var(--radius-md);
 }
 
 .prose .table-wrapper table {
@@ -16,19 +16,16 @@
   margin: 0;
 }
 
-.prose thead th,
-.prose thead td {
+.prose thead th {
   background: var(--bg-subtle);
 }
 
-.prose th:first-child,
-.prose td:first-child :not(tbody > *) {
+.prose th:first-child {
   border-top-left-radius: var(--radius-md);
   border-bottom-left-radius: var(--radius-md);
 }
 
-.prose th:last-child,
-.prose td:last-child :not(tbody > *) {
+.prose th:last-child {
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
 }
