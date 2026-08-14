@@ -63,7 +63,7 @@
 
 .prose h2,
 .prose h3 {
-  scroll-margin-top: calc(var(--header-height) - 1rem) !important;
+  scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
 }
 
 .prose .heading-anchor {
@@ -154,11 +154,6 @@
     @apply text-heading-32;
   }
 
-  .prose h2,
-  .prose h3 {
-    scroll-margin-top: calc(var(--header-height) - 6rem) !important;
-  }
-
   .prose p {
     @apply text-body-16;
   }
@@ -169,13 +164,13 @@
   }
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 50rem) {
   .prose h1 {
     @apply text-heading-48;
   }
 
   .prose h2,
   .prose h3 {
-    scroll-margin-top: calc(var(--header-height) - 6rem) !important;
+    scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
   }
 }

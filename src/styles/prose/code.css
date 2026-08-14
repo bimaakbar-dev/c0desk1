@@ -45,6 +45,7 @@
   border-radius: var(--radius-md);
   overflow-x: auto;
   overflow-y: hidden;
+  tab-size: 2;
 }
 
 .prose .astro-code::-webkit-scrollbar {

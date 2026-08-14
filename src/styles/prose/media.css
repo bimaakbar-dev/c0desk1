@@ -1,42 +1,42 @@
 /* src/styles/prose/components/media.css */
-
 .prose img,
+.prose picture,
 .prose video,
+.prose iframe,
+.prose canvas,
+.prose svg :not(code),
 .prose .video-wrapper {
   display: block;
-  background-color: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
   width: 100%;
   height: auto;
 }
-
+.prose img,
+.prose picture,
 .prose figure,
 .prose video,
+.prose canvas,
 .prose .video-wrapper {
   margin: 2.5rem 0;
-  width: 100%;
-  height: auto;
 }
-
+.prose img,
+.prose picture,
+.prose video,
+.prose .video-wrapper {
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
 .prose figcaption {
   @apply text-caption-13;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   padding: 0 1rem;
   color: var(--fg-muted);
   text-align: center;
   text-wrap: pretty;
+  vertical-align: middle;
 }
 
-@media (max-width: 45rem) {
-  .prose figure,
-  .prose video,
-  .prose .video-wrapper {
-    margin: 2rem 0;
-  }
-}
-
-@media (min-width: 45rem) {
+@media (min-width: 50rem) {
   .prose figcaption {
     @apply text-caption-14;
   }
