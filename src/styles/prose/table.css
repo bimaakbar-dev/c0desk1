@@ -1,7 +1,6 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
-  display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 2.5rem 0;
@@ -20,12 +19,12 @@
   background: var(--bg-subtle);
 }
 
-.prose th:first-child {
+.prose thead th:first-child {
   border-top-left-radius: var(--radius-md);
   border-bottom-left-radius: var(--radius-md);
 }
 
-.prose th:last-child {
+.prose thead th:last-child {
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
 }
