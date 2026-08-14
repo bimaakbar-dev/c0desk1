@@ -138,11 +138,10 @@ ${entry.body}`;
   author={author}
   publisher={publisher}
 >
-  <div data-pagefind-weight="2" class="hidden" />
   <MobileToc title={entry.data.title} headings={headings} />
 
   <Fragment>
-    <div class="mx-auto w-full min-w-0 pb-(--safe-bottom) px-0 lg:px-4">
+    <div class="mx-auto w-full min-w-0 h-[calc(100dvh)]">
       <Section size="md">
         <article data-pagefind-body data-pagefind-filter="type:docs">
           <Container size="lg">
@@ -152,13 +151,17 @@ ${entry.body}`;
               content={fullMarkdownContent}
             />
           </Container>
-          <div class="bg-none border-t border-dashed border-(--border-subtle)/80 my-6 md:my-8" />
+          
+          <hr/>
+          
           <Container size="lg">
             <div class="prose">
               <Content components={components} />
             </div>
           </Container>
-          <div class="bg-none border-t border-dashed border-(--border-subtle)/80 mt-6 md:mt-8" />
+          
+          <hr/>
+          
           <Container size="lg">
             <DocsFooter
               lastUpdated={entry.data.lastUpdated}
