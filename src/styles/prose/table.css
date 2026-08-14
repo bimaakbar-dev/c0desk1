@@ -2,23 +2,17 @@
 
 .prose table {
   display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-spacing: 0;
+  
   width: 100%;
   max-width: 100%;
   margin: 2.5rem 0;
 
-  color: var(--fg);
-  font-size: inherit;
-  line-height: inherit;
-
   border-collapse: separate;
-  border-spacing: 0;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
-
   -webkit-overflow-scrolling: touch;
 }
 
@@ -45,6 +39,7 @@
   font-weight: 600;
   text-align: start;
   white-space: nowrap;
+  vertical-align: baseline;
 }
 
 .prose thead th:first-child {
