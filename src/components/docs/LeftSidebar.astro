@@ -13,7 +13,7 @@ import GithubStar from "@components/GithubStar.astro";
   aria-hidden="true"
 />
 
-<aside id="left-sidebar" class="fixed top-[calc(var(--header-height)+0)] inset-x-0 z-50 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden lg:block lg:border-b-0 lg:border-r lg:sticky lg:top-(--header-height) lg:z-0">
+<aside id="left-sidebar" class="fixed top-[calc(var(--header-height)+0)] inset-x-0 z-45 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border-subtle) hidden lg:block lg:border-b-0 lg:border-r lg:sticky lg:top-(--header-height) lg:z-0">
   <div class="flex flex-col h-full">
     <div class="flex-1 overflow-y-auto pt-4 pb-4 lg:py-2 scrollbar-gutter-stable">
       <SidebarMenu />
@@ -45,7 +45,7 @@ import GithubStar from "@components/GithubStar.astro";
     overflow: hidden;
   }
 
-  @media (min-width: 64rem) {
+  @media (min-width: 50rem) {
     [data-nav-expanded] {
       overflow: auto;
     }
@@ -60,7 +60,7 @@ import GithubStar from "@components/GithubStar.astro";
       const btn = document.querySelector('nav-toggle button');
       if (btn) {
         btn.setAttribute('aria-expanded', 'false');
-        btn.setAttribute('aria-label', 'Buka Menu');
+        btn.setAttribute('aria-label', 'Open Menu');
       }
     });
   }
