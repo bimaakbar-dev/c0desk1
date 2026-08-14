@@ -96,7 +96,7 @@ const styles = {
 
     setExpanded(expanded: boolean) {
       this.btn.setAttribute('aria-expanded', String(expanded));
-      this.btn.setAttribute('aria-label', expanded ? 'Tutup Menu' : 'Buka Menu');
+      this.btn.setAttribute('aria-label', expanded ? 'Close Menu' : 'Open Menu');
       document.body.toggleAttribute('data-nav-expanded', expanded);
     }
 
