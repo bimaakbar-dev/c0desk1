@@ -1,14 +1,19 @@
 /* src/styles/prose/components/table.css */
 
-.prose table {
+.prose .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2.5rem 0;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+}
+
+.prose .table-wrapper table {
   display: table;
-  overflow: auto;
   table-layout: fixed;
   border-spacing: 0;
   width: 100%;
-  margin: 2.5rem 0;
-  /* border-collapse: separate; */
-  -webkit-overflow-scrolling: touch;
+  margin: 0;
 }
 
 .prose thead th,
@@ -67,12 +72,12 @@
 
 .prose table td code {
   white-space: nowrap;
-  /*white-space: pre-wrap;*/
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 .prose td a {
-  word-break: break-all;
+  white-space: nowrap;
+  /* word-break: break-all; */
 }
 
 .prose td a .external-icon {
