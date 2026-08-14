@@ -47,6 +47,7 @@ import {
   satteriChangelog,
   satteriCodeBlock,
   satteriKbd,
+  tableWrapper
 } from "./src/lib/plugins";
 
 import pagefind from "astro-pagefind";
