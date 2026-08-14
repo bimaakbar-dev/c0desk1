@@ -22,6 +22,7 @@ export const SITE = {
   foundingYear: 2026,
   logo: Logo.src,
   ogImage: Og.src,
+  readingTimeLabel: "min read",
 } as const;
 
 export const ORG = {
