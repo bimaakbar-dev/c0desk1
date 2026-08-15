@@ -82,12 +82,22 @@
   --surface-muted: var(--bg-muted);
   --surface-elevated: var(--bg-elevated);
 
+  /* Primary accent — sky blue */
   --accent: #38bdf8;
   --accent-dim: rgba(56, 189, 248, 0.25);
   --accent-soft: rgba(56, 189, 248, 0.10);
   --accent-ring: rgba(56, 189, 248, 0.35);
   --accent-border: rgba(56, 189, 248, 0.50);
   --accent-fg: #000000;
+
+  /* Secondary accent — dusty rose / faded crimson */
+  /* Terasa seperti tinta lama di kertas gelap: vintage, editorial, tidak mencolok */
+  --secondary: #e07b8a;
+  --secondary-subtle: rgba(224, 123, 138, 0.07);
+  --secondary-muted: rgba(224, 123, 138, 0.14);
+  --secondary-tertiary: rgba(224, 123, 138, 0.24);
+  --secondary-border: rgba(224, 123, 138, 0.38);
+  --secondary-fg: #000000;
 
   --success: #4ade80;
   --success-soft: rgba(74, 222, 128, 0.15);
@@ -135,6 +145,7 @@
   --surface-muted: var(--bg-muted);
   --surface-elevated: var(--bg-elevated);
 
+  /* Primary accent — sky blue */
   --accent: #0284c7;
   --accent-dim: rgba(2, 132, 199, 0.25);
   --accent-soft: rgba(2, 132, 199, 0.10);
@@ -142,6 +153,14 @@
   --accent-border: rgba(2, 132, 199, 0.50);
   --accent-fg: #ffffff;
 
+  /* Secondary accent — muted rose / antique blush */
+  /* Di light mode terasa seperti tinta merah muda pada kertas tua: hangat, tidak agresif */
+  --secondary: #be4b6a;
+  --secondary-subtle: rgba(190, 75, 106, 0.06);
+  --secondary-muted: rgba(190, 75, 106, 0.12);
+  --secondary-tertiary: rgba(190, 75, 106, 0.20);
+  --secondary-border: rgba(190, 75, 106, 0.32);
+  --secondary-fg: #ffffff;
 
   --success: #15803d;
   --success-soft: rgba(21, 128, 61, 0.12);
@@ -228,7 +247,6 @@
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgb(from var(--accent) r g b / 0.2);
-    
   }
 
   html[data-theme='light'] {
@@ -252,12 +270,6 @@
 
     scroll-behavior: block;
     scroll-padding-top: var(--scroll-padding);
-
-    /* text-autospace: normal; */
-
-   /* font-weight: 500; */
-   /* font-size: 16px; */
-   /* min-height: 100svh; */
   }
 
   main {
@@ -313,16 +325,16 @@
     text-wrap: pretty;
   }
 
-  p,
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	code {
-		overflow-wrap: break-word;
-	}
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  code {
+    overflow-wrap: break-word;
+  }
 
   code,
   kbd,
@@ -344,13 +356,13 @@
   .sr-only {
     position: absolute;
     width: 1px;
-	   height: 1px;
-	   padding: 0;
-	   margin: -1px;
-	   overflow: hidden;
-	   clip: rect(0, 0, 0, 0);
-	   white-space: nowrap;
-	   border-width: 0 ! important;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0 !important;
   }  
 }
 
