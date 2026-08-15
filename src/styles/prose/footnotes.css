@@ -1,7 +1,6 @@
 /* src/styles/prose/components/footnotes.css */
 
-.prose .footnotes,
-.prose section[data-footnotes] {
+.prose section[data-footnotes].footnotes {
   display: flex;
   flex-direction: column;
   margin: 2rem 0;
@@ -13,19 +12,14 @@
 
 .prose section[data-footnotes] h2,
 .prose section[data-footnotes] h2.sr-only {
+  @apply text-label-14;
   display: none !important;
   margin: 0
 }
 
-.prose section[data-footnotes] :not(h2) * {
-  @apply text-label-14
-}
-
-.prose .footnotes * :first-child,
 .prose section[data-footnotes] * :first-child {
   margin-top: 0 !important;
 }
-.prose .footnotes * :last-child,
 .prose section[data-footnotes] * :last-child {
   margin-bottom: 0 !important;
 }
@@ -71,7 +65,8 @@
   outline-offset: 2px;
 }
 
-.prose section[data-footnotes] * .data-footnote-backref {
+.prose section[data-footnotes] * [data-footnote-backref] {
+  display: inline-flex;
   vertical-align: middle;
   margin-left: 0.25rem;
   color: var(--accent);
@@ -80,7 +75,7 @@
   transition: opacity var(--duration) var(--ease-out);
 }
 
-.prose section[data-footnotes] * .data-footnote-backref:active {
+.prose section[data-footnotes] * [data-footnote-backref]:active {
   opacity: 1;
 }
 
@@ -90,12 +85,14 @@
   height: 0 !important;
 }
 
-.prose section[data-footnotes] a[href^="#fn"] {
+.prose a[data-footnote-ref] {
+  color: var(--fg-muted);
   text-decoration: none !important;
+  margin: 0.125rem;
 }
 
 .prose section[data-footnotes] li,
-.prose a[href^="#fn"] {
+.prose a[data-footnote-ref] {
   scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
 }
 
@@ -103,17 +100,17 @@
   .prose section[data-footnotes] li:hover{
     color: var(--fg-strong)
   }
-  .prose section[data-footnotes] * .data-footnote-backref:hover {
+  .prose section[data-footnotes] * [data-footnote-backref]:hover {
     opacity: 1
   }
-  .prose a[href^="#fn"]:hover {
+  .prose a[data-footnote-ref]:hover {
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 3px
   }
 }
 
-@media (min-width: 50rem) {
+@media (max-width: 50rem) {
   .prose .footnotes,
   .prose section[data-footnotes] {
     margin: 2.5rem 0
@@ -125,7 +122,7 @@
   }
   
   .prose section[data-footnotes] li,
-  .prose a[href^="#fn"] {
+  .prose a[data-footnote-ref] {
     scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
   }
 }
