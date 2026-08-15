@@ -1,59 +1,97 @@
-// src/lib/mdx/satteri-code-block.ts
-import { defineMdastPlugin } from "satteri";
+// src/lib/plugins/satteri-code-block.ts
+import { defineHastPlugin } from 'satteri';
+import type { Element, Text } from 'hast';
 
-export const satteriCodeBlock = defineMdastPlugin({
-  name: "satteri-code-block",
+function findCodeElement(pre: Element): Element | undefined {
+  return pre.children.find(
+    (child): child is Element => child.type === 'element' && child.tagName === 'code'
+  );
+}
 
-  containerDirective(node: any, ctx: any) {
-    if (node.name !== "code") return;
+const TITLE_PATTERN = /^(?:\/\/|#)\s*(.+)$/;
 
-    const codeNode = (node.children ?? []).find((c: any) => c.type === "code");
-    if (!codeNode) return;
+export const satteriCodeBlock = defineHastPlugin({
+  name: 'satteri-code-block',
+  element: {
+    filter: ['pre'],
+    visit(node: Element, ctx) {
+      const codeEl = findCodeElement(node);
+      if (!codeEl) return;
 
-    let title = "";
+      const parent = ctx.parent(node);
+      if (!parent || !('children' in parent)) return;
 
-    for (const child of node.children ?? []) {
-      const directives =
-        child.type === "textDirective"
-          ? [child]
-          : child.type === "paragraph"
-            ? (child.children ?? []).filter(
-                (c: any) => c.type === "textDirective",
-              )
-            : [];
+      const index = ctx.indexOf(node);
+      if (index === undefined) return;
 
-      for (const d of directives) {
-        if (d.name === "title") {
-          title = (d.children ?? [])
-            .map((c: any) => c.value ?? "")
-            .join("")
-            .trim();
+      let title: string | undefined;
+      const firstLine = codeEl.children[0];
+
+      if (firstLine && firstLine.type === 'element') {
+        const text = ctx.textContent(firstLine).trim();
+        const match = text.match(TITLE_PATTERN);
+
+        if (match) {
+          title = match[1];
+          const rest = codeEl.children.slice(1);
+          ctx.setProperty(codeEl, 'children', rest);
         }
       }
-    }
 
-    node.children = (node.children ?? []).filter((child: any) => {
-      if (child.type === "textDirective") return false;
-      if (child.type === "paragraph") {
-        const onlyDirectives = (child.children ?? []).every(
-          (c: any) => c.type === "textDirective",
-        );
-        return !onlyDirectives;
-      }
-      return true;
-    });
+      const iconCopy: Element = {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['copy-icon', 'icon-copy'] },
+        children: [],
+      };
 
-    const attributes = [
-      title && { type: "mdxJsxAttribute", name: "title", value: title },
-    ].filter(Boolean);
+      const iconCheck: Element = {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['copy-icon', 'icon-check'] },
+        children: [],
+      };
 
-    const component = {
-      type: "mdxJsxFlowElement",
-      name: "Code",
-      attributes,
-      children: [codeNode],
-    };
+      const button: Element = {
+        type: 'element',
+        tagName: 'button',
+        properties: {
+          type: 'button',
+          className: ['copy-button'],
+          ariaLabel: 'Salin kode',
+          dataCopyButton: '',
+        },
+        children: [iconCopy, iconCheck],
+      };
 
-    ctx.replaceNode(node, component);
+      const titleSpan: Element | null = title
+        ? {
+            type: 'element',
+            tagName: 'span',
+            properties: { className: ['code-block-title'] },
+            children: [{ type: 'text', value: title } as Text],
+          }
+        : null;
+
+      const header: Element = {
+        type: 'element',
+        tagName: 'div',
+        properties: { className: ['code-block-header'] },
+        children: titleSpan ? [titleSpan, button] : [button],
+      };
+
+      const wrapper: Element = {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: title ? ['code-block', 'has-title'] : ['code-block'],
+        },
+        children: [header, node],
+      };
+
+      const children = [...parent.children];
+      children[index] = wrapper;
+      ctx.setProperty(parent, 'children', children);
+    },
   },
 });
