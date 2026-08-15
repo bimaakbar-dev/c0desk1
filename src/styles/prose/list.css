@@ -71,8 +71,6 @@
   box-shadow: 0 0 0 1.5px var(--bg-muted);
 }
 
-/* Heading memiliki line-height 1.4,
-   sedangkan circle lebih tinggi 4px. */
 .prose .steps > li:has(> h2)::before,
 .prose .steps > li:has(> h3)::before,
 .prose .steps > li:has(> h4)::before,
@@ -121,11 +119,6 @@
 .prose .steps-container > ul > li:last-child {
   padding-bottom: 0 !important;
 }
-
-
-/* ─────────────────────────────
-   Normal lists
-   ───────────────────────────── */
 
 .prose ul,
 .prose ol {
@@ -180,11 +173,6 @@
 .prose ol ul {
   margin: 8px 0;
 }
-
-
-/* ─────────────────────────────
-   Task lists
-   ───────────────────────────── */
 
 .prose ul:has(input[type="checkbox"]) {
   padding-left: 1rem;
@@ -262,12 +250,7 @@
   opacity: 1;
 }
 
-
-/* ─────────────────────────────
-   Responsive
-   ───────────────────────────── */
-
-@media (min-width: 768px) {
+@media (min-width: 50rem) {
   .prose ul,
   .prose ol,
   .prose ul:has(input[type="checkbox"]) {
