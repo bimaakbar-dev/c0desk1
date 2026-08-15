@@ -73,7 +73,7 @@
 }
 
 .prose .code-block-title {
-  @apply text-mono-label-14;
+  @apply text-code-14;
   font-weight: 500;
   margin-right: auto;
   color: var(--fg-subtle);
@@ -211,7 +211,7 @@
 
 .prose .astro-code::-webkit-scrollbar-thumb {
   background: transparent;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   transition: background 0.15s ease;
 }
 
