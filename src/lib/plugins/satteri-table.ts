@@ -7,22 +7,12 @@ export const satteriTable = defineHastPlugin({
   element: {
     filter: ['table'],
     visit(node: Element, ctx) {
-      const parent = ctx.parent(node)
-      if (!parent || !('children' in parent)) return
-
-      const index = ctx.indexOf(node)
-      if (index === undefined) return
-
-      const wrapper: Element = {
+      ctx.replaceNode(node, {
         type: 'element',
         tagName: 'div',
         properties: { className: ['table-wrapper'] },
         children: [node],
-      }
-
-      const children = [...parent.children]
-      children[index] = wrapper
-      ctx.setProperty(parent, 'children', children)
+      })
     },
   },
 })
