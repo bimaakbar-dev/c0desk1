@@ -4,7 +4,7 @@
 .prose section[data-footnotes] {
   display: flex;
   flex-direction: column;
-  margin: 2.5rem 0;
+  margin: 2rem 0;
   padding: 1rem;
   border: 1px solid rgb(from var(--border) r g b / 100%);
   border-radius: var(--radius-md);
@@ -35,7 +35,7 @@
 .prose section[data-footnotes] ol {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
   counter-reset: footnotes;
   margin: 0;
   padding-left: 0;
@@ -72,7 +72,7 @@
   border-radius: var(--radius-xs);
   outline: 1px solid var(--accent);
   outline-offset: 2px;
-  transition: outline 0.5s;
+  transition: outline var(--duration);
   scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .prose a[href^="#fn"] {
-  scroll-margin-top: calc(var(--header-height) - 1rem) !important;
+  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
   text-decoration: none;
   transition: color var(--duration) var(--ease-out);
 }
@@ -108,26 +108,6 @@
   text-underline-offset: 3px;
 }
 
-@media (max-width: 40px) {
-  .prose .footnotes,
-  .prose section[data-footnotes] {
-    margin: 2rem 0;
-  }
-
-  .prose section[data-footnotes] ol {
-    gap: 0.5rem;
-  }
-
-  .prose section[data-footnotes] li {
-    gap: 0.5rem;
-    scroll-margin-top: calc(var(--header-height) + 2rem) !important;
-  }
-
-  .prose section[data-footnotes] .data-footnote-backref {
-    margin-left: 0.15rem;
-  }
-}
-
 @media (min-width: 50px) {
   .prose .footnotes,
   .prose section[data-footnotes] {
@@ -135,10 +115,16 @@
   }
 
   .prose section[data-footnotes] ol {
-    gap: 0.625rem;
+    gap: 0.75rem;
   }
 
   .prose section[data-footnotes] li {
     gap: 0.75rem;
+    scroll-margin-top: calc(var(--header-height) + 2rem) !important;
+  }
+  
+  .prose section[data-footnotes] li:target,
+  .prose a[href^="#fn"] {
+    scroll-margin-top: calc(var(--header-height) + 4rem) !important;
   }
 }
