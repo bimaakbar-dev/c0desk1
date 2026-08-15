@@ -261,7 +261,6 @@
       "kern" on;
     text-rendering: optimizeLegibility;
     hanging-punctuation: first last;
-    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
@@ -325,7 +324,7 @@
     text-wrap: pretty;
   }
 
-  
+  p,
   h1,
   h2,
   h3,
