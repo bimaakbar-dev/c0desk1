@@ -15,7 +15,7 @@
 
 .prose section[data-footnotes] h2,
 .prose section[data-footnotes] h2.sr-only {
-  margin-top: 0;
+  margin: 0;
   display: hidden !important;
 }
 
@@ -29,13 +29,13 @@
 }
 .prose .footnotes * :last-child,
 .prose section[data-footnotes] * :last-child {
-  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .prose section[data-footnotes] ol {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0.75rem;
   counter-reset: footnotes;
   margin: 0;
   padding-left: 0;
@@ -50,7 +50,7 @@
   margin-bottom: 0;
   padding-left: 0;
   color: var(--fg-muted);
-  scroll-margin-top: calc(var(--header-height) - 1rem) !important;
+  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
 .prose section[data-footnotes] li::marker {
@@ -73,7 +73,7 @@
   outline: 1px solid var(--accent);
   outline-offset: 2px;
   transition: outline 0.5s;
-  scroll-margin-top: calc(var(--header-height) + 2rem) !important;
+  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
 .prose section[data-footnotes] * .data-footnote-backref {
@@ -108,7 +108,7 @@
   text-underline-offset: 3px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 40px) {
   .prose .footnotes,
   .prose section[data-footnotes] {
     margin: 2rem 0;
@@ -120,7 +120,7 @@
 
   .prose section[data-footnotes] li {
     gap: 0.5rem;
-    scroll-margin-top: calc(var(--header-height) + 1rem) !important;
+    scroll-margin-top: calc(var(--header-height) + 2rem) !important;
   }
 
   .prose section[data-footnotes] .data-footnote-backref {
@@ -128,7 +128,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 50px) {
   .prose .footnotes,
   .prose section[data-footnotes] {
     margin: 2.5rem 0;
