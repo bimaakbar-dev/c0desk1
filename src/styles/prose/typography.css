@@ -51,16 +51,11 @@
   color: var(--fg-subtle);
 }
 
-.prose h1 + h2,
-.prose h2 + h3,
-.prose h3 + h4,
-.prose h4 + h5,
-.prose h5 + h6 {
+.prose :where(h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6) {
   margin: 1.5rem 0;
 }
 
-.prose h2,
-.prose h3 {
+.prose :where(h2, h3) {
   scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
 }
 
@@ -100,10 +95,6 @@
   color: var(--accent);
 }
 
-.prose :where(h1, h2, h3, h4, h5, h6):active > .heading-anchor {
-  opacity: 1;
-}
-
 .prose p {
   @apply text-body-16;
   margin-top: 0;
@@ -112,28 +103,33 @@
   text-wrap: pretty;
 }
 
-.prose strong,
-.prose b,
-.prose br {
+.prose :where(strong, b, br) {
   color: var(--fg-strong);
   font-weight: 600;
 }
 
-.prose em,
-.prose i {
+.prose :where(em, i) {
   color: var(--fg-muted);
   font-style: normal;
 }
 
-.prose del,
-.prose s {
+.prose :where(del, s) {
   color: var(--fg-subtle);
   text-decoration: line-through;
 }
 
-.prose strong em,
-.prose em strong {
+.prose :where(strong em, em strong) {
   font-style: normal;
+}
+
+@media (hover: none) {
+  .prose :where(h1, h2, h3, h4, h5, h6):hover > .heading-anchor {
+    opacity: 1;
+  }
+  
+  .prose .heading-anchor:hover {
+    color: var(--fg-strong) !important
+  }
 }
 
 @media (hover: hover) {
