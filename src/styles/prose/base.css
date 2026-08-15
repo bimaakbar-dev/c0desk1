@@ -1,17 +1,19 @@
 /* src/styles/prose/base.css */
 
 .prose {
+  @apply text-body-16;
+  color: var(--fg);
   max-width: initial;
+
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   hanging-punctuation: first last;
   font-feature-settings:
     "ss01" on,
     "ss02" on,
     "kern" on;
-  @apply text-body-16;
-  color: var(--fg);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .prose > :first-child {
@@ -23,11 +25,4 @@
 
 .prose p {
   @apply text-body-16;
-}
-
-@media (min-width: 768px) {
-  .prose,
-  .prose p {
-    @apply text-body-16;
-  }
 }
