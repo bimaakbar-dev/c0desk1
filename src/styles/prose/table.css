@@ -1,25 +1,41 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
+  position: relative;
   display: block;
   width: 100%;
   max-width: 100%;
   margin: 2.5rem 0;
   overflow-x: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+
   -webkit-overflow-scrolling: touch;
+}
+
+.prose .table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose .table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
 }
 
 .prose .table-wrapper > table {
   display: table;
   width: 100%;
   min-width: max-content;
- /* table-layout: fixed; */
+  table-layout: auto;
   border-spacing: 0;
-  border-collapse: collapse;
+  border-collapse: separate;
 }
 
 .prose thead th {
   background: var(--bg-subtle);
+  white-space: nowrap;
+  
 }
 
 .prose thead th:first-child {
@@ -32,35 +48,32 @@
   border-bottom-right-radius: var(--radius-md);
 }
 
+.prose th,
+.prose td {
+  @apply text-numeric-14;
+  padding: 0.625rem 1rem;
+  vertical-align: baseline;
+}
+
 .prose th {
   color: var(--fg-strong);
   font-weight: 600;
-  white-space: nowrap;
 }
 
 .prose th:not([align]) {
   text-align: start;
 }
 
-.prose th,
-.prose td {
-  @apply text-numeric-14;
-  padding: 0.5rem 1rem;
-  vertical-align: baseline;
-}
-
 .prose tbody td {
   color: var(--fg);
   background: none;
-  border-bottom: 1px solid var(--border-subtle);
 }
 
-.prose tbody tr:last-child td {
-  border-bottom: none;
+.prose tbody tr:not(:first-child) td {
+  border-top: 1px solid var(--border-subtle);
 }
 
 .prose td {
-  white-space: normal;
   overflow-wrap: anywhere;
   word-break: normal;
 }
@@ -84,8 +97,12 @@
   color: var(--fg-subtle);
 }
 
+.prose tbody tr:active td {
+    background: var(--bg-muted);
+  }
+
 @media (hover: hover) {
   .prose tbody tr:hover td {
-    background: rgb(from var(--bg-muted) r g b / 80%);
+    background: var(--bg-muted);
   }
 }
