@@ -1,18 +1,20 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
-  display: block;   
-  width: 100%;  
-  min-width: 100%;
+  display: block;
+  width: 100%;
+  max-width: 100%;
   margin: 2.5rem 0;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
 .prose .table-wrapper > table {
   display: table;
-  table-layout: fixed; 
   width: 100%;
+  min-width: max-content;
+  table-layout: auto;
   border-spacing: 0;
 }
 
@@ -42,15 +44,14 @@
 .prose th,
 .prose td {
   @apply text-numeric-14;
-  vertical-align: baseline;
   padding: 0.5rem 1rem;
+  vertical-align: baseline;
 }
 
 .prose tbody td {
   color: var(--fg);
   background: none;
-  border-bottom: 1px solid;
-  border-color: var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .prose tbody tr:last-child td {
@@ -59,31 +60,31 @@
 
 .prose td {
   white-space: normal;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .prose td a,
 .prose td code {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .prose td code {
-  padding: 0.025em 0.2em
+  padding: 0.025em 0.2em;
 }
 
 .prose td a .external-icon {
   width: 1rem;
-  height: 1rem
+  height: 1rem;
 }
 
 .prose td small {
   @apply text-label-14;
-  color: var(--fg-subtle)
+  color: var(--fg-subtle);
 }
 
 @media (hover: hover) {
- .prose tbody tr:hover {
+  .prose tbody tr:hover td {
     background: rgb(from var(--bg-muted) r g b / 80%);
-  } 
+  }
 }
