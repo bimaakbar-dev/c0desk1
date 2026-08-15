@@ -89,7 +89,7 @@ export default defineConfig({
         satteriExternalLink,
         satteriTabsHast,
         satteriTable,
-        
+        satteriCodeBlock,
         
       ],
       mdastPlugins: [
@@ -101,17 +101,14 @@ export default defineConfig({
         satteriTabs,
         satteriUser,
         satteriAccordion,
-        
         satteriFigure,
         satteriVideo,
         satteriCard,
         satteriIcon,
         satteriGrid,
-        
         satteriQuote,
-        
 
-        satteriCodeBlock,
+
         satteriKbd,
         satteriChangelog,
         
