@@ -5,18 +5,16 @@
   display: flex;
   flex-direction: column;
   margin: 2rem 0;
-  padding: 1rem;
-  border: 1px solid rgb(from var(--border) r g b / 100%);
+  padding: 0.75rem;
+  border: 1px solid rgb(from var(--border-subtle) r g b / 100%);
   border-radius: var(--radius-md);
-  background-color: rgb(from var(--bg-subtle) r g b / 100%);
+  background-color: var(--bg-subtle)
 }
-
-
 
 .prose section[data-footnotes] h2,
 .prose section[data-footnotes] h2.sr-only {
-  margin: 0;
   display: none !important;
+  margin: 0
 }
 
 .prose section[data-footnotes] :not(h2) * {
@@ -50,7 +48,6 @@
   margin-bottom: 0;
   padding-left: 0;
   color: var(--fg-muted);
-  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
 .prose section[data-footnotes] li::marker {
@@ -63,7 +60,7 @@
   content: counter(footnotes) ".";
 }
 
-.prose section[data-footnotes] li:hover {
+.prose section[data-footnotes] li:active {
   color: var(--fg-strong);
 }
 
@@ -72,7 +69,6 @@
   border-radius: var(--radius-xs);
   outline: 1px solid var(--accent);
   outline-offset: 2px;
-  transition: outline var(--duration);
 }
 
 .prose section[data-footnotes] * .data-footnote-backref {
@@ -84,7 +80,6 @@
   transition: opacity var(--duration) var(--ease-out);
 }
 
-.prose section[data-footnotes] * .data-footnote-backref:hover,
 .prose section[data-footnotes] * .data-footnote-backref:active {
   opacity: 1;
 }
@@ -95,33 +90,42 @@
   height: 0 !important;
 }
 
-.prose a[href^="#fn"] {
-  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
+.prose section[data-footnotes] a[href^="#fn"] {
   text-decoration: none !important;
 }
 
-.prose a[href^="#fn"]:hover {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.prose section[data-footnotes] li,
+.prose section[data-footnotes] a[href^="#fn"] {
+  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
+}
+
+@media (hover: Hover) {
+  .prose section[data-footnotes] li:hover{
+    color: var(--fg-strong)
+  }
+  .prose section[data-footnotes] * .data-footnote-backref:hover {
+    opacity: 1
+  }
+  .prose section[data-footnotes] a[href^="#fn"]:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px
+  }
 }
 
 @media (min-width: 50rem) {
   .prose .footnotes,
   .prose section[data-footnotes] {
-    margin: 2.5rem 0;
+    margin: 2.5rem 0
   }
 
+  .prose section[data-footnotes] li,
   .prose section[data-footnotes] ol {
-    gap: 0.75rem;
-  }
-
-  .prose section[data-footnotes] li {
     gap: 0.75rem;
   }
   
   .prose section[data-footnotes] li,
-  .prose a[href^="#fn"] {
+  .prose section[data-footnotes] a[href^="#fn"] {
     scroll-margin-top: calc(var(--header-height) + 2rem) !important;
   }
 }
