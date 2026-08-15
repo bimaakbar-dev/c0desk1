@@ -5,50 +5,49 @@
 }
 
 .prose :where(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-sans);
   text-wrap: balance;
   position: relative;
 }
 
 .prose h1 {
   @apply text-heading-32;
-  margin-bottom: 24px;
-  margin-top: 42px;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
   color: var(--fg-strong);
 }
 
 .prose h2 {
   @apply text-heading-24;
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
   color: var(--fg-strong);
 }
 
 .prose h3 {
   @apply text-heading-20;
-  margin-bottom: 16px;
-  margin-top: 32px;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
   color: var(--fg-strong);
 }
 
 .prose h4 {
   @apply text-heading-18;
-  margin-bottom: 12px;
-  margin-top: 24px;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
   color: var(--fg-strong);
 }
 
 .prose h5 {
   @apply text-heading-16;
-  margin-bottom: 12px;
-  margin-top: 24px;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
   color: var(--fg-muted);
 }
 
 .prose h6 {
   @apply text-heading-14;
-  margin-bottom: 12px;
-  margin-top: 24px;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
   color: var(--fg-subtle);
 }
 
@@ -72,7 +71,7 @@
   flex-shrink: 0;
   margin-left: 0.5rem;
   vertical-align: middle;
-  color: var(--fg-subtle);
+  color: var(--fg-subtle) !important;
   text-decoration: none;
   opacity: 0;
   transition:
@@ -108,7 +107,7 @@
 .prose p {
   @apply text-body-16;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   color: var(--fg);
   text-wrap: pretty;
 }
@@ -143,16 +142,12 @@
   }
   
   .prose .heading-anchor:hover {
-    color: var(--fg-muted);
+    color: var(--fg-strong) !important
   }
 }
 
 @media (min-width: 50rem) {
   .prose h1 {
     @apply text-heading-48;
-  }
-
-  .prose :where(h1, h2, h3, h4, h5, h6) {
-    scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
   }
 }
