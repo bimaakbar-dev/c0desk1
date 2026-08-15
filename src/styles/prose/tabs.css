@@ -46,6 +46,12 @@
     transition: color 0.15s ease;
 }
 
+@media (hover: none) {
+  .prose .tabs .tab-button:hover {
+    color: var(--fg-strong);
+  }
+}
+
 @media (hover: hover) {
   .prose .tabs .tab-button:hover {
     color: var(--fg-strong);
