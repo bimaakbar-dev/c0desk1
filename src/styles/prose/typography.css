@@ -148,6 +148,10 @@
   .prose h1 {
     @apply text-heading-32;
   }
+  
+  .prose :where(h1, h2, h3, h4, h5, h6):active > .heading-anchor {
+    opacity: 1;
+  }
 }
 
 @media (min-width: 50rem) {
@@ -155,8 +159,7 @@
     @apply text-heading-48;
   }
 
-  .prose h2,
-  .prose h3 {
+  .prose :where(h1, h2, h3, h4, h5, h6) {
     scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
   }
 }
