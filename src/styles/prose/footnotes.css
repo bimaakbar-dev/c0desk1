@@ -99,7 +99,7 @@
   scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
-@media (hover: Hover) {
+@media (hover: hover) {
   .prose section[data-footnotes] li:hover{
     color: var(--fg-strong)
   }
