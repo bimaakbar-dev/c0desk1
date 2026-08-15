@@ -15,9 +15,12 @@
 }
 
 .prose .accordion,
-.prose .accordion summary,
-.prose .accordion[open] > :not(summary) * {
+.prose .accordion summary {
   @apply text-heading-16;
+}
+
+.prose .accordion[open] > :not(summary) * {
+  @apply-text-body-16
 }
 
 .prose .accordion summary,
@@ -47,7 +50,6 @@
   flex-shrink: 0;
   width: 1.125em;
   height: 1.125em;
-  margin-right: 0.75rem;
   color: var(--accent);
   background-color: currentColor;
   mask-image: var(--details-icon);
