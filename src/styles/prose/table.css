@@ -1,13 +1,13 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   margin: 2.5rem 0;
   max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.prose .table-wrapper table {
+.prose .table-wrapper > table {
   display: table;
   table-layout: fixed;
   border-spacing: 0;
@@ -56,32 +56,29 @@
   border-bottom: none;
 }
 
-.prose tbody tr:hover {
-  background: rgb(from var(--bg-muted) r g b / 80%);
-}
-
 .prose td {
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
 }
 
-.prose table td code {
-  white-space: nowrap;
-  /* word-break: break-all; */
-}
-
-.prose td a {
-  white-space: nowrap;
-  /* word-break: break-all; */
+.prose td a,
+.prose td code {
+  white-space: nowrap
 }
 
 .prose td a .external-icon {
   width: 1rem;
-  height: 1rem;
+  height: 1rem
 }
 
 .prose td small {
   @apply text-label-14;
-  color: var(--fg-subtle);
+  color: var(--fg-subtle)
+}
+
+@media (hover: hover) {
+ .prose tbody tr:hover {
+    background: rgb(from var(--bg-muted) r g b / 80%);
+  } 
 }
