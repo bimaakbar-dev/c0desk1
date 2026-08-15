@@ -13,16 +13,6 @@
     white-space: nowrap;
 }
 
-.prose .user *:first-child,
-.prose .user-link *:first-child {
-    padding-top: 0;
-}
-
-.prose .user *:last-child,
-.prose .user-link *:last-child {
-    padding-bottom: 0;
-}
-
 .prose .user-link {
     font-weight: 500 !important;
     color: var(--fg) !important;
