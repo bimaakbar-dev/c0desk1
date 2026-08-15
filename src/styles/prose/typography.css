@@ -101,6 +101,10 @@
   color: var(--accent);
 }
 
+.prose :where(h1, h2, h3, h4, h5, h6):active > .heading-anchor {
+  opacity: 1;
+}
+
 .prose p {
   @apply text-body-16;
   margin-top: 0;
@@ -140,17 +144,6 @@
   
   .prose .heading-anchor:hover {
     color: var(--fg-muted);
-  }
-}
-
-
-@media (min-width: 45rem) {
-  .prose h1 {
-    @apply text-heading-32;
-  }
-  
-  .prose .heading-anchor {
-    opacity: 1;
   }
 }
 
