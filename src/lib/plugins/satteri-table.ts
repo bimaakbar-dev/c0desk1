@@ -1,13 +1,13 @@
-import { defineMdastPlugin } from "satteri";
+import { defineMdastPlugin } from 'sätteri';
 
 export const tableWrapper = defineMdastPlugin({
-  name: "table-wrapper",
+  name: 'table-wrapper',
   table(node, ctx) {
     const wrapper: any = {
-      type: "element",
-      tagName: "div",
+      type: 'element',
+      tagName: 'div',
       properties: {
-        className: ["table-wrapper"],
+        className: ['table-wrapper'],
       },
       children: [node],
     };
