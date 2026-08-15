@@ -1,33 +1,27 @@
 /* styles/grid-card.css */
 
-.prose .grid-card-container {
+.prose .grid-card {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   margin: 1.5rem 0;
-
 }
 
-.prose .grid-card-container > * {
+.prose .grid-card > * {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
 
-.prose .grid-card-container > * > * {
-  margin-top: 0.5rem !important;
-  margin-bottom: 0.5rem !important;
-}
-
-.prose .grid-card-container > * > *:first-child {
+.prose .grid-card > * > *:first-child {
   margin-top: 0 !important;
 }
 
-.prose .grid-card-container > * > *:last-child {
+.prose .grid-card > * > *:last-child {
   margin-bottom: 0 !important;
 }
 
 @media (min-width: 50rem) {
-  .prose .grid-card-container {
+  .prose .grid-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
