@@ -49,7 +49,7 @@ User renders an inline profile with an avatar, name, optional role, and optional
 :::
 ::::
 
-:::card[Preview]
+:::accordion[Preview]
 :user[Bima Akbar]
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
