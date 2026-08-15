@@ -5,15 +5,16 @@
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
   overflow: hidden;
-  margin: 1.5rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0;
   padding: 1rem;
+  margin: 1.5rem 0;
 }
 
 .prose .card-header {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
   vertical-align: middle;
@@ -23,8 +24,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: var(--bg);
   border-radius: var(--radius-md);
   border: 1px solid var(---subtle);
@@ -48,7 +49,7 @@
 
 .prose .card-header .card-title,
 .prose .card.card-no-icon .card-header .card-title {
-  @apply text-heading-16;
+  @apply text-heading-14;
   font-weight: 500;
   color: var(--fg-strong);
   line-height: inherit;
@@ -56,7 +57,7 @@
 
 .prose .card-body,
 .prose .card-body > * {
-  @apply text-body-16;
+  @apply text-body-14;
 }
 
 .prose .card-body > * {
@@ -87,8 +88,8 @@
 }
 
 .prose .card.card-no-title .card-header .card-icon-wrapper {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .prose .card.card-no-title .card-header .card-icon {
