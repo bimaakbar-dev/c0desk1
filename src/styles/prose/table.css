@@ -9,10 +9,9 @@
 
 .prose .table-wrapper > table {
   display: table;
-  table-layout: fixed;
-  border-spacing: 0;
+  table-layout: fixed;  
   width: 100%;
-  margin: 0;
+  border-spacing: 0;
 }
 
 .prose thead th {
