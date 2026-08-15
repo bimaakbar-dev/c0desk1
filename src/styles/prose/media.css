@@ -28,8 +28,6 @@
 }
 .prose figcaption {
   @apply text-caption-13;
-  margin-top: 0.5rem;
-  padding: 0 1rem;
   color: var(--fg-muted);
   text-align: center;
   text-wrap: pretty;
