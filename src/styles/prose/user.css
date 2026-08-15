@@ -29,6 +29,11 @@
     content: none !important;
 }
 
+.prose .user > .user-avatar > img,
+.prose .user-link > .user-avatar > img {
+  margin: 0;
+}
+
 .prose .user .user-avatar-placeholder,
 .prose .user-link .user-avatar-placeholder {
     position: relative;
@@ -59,7 +64,7 @@
     overflow: hidden;
     object-fit: cover;
     flex-shrink: 0;
-
+    margin: 0;
     border: 1px solid rgb(from var(--border) r g b / 100%);
     background-color: var(--bg-muted);
     border-radius: var(--radius-full);
