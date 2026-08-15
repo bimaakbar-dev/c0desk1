@@ -20,7 +20,7 @@
 
 .prose .user .user-role,
 .prose .user-link .user-role {
-    color: var(--fg-subtle) !important;
+    color: var(--fg-muted) !important;
 }
 
 .prose .user-link.inline-link.is-external::after,
@@ -55,8 +55,8 @@
 }
 
 .prose .user .user-avatar-placeholder,
-.prose .user-link .user-avatar-placeholder,
 .prose .user .user-avatar,
+.prose .user-link .user-avatar-placeholder,
 .prose .user-link .user-avatar {
     display: block;
     width: 1.5rem;
@@ -65,10 +65,16 @@
     object-fit: cover;
     flex-shrink: 0;
     margin: 0;
-    border: 1px solid rgb(from var(--border) r g b / 100%);
-    background-color: var(--bg-muted);
+    border: 1px solid var(--border);
+    background-color: var(--bg-subtle);
     border-radius: var(--radius-full);
     user-select: none;
+}
+
+@media (hover: none) {
+    .prose .user-link:hover {
+        color: var(--accent) !important;
+    }
 }
 
 @media (hover: hover) {
