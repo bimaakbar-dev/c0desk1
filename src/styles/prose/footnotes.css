@@ -95,8 +95,8 @@
 }
 
 .prose section[data-footnotes] li,
-.prose section[data-footnotes] > a[href^="#fn"] {
-  scroll-margin-top: calc(var(--header-height) + 4rem) !important;
+.prose a[href^="#fn"] {
+  scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
 }
 
 @media (hover: hover) {
@@ -106,7 +106,7 @@
   .prose section[data-footnotes] * .data-footnote-backref:hover {
     opacity: 1
   }
-  .prose section[data-footnotes] a[href^="#fn"]:hover {
+  .prose a[href^="#fn"]:hover {
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 3px
@@ -125,7 +125,7 @@
   }
   
   .prose section[data-footnotes] li,
-  .prose section[data-footnotes] > a[href^="#fn"] {
-    scroll-margin-top: calc(var(--header-height) + 2rem) !important;
+  .prose a[href^="#fn"] {
+    scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
   }
 }
