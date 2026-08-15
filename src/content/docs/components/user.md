@@ -49,7 +49,7 @@ User renders an inline profile with an avatar, name, optional role, and optional
 :::
 ::::
 
-:::accordion[Preview]
+## Preview
 :user[Bima Akbar]
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
@@ -57,7 +57,6 @@ User renders an inline profile with an avatar, name, optional role, and optional
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
-:::
 
 ## Attributes
 
