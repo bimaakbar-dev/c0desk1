@@ -1,4 +1,5 @@
 /* src/styles/prose/list.css */
+
 .prose .steps,
 .prose .steps-container > ol,
 .prose .steps-container > ul {
@@ -47,6 +48,7 @@
 .prose .steps-container > ol > li::before,
 .prose .steps-container > ul > li::before {
   @apply text-numeric-14;
+
   content: counter(step);
   position: absolute;
   inset-inline-start: 0;
@@ -55,44 +57,75 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   width: 1.65rem;
   height: 1.65rem;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1 / 1;
 
   border-radius: var(--radius-full);
   padding: 0 !important;
+
   color: var(--fg-strong);
   border: 1.5px solid rgb(from var(--border) r g b / 100%);
   background-color: var(--bg-subtle);
   box-shadow: 0 0 0 1.5px var(--bg-muted);
 }
 
-.prose .steps > li::after {
+/* Heading memiliki line-height 1.4,
+   sedangkan circle lebih tinggi 4px. */
+.prose .steps > li:has(> h2)::before,
+.prose .steps > li:has(> h3)::before,
+.prose .steps > li:has(> h4)::before,
+.prose .steps-container > ol > li:has(> h2)::before,
+.prose .steps-container > ol > li:has(> h3)::before,
+.prose .steps-container > ol > li:has(> h4)::before,
+.prose .steps-container > ul > li:has(> h2)::before,
+.prose .steps-container > ul > li:has(> h3)::before,
+.prose .steps-container > ul > li:has(> h4)::before {
+  top: -0.25rem;
+}
+
+.prose .steps > li::after,
+.prose .steps-container > ol > li::after,
+.prose .steps-container > ul > li::after {
   content: "";
   position: absolute;
   inset-inline-start: 0.825rem;
   top: 2rem;
   bottom: 0;
   width: 0.5px;
-  background-color: rgb(from var(--border) r g b / 100%);;
+  background-color: rgb(from var(--border) r g b / 100%);
   transform: translateX(-50%);
 }
 
-.prose .steps > li:last-child::after {
+.prose .steps > li:last-child::after,
+.prose .steps-container > ol > li:last-child::after,
+.prose .steps-container > ul > li:last-child::after {
   display: none;
 }
 
-.prose .steps > li > :first-child {
+.prose .steps > li > :first-child,
+.prose .steps-container > ol > li > :first-child,
+.prose .steps-container > ul > li > :first-child {
   margin-top: 0 !important;
 }
 
-.prose .steps > li > :last-child {
+.prose .steps > li > :last-child,
+.prose .steps-container > ol > li > :last-child,
+.prose .steps-container > ul > li > :last-child {
   margin-bottom: 0 !important;
 }
 
-.prose .steps > li:last-child {
+.prose .steps > li:last-child,
+.prose .steps-container > ol > li:last-child,
+.prose .steps-container > ul > li:last-child {
   padding-bottom: 0 !important;
 }
+
+
+/* ─────────────────────────────
+   Normal lists
+   ───────────────────────────── */
 
 .prose ul,
 .prose ol {
@@ -148,8 +181,12 @@
   margin: 8px 0;
 }
 
+
+/* ─────────────────────────────
+   Task lists
+   ───────────────────────────── */
+
 .prose ul:has(input[type="checkbox"]) {
-  
   padding-left: 1rem;
   list-style: none;
 }
@@ -172,12 +209,15 @@
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
+
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background-color: var(--bg-subtle);
+
   width: 1.115rem;
   height: 1.115rem;
   margin-top: 0.25rem;
+
   transition: all var(--duration) var(--ease-out);
 }
 
@@ -194,11 +234,15 @@
   position: absolute;
   top: 2px;
   left: 5px;
+
   transform: rotate(45deg);
+
   border: solid var(--bg);
   border-width: 0 2px 2px 0;
+
   width: 5px;
   height: 10px;
+
   content: "";
 }
 
@@ -218,6 +262,10 @@
   opacity: 1;
 }
 
+
+/* ─────────────────────────────
+   Responsive
+   ───────────────────────────── */
 
 @media (min-width: 768px) {
   .prose ul,
