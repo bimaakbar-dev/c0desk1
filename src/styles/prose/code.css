@@ -26,8 +26,8 @@
   color: inherit !important;
   font-size: inherit !important;
   font-family: var(--font-mono) !important;
-  background-color: var(--bg-muted);
-  border: 1px solid rgb(from var(--border) r g b / 100%);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 0.15em 0.4em;
 }
@@ -36,8 +36,6 @@
   color: inherit !important;
   font-size: inherit !important;
 }
-
-/* ── code block wrapper ──────────────────────────────────────────────── */
 
 .prose .code-block {
   position: relative;
@@ -51,7 +49,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.5rem;
   background-color: var(--bg-subtle);
   border-bottom: 1px solid var(--border);
 }
@@ -75,7 +73,7 @@
 }
 
 .prose .code-block-title {
-  @apply text-code-14;
+  @apply text-mono-label-14;
   font-weight: 500;
   margin-right: auto;
   color: var(--fg-subtle);
