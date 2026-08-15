@@ -22,7 +22,3 @@
 .prose > :last-child {
   margin-bottom: 0 !important;
 }
-
-.prose p {
-  @apply text-body-16;
-}
