@@ -33,7 +33,6 @@ import Toc from "@components/TableOfContent.astro";
 import MobileToc from "@docs/mobile/MobileToc.astro";
 
 import RelatedPosts from "@blog/BlogRelated.astro";
-import CopyCode from "@components/CopyCode.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
 
 export async function getStaticPaths() {
@@ -192,7 +191,6 @@ const schema = [
       </div>
     </Section>
   </Fragment>
-  <CopyCode />
 </BlogLayout>
 <script>
   import "../../lib/tabs";
