@@ -95,7 +95,7 @@
 }
 
 .prose section[data-footnotes] li,
-.prose section[data-footnotes] a[href^="#fn"] {
+.prose section[data-footnotes] > a[href^="#fn"] {
   scroll-margin-top: calc(var(--header-height) + 4rem) !important;
 }
 
@@ -125,7 +125,7 @@
   }
   
   .prose section[data-footnotes] li,
-  .prose section[data-footnotes] a[href^="#fn"] {
+  .prose section[data-footnotes] > a[href^="#fn"] {
     scroll-margin-top: calc(var(--header-height) + 2rem) !important;
   }
 }
