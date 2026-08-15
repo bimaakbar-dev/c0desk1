@@ -8,7 +8,7 @@
     vertical-align: middle;
     gap: 0.25rem;
     padding: none;
-    margin: none;
+    margin: 0 !important;
     color: inherit;
     white-space: nowrap;
 }
