@@ -12,7 +12,7 @@ export const satteriGrid = defineMdastPlugin({
         ...(node.data || {}),
         hName: 'div',
         hProperties: {
-          className: ['grid-card-container'],
+          className: ['grid-card'],
         },
       });
     }
