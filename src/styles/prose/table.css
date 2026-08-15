@@ -14,7 +14,7 @@
   display: table;
   width: 100%;
   min-width: max-content;
-  table-layout: auto;
+ /* table-layout: fixed; */
   border-spacing: 0;
 }
 
@@ -35,6 +35,7 @@
 .prose th {
   color: var(--fg-strong);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .prose th:not([align]) {
