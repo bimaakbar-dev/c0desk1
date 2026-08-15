@@ -1,11 +1,10 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
-  display: table;
-  table-layout: fixed; 
-  margin: 2.5rem 0;
-  width: 100%;
-  overflow-x: auto;
+  display: table;  
+  /* table-layout: fixed; */  
+  width: 100%;  
+  min-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -13,6 +12,8 @@
   display: block;
   width: 100%;
   border-spacing: 0;
+  overflow: auto;
+  margin: 2.5rem 0;
 }
 
 .prose thead th {
