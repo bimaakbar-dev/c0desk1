@@ -1,6 +1,8 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
+  display: table;
+  table-layout: fixed; 
   margin: 2.5rem 0;
   width: 100%;
   overflow-x: auto;
@@ -8,8 +10,7 @@
 }
 
 .prose .table-wrapper > table {
-  display: table;
-  table-layout: fixed;  
+  display: block;
   width: 100%;
   border-spacing: 0;
 }
@@ -64,6 +65,10 @@
 .prose td a,
 .prose td code {
   white-space: nowrap
+}
+
+.prose td code {
+  padding: 0.075em 0.2em
 }
 
 .prose td a .external-icon {
