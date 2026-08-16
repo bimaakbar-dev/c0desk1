@@ -1,0 +1,60 @@
+---
+slug: "icons"
+title: "Icons"
+description: "Inline SVG icon with size variants."
+category: "Components"
+order: 12
+draft: false
+author:
+  name: "Unloyd Team"
+  role: "Developer"
+  url: "https://github.com/unloyd"
+  email: "hello@unloyd.web.id"
+lastUpdated: 2026-08-09T02:55:00Z
+seo:
+  title: "Icons"
+  description: "Inline SVG icon with size variants."
+  noIndex: false
+---
+
+Icon renders an inline SVG icon. Color follows `currentColor` and can be overridden with CSS.
+
+---
+
+## Syntax
+
+```md
+:icon[star]
+
+:icon[star]{size="lg"}
+
+:icon[github]{size="sm"}
+
+Click :icon[arrow] to continue.
+```
+
+## Preview
+
+:icon[star] :icon[star]{size="md"} :icon[star]{size="lg"}
+
+:icon[github] :icon[twitter] :icon[youtube]
+
+## Sizes
+
+| Value | Size |
+| --- | --- |
+| `sm` | 12px |
+| `md` | 16px (default) |
+| `lg` | 20px |
+
+## Attributes
+
+| Attribute | Required | Description |
+| --- | --- | --- |
+| `size` | No | Icon size — `sm`, `md`, or `lg` (default: `md`) |
+| `class` | No | Additional CSS classes |
+
+## Notes
+
+- Icon is an inline component — it can be placed inside a paragraph
+- Icons use SVG mask, consistent with Button, Badge, Card, and Filetree

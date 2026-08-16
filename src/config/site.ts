@@ -7,12 +7,11 @@ import Og from "../assets/images/og-image.svg";
 const env = import.meta.env;
 
 export const SITE = {
-  name: "Unloyd",
+  name: "Stardux",
   tagline: "A modern documentation template",
   description: "A clean, modern, and customizable documentation template built with Astro",
   url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
   email: "hello@unloyd.web.id",
-
   locale: "id-ID",
   lang: "id",
   dir: "ltr",
@@ -46,8 +45,6 @@ export const ROUTES = {
   sitemap: "/sitemap.xml",
   manifest: "/manifest.json",
   robots: "/robots.txt",
-  feedAtom: "/feed.atom",
-  feedJson: "/feed.json",
   rss: "/rss.xml",
 } as const;
 
