@@ -9,15 +9,12 @@
   display: flex;
   align-items: stretch;
   gap: 0.25rem;
-
   width: 100%;
   overflow-x: auto;
   padding: 0.25rem;
-
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -91,20 +88,16 @@
   margin-bottom: 0;
 }
 
-.prose .tabs .tab-panel p {
-  margin: 1rem 0;
-}
-
-.prose .tabs .tab-panel pre {
+.prose .tabs .tab-panel :where(p, pre) {
   margin: 1.5rem 0;
-}
-
-.prose .tabs .tab-panel .table-wrapper {
-  max-width: 100%;
 }
 
 .prose .tab-panel .astro-code {
   margin: 0 !important;
+}
+
+.prose .tabs .tab-panel .table-wrapper {
+  max-width: 100%;
 }
 
 @media (max-width: 45rem) {
