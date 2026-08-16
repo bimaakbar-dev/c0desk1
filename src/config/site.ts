@@ -7,13 +7,13 @@ import Og from "../assets/images/og-image.svg";
 const env = import.meta.env;
 
 export const SITE = {
-  name: "Stardux",
+  name: "Stradocs",
   tagline: "A modern documentation template",
-  description: "A clean, modern, and customizable documentation template built with Astro",
+  description: "A clean, modern, and customizable documentation theme built with Astro",
   url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
-  email: "hello@unloyd.web.id",
-  locale: "id-ID",
-  lang: "id",
+  email: "hello@stradocs.web.id",
+  locale: "en-US",
+  lang: "en",
   dir: "ltr",
   charset: "utf-8",
   themeColor: "#0a0a0a",
