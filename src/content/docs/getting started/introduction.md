@@ -1,64 +1,77 @@
 ---
-slug: 'introduction'
+slug: "introduction"
 title: "Introduction"
-description: "Stardux is a modern, open-source template for building documentation sites and blogs with Astro"
+description: "Stardux is a modern, open-source template for building documentation sites and blogs with Astro."
 category: "Getting Started"
 order: 1
 draft: false
 author:
   name: "Stardux Team"
   role: "Developer"
-  url: "https://github.com/stardux"
+  url: "https://github.com/bimaakbar-dev"
   email: "hello@stardux.web.id"
 seo:
   title: "Introduction"
-  description: "Stardux is a modern, open-source template for building documentation sites and blogs with Astro"
+  description: "Stardux is a modern, open-source template for building documentation sites and blogs with Astro."
   noIndex: false
 lastUpdated: 2026-08-10T19:30:00Z
 ---
 
-**Stardux** is an open-source documentation and blog template built with Astro. Designed to be fast, accessible, and easy to customize.
+**Stardux** is an open-source template for building modern documentation sites and blogs with Astro.
+
+It is designed to provide a fast, accessible, and customizable foundation, so you can focus on creating content and building your site instead of starting everything from scratch.
 
 ## What's Included
 
+Stardux includes the core features you need to build a modern documentation site or blog.
+
 ::::grid
 :::card[Documentation]{icon="learn"}
-Sidebar navigation, table of contents, and full-text search.
+Sidebar navigation, table of contents, organized documentation, and full-text search.
 :::
 
 :::card[Blog]{icon="book"}
-Pagination, archive, RSS feeds, and author profiles.
+Blog posts, pagination, archives, RSS feeds, and author profiles.
 :::
 
 :::card[Custom Directives]{icon="book-2"}
-Callout, Steps, Tabs, Filetree, Accordion, Card, Quote, and more.
+Built-in content components such as Callouts, Steps, Tabs, Filetrees, Accordions, Cards, Quotes, and more.
 :::
 
 :::card[SEO]{icon="seo"}
-Open Graph, Twitter Cards, JSON-LD structured data, sitemap, and robots.txt.
+Open Graph, Twitter Cards, JSON-LD structured data, sitemaps, and robots.txt.
 :::
 
 :::card[Dark Mode]{icon="themes"}
-Built-in theme switcher with system preference detection.
+A built-in theme switcher with light, dark, and system preference support.
 :::
 
 :::card[Contact Form]{icon="contact"}
-Ready-to-use form with Formspree integration.
+A ready-to-use contact form with Formspree integration.
 :::
 ::::
 
-
 ## Get Started
 
+You can get Stardux running locally in just a few steps:
+
 :::steps
-1. Fork the :button[Unloyd repository]{url="https://github.com/bimaakbar-dev/unloyd-themes" icon="github"}
-2. Clone your fork locally
-3. Run `npm install`
-4. Run `npm run dev`
+1. Fork the :button[Stardux repository]{url="https://github.com/bimaakbar-dev/unloyd-themes" icon="github"}
+2. Clone your fork to your local machine.
+3. Install the project dependencies with `npm install`.
+4. Start the development server with `npm run dev`.
 :::
 
-## Next Steps
+For a complete installation guide, see [Quick Start](/docs/quick-start/).
 
-:::card[Tech Stack]{href="/docs/tech-stack/" icon='learn'}
-Technologies behind Unloyd.
+## Explore the Project
+
+Once Stardux is running locally, you can start exploring the project and customizing it for your needs.
+
+:::card[Project Structure]{href="/docs/project-structure/"}
+Learn how the Stardux project is organized and understand the purpose of its main folders and files.
+:::
+
+:::card[Configuration]{href="/docs/configuration/"}
+Customize your site identity, navigation, SEO, contact form, and other settings.
 :::
