@@ -124,7 +124,7 @@ const openLabel = title || "On this page";
       return headerVal + padVal;
     };
 
-    const getScrollOffset = () => getHeaderHeight() + getTocSummaryHeight();
+    const getScrollOffset = () => getHeaderHeight() + getTocSummaryHeight() + 48;
 
     const updateActiveLinks = () => {
       linksArray.forEach((link) => {
@@ -258,9 +258,6 @@ const openLabel = title || "On this page";
 </script>
 
 <style>
-  :root {
-    --bg-toc: color-mix(in srgb, var(--bg) 80%, transparent);
-  }
   .mobile-toc-wrapper {
     position: sticky;
     top: var(--header-height);
@@ -284,9 +281,7 @@ const openLabel = title || "On this page";
     flex: 1;
     width: 100%;
     border-bottom: 1px solid var(--border-subtle);
-    /* FIX 5: blur — pakai background solid dengan opacity lewat CSS variable,
-       atau color-mix jika --bg adalah hex/hsl. Fallback: rgba langsung */
-    background-color: var(--bg-toc, rgba(0, 0, 0, 0.85));
+    background-color: rgb(from var(--secondary) r g b / 0.9);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -423,8 +418,7 @@ const openLabel = title || "On this page";
     max-height: 60vh;
     width: 100%;
     padding: 0.5rem 0.5rem 1rem;
-    /* FIX 5: sama, pakai --bg-toc atau rgba fallback */
-    background-color: var(--bg-toc, rgba(0, 0, 0, 0.85));
+    background-color: rgb(from var(--bg) r g b / 0.9);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-top: 1px solid transparent;
@@ -461,19 +455,16 @@ const openLabel = title || "On this page";
     align-items: center;
   }
 
-  /* FIX 1: indicator butuh left offset yang sesuai posisi link, dan min-height */
   .mobile-toc-indicator {
     position: absolute;
-    left: 0.75rem; /* sejajar padding kiri link-h3 */
-    top: 0.375rem;
-    bottom: 0.375rem;
-    width: 2px;
-    border-radius: var(--radius-full, 9999px);
+    left: 0.75rem;
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    border-radius: 9999px;
     transition: background-color 0.15s;
   }
 
-  /* FIX 2: pastikan CSS tidak override JS — hapus selector :has() dari CSS,
-     biarkan JS yang kontrol sepenuhnya lewat class */
   .mobile-toc-indicator.indicator-inactive {
     background-color: var(--border);
   }
@@ -510,13 +501,9 @@ const openLabel = title || "On this page";
     padding-left: 1.75rem; /* cukup ruang untuk indicator 2px di left: 0.75rem */
   }
 
-  .mobile-toc-link.active-h2 {
-    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
-    color: var(--accent);
-  }
-
+  .mobile-toc-link.active-h2,
   .mobile-toc-link.active-h3 {
-    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+    background-color: rgb(from var(--bg-subtle) r g b / 0.8);
     color: var(--accent);
   }
 </style>
