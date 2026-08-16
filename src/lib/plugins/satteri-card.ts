@@ -99,11 +99,13 @@ export const satteriCard = defineMdastPlugin({
     if (hasHref) {
       hName = 'a';
       hProperties = {
-        className: cardClasses,
+        className: [...cardClasses, 'card-link'],
         href: attrs.href,
         target: attrs.href.startsWith('http') ? '_blank' : '_self',
         rel: attrs.href.startsWith('http') ? 'noopener noreferrer' : undefined,
       };
+    } else {
+      hProperties = { className: cardClasses };
     }
 
     ctx.setProperty(node, 'data', {
