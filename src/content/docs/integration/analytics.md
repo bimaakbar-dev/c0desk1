@@ -68,9 +68,3 @@ Both services collect user data. Make sure your site has:
 - A **Privacy Policy** page
 - The built-in cookie consent system enabled
 - Clear notice to users about data collection
-
-## Next Steps
-
-:::card[Form]{href="/docs/form/" icon='learn'}
-Contact form integration with Formspree
-:::
