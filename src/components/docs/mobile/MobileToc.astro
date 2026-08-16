@@ -99,7 +99,7 @@ const openLabel = title || "On this page";
 
     if (!tocDetails || !activeText || !progressRing) return;
 
-    const pageTitle = tocDetails.dataset.pageTitle || "Dihalaman ini";
+    const pageTitle = tocDetails.dataset.pageTitle || "On this page";
 
     const linksArray = Array.from(tocLinks);
     const targets = linksArray
@@ -109,6 +109,15 @@ const openLabel = title || "On this page";
     let active = "";
     let isClickScrolling = false;
     const circumference = 69.115;
+
+    const getHeaderHeight = () => {
+      const root = document.documentElement;
+      const header = getComputedStyle(root).getPropertyValue("--header-height").trim();
+      const scrollPad = getComputedStyle(root).getPropertyValue("--scroll-padding").trim();
+      const headerVal = parseInt(header) || 56;
+      const padVal = parseInt(scrollPad) || 0;
+      return headerVal + padVal;
+    };
 
     const updateActiveLinks = () => {
       const activeLink = linksArray.find(
@@ -159,7 +168,7 @@ const openLabel = title || "On this page";
 
     const updateSummaryText = () => {
       const label =
-        window.scrollY < 100 && !active
+        window.scrollY < getHeaderHeight() && !active
           ? pageTitle
           : (active
               ? linksArray.find((l) => l.dataset.tocMobileSlug === active)
@@ -185,6 +194,11 @@ const openLabel = title || "On this page";
       { passive: true }
     );
 
+    const getRootMargin = () => {
+      const offset = getHeaderHeight();
+      return `-${offset}px 0px -65% 0px`;
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (isClickScrolling) return;
@@ -194,13 +208,13 @@ const openLabel = title || "On this page";
             a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
           );
           active = (topMostEntry.target as HTMLElement).id;
-        } else if (window.scrollY < 100) {
+        } else if (window.scrollY < getHeaderHeight()) {
           active = "";
         }
         updateSummaryText();
         updateActiveLinks();
       },
-      { rootMargin: "-124px 0px -65% 0px", threshold: 0 }
+      { rootMargin: getRootMargin(), threshold: 0 }
     );
 
     targets.forEach((t) => observer.observe(t));
@@ -216,9 +230,9 @@ const openLabel = title || "On this page";
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
           isClickScrolling = true;
-          const headerOffset = 80;
+          const offset = getHeaderHeight();
           const elementPosition = targetElement.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+          const offsetPosition = elementPosition + window.scrollY - offset;
 
           window.scrollTo({
             top: offsetPosition,
@@ -259,6 +273,12 @@ const openLabel = title || "On this page";
     width: 100%;
   }
 
+  @media (min-width: 50rem) {
+    .mobile-toc-wrapper {
+      display: none;
+    }
+  }
+
   .mobile-toc-details {
     position: relative;
     display: flex;
@@ -266,8 +286,9 @@ const openLabel = title || "On this page";
     flex: 1;
     width: 100%;
     border-bottom: 1px solid var(--border-subtle);
-    background-color: rgb(from var(--bg) rgb / 0.8);
+    background-color: rgb(from var(--bg) r g b / 0.8);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .mobile-toc-details[open] .mobile-toc-nav {
@@ -288,12 +309,18 @@ const openLabel = title || "On this page";
     list-style: none;
     user-select: none;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     transition: background-color 0.2s;
   }
 
-
   .mobile-toc-summary::-webkit-details-marker {
     display: none;
+  }
+
+  @media (hover: hover) {
+    .mobile-toc-summary:hover {
+      background-color: var(--bg-muted);
+    }
   }
 
   .mobile-toc-progress {
@@ -303,6 +330,7 @@ const openLabel = title || "On this page";
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
+    aspect-ratio: 1/1;
     color: var(--fg-muted);
   }
 
@@ -316,10 +344,7 @@ const openLabel = title || "On this page";
     opacity: 0.5;
   }
 
-  .mobile-toc-details[open] .progress-ring-bg {
-    color: var(--accent);
-  }
-
+  .mobile-toc-details[open] .progress-ring-bg,
   .mobile-toc-details[open] .progress-ring-fg {
     color: var(--accent);
   }
@@ -381,6 +406,8 @@ const openLabel = title || "On this page";
     justify-content: center;
     width: 1rem;
     height: 1rem;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
     color: var(--fg-muted);
     transition: transform 0.3s;
   }
@@ -398,10 +425,11 @@ const openLabel = title || "On this page";
     max-height: 60vh;
     width: 100%;
     padding: 0.5rem 0.5rem 1rem;
-    background-color: rgb(from var(--bg) rgb / 0.8);
+    background-color: rgb(from var(--bg) r g b / 0.8);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
-    backdrop-filter: blur(4px);
     transform-origin: top;
     overflow-y: auto;
     opacity: 0;
@@ -426,7 +454,7 @@ const openLabel = title || "On this page";
 
   .mobile-toc-sub {
     margin-left: 1rem;
-    border-left: 1px solid var(--border-subtle);
+    /* border-left dihilangkan karena indikator sudah ada */
   }
 
   .mobile-toc-item-h3 {
@@ -438,9 +466,9 @@ const openLabel = title || "On this page";
   .mobile-toc-indicator {
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1px;
+    top: 0.375rem;
+    bottom: 0.375rem;
+    width: 2px;
     border-radius: var(--radius-full);
     transition: background-color 0.15s;
   }
@@ -470,8 +498,10 @@ const openLabel = title || "On this page";
     cursor: pointer;
   }
 
-  .mobile-toc-link-h2 {
-    /* h2 tidak memiliki indent tambahan */
+  @media (hover: hover) {
+    .mobile-toc-link:hover {
+      color: var(--fg-strong);
+    }
   }
 
   .mobile-toc-link-h3 {
@@ -480,42 +510,17 @@ const openLabel = title || "On this page";
   }
 
   .mobile-toc-link.active-h2 {
-    background-color: rgb(from var(--accent) rgb / 0.1);
+    background-color: rgb(from var(--accent) r g b / 0.1);
     color: var(--accent);
   }
 
   .mobile-toc-link.active-h3 {
-    background-color: rgb(from var(--accent) rgb / 0.1);
+    background-color: rgb(from var(--accent) r g b / 0.1);
     color: var(--accent);
   }
 
   .mobile-toc-link.active-h3 ~ .mobile-toc-indicator,
   .mobile-toc-item-h3:has(.mobile-toc-link.active-h3) .mobile-toc-indicator {
     background-color: var(--accent) !important;
-  }
-  
-  @media (hover: hover) {
-    .mobile-toc-link:hover {
-      color: var(--fg-strong);
-    }
-  
-    .mobile-toc-summary:hover {
-      background-color: var(--bg-muted);
-    }
-  }
-  @media (hover: none) {
-    .mobile-toc-link:hover {
-      color: var(--fg-strong);
-    }
-  
-    .mobile-toc-summary:hover {
-      background-color: var(--bg-muted);
-    }
-  }
-  
-  @media (min-width: 50rem) {
-    .mobile-toc-wrapper {
-      display: none;
-    }
   }
 </style>
