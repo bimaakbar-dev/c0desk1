@@ -15,9 +15,9 @@ const {
 const $ = {
   group: "relative ml-3 pb-1 last:pb-0!",
   groupItems: [
-    "relative pr-2 py-1.5 -ml-3 rounded",
+    "relative pr-2 -ml-3 rounded",
   ].join(" "),
-  items: "relative flex items-center w-full text-body-13 font-medium",
+  items: "relative flex items-center w-full py-1.5 text-body-13 font-medium",
   itemsIndicator: "absolute left-0 top-0 bottom-0 w-px bg-(--border) rounded-full"
 }
 ---
@@ -30,8 +30,8 @@ const $ = {
     <li class:list={[
       $.groupItems,
       isActive 
-        ? "bg-(--accent)/10" 
-        : "hover:bg-(--bg-muted)/80",
+        ? "bg-(--bg-subtle)/80" 
+        : "hover:bg-(--bg-muted)/40",
     ]}>
       <a
         href={href}
@@ -45,7 +45,7 @@ const $ = {
         {isActive && (
           <span class:list={[
             $.itemsIndicator,
-            "left-3",
+            "left-3 top-1/2 -translate-y-1/2",
             isActive ? "bg-(--accent)!" : ""
           ]} />
         )}
