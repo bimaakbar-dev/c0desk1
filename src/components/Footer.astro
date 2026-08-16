@@ -9,8 +9,6 @@ import Section from "@ui/Section.astro";
 import Particles from "@ui/Particles.astro";
 import Logo from "@ui/Logo.astro";
 import Icon from "@ui/Icons.astro";
-import Socials from "./Socials.astro";
-import Theme from "./Theme.astro";
 
 const currentYear = new Date().getFullYear();
 
@@ -25,8 +23,7 @@ const $ = {
   navigation: "flex flex-col gap-3 items-start",
   label: "text-label-12 font-medium uppercase font-mono text-(--fg-strong)",
   title: "text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong) inline-flex items-center gap-1.5 align-middle",
-  meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60",
-  metaAction: "flex items-center gap-1.5",
+  meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60"
 };
 ---
 
@@ -63,10 +60,6 @@ const $ = {
       </div>
       <div class={$.meta}>
         Copyright {SITE.name} {copyrightYear}. All rights reserved.
-        <div class={$.metaAction}>
-          <Socials />
-          <!--<Theme />-->
-        </div>
       </div>
     </Container>
   </Section>
