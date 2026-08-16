@@ -86,7 +86,7 @@ console.log(greeting); // [!code ++]
 
 
 
-![OG Image](../../../assets/images/og-image.svg)
+![OG Image](../../../assets/images/og-image.webp)
 
 
 ## Footnotes
