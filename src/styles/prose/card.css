@@ -1,5 +1,9 @@
 /* src/styles/prose/card.css */
 
+:root {
+  --ic-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M6 12.4h12M12.6 7l5.4 5.4l-5.4 5.4'/%3E%3C/svg%3E");
+}
+
 .prose .card {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -14,7 +18,6 @@
 
 .prose .card-header {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
   vertical-align: middle;
@@ -24,11 +27,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--bg);
+  width: 1.75rem;
+  height: 1.75rem;
+  background-color: var(--bg-muted);
   border-radius: var(--radius-md);
-  border: 1px solid var(---subtle);
+  border: 1px solid var(--border-strong);
   flex-shrink: 0;
 }
 
@@ -38,18 +41,18 @@
   height: 100%;
   flex-shrink: 0;
   background-color: var(--fg);
-  mask-size: 80%;
+  mask-size: 70%;
   mask-repeat: no-repeat;
   mask-position: center;
   
-  -webkit-mask-size: 80%;
+  -webkit-mask-size: 70%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
 }
 
 .prose .card-header .card-title,
 .prose .card.card-no-icon .card-header .card-title {
-  @apply text-heading-14;
+  @apply text-heading-16;
   font-weight: 500;
   color: var(--fg-strong);
   line-height: inherit;
@@ -57,7 +60,7 @@
 
 .prose .card-body,
 .prose .card-body > * {
-  @apply text-body-14;
+  @apply text-body-16;
 }
 
 .prose .card-body > * {
@@ -119,9 +122,43 @@
 }
 
 .prose .card-link {
+  position: relative;
   display: block;
   color: inherit !important;
   text-decoration: none !important;
+}
+
+.prose .card-link .card-body {
+  padding-right: 2.5rem;
+}
+
+.prose .card-link::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: var(--fg-muted);
+  mask-image: var(--ic-arrow-right);
+  -webkit-mask-image: var(--ic-arrow-right);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.6;
+}
+
+.prose .card-link:hover::after {
+  transform: translateY(-50%) translateX(4px);
+  opacity: 1;
+  background-color: var(--accent);
+}
+
+.prose .card.card-no-title.card-link .card-body {
+  padding-right: 2.5rem;
 }
 
 .prose .card-link:hover .card {

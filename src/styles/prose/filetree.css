@@ -15,7 +15,6 @@
 .prose .file-tree,
 .prose .file-tree * {
   @apply text-code-14;
-  font-size: 14px !important;
 }
 
 .prose .file-tree ul {
@@ -40,7 +39,7 @@
   padding-block: 0.25rem;
 }
 
-.prose .file-tree li.tree-depth-0 { padding-inline-start: 0 !important; }
+.prose .file-tree li.tree-depth-0 { padding-inline-start: 1rem !important; }
 .prose .file-tree li.tree-depth-1 { padding-inline-start: 2.5rem !important; }
 .prose .file-tree li.tree-depth-2 { padding-inline-start: 2.5rem !important; }
 .prose .file-tree li.tree-depth-3 { padding-inline-start: 2.5rem !important; }
@@ -54,7 +53,7 @@
   left: 0.55rem;
   top: 0.9rem;
   width: 0.5rem;
-  border-bottom: 1.5px solid rgb(from var(--border) r g b / 80%);
+  border-bottom: 1.5px solid rgb(from var(--border) r g b / 100%);
 }
 
 .prose .file-tree ul ul > li::after {
@@ -63,7 +62,7 @@
   left: 0.55rem;
   top: 0;
   bottom: 0;
-  border-left: 1.5px solid rgb(from var(--border) r g b / 80%);
+  border-left: 1.5px solid rgb(from var(--border) r g b / 100%);
 }
 
 .prose .file-tree ul ul > li:last-child::after {
@@ -169,23 +168,6 @@
   color: var(--fg-muted);
   font-size: 13px !important;
   margin-left: 0.25rem;
-}
-
-.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
-  background-color: var(--accent) !important;
-}
-
-.prose .file-tree .tree-file:hover .tree-label {
-  color: var(--accent);
-  cursor: default;
-}
-
-.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
-  background-color: var(--accent) !important;
-}
-
-.prose .file-tree .tree-folder > details > summary:hover .tree-label {
-  color: var(--accent) !important;
 }
 
 .prose .file-tree span.tree-folder::before {

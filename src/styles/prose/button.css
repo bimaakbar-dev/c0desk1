@@ -5,12 +5,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.3rem 0.5rem;
+    padding: 0.25rem 0.5rem;
     background: var(--bg-subtle);
     color: var(--fg-strong) !important;
-    font-weight: 500;
+    font-weight: 500 !important;
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     text-decoration: none !important;
     cursor: pointer;
     vertical-align: middle;
@@ -22,9 +22,7 @@
 
 .prose .button:hover {
     background: var(--bg-muted);
-    border-color: var(--accent);
-    color: var(--accent);
-    text-decoration: none !important;
+    color: var(--accent); 
 }
 
 .prose .button .button-icon {
