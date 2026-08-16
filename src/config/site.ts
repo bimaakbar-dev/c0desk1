@@ -2,7 +2,7 @@
 import Logo from "../assets/images/logo.webp";
 import Thumbnails from "../assets/images/cover.svg";
 import Avatar from "../assets/images/author.jpg";
-import Og from "../assets/images/og-image.svg";
+import Og from "../assets/images/og-image.webp";
 
 const env = import.meta.env;
 
