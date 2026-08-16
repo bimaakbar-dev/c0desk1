@@ -111,7 +111,7 @@ const openLabel = title || "On this page";
 
     const getTocSummaryHeight = () => {
       const summary = tocDetails.querySelector(".mobile-toc-summary") as HTMLElement | null;
-      return summary ? summary.offsetHeight : 48;
+      return summary ? summary.offsetHeight : 42;
     };
 
     const getHeaderHeight = () => {
@@ -446,7 +446,7 @@ const openLabel = title || "On this page";
   }
 
   .mobile-toc-sub {
-    margin-left: 0.75rem;
+    margin-left: 1rem;
   }
 
   .mobile-toc-item-h3 {
@@ -499,7 +499,7 @@ const openLabel = title || "On this page";
   }
 
   .mobile-toc-link-h3 {
-    padding-left: 1rem;
+    padding-left: 0.75rem;
   }
 
   .mobile-toc-link.active-h2,
