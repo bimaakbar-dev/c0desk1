@@ -278,8 +278,8 @@ const openLabel = title || "On this page";
     width: 100%;
     border-bottom: 1px solid var(--border-subtle);
     background-color: rgb(from var(--bg) r g b / 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); */
   }
 
   .mobile-toc-details[open] .mobile-toc-nav {
@@ -300,6 +300,9 @@ const openLabel = title || "On this page";
     list-style: none;
     user-select: none;
     transition: background-color 0.2s;
+    background-color: rgb(from var(--bg) r g b / 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   .mobile-toc-summary::-webkit-details-marker {
@@ -496,7 +499,7 @@ const openLabel = title || "On this page";
   }
 
   .mobile-toc-link-h3 {
-    padding-left: 1.5rem;
+    padding-left: 1rem;
   }
 
   .mobile-toc-link.active-h2,
