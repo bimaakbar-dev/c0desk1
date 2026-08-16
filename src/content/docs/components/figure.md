@@ -6,10 +6,10 @@ category: "Components"
 order: 10
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T11:21:00Z
 seo:
   title: "Figure"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Figure wraps an image in a `<figure>` element with an optional caption. Without a caption, the image renders as a plain `<img>`.
-
----
 
 ## Syntax
 
@@ -38,9 +36,9 @@ Figure wraps an image in a `<figure>` element with an optional caption. Without 
 :::
 ::::
 
-## Preview
-
-![Alt text](https://placehold.co/600x400){This is a caption}
+:::card[Preview]
+![Alt text](../../../assets/images/og-image.webp){This is a caption}
+:::
 
 ## Notes
 

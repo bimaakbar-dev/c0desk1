@@ -6,10 +6,10 @@ category: "Components"
 order: 9
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T02:45:00Z
 seo:
   title: "Button"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Button renders an inline link styled as a button, with optional icon and variant.
-
----
 
 ## Syntax
 
@@ -48,7 +46,7 @@ Button renders an inline link styled as a button, with optional icon and variant
 :::
 ::::
 
-## Preview
+:::card[Preview]
 
 :button[Download]{url="/" icon="download"}
 
@@ -57,6 +55,7 @@ Button renders an inline link styled as a button, with optional icon and variant
 :button[View Demo]{url="/" variant="primary"}
 
 :button[Learn More]{url="/" variant="secondary"}
+:::
 
 ## Variants
 
@@ -68,8 +67,6 @@ Button renders an inline link styled as a button, with optional icon and variant
 | `danger` | Red |
 | `outline` | Transparent with border |
 | `ghost` | Transparent, no border |
-
----
 
 ## Attributes
 

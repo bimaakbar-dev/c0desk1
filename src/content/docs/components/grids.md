@@ -6,10 +6,10 @@ category: "Components"
 order: 13
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradcos Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T03:00:00Z
 seo:
   title: "Grids"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Grid wraps components into a responsive 2-column layout. Collapses to 1 column on mobile.
-
----
 
 ## Syntax
 
@@ -35,7 +33,7 @@ Card content 2
 ::::
 ```
 
-## Preview
+:::card[Preview]
 
 ::::grid
 :::card[Title]{icon="info"}
@@ -46,6 +44,7 @@ Card content 1
 Card content 2
 :::
 ::::
+:::
 
 ## Notes
 

@@ -6,10 +6,10 @@ category: "Components"
 order: 8
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T02:40:00Z
 seo:
   title: "Badge"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Badge renders a small inline label with optional color variant and icon.
-
----
 
 ## Syntax
 
@@ -48,7 +46,7 @@ Badge renders a small inline label with optional color variant and icon.
 :::
 ::::
 
-## Preview
+:::card[Preview]
 
 :badge[Stable]
 
@@ -57,6 +55,7 @@ Badge renders a small inline label with optional color variant and icon.
 :badge[New]{variant="success" icon="star"}
 
 :badge[Deprecated]{variant="danger"}
+:::
 
 ## Variants
 

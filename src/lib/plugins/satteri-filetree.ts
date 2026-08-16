@@ -1,6 +1,50 @@
 // src/lib/mdx/satteri-filetree.ts
 import { defineMdastPlugin } from 'satteri';
 
+const EXTENSION_ICON: Record<string, string> = {
+  folder: '--ic-ft-folder',
+  astro: '--ic-ft-astro',
+  ts: '--ic-ft-ts',
+  js: '--ic-ft-js',
+  css: '--ic-ft-css',
+  html: '--ic-ft-html',
+  json: '--ic-ft-json',
+  md: '--ic-ft-md',
+  svg: '--ic-ft-svg',
+  png: '--ic-ft-png',
+  apk: '--ic-ft-apk',
+  jpg: '--ic-ft-jpg',
+  ico: '--ic-ft-ico',
+  pdf: '--ic-ft-pdf',
+  zip: '--ic-ft-zip',
+  env: '--ic-ft-env',
+  sh: '--ic-ft-sh',
+  py: '--ic-ft-py',
+  go: '--ic-ft-go',
+  rs: '--ic-ft-rs',
+  vue: '--ic-ft-vue',
+  svelte: '--ic-ft-svelte',
+  jsx: '--ic-ft-jsx',
+  tsx: '--ic-ft-tsx',
+  mjs: '--ic-ft-mjs',
+  cjs: '--ic-ft-cjs',
+  yaml: '--ic-ft-yaml',
+  toml: '--ic-ft-toml',
+  xml: '--ic-ft-xml',
+  sql: '--ic-ft-sql',
+  lock: '--ic-ft-lock',
+  log: '--ic-ft-log',
+  txt: '--ic-ft-txt',
+  csv: '--ic-ft-csv',
+  gitignore: '--ic-ft-gitignore',
+  dockerfile: '--ic-ft-dockerfile',
+  makefile: '--ic-ft-makefile',
+  git: '--ic-ft-git',
+  woff2: '--ic-ft-font',
+  woff: '--ic-ft-font',
+  ttf: '--ic-ft-font',
+};
+
 function splitComment(raw: string): { name: string; comment: string } {
   const idxSlash = raw.search(/\s\/\/\s?/);
   const idxHash = raw.search(/\s#\s?/);
@@ -272,6 +316,8 @@ export const satteriFileTree = defineMdastPlugin({
     };
     if (ext) {
       liProps['data-ext'] = ext;
+      const iconVar = EXTENSION_ICON[ext] ?? '--ic-ft-file';
+      liProps.style = `--tree-icon: var(${iconVar})`;
     }
     ctx.setProperty(node, 'data', {
       ...bData,

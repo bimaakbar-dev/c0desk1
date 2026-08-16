@@ -28,7 +28,7 @@ Card renders an info box with an optional icon, title, and content. Adding `href
 Card with title and content.
 :::
 
-:::card[Title]{icon="info"}
+:::card[Title]{icon="star"}
 Card with icon and title.
 :::
 
@@ -45,13 +45,13 @@ Minimal card, content only.
 :::
 ```
 
-## Preview
+::::card[Preview]
 
 :::card[Title]
 Card with title and content.
 :::
 
-:::card[Title]{icon="info"}
+:::card[Title]{icon="star"}
 Card with icon and title.
 :::
 
@@ -66,6 +66,7 @@ Card with icon, no title.
 :::card
 Minimal card, content only.
 :::
+::::
 
 ## Variants
 

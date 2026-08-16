@@ -6,10 +6,10 @@ category: "Components"
 order: 6
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T02:40:00Z
 seo:
   title: "Accordion"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Accordion renders a collapsible `<details>` element with a styled summary. Works in both `.md` and `.mdx` files.
-
----
 
 ## Syntax
 
@@ -31,13 +29,13 @@ Can include paragraphs, lists, code blocks, and other components.
 :::
 ```
 
-## Preview
-
+::::card[Preview]
 :::accordion[Title]
 Content goes here.
 
 Can include paragraphs, lists, code blocks, and other components.
 :::
+::::
 
 ## Notes
 

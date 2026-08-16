@@ -19,8 +19,6 @@ seo:
 
 Steps renders an ordered list as a styled step-by-step guide with automatic numbering. Works in both `.md` and `.mdx` files.
 
----
-
 ## Syntax
 
 Wrap an ordered list with `:::steps`. Each list item becomes a step.
@@ -43,19 +41,7 @@ Wrap an ordered list with `:::steps`. Each list item becomes a step.
 :::
 ```
 
-> [!NOTE]
-> Add a blank line after a plain text title to prevent it from being parsed as a heading.
-
-## Title Variants
-
-| Variant | Example | Result |
-| --- | --- | --- |
-| Plain text | `1. Step title` | Regular text title |
-| Heading | `2. ## Step title` | Larger heading title |
-| Inline code | `3. \`Step title\`` | Code-styled title |
-| No title | `4.` | Content only, no title |
-
-## Preview
+::::card[Preview]
 
 :::steps
 1. Plain text title
@@ -72,6 +58,19 @@ Wrap an ordered list with `:::steps`. Each list item becomes a step.
 
 4. No title, just content.
 :::
+::::
+
+> [!NOTE]
+> Add a blank line after a plain text title to prevent it from being parsed as a heading.
+
+## Title Variants
+
+| Variant | Example | Result |
+| --- | --- | --- |
+| Plain text | `1. Step title` | Regular text title |
+| Heading | `2. ## Step title` | Larger heading title |
+| Inline code | 3. `Step title` | Code-styled title |
+| No title | `4.` | Content only, no title |
 
 ## Notes
 

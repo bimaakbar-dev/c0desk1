@@ -1,25 +1,23 @@
 ---
 slug: "filetree"
-title: "Filetree"
+title: "File Tree"
 description: "Display folder and file structures with icons, highlights, and comments."
 category: "Components"
 order: 5
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T02:40:00Z
 seo:
-  title: "Filetree"
-  description: "Display folder and file structures with icons, highlights, and comments."
+  title: "File Tree"
+  description: "Display folder and file structures with icons, highlights and comments."
   noIndex: false
 ---
 
-Filetree renders a folder and file structure with automatic icons, collapsible folders, highlights, and comments.
-
----
+Filetree renders a folder and file structure with automatic icons, collapsible folders, highlights, and comments. Also Works in both `.md` and `.mdx` files.
 
 ## Syntax
 
@@ -39,8 +37,7 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
 :::
 ```
 
-## Preview
-
+::::card[Preview]
 :::filetree
 - src/
   - components/
@@ -54,6 +51,7 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
 - **README.md** # highlighted file
 - ...
 :::
+::::
 
 ## Features
 

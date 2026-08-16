@@ -19,8 +19,6 @@ seo:
 
 Callout blocks highlight important information with a colored accent and icon. They work in both `.md` and `.mdx` files — the syntax is identical in both.
 
----
-
 ## Syntax
 
 ```md
@@ -43,10 +41,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 > This may cause irreversible effects.
 ```
 
----
-
-## Preview
-
+:::card[Preview]
 > [!NOTE]
 > General information.
 
@@ -64,8 +59,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 > [!DANGER]
 > This may cause irreversible effects.
-
----
+:::
 
 ## Variants
 
@@ -77,8 +71,6 @@ Callout blocks highlight important information with a colored accent and icon. T
 | `WARNING` | Yellow |
 | `CAUTION` | Orange |
 | `DANGER` | Red |
-
----
 
 ## Notes
 

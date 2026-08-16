@@ -6,10 +6,10 @@ category: "Components"
 order: 7
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-15T20:49:00Z
 seo:
   title: "User"
@@ -18,8 +18,6 @@ seo:
 ---
 
 User renders an inline profile with an avatar, name, optional role, and optional link.
-
----
 
 ## Syntax
 
@@ -32,7 +30,7 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
 ```
 :::
 
@@ -44,19 +42,20 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">Bima Akbar</User>
 
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
 ```
 :::
 ::::
 
-## Preview
+:::card[Preview]
 :user[Bima Akbar]
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
+:::
 
 ## Attributes
 

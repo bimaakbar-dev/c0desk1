@@ -6,10 +6,10 @@ category: "Components"
 order: 11
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T11:15:00Z
 seo:
   title: "Video"
@@ -19,17 +19,15 @@ seo:
 
 Video embeds a YouTube, Vimeo, or local video file. Platform is detected automatically from the URL.
 
----
-
 ## Syntax
 
 ```md
 ::video[https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ]
 ```
 
-## Preview
-
+:::card[Preview]
 ::video[https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ]
+:::
 
 ## Supported Platforms
 

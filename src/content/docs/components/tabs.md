@@ -6,10 +6,10 @@ category: "Components"
 order: 4
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T11:35:00Z
 seo:
   title: "Tabs"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Tabs groups content into selectable panels. Works in both `.md` and `.mdx` files.
-
----
 
 ## Syntax
 
@@ -39,7 +37,7 @@ yarn add astro
 ::::
 ```
 
-## Preview
+:::card[Preview]
 
 ::::tabs
 :::tab[npm]
@@ -52,6 +50,7 @@ pnpm add astro
 yarn add astro
 :::
 ::::
+:::
 
 ## Notes
 

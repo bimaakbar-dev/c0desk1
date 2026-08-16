@@ -6,10 +6,10 @@ category: "Components"
 order: 15
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T03:00:00Z
 seo:
   title: "Quote"
@@ -18,8 +18,6 @@ seo:
 ---
 
 Quote renders a `<figure>` with a `<blockquote>` and an optional `<figcaption>` for user attribution.
-
----
 
 ## Syntax
 
@@ -37,19 +35,20 @@ Unloyd made my docs look great.
 ```mdx
 <Quote>
   Unloyd made my docs look great.
-  <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
+  <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
 </Quote>
 ```
 :::
 ::::
 
-## Preview
+::::card[Preview]
 
 :::quote
 Unloyd made my docs look great.
 
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
 :::
+::::
 
 ## Notes
 
