@@ -2,10 +2,10 @@
   display: block !important;
   width: 100%;
   max-width: 100%;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem;
   margin: 2rem 0;
   background-color: var(--bg-subtle);
-  border: 1px solid rgb(from var(--border) r g b / 80%);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow-x: auto !important;
   overflow-y: hidden;
@@ -133,17 +133,70 @@
   -webkit-mask-position: center;
 }
 
+.prose .file-tree div.tree-label[data-highlight] {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree summary.tree-label[data-highlight] {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.prose .file-tree .tree-label[data-highlight] span.tree-file::before,
+.prose .file-tree .tree-label[data-highlight] span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-label[data-highlight] span strong {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+.prose .file-tree .tree-label[data-placeholder] {
+  opacity: 0.5;
+  color: var(--fg-muted);
+  padding-right: 0 !important;
+}
+
+.prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
+  display: none !important;
+}
+
+.prose .file-tree .tree-comment {
+  color: var(--fg-muted);
+  font-size: 13px !important;
+  margin-left: 0.25rem;
+}
+
+.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-file:hover .tree-label {
+  color: var(--accent);
+  cursor: default;
+}
+
+.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
+  background-color: var(--accent) !important;
+}
+
+.prose .file-tree .tree-folder > details > summary:hover .tree-label {
+  color: var(--accent) !important;
+}
+
 .prose .file-tree span.tree-folder::before {
   mask-image: var(--ic-ft-folder);
   -webkit-mask-image: var(--ic-ft-folder);
 }
-
 .prose .file-tree span.tree-file::before,
 .prose .file-tree li[data-ext="file"] span.tree-file::before {
   mask-image: var(--ic-ft-file);
   -webkit-mask-image: var(--ic-ft-file);
 }
-
 .prose .file-tree li[data-ext="astro"] span.tree-file::before {
   mask-image: var(--ic-ft-astro);
   -webkit-mask-image: var(--ic-ft-astro);
@@ -288,70 +341,13 @@
   mask-image: var(--ic-ft-makefile);
   -webkit-mask-image: var(--ic-ft-makefile);
 }
-
 .prose .file-tree li[data-ext="git"] span.tree-file::before {
   mask-image: var(--ic-ft-git);
   -webkit-mask-image: var(--ic-ft-git);
 }
-
 .prose .file-tree li[data-ext="woff2"] span.tree-file::before,
 .prose .file-tree li[data-ext="woff"] span.tree-file::before,
 .prose .file-tree li[data-ext="ttf"] span.tree-file::before {
   mask-image: var(--ic-ft-font);
   -webkit-mask-image: var(--ic-ft-font);
-}
-
-.prose .file-tree div.tree-label[data-highlight] {
-  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
-  color: var(--accent) !important;
-  border-radius: var(--radius-sm);
-}
-
-.prose .file-tree summary.tree-label[data-highlight] {
-  background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
-  color: var(--accent) !important;
-  border-radius: var(--radius-sm);
-}
-
-.prose .file-tree .tree-label[data-highlight] span.tree-file::before,
-.prose .file-tree .tree-label[data-highlight] span.tree-folder::before {
-  background-color: var(--accent) !important;
-}
-
-.prose .file-tree .tree-label[data-highlight] span strong {
-  color: var(--accent) !important;
-  font-weight: 600;
-}
-
-.prose .file-tree .tree-label[data-placeholder] {
-  opacity: 0.5;
-  color: var(--fg-muted);
-  padding-right: 0 !important;
-}
-
-.prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
-  display: none !important;
-}
-
-.prose .file-tree .tree-comment {
-  color: var(--fg-muted);
-  font-size: 13px !important;
-  margin-left: 0.25rem;
-}
-
-.prose .file-tree .tree-file:hover .tree-label span.tree-file::before {
-  background-color: var(--accent) !important;
-}
-
-.prose .file-tree .tree-file:hover .tree-label {
-  color: var(--accent);
-  cursor: default;
-}
-
-.prose .file-tree .tree-folder > details > summary:hover .tree-label span.tree-folder::before {
-  background-color: var(--accent) !important;
-}
-
-.prose .file-tree .tree-folder > details > summary:hover .tree-label {
-  color: var(--accent) !important;
 }
