@@ -1,12 +1,9 @@
 // src/lib/mdx/satteri-card.ts
 import { defineMdastPlugin } from 'satteri';
 
-function getLabel(node: any): string {
-  const firstChild = node.children?.[0];
-  if (firstChild?.type === 'paragraph' && firstChild.data?.directiveLabel) {
-    return firstChild.children.map((c: any) => c.value || '').join('').trim();
-  }
-  return '';
+function extractText(children: any[]): string {
+  if (!Array.isArray(children)) return '';
+  return children.map((c) => (c.type === 'text' ? c.value : extractText(c.children || []))).join('');
 }
 
 function getAttributes(node: any): Record<string, string> {
@@ -18,103 +15,102 @@ function getAttributes(node: any): Record<string, string> {
   return attrs;
 }
 
-function renderChildren(children: any[]): string {
-  if (!Array.isArray(children)) return '';
-  return children
-    .map((child) => {
-      if (child.type === 'text') {
-        return child.value || '';
-      }
-      if (child.type === 'paragraph') {
-        const inner = (child.children || []).map((c: any) => c.value || '').join('');
-        return `<p>${inner}</p>`;
-      }
-      if (child.type === 'strong') {
-        const inner = (child.children || []).map((c: any) => c.value || '').join('');
-        return `<strong>${inner}</strong>`;
-      }
-      if (child.type === 'emphasis') {
-        const inner = (child.children || []).map((c: any) => c.value || '').join('');
-        return `<em>${inner}</em>`;
-      }
-      if (child.type === 'inlineCode') {
-        return `<code>${child.value || ''}</code>`;
-      }
-      if (child.type === 'link') {
-        const inner = (child.children || []).map((c: any) => c.value || '').join('');
-        return `<a href="${child.url || '#'}">${inner}</a>`;
-      }
-      if (child.type === 'list') {
-        const isOrdered = child.ordered === true;
-        const tag = isOrdered ? 'ol' : 'ul';
-        const items = (child.children || [])
-          .map((li: any) => {
-            const liContent = (li.children || [])
-              .map((c: any) => {
-                if (c.type === 'paragraph') {
-                  return `<p>${(c.children || []).map((cc: any) => cc.value || '').join('')}</p>`;
-                }
-                return c.value || '';
-              })
-              .join('');
-            return `<li>${liContent}</li>`;
-          })
-          .join('');
-        return `<${tag}>${items}</${tag}>`;
-      }
-      return child.value || '';
-    })
-    .join('');
-}
-
 export const satteriCard = defineMdastPlugin({
   name: 'satteri-card',
 
   containerDirective(node, ctx) {
     if (node.name !== 'card') return;
 
-    const label = getLabel(node);
+    const firstChild = node.children?.[0];
+    const hasLabelNode =
+      firstChild?.type === 'paragraph' && firstChild.data?.directiveLabel;
+    const label = hasLabelNode ? extractText(firstChild.children).trim() : '';
+    const hasLabel = !!label;
+
     const attrs = getAttributes(node);
     const hasIcon = !!attrs.icon;
-    const hasLabel = !!label;
     const hasHref = !!attrs.href;
     const extraClass = attrs.class || '';
 
-    let children = node.children || [];
-
-    const firstNode = children[0];
-    if (firstNode?.type === 'paragraph' && firstNode.data?.directiveLabel) {
-      children = children.slice(1);
-    }
+    const bodyChildren = hasLabelNode ? node.children.slice(1) : node.children;
 
     const cardClasses = ['card'];
     if (!hasLabel) cardClasses.push('card-no-title');
     if (!hasIcon) cardClasses.push('card-no-icon');
     if (extraClass) cardClasses.push(extraClass);
 
-    let headerHtml = '';
+    const newChildren: any[] = [];
+
+    // Header — synthetic aja (icon + title plain text), gak butuh markdown arbitrary
     if (hasIcon || hasLabel) {
-      const iconHtml = hasIcon
-        ? `<span class="card-icon-wrapper"><span class="card-icon" data-icon="${attrs.icon}"></span></span>`
-        : '';
-      const labelHtml = hasLabel
-        ? `<div class="card-title">${label}</div>`
-        : '';
-      headerHtml = `<div class="card-header">${iconHtml}${labelHtml}</div>`;
+      const headerHastChildren: any[] = [];
+      if (hasIcon) {
+        headerHastChildren.push({
+          type: 'element',
+          tagName: 'span',
+          properties: { className: ['card-icon-wrapper'] },
+          children: [{
+            type: 'element',
+            tagName: 'span',
+            properties: { className: ['card-icon'], dataIcon: attrs.icon },
+            children: [],
+          }],
+        });
+      }
+      if (hasLabel) {
+        headerHastChildren.push({
+          type: 'element',
+          tagName: 'div',
+          properties: { className: ['card-title'] },
+          children: [{ type: 'text', value: label }],
+        });
+      }
+
+      newChildren.push({
+        type: 'containerDirective',
+        name: '_card-header',
+        attributes: {},
+        children: [],
+        data: {
+          hName: 'div',
+          hProperties: { className: ['card-header'] },
+          hChildren: headerHastChildren,
+        },
+      });
     }
 
-    const bodyContent = renderChildren(children);
-    const bodyHtml = bodyContent ? `<div class="card-body">${bodyContent}</div>` : '';
+    // Body — biarin converter bawaan yang urus, apapun isinya
+    if (bodyChildren.length) {
+      newChildren.push({
+        type: 'containerDirective',
+        name: '_card-body',
+        attributes: {},
+        children: bodyChildren,
+        data: {
+          hName: 'div',
+          hProperties: { className: ['card-body'] },
+        },
+      });
+    }
 
-    let cardHtml = `<div class="${cardClasses.join(' ')}">${headerHtml}${bodyHtml}</div>`;
+    let hName = 'div';
+    let hProperties: Record<string, unknown> = { className: cardClasses };
 
     if (hasHref) {
-      cardHtml = `<a href="${attrs.href}" class="card-link" target="${attrs.href.startsWith('http') ? '_blank' : '_self'}" rel="${attrs.href.startsWith('http') ? 'noopener noreferrer' : ''}">${cardHtml}</a>`;
+      hName = 'a';
+      hProperties = {
+        className: cardClasses,
+        href: attrs.href,
+        target: attrs.href.startsWith('http') ? '_blank' : '_self',
+        rel: attrs.href.startsWith('http') ? 'noopener noreferrer' : undefined,
+      };
     }
 
-    ctx.replaceNode(node, {
-      type: 'html',
-      value: cardHtml,
+    ctx.setProperty(node, 'data', {
+      ...(node.data ?? {}),
+      hName,
+      hProperties,
     });
+    ctx.setProperty(node, 'children', newChildren);
   },
 });
