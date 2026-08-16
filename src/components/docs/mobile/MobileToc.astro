@@ -1,166 +1,75 @@
 ---
-import Icon from "@ui/Icons.astro";
-
-interface Props {
+// src/components/docs/mobile/MobileToc.astro
+export interface Props {
   title?: string;
-  headings: { depth: number; text: string; slug: string }[];
+  headings: { 
+    depth: number; 
+    text: string; 
+    slug: string
+  }[];
 }
 
-const { title, headings } = Astro.props;
+const { 
+  title = "On this page", 
+  headings = [] 
+} = Astro.props;
+
 const filteredToc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
-
-const defaultLabel = title || "Dihalaman ini";
-const openLabel = title || "Daftar Isi";
-
-const s =
-  {
-    wrapper: [
-      'sticky top-(--header-height) z-40 lg:hidden',
-      "flex flex-col w-full items-center"
-    ].join(" "),
-
-    details: [
-      'group/toc relative flex flex-col flex-1 w-full',
-      'border-b border-(--border-subtle) bg-(--bg)/80',
-    ].join(" "),
-    
-    summary: [
-      'inline-flex items-center shrink-0 gap-2 px-4 py-2',
-      'text-[14px] font-medium text-(--fg-strong)',
-      'active:bg-(--bg-muted) hover:bg-(--bg-muted)',
-      'focus:ring-2 focus:ring-transparent focus:outline-none',
-      'backdrop-blur-sm select-none list-none [&::-webkit-details-marker]:hidden'
-    ].join(" "),
-
-    progress: [
-      'relative block items-center justify-center shrink-0',
-      'aspect-square size-4',
-      'text-(--fg-muted)',
-    ].join(" "),
-
-    label: [
-      'relative inline-flex h-full min-h-5.5 flex-1 shrink-0 items-center justify-center overflow-hidden',
-    ].join(" "),
-
-    titleActive: [
-      'absolute inset-0 translate-y-0 opacity-100',
-      'text-left truncate items-center text-(--fg-muted)',
-      'group-open/toc:-translate-y-full group-open/toc:opacity-0',
-      'transition-transform duration-(--duration) ease-(--ease-out)',
-    ].join(" "),
-
-    titlePage: [
-      'absolute inset-0 translate-y-full opacity-0',
-      'text-left truncate items-center text-(--fg-strong)',
-      'group-open/toc:translate-y-0 group-open/toc:opacity-100',
-      'transition-transform duration-(--duration) ease-(--ease-out)'
-    ].join(" "),
-
-    icon: [
-      'size-4 text-(--fg-muted)',
-      'group-open/toc:rotate-90',
-      'transition-transform duration-(--duration)'
-    ].join(" "),
-
-    nav: [
-      'absolute top-full right-0 left-0 z-40',
-      'max-h-[60vh] w-full px-2 pt-2 pb-4',
-      'bg-(--bg)/80',
-      'border-y border-transparent',
-      'group-open/toc:border-(--border-subtle)',
-      'backdrop-blur-sm origin-top overflow-y-auto',
-      'animate-in fade-in zoom-in-95 transition-opacity duration-(--duration-fast)',
-    ].join(" "),
-
-    ul: 'flex flex-col',
-    Sub: 'ml-4 border-l border-(--accent)',
-
-    Child: [
-      'toc-mobile-link',
-      'relative block px-3 py-1.5 rounded-md',
-      'text-[13px] font-medium truncate no-underline',
-    ].join(" "),
-     
-    h3: [
-      '-ml-2 pl-6',
-      'text-(--fg-muted)',
-      'hover:text-(--fg-strong) active:text-(--fg-strong)'
-    ].join(" "),
-      
-    h2: [
-      'text-(--fg-muted)',
-      'hover:text-(--fg-strong) active:text-(--fg-strong)'
-    ].join(" "),
-  }
+const openLabel = title || "On this page";
 ---
 
-<div class={s.wrapper}>
+<div class="mobile-toc-wrapper">
   {filteredToc.length > 0 && (
-    <details id="m-toc-details" data-page-title={title} class={s.details}>
-      <summary class={s.summary}>
-        <span role="progressbar" aria-label="Reading progress">
-          <svg 
-            viewBox="0 0 24 24" 
-            aria-hidden="true"
-            width="24"
-            height="24"
-            focusable="false"
-            fill="none"
-            stroke-width="2"
-            stroke="currentColor"
-            stroke-linecap="butt"
-            class={s.progress}>
-            <circle
-              cx="12"
-              cy="12"
-              r="11"
-              opacity="0.5"
-              class="group-open/toc:text-(--accent)"
-            />
-            <circle
-              id="m-toc-progress-ring"
-              cx="12"
-              cy="12"
-              r="11"
-              stroke-dasharray="69.115"
-              stroke-dashoffset="69.115"
-              transform="rotate(-90 12 12)"
-              class="text-(--accent) transition-transform duration-(--duration-fast)"
-            />
+    <details id="m-toc-details" class="mobile-toc-details" data-page-title={title}>
+      <summary class="mobile-toc-summary">
+        <span class="mobile-toc-progress" role="progressbar" aria-label="Reading progress">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="24" height="24" focusable="false" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="butt">
+            <circle cx="12" cy="12" r="11" opacity="0.5" class="progress-ring-bg" />
+            <circle id="m-toc-progress-ring" cx="12" cy="12" r="11" stroke-dasharray="69.115" stroke-dashoffset="69.115" transform="rotate(-90 12 12)" class="progress-ring-fg" />
           </svg>
         </span>
-        <span class={s.label}>
-          <span id="m-toc-active-text" class={s.titleActive}>
-            {defaultLabel}
-          </span>
-          <span class={s.titlePage}>
-            {openLabel}
-          </span>
+        <span class="mobile-toc-label">
+          <span id="m-toc-active-text" class="mobile-toc-title-active">{title}</span>
+          <span class="mobile-toc-title-page">{openLabel}</span>
         </span>
-        <Icon name="chevron-right" class={s.icon} />
+        <span class="mobile-toc-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
       </summary>
-      <nav class={s.nav}>
-        <ul id="m-toc-list" class={s.ul} role="list">
+      <nav class="mobile-toc-nav">
+        <ul id="m-toc-list" class="mobile-toc-ul" role="list">
           {filteredToc.map((h) => {
             const isSub = h.depth === 3;
             return (
-              <li class:list={[
-                isSub && s.Sub
-              ]}>
-                <a
-                  href={`#${h.slug}`}
-                  data-toc-mobile-slug={h.slug}
-                  data-is-sub={isSub.toString()}
-                  aria-label={h.text}
-                  class:list={[
-                    s.Child,
-                    isSub
-                      ? s.h3
-                      : s.h2,
-                    "details[open] > summary:"
-                  ]}>
-                  {h.text}
-                </a>
+              <li class:list={[isSub && "mobile-toc-sub"]}>
+                {isSub ? (
+                  <div class="mobile-toc-item-h3">
+                    <span class="mobile-toc-indicator" data-indicator />
+                    <a
+                      href={`#${h.slug}`}
+                      data-toc-mobile-slug={h.slug}
+                      data-depth={h.depth}
+                      data-is-sub="true"
+                      class="mobile-toc-link mobile-toc-link-h3"
+                      aria-label={h.text}
+                    >
+                      {h.text}
+                    </a>
+                  </div>
+                ) : (
+                  <a
+                    href={`#${h.slug}`}
+                    data-toc-mobile-slug={h.slug}
+                    data-depth={h.depth}
+                    data-is-sub="false"
+                    class="mobile-toc-link mobile-toc-link-h2"
+                    aria-label={h.text}
+                  >
+                    {h.text}
+                  </a>
+                )}
               </li>
             );
           })}
@@ -169,22 +78,23 @@ const s =
     </details>
   )}
 </div>
+
 <script>
   (function initMobileToc() {
     const tocLinks = document.querySelectorAll(
-      "[data-toc-mobile-slug]",
+      "[data-toc-mobile-slug]"
     ) as NodeListOf<HTMLElement>;
 
     if (!tocLinks.length) return;
 
     const tocDetails = document.getElementById(
-      "m-toc-details",
+      "m-toc-details"
     ) as HTMLElement | null;
     const activeText = document.getElementById(
-      "m-toc-active-text",
+      "m-toc-active-text"
     ) as HTMLElement | null;
     const progressRing = document.getElementById(
-      "m-toc-progress-ring",
+      "m-toc-progress-ring"
     ) as HTMLElement | null;
 
     if (!tocDetails || !activeText || !progressRing) return;
@@ -200,29 +110,51 @@ const s =
     let isClickScrolling = false;
     const circumference = 69.115;
 
+    const updateActiveLinks = () => {
+      const activeLink = linksArray.find(
+        (link) => link.dataset.tocMobileSlug === active
+      );
+
+      linksArray.forEach((link) => {
+        const depth = parseInt(link.dataset.depth || "0");
+        const isActive = activeLink === link;
+
+        link.classList.remove("active-h2", "active-h3");
+
+        if (isActive) {
+          if (depth === 2) {
+            link.classList.add("active-h2");
+          } else if (depth === 3) {
+            link.classList.add("active-h3");
+          }
+        }
+
+        const parentDiv = link.closest(".mobile-toc-item-h3");
+        if (parentDiv) {
+          const indicator = parentDiv.querySelector(
+            ".mobile-toc-indicator"
+          ) as HTMLElement | null;
+          if (indicator) {
+            if (depth === 3 && isActive) {
+              indicator.classList.add("indicator-active");
+              indicator.classList.remove("indicator-inactive");
+            } else {
+              indicator.classList.remove("indicator-active");
+              indicator.classList.add("indicator-inactive");
+            }
+          }
+        }
+      });
+    };
+
     const updateRingProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight =
         document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight <= 0 ? 0 : Math.min(scrollTop / docHeight, 1);
       progressRing.style.strokeDashoffset = String(
-        circumference * (1 - progress),
+        circumference * (1 - progress)
       );
-    };
-
-    const updateActiveLinks = () => {
-      linksArray.forEach((link) => {
-        const isActive = link.dataset.tocMobileSlug === active;
-        link.classList.toggle("text-(--accent)", isActive);
-        link.classList.toggle("bg-(--accent)/10", isActive);
-        link.classList.toggle("text-(--fg-muted)", !isActive);
-
-        const parentLi = link.closest('li');
-        if (parentLi) {
-          parentLi.classList.toggle('border-(--accent)', isActive);
-          parentLi.classList.toggle('border-(--border)', !isActive);
-        }
-      });
     };
 
     const updateSummaryText = () => {
@@ -230,15 +162,19 @@ const s =
         window.scrollY < 100 && !active
           ? pageTitle
           : (active
-              ? linksArray
-                  .find((l) => l.dataset.tocMobileSlug === active)
-                  ?.textContent?.trim()
-              : null) || pageTitle;
+              ? linksArray.find((l) => l.dataset.tocMobileSlug === active)
+                  ?.textContent?.trim() || pageTitle
+              : pageTitle);
       activeText.textContent = label;
     };
 
+    document.querySelectorAll(".mobile-toc-indicator").forEach((el) => {
+      el.classList.add("indicator-inactive");
+    });
+
     updateRingProgress();
     updateSummaryText();
+    updateActiveLinks();
 
     window.addEventListener(
       "scroll",
@@ -246,7 +182,7 @@ const s =
         updateRingProgress();
         updateSummaryText();
       },
-      { passive: true },
+      { passive: true }
     );
 
     const observer = new IntersectionObserver(
@@ -255,7 +191,7 @@ const s =
         const visibleEntries = entries.filter((e) => e.isIntersecting);
         if (visibleEntries.length) {
           const topMostEntry = visibleEntries.reduce((a, b) =>
-            a.boundingClientRect.top <= b.boundingClientRect.top ? a : b,
+            a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
           );
           active = (topMostEntry.target as HTMLElement).id;
         } else if (window.scrollY < 100) {
@@ -264,7 +200,7 @@ const s =
         updateSummaryText();
         updateActiveLinks();
       },
-      { rootMargin: "-124px 0px -65% 0px", threshold: 0 },
+      { rootMargin: "-124px 0px -65% 0px", threshold: 0 }
     );
 
     targets.forEach((t) => observer.observe(t));
@@ -272,15 +208,32 @@ const s =
     const closeToc = () => tocDetails.removeAttribute("open");
 
     linksArray.forEach((link) => {
-      link.addEventListener("click", () => {
-        isClickScrolling = true;
-        active = link.dataset.tocMobileSlug || "";
-        updateSummaryText();
-        updateActiveLinks();
-        closeToc();
-        setTimeout(() => {
-          isClickScrolling = false;
-        }, 500);
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = link.dataset.tocMobileSlug;
+        if (!targetId) return;
+
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          isClickScrolling = true;
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+
+          active = targetId;
+          updateSummaryText();
+          updateActiveLinks();
+          closeToc();
+
+          setTimeout(() => {
+            isClickScrolling = false;
+          }, 600);
+        }
       });
     });
 
@@ -294,3 +247,275 @@ const s =
     document.addEventListener("click", handleOutsideClick);
   })();
 </script>
+
+<style>
+  .mobile-toc-wrapper {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .mobile-toc-details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    border-bottom: 1px solid var(--border-subtle);
+    background-color: rgba(var(--bg), 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .mobile-toc-details[open] .mobile-toc-nav {
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .mobile-toc-summary {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg-strong);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s;
+  }
+
+
+  .mobile-toc-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-toc-progress {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--fg-muted);
+  }
+
+  .mobile-toc-progress svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .progress-ring-bg {
+    opacity: 0.5;
+  }
+
+  .mobile-toc-details[open] .progress-ring-bg {
+    color: var(--accent);
+  }
+
+  .mobile-toc-details[open] .progress-ring-fg {
+    color: var(--accent);
+  }
+
+  .progress-ring-fg {
+    transition: stroke-dashoffset 0.2s;
+  }
+
+  .mobile-toc-label {
+    position: relative;
+    display: inline-flex;
+    height: 100%;
+    min-height: 1.375rem;
+    flex: 1;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .mobile-toc-title-active,
+  .mobile-toc-title-page {
+    position: absolute;
+    inset: 0;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  .mobile-toc-title-active {
+    transform: translateY(0);
+    opacity: 1;
+    color: var(--fg-muted);
+  }
+
+  .mobile-toc-details[open] .mobile-toc-title-active {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .mobile-toc-title-page {
+    transform: translateY(100%);
+    opacity: 0;
+    color: var(--fg-strong);
+  }
+
+  .mobile-toc-details[open] .mobile-toc-title-page {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .mobile-toc-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    color: var(--fg-muted);
+    transition: transform 0.3s;
+  }
+
+  .mobile-toc-details[open] .mobile-toc-icon {
+    transform: rotate(90deg);
+  }
+
+  .mobile-toc-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 40;
+    max-height: 60vh;
+    width: 100%;
+    padding: 0.5rem 0.5rem 1rem;
+    background-color: rgba(var(--bg), 0.8);
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    backdrop-filter: blur(4px);
+    transform-origin: top;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.2s, border-color 0.2s;
+    pointer-events: none;
+  }
+
+  .mobile-toc-details[open] .mobile-toc-nav {
+    opacity: 1;
+    pointer-events: auto;
+    border-top-color: var(--border-subtle);
+    border-bottom-color: var(--border-subtle);
+  }
+
+  .mobile-toc-ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-toc-sub {
+    margin-left: 1rem;
+    border-left: 1px solid var(--border-subtle);
+  }
+
+  .mobile-toc-item-h3 {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-toc-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    border-radius: var(--radius-full);
+    transition: background-color 0.15s;
+  }
+
+  .mobile-toc-indicator.indicator-inactive {
+    background-color: var(--border);
+  }
+
+  .mobile-toc-indicator.indicator-active {
+    background-color: var(--accent) !important;
+  }
+
+  .mobile-toc-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--fg-muted);
+    transition: color 0.15s, background-color 0.15s;
+    cursor: pointer;
+  }
+
+  .mobile-toc-link-h2 {
+    /* h2 tidak memiliki indent tambahan */
+  }
+
+  .mobile-toc-link-h3 {
+    margin-left: -0.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .mobile-toc-link.active-h2 {
+    background-color: rgba(var(--accent), 0.1);
+    color: var(--accent);
+  }
+
+  .mobile-toc-link.active-h3 {
+    background-color: rgba(var(--accent), 0.1);
+    color: var(--accent);
+  }
+
+  .mobile-toc-link.active-h3 ~ .mobile-toc-indicator,
+  .mobile-toc-item-h3:has(.mobile-toc-link.active-h3) .mobile-toc-indicator {
+    background-color: var(--accent) !important;
+  }
+  
+  @media (hover: hover) {
+    .mobile-toc-link:hover {
+      color: var(--fg-strong);
+    }
+  
+    .mobile-toc-summary:hover {
+      background-color: var(--bg-muted);
+    }
+  }
+  @media (hover: none) {
+    .mobile-toc-link:hover {
+      color: var(--fg-strong);
+    }
+  
+    .mobile-toc-summary:hover {
+      background-color: var(--bg-muted);
+    }
+  }
+  
+  @media (min-width: 50rem) {
+    .mobile-toc-wrapper {
+      display: none;
+    }
+  }
+</style>
