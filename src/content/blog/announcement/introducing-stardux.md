@@ -4,7 +4,7 @@ description: "Meet Stardux, an open-source Astro theme designed for building mod
 pubDate: 2026-08-16
 category: "Announcement"
 cover:
-  src: ../../assets/images/og-image.webp
+  src: ../../../assets/images/og-image.webp
   alt: Stradocs Announcement
 tags:
   - stardux
@@ -20,7 +20,7 @@ author:
 seo:
   title: "Introducing Stardux"
   description: "Meet Stardux, an open-source Astro theme for building modern documentation sites and blogs."
-  ogImage: ../../assets/images/og-image.webp
+  ogImage: ../../../assets/images/og-image.webp
   noIndex: false
 ---
 
