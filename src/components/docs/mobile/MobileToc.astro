@@ -107,8 +107,13 @@ const openLabel = title || "On this page";
       .filter((el): el is HTMLElement => el !== null);
 
     let active = "";
-    let isClickScrolling = false;
     const circumference = 69.115;
+
+    // FIX 3: tambah tinggi summary bar (~40px) agar heading tidak tertutup TOC
+    const getTocSummaryHeight = () => {
+      const summary = tocDetails.querySelector(".mobile-toc-summary") as HTMLElement | null;
+      return summary ? summary.offsetHeight : 40;
+    };
 
     const getHeaderHeight = () => {
       const root = document.documentElement;
@@ -119,25 +124,21 @@ const openLabel = title || "On this page";
       return headerVal + padVal;
     };
 
-    const updateActiveLinks = () => {
-      const activeLink = linksArray.find(
-        (link) => link.dataset.tocMobileSlug === active
-      );
+    const getScrollOffset = () => getHeaderHeight() + getTocSummaryHeight();
 
+    const updateActiveLinks = () => {
       linksArray.forEach((link) => {
         const depth = parseInt(link.dataset.depth || "0");
-        const isActive = activeLink === link;
+        const isActive = link.dataset.tocMobileSlug === active;
 
         link.classList.remove("active-h2", "active-h3");
 
         if (isActive) {
-          if (depth === 2) {
-            link.classList.add("active-h2");
-          } else if (depth === 3) {
-            link.classList.add("active-h3");
-          }
+          if (depth === 2) link.classList.add("active-h2");
+          else if (depth === 3) link.classList.add("active-h3");
         }
 
+        // FIX 2: selalu set indicator state secara eksplisit — aktif atau tidak
         const parentDiv = link.closest(".mobile-toc-item-h3");
         if (parentDiv) {
           const indicator = parentDiv.querySelector(
@@ -177,8 +178,10 @@ const openLabel = title || "On this page";
       activeText.textContent = label;
     };
 
+    // FIX 2: init semua indicator sebagai inactive dari awal
     document.querySelectorAll(".mobile-toc-indicator").forEach((el) => {
       el.classList.add("indicator-inactive");
+      el.classList.remove("indicator-active");
     });
 
     updateRingProgress();
@@ -195,13 +198,12 @@ const openLabel = title || "On this page";
     );
 
     const getRootMargin = () => {
-      const offset = getHeaderHeight();
+      const offset = getScrollOffset();
       return `-${offset}px 0px -65% 0px`;
     };
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (isClickScrolling) return;
         const visibleEntries = entries.filter((e) => e.isIntersecting);
         if (visibleEntries.length) {
           const topMostEntry = visibleEntries.reduce((a, b) =>
@@ -229,24 +231,17 @@ const openLabel = title || "On this page";
 
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          isClickScrolling = true;
-          const offset = getHeaderHeight();
+          // FIX 4: scroll instant, tanpa smooth
+          const offset = getScrollOffset();
           const elementPosition = targetElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.scrollY - offset;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
+          window.scrollTo({ top: offsetPosition });
 
           active = targetId;
           updateSummaryText();
           updateActiveLinks();
           closeToc();
-
-          setTimeout(() => {
-            isClickScrolling = false;
-          }, 600);
         }
       });
     });
@@ -263,6 +258,9 @@ const openLabel = title || "On this page";
 </script>
 
 <style>
+  :root {
+    --bg-toc: color-mix(in srgb, var(--bg) 80%, transparent);
+  }
   .mobile-toc-wrapper {
     position: sticky;
     top: var(--header-height);
@@ -286,9 +284,11 @@ const openLabel = title || "On this page";
     flex: 1;
     width: 100%;
     border-bottom: 1px solid var(--border-subtle);
-    background-color: rgb(from var(--bg) r g b / 0.8);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    /* FIX 5: blur — pakai background solid dengan opacity lewat CSS variable,
+       atau color-mix jika --bg adalah hex/hsl. Fallback: rgba langsung */
+    background-color: var(--bg-toc, rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .mobile-toc-details[open] .mobile-toc-nav {
@@ -308,8 +308,6 @@ const openLabel = title || "On this page";
     cursor: pointer;
     list-style: none;
     user-select: none;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     transition: background-color 0.2s;
   }
 
@@ -425,9 +423,10 @@ const openLabel = title || "On this page";
     max-height: 60vh;
     width: 100%;
     padding: 0.5rem 0.5rem 1rem;
-    background-color: rgb(from var(--bg) r g b / 0.8);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    /* FIX 5: sama, pakai --bg-toc atau rgba fallback */
+    background-color: var(--bg-toc, rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     transform-origin: top;
@@ -454,7 +453,6 @@ const openLabel = title || "On this page";
 
   .mobile-toc-sub {
     margin-left: 1rem;
-    /* border-left dihilangkan karena indikator sudah ada */
   }
 
   .mobile-toc-item-h3 {
@@ -463,22 +461,25 @@ const openLabel = title || "On this page";
     align-items: center;
   }
 
+  /* FIX 1: indicator butuh left offset yang sesuai posisi link, dan min-height */
   .mobile-toc-indicator {
     position: absolute;
-    left: 0;
+    left: 0.75rem; /* sejajar padding kiri link-h3 */
     top: 0.375rem;
     bottom: 0.375rem;
     width: 2px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     transition: background-color 0.15s;
   }
 
+  /* FIX 2: pastikan CSS tidak override JS — hapus selector :has() dari CSS,
+     biarkan JS yang kontrol sepenuhnya lewat class */
   .mobile-toc-indicator.indicator-inactive {
     background-color: var(--border);
   }
 
   .mobile-toc-indicator.indicator-active {
-    background-color: var(--accent) !important;
+    background-color: var(--accent);
   }
 
   .mobile-toc-link {
@@ -504,23 +505,18 @@ const openLabel = title || "On this page";
     }
   }
 
+  /* FIX 1: sesuaikan padding-left h3 agar teks tidak nabrak indicator */
   .mobile-toc-link-h3 {
-    margin-left: -0.5rem;
-    padding-left: 1.5rem;
+    padding-left: 1.75rem; /* cukup ruang untuk indicator 2px di left: 0.75rem */
   }
 
   .mobile-toc-link.active-h2 {
-    background-color: rgb(from var(--accent) r g b / 0.1);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
   }
 
   .mobile-toc-link.active-h3 {
-    background-color: rgb(from var(--accent) r g b / 0.1);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
-  }
-
-  .mobile-toc-link.active-h3 ~ .mobile-toc-indicator,
-  .mobile-toc-item-h3:has(.mobile-toc-link.active-h3) .mobile-toc-indicator {
-    background-color: var(--accent) !important;
   }
 </style>
