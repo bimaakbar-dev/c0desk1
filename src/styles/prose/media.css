@@ -10,12 +10,15 @@
   width: 100%;
   height: auto;
 }
-.prose img,
+
 .prose picture,
-/* .prose figure, */
+.prose figure,
 .prose video,
 .prose canvas,
 .prose .video-wrapper {
+  margin: 2.5rem 0;
+}
+.prose img :not(figure img) {
   margin: 2.5rem 0;
 }
 .prose img,
@@ -32,6 +35,7 @@
   text-align: center;
   text-wrap: pretty;
   vertical-align: middle;
+  margin-top: 0.5rem;
 }
 
 @media (min-width: 50rem) {
