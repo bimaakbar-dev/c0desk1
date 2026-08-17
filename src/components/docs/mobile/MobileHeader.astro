@@ -74,7 +74,6 @@ const styles = {
     const toggleHeader = () => {
       const isScrolled = window.scrollY > 10;
       header.classList.toggle("bg-(--bg)/80", isScrolled);
-      header.classList.toggle("backdrop-blur-sm", isScrolled);
       header.classList.toggle("lg:border-(--border-subtle)", isScrolled);
       header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
       header.classList.toggle("bg-none", !isScrolled);
@@ -108,7 +107,7 @@ const styles = {
   customElements.define('nav-toggle', NavToggle);
 </script>
 
-<style is:global>
+<style>
   nav-toggle button .close-menu {
     display: none;
   }
