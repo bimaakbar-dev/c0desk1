@@ -50,11 +50,13 @@ M26.099789,391.714661
 	C28.823404,398.992432 27.531912,398.880096 26.012047,398.809509 
 	C26.012047,396.404480 26.012047,394.268585 26.099789,391.714661 
 z"></path>
+
   `,
   copy: `
     <path fill="currentColor" d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z" />
 	<path fill="currentColor" d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z" />
   `,
+  
   check: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M5 12l5 5l10 -10" />
@@ -68,6 +70,7 @@ z"></path>
   link: `
     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
   `,
+  
   share: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M8 9h-1a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-8a2 2 0 0 0 -2 -2h-1" />
@@ -80,6 +83,7 @@ z"></path>
   close: `
     <path d="M18 6 6 18m0-12 12 12" />
   `,
+  
   progress: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M12 21v-3m6.36 .36l-2.12 -2.12m4.76 -4.24h-3m.36 -6.36l-2.12 2.12m-4.24 -4.76v3m-6.36 -.36l2.12 2.12m-3.76 4.24h2m1 4.95l.71 -.71" />
@@ -103,8 +107,9 @@ z"></path>
     <path d="M4 8l16 0" />
     <path d="M4 16l16 0" />
   `,
+  
   search: `
-    <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" />
+    <path d="M19 11.5a7.5 7.5 0 1 1-15 0a7.5 7.5 0 0 1 15 0m-2.107 5.42l3.08 3.08" />
   `,
   sun: `
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -424,7 +429,7 @@ const {
 
 const svgFill = fill ? 'currentColor' : 'none';
 const svgStroke = fill ? 'none' : 'currentColor';
-const svgStrokeWidth = fill ? '0' : '2';
+const svgStrokeWidth = fill ? '0' : '1.5';
 
 const fallbackPath = icons.logo;
 const innerSvgHtml = icons[name as IconName] || fallbackPath;
