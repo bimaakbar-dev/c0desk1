@@ -1,4 +1,4 @@
-const EXTENSION_ICON: Record<string, string> = {
+export const EXTENSION_ICON: Record<string, string> = {
   // === DASAR ===
   folder: '--ic-ft-folder',
   file:   '--ic-ft-file',
