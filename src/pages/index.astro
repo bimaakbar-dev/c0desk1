@@ -22,6 +22,7 @@ import Button from "@ui/Button.astro";
 import Icons from "@ui/Icons.astro";
 import Hero from "@/components/Hero.astro";
 import HeroImage from "@/assets/images/hero-image.svg";
+import HeroImageDesktop from "@/assets/images/hero-image-desktop.svg";
 import HeroImageMobile from "@/assets/images/hero-image-mobile.svg";
 
 const meta = buildMeta({
@@ -68,6 +69,14 @@ const imageAttrs = {
       </Container>
       <Container size="lg">
         <Section size="md">
+          <p class="text-heading-32">This is a customizable documentation template built with <span class="text-(--accent)">Astro</span>. It's designed to help you create beautiful documentation quickly.</p>
+        </Section>
+      </Container>
+      <Container size="full" class="px-0!">
+        <hr />
+      </Container>
+      <Container size="lg">
+        <Section size="md">
           <div class="text-center mb-10">
             <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
               Why Choose This Theme?
@@ -94,6 +103,33 @@ const imageAttrs = {
       <Container size="full" class="px-0!">
         <hr />
       </Container>
+      <Image src={HeroImageDesktop} {...imageAttrs} />
+      <Container size="lg">
+        <Section size="md">
+          <div class="text-center mb-10">
+            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
+              Support Markdown & MDX
+            </h2>
+            <p class="text-heading-32 mt-2">Native support for Markdown & MDX, also Custom component with directive from Satteri.</p>
+          </div>
+        </Section>
+      </Container>
+      <Container size="full" class="px-0!">
+        <hr />
+      </Container>
+      <Container size="lg">
+        <Section size="md">
+          <div class="text-center mb-10">
+            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
+              Forever Open Source.
+            </h2>
+            <p class="text-heading-32 mt-2">Modifikasi seperti apa yang kamu inginkan!</p>
+          </div>
+        </Section>
+      </Container>
+      <Container size="full" class="px-0!">
+        <hr />
+      </Container>
       <Image src={HeroImageMobile} {...imageAttrs} />
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
@@ -108,9 +144,8 @@ const imageAttrs = {
                   href={`${ROUTES.docs}/`}
                   variant="primary"
                   size="lg"
-                  suffix={<Icons name="arrow-right" class="size-4.5" />}
                 >
-                  View Documents
+                  View Docs
                 </Button>
                 <Button
                   href="https://github.com/bimaakbar-dev"
