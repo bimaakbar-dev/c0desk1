@@ -12,6 +12,7 @@ import {
 } from "@/lib/utils";
 
 import { features } from "@/config/pages";
+import { Image } from 'astro:assets';
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
@@ -21,6 +22,7 @@ import Button from "@ui/Button.astro";
 import Icons from "@ui/Icons.astro";
 import Hero from "@/components/Hero.astro";
 import HeroImage from "@/assets/images/hero-image.svg";
+import HeroImageMobile from "@/assets/images/hero-image-mobile.svg";
 
 const meta = buildMeta({
   description: SITE.description,
@@ -35,6 +37,15 @@ const schema = [
     url: canonicalUrl(),
   })
 ];
+
+const imageAttrs = {
+	loading: 'lazy' as const,
+	decoding: 'async' as const,
+	fetchpriority: 'high' as const,
+	width: 1200,
+	height: 400,
+	alt: 'Hero illustration',
+};
 ---
 
 <Layout {meta} {schema} isHome>
@@ -49,7 +60,9 @@ const schema = [
           />
         </Section>
       </Container>
-      <hr />
+      <Container size="full" class="px-0!">
+        <hr />
+      </Container>
       <Container size="lg">
         <Section size="md">
           <div class="text-center mb-10">
@@ -75,9 +88,13 @@ const schema = [
           </div>
         </Section>
       </Container>
-      <hr />
+      <Container size="full" class="px-0!">
+        <hr />
+      </Container>
+      <Image src={HeroImageMobile} {...imageAttrs} />
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
+          
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
             <div class="col-span-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:flex-row lg:gap-12">
               <h2 class="text-heading-32 md:text-heading-40 lg:text-heading-48 font-medium text-(--fg-strong) text-center lg:text-left text-balance max-w-[16ch]">
