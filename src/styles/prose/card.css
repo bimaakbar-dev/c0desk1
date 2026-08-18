@@ -235,3 +235,12 @@
   mask-image: var(--ic-blog);
   -webkit-mask-image: var(--ic-blog);
 }
+
+.prose .card-header .card-icon[data-icon="fire"] {
+  mask-image: var(--ic-fire);
+  -webkit-mask-image: var(--ic-fire);
+}
+.prose .card-header .card-icon[data-icon="fork"] {
+  mask-image: var(--ic-fork);
+  -webkit-mask-image: var(--ic-fork);
+}
