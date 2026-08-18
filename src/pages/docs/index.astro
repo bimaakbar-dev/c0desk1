@@ -13,8 +13,6 @@ import {
 
 import { getSlug } from "@/lib/utils";
 
-import { Image } from 'astro:assets';
-
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
 import Section from "@ui/Section.astro";
@@ -23,7 +21,8 @@ import DocsHero from "@docs/DocsHero.astro";
 import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 
-import HeroImage from '@/assets/images/hero-image.svg';
+import { Image } from 'astro:assets';
+import HeroImage from "@/assets/images/hero-image.svg";
 
 const allDocs = await getCollection("docs", ({ data }) => !data.draft);
 const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
@@ -74,15 +73,6 @@ const schema = [
   ]),
 ];
 
-const imageAttrs {
-  loading: 'eager' as const,
-  decoding: 'async' as const,
-  fetchpriority: 'high' as const,
-  width: 1200,
-  height: 400,
-  alt: 'Hero ilustration',
-}
-
 const $ = {
   card: "group flex min-h-full flex-col items-start gap-4",
   cardTitle: "text-heading-20 font-semibold text-(--fg-strong)",
@@ -91,6 +81,15 @@ const $ = {
   linkItem:
     "flex min-w-0 items-center gap-2 py-1.5 rounded-sm text-button-14 text-(--fg-muted) hover:text-(--fg-strong)",
   viewAll: "mt-auto p-0! text-(--fg-muted) hover:bg-transparent hover:text-(--fg-strong)",
+};
+
+const imageAttrs = {
+	loading: 'lazy' as const,
+	decoding: 'async' as const,
+	fetchpriority: 'high' as const,
+	width: 1200,
+	height: 400,
+	alt: 'Hero illustration',
 };
 ---
 
@@ -104,8 +103,9 @@ const $ = {
         primaryHref={startReadingHref}
         secondaryText={DOCS_PAGE.hero.action2Label}
       />
-      <Image src={heroImage} {...imageAttrs} />
-      <hr/>
+      <hr />
+      <Image src={HeroImage} {...imageAttrs} />
+      <hr />
       <Section size="md">
         <Container size="xl">
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
