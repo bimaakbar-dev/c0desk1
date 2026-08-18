@@ -212,7 +212,7 @@
 }
 
 .prose .astro-code:hover::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--accent);
 }
 
 .prose .astro-code ::selection {
@@ -223,7 +223,6 @@
   display: block;
   width: 100%;
   background: transparent !important;
-  /* line-height: inherit; */
   font-family: inherit;
 }
 
@@ -232,7 +231,7 @@
   width: 100%;
   padding: 0 1.5rem !important;
   box-sizing: border-box;
-  white-space: pre; 
+  /* white-space: pre; */
 }
 
 .prose .astro-code .line.diff {
@@ -278,17 +277,14 @@
 
 .prose .astro-code .line.highlighted {
   background-color: rgb(from var(--accent) r g b / 0.15) !important;
-  box-shadow: inset 3px 0 0 0 var(--accent) !important;
 }
 
 .prose .astro-code .line.error {
   background-color: rgb(from var(--color-error) r g b / 0.2) !important;
-  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
 }
 
 .prose .astro-code .line.warning {
   background-color: rgb(from var(--color-warning) r g b / 0.2) !important;
-  box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
 }
 
 [data-theme='dark'] .astro-code {
