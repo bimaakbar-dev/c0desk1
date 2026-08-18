@@ -25,6 +25,7 @@
 .prose .inline-link.is-external::after {
   content: "";
   display: inline-flex;
+  font-size: inherit;
   width: 1em;
   height: 1em;
   aspect-ratio: 1/1;
