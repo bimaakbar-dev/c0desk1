@@ -240,6 +240,7 @@
 
 .prose .astro-code .line.diff {
   position: relative;
+  padding-inline: 1.5rem !important;
 }
 
 .prose .astro-code .line.diff.add::before,
@@ -251,6 +252,7 @@
   transform: translateY(-50%);
   width: 1em;
   height: 1em;
+  font-size: inherit;
   flex-shrink: 0;
   aspect-ratio: 1/1;
   mask-size: contain;
