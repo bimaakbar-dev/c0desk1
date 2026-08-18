@@ -1,8 +1,5 @@
 /* src/styles/prose/code.css */
 
-/* ============================================================
-   INLINE CODE
-   ============================================================ */
 .prose :not(pre) > code {
   @apply text-code-14;
   color: var(--fg-strong);
@@ -33,9 +30,6 @@
   font-size: inherit !important;
 }
 
-/* ============================================================
-   CODE BLOCK WRAPPER
-   ============================================================ */
 .prose .code-block {
   position: relative;
   margin: 1.5rem 0;
@@ -100,9 +94,6 @@
   opacity: 0.55;
 }
 
-/* ============================================================
-   COPY BUTTON
-   ============================================================ */
 .prose .copy-button {
   display: flex;
   align-items: center;
@@ -180,21 +171,17 @@
   }
 }
 
-/* ============================================================
-   ASTRO-CODE (SHIKI) — EKSTERNAL SAJA
-   TIDAK SENTUH .line, code, span
-   ============================================================ */
 .prose .astro-code {
   @apply text-code-14;
+  display: block;
   margin: 1.5rem 0 !important;
-  padding: 0.75rem 0 !important;
+  padding: 0.75rem 0;
   background-color: var(--bg-subtle) !important;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
-  /* TIDAK disentuh: display, line-height, struktur internal */
 }
 
 .prose .code-block .astro-code {
@@ -203,7 +190,6 @@
   margin: 0 !important;
 }
 
-/* Scrollbar */
 .prose .astro-code {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -232,13 +218,29 @@
   background: rgb(from var(--accent) r g b / 25%);
 }
 
-/* ============================================================
-   DIFF — IKON + DAN - (TANPA BOX-SHADOW, TANPA FLEX)
-   HANYA TAMBAHKAN IKON TANPA MENGUBAH STRUKTUR LINE
-   ============================================================ */
+.prose .astro-code code {
+  display: grid;
+  min-width: 100%;
+  background: transparent !important;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.prose .astro-code .line {
+  display: block;
+  padding: 0 1.5rem !important;
+  line-height: inherit;
+  white-space: pre;
+}
+
+.prose .astro-code .line > span {
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+}
+
 .prose .astro-code .line.diff {
   position: relative;
-  /* TIDAK sentuh display, width, padding */
 }
 
 .prose .astro-code .line.diff.add::before,
@@ -269,18 +271,16 @@
   -webkit-mask: var(--ic-minus);
 }
 
-/* Background lembut (opsional) — TIDAK sentuh display */
 .prose .astro-code .line.diff.add {
-  background-color: rgb(from var(--color-success) r g b / 0.08) !important;
+  background-color: rgb(from var(--color-success) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-success) !important;
 }
 
 .prose .astro-code .line.diff.remove {
-  background-color: rgb(from var(--color-error) r g b / 0.08) !important;
+  background-color: rgb(from var(--color-error) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
 }
 
-/* ============================================================
-   HIGHLIGHT, ERROR, WARNING (TETAP)
-   ============================================================ */
 .prose .astro-code .line.highlighted {
   background-color: rgb(from var(--accent) r g b / 0.15) !important;
   box-shadow: inset 3px 0 0 0 var(--accent) !important;
@@ -296,9 +296,6 @@
   box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
 }
 
-/* ============================================================
-   DARK MODE
-   ============================================================ */
 [data-theme='dark'] .astro-code {
   background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
 }
