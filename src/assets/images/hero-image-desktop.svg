@@ -4,13 +4,12 @@
       <stop offset="0%" stop-color="rgb(232, 185, 58)" stop-opacity="0.10" />
       <stop offset="100%" stop-color="rgb(10, 10, 10)" stop-opacity="0" />
     </radialGradient>
-    <radialGradient id="glow-cyan-pc" cx="30%" cy="30%" r="50%">
+    <radialGradient id="glow-cyan-pc" cx="30%" cy="80%" r="50%">
       <stop offset="0%" stop-color="rgb(42, 220, 245)" stop-opacity="0.05" />
       <stop offset="100%" stop-color="rgb(10, 10, 10)" stop-opacity="0" />
     </radialGradient>
     <filter id="shadow-pc" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="20" stdDeviation="15" flood-color="rgb(0,0,0)" flood-opacity="0.5"/>
-      
     </filter>
     <linearGradient id="border-glow" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="rgb(77, 77, 77)" />
