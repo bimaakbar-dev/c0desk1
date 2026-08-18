@@ -10,7 +10,7 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-09T02:55:00Z
+lastUpdated: 2026-08-18
 seo:
   title: "Icons"
   description: "Inline SVG icon with size variants."
@@ -19,7 +19,7 @@ seo:
 
 Icon renders an inline SVG icon. Color follows `currentColor` and can be overridden with CSS.
 
-## Syntax
+## Usage
 
 ```md
 :icon[star]
@@ -32,15 +32,19 @@ Click :icon[arrow] to continue.
 ```
 
 :::card[Preview]
-
-:icon[star] 
+:icon[star]
+ 
 :icon[star]{size="md"} 
+
 :icon[star]{size="lg"}
 
-:icon[github] 
+:icon[github]
+ 
 :icon[twitter] 
+
 :icon[youtube]
 
+Click :icon[arrow] to continue.
 :::
 
 ## Sizes
