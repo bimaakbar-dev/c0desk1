@@ -66,23 +66,19 @@ export type IconName = keyof typeof icons;
 interface Props {
   name: IconName | (string & {});
   size?: number;
-  fill?: boolean;
   class?: string;
   id?: string;
-  viewBox?: number;
+  viewBox?: string;
 }
 
 const { 
   name,
   size = '24',
-  fill = false,
   class: className ='size-5',
   viewBox= '0 0 24 24',
   id
 } = Astro.props;
 
-const svgFill = fill ? 'currentColor' : 'none';
-const svgStroke = fill ? 'none' : 'currentColor';
 const svgStrokeWidth = fill ? '0' : '2';
 
 const fallbackPath = icons.logo;
@@ -95,8 +91,6 @@ const innerSvgHtml = icons[name as IconName] || fallbackPath;
   viewBox={viewBox}
   width={size}
   height={size}
-  fill={svgFill}
-  stroke={svgStroke}
   stroke-width={svgStrokeWidth}
   stroke-linecap="round"
   stroke-linejoin="round"
