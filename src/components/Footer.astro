@@ -18,7 +18,7 @@ const copyrightYear =
     : SITE.foundingYear;
 
 const $ = {
-  wrapper: "relative mt-auto shrink-0 border-t border-(--border-subtle)",
+  wrapper: "relative w-full mt-auto",
   group: "grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4",
   navigation: "flex flex-col gap-3 items-start",
   label: "text-label-12 font-medium uppercase font-mono text-(--fg-strong)",
@@ -28,6 +28,7 @@ const $ = {
 ---
 
 <footer class={$.wrapper}>
+  <hr />
   <Particles />
   <Section size="md">
     <Container size="lg">
