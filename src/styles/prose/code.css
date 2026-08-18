@@ -1,6 +1,6 @@
-/* src/styles/prose/code.css — MINIMAL VERSION */
+/* src/styles/prose/code.css */
 
-/* Inline code */
+/* --- Inline code --- */
 .prose :not(pre) > code {
   @apply text-code-14;
   color: var(--fg-strong);
@@ -31,7 +31,7 @@
   font-size: inherit !important;
 }
 
-/* Wrapper code block */
+/* --- Code block wrapper --- */
 .prose .code-block {
   position: relative;
   margin: 1.5rem 0;
@@ -74,7 +74,38 @@
   color: var(--fg-subtle);
 }
 
-/* Copy button */
+.prose .code-block:not(.has-title) .astro-code {
+  position: relative;
+}
+
+.prose .code-block:not(.has-title) .astro-code::before {
+  @apply text-mono-label-13;
+  content: attr(data-language);
+  position: absolute;
+  top: 0.625rem;
+  left: 1.5rem;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.prose .code-block:not(.has-title):hover .astro-code::before {
+  opacity: 0.55;
+}
+
+@media (hover: none) {
+  .prose .code-block:not(.has-title) .code-block-header {
+    opacity: 1;
+  }
+  .prose .code-block:not(.has-title) .astro-code::before {
+    opacity: 0.55;
+  }
+}
+
+/* --- Copy button --- */
 .prose .copy-button {
   display: flex;
   align-items: center;
@@ -142,15 +173,9 @@
   display: block;
 }
 
-@media (hover: none) {
-  .prose .code-block:not(.has-title) .code-block-header {
-    opacity: 1;
-  }
-}
-
 /* ============================================================
-   ASTRO-CODE (SHIKI) — EKSTERNAL SAJA
-   TIDAK SENTUH .line ATAU code
+   ASTRO-CODE (SHIKI) — EKSTERNAL + PADDING HORIZONTAL SAJA
+   TIDAK MENGUBAH DISPLAY .line ATAU code
    ============================================================ */
 .prose .astro-code {
   @apply text-code-14;
@@ -162,7 +187,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
-  /* Biarkan semua internal (display, line-height, dll) dari Shiki */
+  /* Biarkan display, line-height, dll dari Shiki */
 }
 
 .prose .code-block .astro-code {
@@ -199,7 +224,80 @@
   background: rgb(from var(--accent) r g b / 25%);
 }
 
-/* Dark mode */
+/* ============================================================
+   HANYA PADDING HORIZONTAL UNTUK .line
+   TIDAK MENYENTUH display ATAU width
+   ============================================================ */
+.prose .astro-code .line {
+  padding: 0 1.5rem !important;
+  /* Biarkan display default Shiki (biasanya block) */
+  /* JANGAN tambahkan display, width, box-sizing, dll */
+}
+
+/* ============================================================
+   DIFF (PLUS/MINUS) — DENGAN POSISI ABSOLUT
+   ============================================================ */
+.prose .astro-code .line.diff {
+  position: relative;
+}
+
+.prose .astro-code .line.diff.add::before,
+.prose .astro-code .line.diff.remove::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  aspect-ratio: 1/1;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.prose .astro-code .line.diff.add::before {
+  background-color: var(--color-success);
+  mask: var(--ic-plus);
+  -webkit-mask: var(--ic-plus);
+}
+
+.prose .astro-code .line.diff.remove::before {
+  background-color: var(--color-error);
+  mask: var(--ic-minus);
+  -webkit-mask: var(--ic-minus);
+}
+
+.prose .astro-code .line.diff.add {
+  background-color: rgb(from var(--color-success) r g b / 0.08) !important;
+}
+
+.prose .astro-code .line.diff.remove {
+  background-color: rgb(from var(--color-error) r g b / 0.08) !important;
+}
+
+/* ============================================================
+   HIGHLIGHT, ERROR, WARNING (TETAP DENGAN BOX-SHADOW)
+   ============================================================ */
+.prose .astro-code .line.highlighted {
+  background-color: rgb(from var(--accent) r g b / 0.15) !important;
+  box-shadow: inset 3px 0 0 0 var(--accent) !important;
+}
+
+.prose .astro-code .line.error {
+  background-color: rgb(from var(--color-error) r g b / 0.2) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
+}
+
+.prose .astro-code .line.warning {
+  background-color: rgb(from var(--color-warning) r g b / 0.2) !important;
+  box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
+}
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
 [data-theme='dark'] .astro-code {
   background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
 }
