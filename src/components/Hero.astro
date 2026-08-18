@@ -5,6 +5,7 @@ import Section from "@ui/Section.astro";
 import Button from "@ui/Button.astro";
 import Icon from "@ui/Icons.astro";
 import Badge from "@ui/Badge.astro";
+import Particles from './ui/Particles.astro';
 
 interface Props {
   tagline?: string;
@@ -44,34 +45,35 @@ const $ = {
 ---
 
 <Section size="none" class="hero">
-  <Image src={image} {...imageAttrs} />
-  <div class="flex stack">
-    <div class="flex meta">
-      	{tagline && ( 
-	    	<Badge variant="accent" class={$.badge} set:html={tagline} /> 
+	<Particles />
+  	<Image src={image} {...imageAttrs} />
+	<div class="flex stack">
+		<div class="flex meta">
+			{tagline && ( 
+				<Badge variant="accent" class={$.badge} set:html={tagline} /> 
+			)}
+			<h1 class={$.title} set:html={title} />
+		</div>
+		<div class="flex actions">
+		{action && ( 
+			<Button 
+			variant="primary" 
+			size="lg" 
+			href={action} 
+			>{actionLabel}
+			</Button>
 		)}
-      	<h1 class={$.title} set:html={title} />
-    </div>
-    <div class="flex actions">
-      {action && ( 
-        <Button 
-          variant="primary" 
-          size="lg" 
-          href={action} 
-        >{actionLabel}
-        </Button>
-      )}
-      {action2 && ( 
-        <Button 
-          variant="ghost" 
-          size="lg" 
-          href={action2} 
-          suffix={<Icon name="arrow-right" />} 
-        >{action2Label}
-        </Button> 
-      )}
-    </div>
-  </div>
+		{action2 && ( 
+			<Button 
+			variant="ghost" 
+			size="lg" 
+			href={action2} 
+			suffix={<Icon name="arrow-right" />} 
+			>{action2Label}
+			</Button> 
+		)}
+		</div>
+	</div>
 </Section>
 <style is:global>
   	.hero {
@@ -116,6 +118,7 @@ const $ = {
 		.hero > img {
 			order: 2;
 			width: min(100%, 25rem);
+			align-self: end; 
 		}
 		.stack {
 			text-align: start;
