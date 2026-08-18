@@ -234,7 +234,11 @@
   box-sizing: border-box;
   line-height: inherit;
   white-space: pre;
-  min-height: calc(1em * 1.55);
+  
+}
+
+.prose .astro-code .line:empty {
+  min-height: 1.6em;
 }
 
 .prose .astro-code .line.diff {
@@ -250,6 +254,7 @@
   transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
+  flex-shrink: 0;
   aspect-ratio: 1/1;
   mask-size: contain;
   mask-repeat: no-repeat;
