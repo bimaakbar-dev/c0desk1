@@ -6,9 +6,9 @@ category: "Components"
 order: 11
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
+  url: "https://github.com/bimaakbar-dev"
   email: "hello@unloyd.web.id"
 lastUpdated: 2026-08-09T03:00:00Z
 seo:
@@ -19,10 +19,10 @@ seo:
 
 Card renders an info box with an optional icon, title, and content. Adding `href` turns the entire card into a clickable link.
 
----
+## Usage
 
-## Syntax
-
+::::tabs
+:::tab[Markdown]
 ```md
 :::card[Title]
 Card with title and content.
@@ -44,9 +44,32 @@ Card with icon, no title.
 Minimal card, content only.
 :::
 ```
+:::
+
+:::tab[MDX]
+<Card title="Title">
+Card with title and content.
+</Card>
+
+<Card title="Title" icon="star">
+Card with icon and title.
+</Card>
+
+<Card title="Title" href="/docs/">
+Clickable card link.
+</Card>
+
+<Card icon="star">
+Card with icon, no title.
+</Card>
+
+<Card>
+Minimal card, content only.
+</Card>
+:::
+::::
 
 ::::card[Preview]
-
 :::card[Title]
 Card with title and content.
 :::
@@ -81,7 +104,7 @@ Minimal card, content only.
 
 | Attribute | Required | Description |
 | --- | --- | --- |
-| `icon` | No | Icon name — `star`, `info`, `link`, `learn`, `book`, `book-2` |
+| `icon` | No | Icon name |
 | `href` | No | Makes the entire card a clickable link |
 | `class` | No | Additional CSS classes |
 
