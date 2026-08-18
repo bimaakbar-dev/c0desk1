@@ -173,10 +173,6 @@
   display: block;
 }
 
-/* ============================================================
-   ASTRO-CODE (SHIKI) — EKSTERNAL + PADDING HORIZONTAL SAJA
-   TIDAK MENGUBAH DISPLAY .line ATAU code
-   ============================================================ */
 .prose .astro-code {
   @apply text-code-14;
   margin: 1.5rem 0 !important;
@@ -187,7 +183,6 @@
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
-  /* Biarkan display, line-height, dll dari Shiki */
 }
 
 .prose .code-block .astro-code {
@@ -224,19 +219,24 @@
   background: rgb(from var(--accent) r g b / 25%);
 }
 
-/* ============================================================
-   HANYA PADDING HORIZONTAL UNTUK .line
-   TIDAK MENYENTUH display ATAU width
-   ============================================================ */
-.prose .astro-code .line {
-  padding: 0 1.5rem !important;
-  /* Biarkan display default Shiki (biasanya block) */
-  /* JANGAN tambahkan display, width, box-sizing, dll */
+.prose .astro-code code {
+  display: block;
+  width: 100%;
+  background: transparent !important;
+  line-height: inherit;
+  font-family: inherit;
 }
 
-/* ============================================================
-   DIFF (PLUS/MINUS) — DENGAN POSISI ABSOLUT
-   ============================================================ */
+.prose .astro-code .line {
+  display: block;
+  width: 100%;
+  padding: 0 1.5rem !important;
+  box-sizing: border-box;
+  line-height: inherit;
+  white-space: pre;
+  min-height: calc(1em * 1.55);
+}
+
 .prose .astro-code .line.diff {
   position: relative;
 }
@@ -277,9 +277,6 @@
   background-color: rgb(from var(--color-error) r g b / 0.08) !important;
 }
 
-/* ============================================================
-   HIGHLIGHT, ERROR, WARNING (TETAP DENGAN BOX-SHADOW)
-   ============================================================ */
 .prose .astro-code .line.highlighted {
   background-color: rgb(from var(--accent) r g b / 0.15) !important;
   box-shadow: inset 3px 0 0 0 var(--accent) !important;
@@ -295,9 +292,6 @@
   box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
 }
 
-/* ============================================================
-   DARK MODE
-   ============================================================ */
 [data-theme='dark'] .astro-code {
   background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
 }
