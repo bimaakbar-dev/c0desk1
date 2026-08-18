@@ -1,17 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" fill="none" style="background-color: transparent; color-scheme: dark;">
   <defs>
-    <!-- Background Grid Khusus untuk kotak kecil -->
-    <pattern id="bg-grid-sm" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgb(38, 38, 38)" stroke-width="0.5" stroke-dasharray="2 2" />
-    </pattern>
 
-    <!-- Shadow Presisi untuk komponen mengambang -->
     <filter id="shadow-hero" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="rgb(0,0,0)" flood-opacity="0.75"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="rgb(0,0,0)" flood-opacity="0.75"/>
     </filter>
 
     <filter id="shadow-card" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="rgb(0,0,0)" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="rgb(0,0,0)" flood-opacity="0.8"/>
     </filter>
 
     <linearGradient id="edge-glow" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -21,26 +16,19 @@
     </linearGradient>
   </defs>
 
-  <!-- Latar Belakang Kotak Hero -->
-  <!-- Dibuat transparan sesuai desain modern, grid & glow saja yang muncul -->
   <rect width="100%" height="100%" fill="url(#bg-grid-sm)" opacity="0.6"/>
   <circle cx="280" cy="120" r="180" fill="url(#glow-gold)" />
   <circle cx="80" cy="320" r="150" fill="url(#glow-cyan)" />
 
-  <!-- ========================================== -->
-  <!-- ELEMEN 1: Background Layer (Code Window)   -->
-  <!-- ========================================== -->
   <g transform="translate(40, 20) scale(0.85)" filter="url(#shadow-hero)" opacity="0.6">
     <rect x="0" y="0" width="300" height="220" rx="12" fill="rgb(16, 16, 16)" stroke="rgb(38, 38, 38)" stroke-width="1.5" />
-    
-    <!-- Header Mac OS (Placeholder) -->
+
     <path d="M 0 12 C 0 5.373 5.373 0 12 0 L 288 0 C 294.627 0 300 5.373 300 12 L 300 30 L 0 30 Z" fill="rgb(24, 24, 24)" />
     <circle cx="16" cy="15" r="3.5" fill="rgb(77, 77, 77)" />
     <circle cx="28" cy="15" r="3.5" fill="rgb(77, 77, 77)" />
     <circle cx="40" cy="15" r="3.5" fill="rgb(77, 77, 77)" />
     <line x1="0" y1="30" x2="300" y2="30" stroke="rgb(38, 38, 38)" stroke-width="1" />
 
-    <!-- Code Block Placeholders -->
     <rect x="20" y="50" width="80" height="8" rx="4" fill="rgb(77, 77, 77)" />
     <rect x="110" y="50" width="120" height="8" rx="4" fill="rgb(125, 125, 125)" />
     <rect x="20" y="70" width="160" height="8" rx="4" fill="rgb(125, 125, 125)" />
@@ -50,17 +38,12 @@
     <rect x="20" y="150" width="60" height="8" rx="4" fill="rgb(125, 125, 125)" />
   </g>
 
-  <!-- ========================================== -->
-  <!-- ELEMEN 2: Main Floating UI (Mockup App)    -->
-  <!-- ========================================== -->
   <g transform="translate(60, 110)" filter="url(#shadow-hero)">
     <rect x="0" y="0" width="280" height="260" rx="14" fill="rgb(10, 10, 10)" stroke="url(#edge-glow)" stroke-width="1.5" />
-    
-    <!-- Sidebar Area (Placeholder) -->
+
     <rect x="0" y="0" width="80" height="260" rx="14" fill="rgb(16, 16, 16)" />
     <line x1="80" y1="0" x2="80" y2="260" stroke="rgb(38, 38, 38)" stroke-width="1" />
-    
-    <!-- Sidebar Item Placeholders -->
+
     <rect x="12" y="20" width="14" height="14" rx="4" fill="rgb(237, 237, 237)" />
     <rect x="32" y="24" width="36" height="6" rx="3" fill="rgb(237, 237, 237)" />
     
@@ -73,19 +56,16 @@
     <rect x="16" y="105" width="40" height="6" rx="3" fill="rgb(77, 77, 77)" />
     <rect x="16" y="125" width="50" height="6" rx="3" fill="rgb(77, 77, 77)" />
 
-    <!-- Main Content Area Placeholders -->
     <rect x="95" y="20" width="120" height="14" rx="4" fill="rgb(255, 255, 255)" />
     <rect x="95" y="45" width="165" height="6" rx="3" fill="rgb(125, 125, 125)" />
     <rect x="95" y="57" width="140" height="6" rx="3" fill="rgb(125, 125, 125)" />
-    
-    <!-- Card Placeholder 1 -->
+
     <rect x="95" y="85" width="165" height="65" rx="6" fill="rgb(16, 16, 16)" stroke="rgb(38, 38, 38)" stroke-width="1" />
     <rect x="105" y="95" width="16" height="16" rx="4" fill="rgb(77, 77, 77)" />
     <rect x="127" y="99" width="60" height="8" rx="4" fill="rgb(237, 237, 237)" />
     <rect x="105" y="120" width="140" height="6" rx="3" fill="rgb(77, 77, 77)" />
     <rect x="105" y="132" width="100" height="6" rx="3" fill="rgb(77, 77, 77)" />
 
-    <!-- Card Placeholder 2 -->
     <rect x="95" y="160" width="165" height="65" rx="6" fill="rgb(16, 16, 16)" stroke="rgb(38, 38, 38)" stroke-width="1" />
     <rect x="105" y="170" width="16" height="16" rx="4" fill="rgb(77, 77, 77)" />
     <rect x="127" y="174" width="40" height="8" rx="4" fill="rgb(237, 237, 237)" />
@@ -93,9 +73,6 @@
     <rect x="105" y="207" width="120" height="6" rx="3" fill="rgb(77, 77, 77)" />
   </g>
 
-  <!-- ========================================== -->
-  <!-- ELEMEN 3: Floating Card / Pop-out Widget   -->
-  <!-- ========================================== -->
   <g transform="translate(180, 260)" filter="url(#shadow-card)">
     <rect x="0" y="0" width="160" height="80" rx="8" fill="rgb(16, 16, 16)" stroke="rgb(232, 185, 58)" stroke-width="1.5" />
     <circle cx="24" cy="24" r="10" fill="rgb(232, 185, 58)" opacity="0.2"/>
