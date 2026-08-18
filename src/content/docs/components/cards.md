@@ -47,7 +47,7 @@ Minimal card, content only.
 :::
 
 :::tab[MDX]
-```mdx
+```html
 <Card title="Title">
 Card with title and content.
 </Card>
