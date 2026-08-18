@@ -232,6 +232,7 @@
   display: inline-block;
   width: 100%;
   padding-inline: 1.5rem !important;
+  padding-right: 1.5rem !important;
   box-sizing: border-box;
   line-height: inherit;
   white-space: pre;
@@ -271,15 +272,15 @@
 }
 
 .prose .astro-code .line.diff.add {
-  background-color: rgb(from var(--color-success) r g b / 0.08) !important;
+  background-color: rgb(from var(--color-success) r g b / 80%) !important;
 }
 
 .prose .astro-code .line.diff.remove {
-  background-color: rgb(from var(--color-error) r g b / 0.08) !important;
+  background-color: rgb(from var(--color-error) r g b / 80%) !important;
 }
 
 .prose .astro-code .line.highlighted {
-  background-color: rgb(from var(--accent) r g b / 0.15) !important;
+  background-color: rgb(from var(--accent) r g b / 80%) !important;
 }
 
 .prose .astro-code .line.error {
