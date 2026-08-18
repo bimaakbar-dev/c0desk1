@@ -71,6 +71,7 @@
   @apply text-code-14;
   font-weight: 500;
   margin-right: auto;
+  margin-left: 0.25rem;
   color: var(--fg-subtle);
 }
 
