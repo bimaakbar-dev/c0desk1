@@ -346,22 +346,19 @@
   border: none;
   height: 12px;
   position: relative;
-  background: linear-gradient(
-    to right,
-    transparent 0px,
-    var(--border-subtle) 14px,
-    var(--border-subtle) calc(100% - 14px),
-    transparent 100%
-  );
-  clip-path: polygon(
-    0% 100%,
-    14px 0%,
-    calc(100% - 14px) 0%,
-    100% 100%
-  );
-  background-size: 100% 1px;
-  background-repeat: no-repeat;
-  background-position: center;
+  color: var(--border-subtle); /* kontrol warna dari sini */
+  background-color: currentColor;
+  -webkit-mask:
+    /* sudut kiri \ */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
+    /* sudut kanan / */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
+    /* garis tengah */
+    linear-gradient(white, white) center / calc(100% - 24px) 1px no-repeat;
+  mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
+    linear-gradient(white, white) center / calc(100% - 24px) 1px no-repeat;
 }
 
   .sr-only {
