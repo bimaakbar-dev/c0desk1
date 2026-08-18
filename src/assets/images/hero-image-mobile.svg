@@ -1,11 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="100%" height="100%" fill="none" style="background-color: transparent; color-scheme: dark;">
   <defs>
-    <!-- Background Grid -->
-    <pattern id="bg-grid-mob" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgb(38, 38, 38)" stroke-width="0.5" stroke-dasharray="4 4" />
-    </pattern>
 
-    <!-- Ambient Glows -->
     <radialGradient id="glow-gold-mob" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgb(232, 185, 58)" stop-opacity="0.12" />
       <stop offset="100%" stop-color="rgb(10, 10, 10)" stop-opacity="0" />
@@ -15,34 +10,28 @@
       <stop offset="100%" stop-color="rgb(10, 10, 10)" stop-opacity="0" />
     </radialGradient>
 
-    <!-- Mockup Drop Shadow -->
     <filter id="shadow-mob" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="rgb(0,0,0)" flood-opacity="0.85"/>
       <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="rgb(232,185,58)" flood-opacity="0.06"/>
     </filter>
 
-    <!-- Blur untuk elemen background -->
     <filter id="blur-bg" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="6" />
     </filter>
   </defs>
 
-  <!-- Background Layer -->
   <rect width="100%" height="100%" fill="transparent" />
   <rect width="100%" height="100%" fill="url(#bg-grid-mob)" />
   <circle cx="700" cy="450" r="450" fill="url(#glow-gold-mob)" />
   <circle cx="350" cy="250" r="350" fill="url(#glow-cyan-mob)" />
 
-  <!-- ========================================== -->
-  <!-- BACKGROUND ELEMENT 1: Abstract Floating UI -->
-  <!-- ========================================== -->
   <g transform="translate(280, 220) rotate(-5) scale(0.9)" filter="url(#blur-bg)" opacity="0.5">
     <rect x="0" y="0" width="300" height="250" rx="12" fill="rgb(16, 16, 16)" stroke="rgb(38, 38, 38)" stroke-width="2" />
     <circle cx="20" cy="20" r="5" fill="rgb(58, 58, 58)" />
     <circle cx="35" cy="20" r="5" fill="rgb(58, 58, 58)" />
     <circle cx="50" cy="20" r="5" fill="rgb(58, 58, 58)" />
     <path d="M 0 40 L 300 40" stroke="rgb(38, 38, 38)" stroke-width="2" />
-    <!-- Placeholders -->
+
     <rect x="20" y="65" width="80" height="8" rx="4" fill="rgb(77, 77, 77)" />
     <rect x="110" y="65" width="120" height="8" rx="4" fill="rgb(125, 125, 125)" />
     <rect x="40" y="95" width="160" height="8" rx="4" fill="rgb(77, 77, 77)" />
@@ -50,9 +39,6 @@
     <rect x="20" y="145" width="140" height="8" rx="4" fill="rgb(125, 125, 125)" />
   </g>
 
-  <!-- ========================================== -->
-  <!-- BACKGROUND ELEMENT 2: Floating Card Block  -->
-  <!-- ========================================== -->
   <g transform="translate(850, 400) rotate(5) scale(0.9)" filter="url(#blur-bg)" opacity="0.5">
     <rect x="0" y="0" width="280" height="320" rx="12" fill="rgb(16, 16, 16)" stroke="rgb(38, 38, 38)" stroke-width="2" />
     <rect x="20" y="30" width="180" height="12" rx="4" fill="rgb(125, 125, 125)" />
@@ -64,41 +50,29 @@
     <rect x="90" y="175" width="80" height="10" rx="5" fill="rgb(77, 77, 77)"/>
   </g>
 
-  <!-- ========================================== -->
-  <!-- MAIN HERO MOCKUP: Mobile Phone Frame       -->
-  <!-- ========================================== -->
   <g transform="translate(525, 90)" filter="url(#shadow-mob)">
-    
-    <!-- Outer Phone Bezel -->
     <rect x="0" y="0" width="350" height="720" rx="42" fill="rgb(0, 0, 0)" stroke="rgb(58, 58, 58)" stroke-width="3" />
     
-    <!-- Screen Display Area -->
     <g transform="translate(10, 10)">
-      <!-- Screen Masking -->
       <clipPath id="screen-clip">
         <rect x="0" y="0" width="330" height="700" rx="34" />
       </clipPath>
       
       <g clip-path="url(#screen-clip)">
-        <!-- Base Screen Background -->
         <rect x="0" y="0" width="330" height="700" fill="rgb(10, 10, 10)" />
 
-        <!-- 1. Top Status Bar Placeholders -->
         <g transform="translate(0, 4)">
-          <!-- Clock Placeholder -->
           <rect x="25" y="12" width="35" height="8" rx="4" fill="rgb(237, 237, 237)" />
-          <!-- Notification Icon Placeholder -->
+
           <rect x="65" y="13" width="6" height="6" rx="2" fill="rgb(77, 77, 77)" />
-          
-          <!-- Signal & Battery Placeholders -->
+
           <rect x="250" y="12" width="24" height="8" rx="4" fill="rgb(125, 125, 125)" />
           <rect x="278" y="12" width="12" height="8" rx="2" fill="rgb(237, 237, 237)" />
-          <!-- Battery outline -->
+
           <rect x="294" y="11" width="18" height="10" rx="3" fill="none" stroke="rgb(237, 237, 237)" stroke-width="1.5" />
           <rect x="296" y="13" width="10" height="6" rx="2" fill="rgb(237, 237, 237)" />
         </g>
 
-        <!-- 2. Navbar Area -->
         <g transform="translate(16, 50)">
           <rect x="0" y="0" width="24" height="24" rx="6" fill="rgb(237, 237, 237)" />
           <rect x="34" y="5" width="80" height="14" rx="4" fill="rgb(255, 255, 255)" />
@@ -106,10 +80,8 @@
         <rect x="256" y="56" width="14" height="14" rx="4" fill="rgb(77, 77, 77)" />
         <rect x="292" y="56" width="18" height="14" rx="3" fill="rgb(77, 77, 77)" />
 
-        <!-- Header Border -->
         <line x1="0" y1="88" x2="330" y2="88" stroke="rgb(38, 38, 38)" stroke-width="1" />
 
-        <!-- 3. Breadcrumb / Sub-nav Area -->
         <rect x="0" y="89" width="330" height="46" fill="rgb(13, 13, 13)" />
         <rect x="18" y="106" width="12" height="12" rx="3" fill="rgb(77, 77, 77)" />
         <rect x="38" y="108" width="80" height="8" rx="4" fill="rgb(160, 160, 160)" />
@@ -117,13 +89,11 @@
         
         <line x1="0" y1="135" x2="330" y2="135" stroke="rgb(38, 38, 38)" stroke-width="1" />
 
-        <!-- 4. Hero Content Area -->
         <rect x="16" y="170" width="220" height="28" rx="8" fill="rgb(255, 255, 255)" />
         <rect x="16" y="225" width="298" height="10" rx="4" fill="rgb(160, 160, 160)" />
         <rect x="16" y="245" width="270" height="10" rx="4" fill="rgb(160, 160, 160)" />
         <rect x="16" y="265" width="140" height="10" rx="4" fill="rgb(160, 160, 160)" />
 
-        <!-- 5. Copy URL Action Button -->
         <g transform="translate(194, 305)">
           <rect x="0" y="0" width="120" height="36" rx="6" fill="rgb(13, 13, 13)" stroke="rgb(38, 38, 38)" stroke-width="1" />
           <line x1="86" y1="0" x2="86" y2="36" stroke="rgb(38, 38, 38)" stroke-width="1" />
@@ -132,10 +102,8 @@
           <rect x="98" y="14" width="8" height="8" rx="2" fill="rgb(77, 77, 77)" />
         </g>
 
-        <!-- 6. Stylized Angled Divider Line -->
         <path d="M -5 360 L 15 380 L 315 380 L 335 360" fill="none" stroke="rgb(38, 38, 38)" stroke-width="1.5" />
 
-        <!-- 7. Main Content Body Placeholders -->
         <rect x="16" y="415" width="298" height="10" rx="4" fill="rgb(237, 237, 237)" />
         <rect x="16" y="435" width="280" height="10" rx="4" fill="rgb(237, 237, 237)" />
         <rect x="16" y="455" width="200" height="10" rx="4" fill="rgb(237, 237, 237)" />
@@ -146,16 +114,12 @@
         <rect x="16" y="560" width="285" height="10" rx="4" fill="rgb(237, 237, 237)" />
         <rect x="16" y="580" width="160" height="10" rx="4" fill="rgb(237, 237, 237)" />
 
-        <!-- 8. Secondary Heading -->
         <rect x="16" y="640" width="180" height="20" rx="6" fill="rgb(255, 255, 255)" />
 
-        <!-- 9. Next Section -->
         <rect x="16" y="685" width="298" height="10" rx="4" fill="rgb(237, 237, 237)" />
       </g>
-      
-      <!-- PERBAIKAN: Phone Notch / Pill -->
+
       <rect x="120" y="8" width="90" height="24" rx="12" fill="rgb(0, 0, 0)" />
-      <!-- Lensa Kamera berpusat di koordinat Y yang sama dengan baterai (Y=20) -->
       <circle cx="165" cy="20" r="5" fill="rgb(16, 16, 16)" />
       <circle cx="165" cy="20" r="2" fill="rgb(38, 38, 38)" />
     </g>
