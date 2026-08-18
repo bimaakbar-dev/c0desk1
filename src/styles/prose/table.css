@@ -87,11 +87,6 @@
   padding: 0.025em 0.25em;
 }
 
-.prose td a .external-icon {
-  width: 1rem;
-  height: 1rem;
-}
-
 .prose td small {
   @apply text-label-14;
   color: var(--fg-subtle);
