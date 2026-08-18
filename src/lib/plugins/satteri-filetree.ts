@@ -2,32 +2,32 @@
 import { defineMdastPlugin } from 'satteri';
 
 const EXTENSION_ICON: Record<string, string> = {
-  // ========================
-  //  FOLDER & DEFAULT
-  // ========================
+  // === DASAR ===
   folder: '--ic-ft-folder',
-  file:   '--ic-ft-file',   // fallback untuk ekstensi tak dikenal
+  file:   '--ic-ft-file',
 
-  // ========================
-  //  BAHASA & FRAMEWORK (dari CSS awal)
-  // ========================
+  // === BAHASA & FRAMEWORK ===
   astro:    '--ic-ft-astro',
   ts:       '--ic-ft-ts',
   js:       '--ic-ft-js',
   css:      '--ic-ft-css',
   html:     '--ic-ft-html',
+  htm:      '--ic-ft-html',     // alias
   json:     '--ic-ft-json',
   md:       '--ic-ft-md',
+  markdown: '--ic-ft-md',       // alias
   svg:      '--ic-ft-svg',
   png:      '--ic-ft-png',
   apk:      '--ic-ft-apk',
   jpg:      '--ic-ft-jpg',
-  jpeg:     '--ic-ft-jpg',   // alias
+  jpeg:     '--ic-ft-jpg',      // alias
   ico:      '--ic-ft-ico',
   pdf:      '--ic-ft-pdf',
   zip:      '--ic-ft-zip',
   env:      '--ic-ft-env',
   sh:       '--ic-ft-sh',
+  bash:     '--ic-ft-sh',       // alias
+  zsh:      '--ic-ft-sh',       // alias
   py:       '--ic-ft-py',
   go:       '--ic-ft-go',
   rs:       '--ic-ft-rs',
@@ -38,13 +38,15 @@ const EXTENSION_ICON: Record<string, string> = {
   mjs:      '--ic-ft-mjs',
   cjs:      '--ic-ft-cjs',
   yaml:     '--ic-ft-yaml',
-  yml:      '--ic-ft-yaml',  // alias
+  yml:      '--ic-ft-yaml',     // alias
   toml:     '--ic-ft-toml',
   xml:      '--ic-ft-xml',
   sql:      '--ic-ft-sql',
   lock:     '--ic-ft-lock',
   log:      '--ic-ft-log',
+  logs:     '--ic-ft-log',      // alias
   txt:      '--ic-ft-txt',
+  text:     '--ic-ft-txt',      // alias
   csv:      '--ic-ft-csv',
   gitignore:'--ic-ft-gitignore',
   dockerfile:'--ic-ft-dockerfile',
@@ -54,9 +56,7 @@ const EXTENSION_ICON: Record<string, string> = {
   woff:     '--ic-ft-font',
   ttf:      '--ic-ft-font',
 
-  // ========================
-  //  BAHASA TAMBAHAN
-  // ========================
+  // === BAHASA LAINNYA ===
   pl:    '--ic-ft-pl',
   pm:    '--ic-ft-pm',
   jl:    '--ic-ft-jl',
@@ -72,9 +72,7 @@ const EXTENSION_ICON: Record<string, string> = {
   cob:   '--ic-ft-cob',
   cbl:   '--ic-ft-cbl',
 
-  // ========================
-  //  TEMPLATE ENGINE
-  // ========================
+  // === TEMPLATE ENGINE ===
   ejs:        '--ic-ft-ejs',
   hbs:        '--ic-ft-hbs',
   handlebars: '--ic-ft-handlebars',
@@ -83,9 +81,7 @@ const EXTENSION_ICON: Record<string, string> = {
   mustache:   '--ic-ft-mustache',
   mdx:        '--ic-ft-mdx',
 
-  // ========================
-  //  ARSIP & KOMPRESI
-  // ========================
+  // === ARSIP & BINARY ===
   rar:  '--ic-ft-rar',
   iso:  '--ic-ft-iso',
   dmg:  '--ic-ft-dmg',
@@ -93,9 +89,7 @@ const EXTENSION_ICON: Record<string, string> = {
   war:  '--ic-ft-war',
   ear:  '--ic-ft-ear',
 
-  // ========================
-  //  DESAIN & 3D
-  // ========================
+  // === DESAIN & 3D ===
   psd:    '--ic-ft-psd',
   ai:     '--ic-ft-ai',
   fig:    '--ic-ft-fig',
@@ -107,18 +101,14 @@ const EXTENSION_ICON: Record<string, string> = {
   heic:   '--ic-ft-heic',
   bmp:    '--ic-ft-bmp',
 
-  // ========================
-  //  VIDEO & AUDIO
-  // ========================
+  // === MEDIA (Video/Audio) ===
   mkv:  '--ic-ft-mkv',
   avi:  '--ic-ft-avi',
   flv:  '--ic-ft-flv',
   m4a:  '--ic-ft-m4a',
   aac:  '--ic-ft-aac',
 
-  // ========================
-  //  KEAMANAN & SERTIFIKAT
-  // ========================
+  // === KEAMANAN ===
   pem: '--ic-ft-pem',
   crt: '--ic-ft-crt',
   cer: '--ic-ft-cer',
@@ -126,9 +116,7 @@ const EXTENSION_ICON: Record<string, string> = {
   pub: '--ic-ft-pub',
   asc: '--ic-ft-asc',
 
-  // ========================
-  //  INFRASTRUKTUR & KONFIGURASI
-  // ========================
+  // === INFRASTRUKTUR ===
   tfstate:    '--ic-ft-tfstate',
   editorconfig:'--ic-ft-editorconfig',
   npmrc:      '--ic-ft-npmrc',
@@ -141,9 +129,7 @@ const EXTENSION_ICON: Record<string, string> = {
   desktop:    '--ic-ft-desktop',
   service:    '--ic-ft-service',
 
-  // ========================
-  //  DATABASE & DATA
-  // ========================
+  // === DATABASE ===
   duckdb: '--ic-ft-duckdb',
   rdb:    '--ic-ft-rdb',
   mdb:    '--ic-ft-mdb',
@@ -152,9 +138,7 @@ const EXTENSION_ICON: Record<string, string> = {
   feather:'--ic-ft-feather',
   arrow:  '--ic-ft-arrow',
 
-  // ========================
-  //  BINARY / COMPILED
-  // ========================
+  // === BINARY/COMPILED ===
   o:     '--ic-ft-o',
   so:    '--ic-ft-so',
   dylib: '--ic-ft-dylib',
@@ -162,9 +146,7 @@ const EXTENSION_ICON: Record<string, string> = {
   exe:   '--ic-ft-exe',
   wasm:  '--ic-ft-wasm',
 
-  // ========================
-  //  MISC (PATCH, LaTeX, etc)
-  // ========================
+  // === DOKUMEN & MISC ===
   patch:    '--ic-ft-patch',
   diff:     '--ic-ft-diff',
   tex:      '--ic-ft-tex',
