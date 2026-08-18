@@ -33,8 +33,9 @@
   position: absolute;
   inset-block-start: 0.65rem;
   inset-inline-start: 1.5rem;
-  width: 1.125em;
-  height: 1.125em;
+  width: 1em;
+  height: 1em;
+  font-size: inherit;
   aspect-ratio: 1/1;
   flex-shrink: 0;
   background-color: var(--callout-color) !important;
