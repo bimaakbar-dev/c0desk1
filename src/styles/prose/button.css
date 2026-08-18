@@ -56,3 +56,7 @@
     mask-image: var(--ic-btn-arrow);
     -webkit-mask-image: var(--ic-btn-arrow);
 }
+.prose .button .button-icon[data-icon="fork"] {
+    mask-image: var(--ic-fork);
+    -webkit-mask-image: var(--ic-fork);
+}
