@@ -222,16 +222,23 @@
 .prose .astro-code code {
   display: block;
   width: 100%;
+  min-width: 100%;
   background: transparent !important;
+  line-height: inherit;
   font-family: inherit;
 }
 
 .prose .astro-code .line {
-  display: block;
+  display: inline-block;
   width: 100%;
   padding: 0 1.5rem !important;
   box-sizing: border-box;
-  /* white-space: pre; */
+  line-height: inherit;
+  white-space: pre;
+}
+
+.prose .astro-code .line:empty {
+  min-height: calc(1em * 1.55);
 }
 
 .prose .astro-code .line.diff {
