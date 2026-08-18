@@ -4,26 +4,22 @@ import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@lib/utils";
 
 import BlogPager from "./BlogPager.astro";
-import Badge from "../ui/Badge.astro";
 
 interface Props {
   prev: CollectionEntry<"blog"> | null;
   next: CollectionEntry<"blog"> | null;
   lastUpdated?: Date;
-  tags?: string[];
 }
 
 const {
   prev,
   next,
   lastUpdated,
-  tags = [],
 } = Astro.props;
 
 const $ = {
   wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
   date: "text-body-13 text-(--fg-muted)",
-  tags: "text-sm text-(--fg-muted)"
 }
 ---
 
@@ -39,18 +35,6 @@ const $ = {
         {formatDate(lastUpdated)}
       </time>
     </p>
-  )}
-  {tags.length > 0 && (
-    <div class="flex flex-wrap gap-1.5">
-      {tags.map((tag) => (
-        <Badge 
-          data-pagefind-meta="tag" 
-          data-pagefind-filter="tag"
-          class={$.tags}>
-          #{tag}
-        </Badge>
-      ))}
-    </div>
   )}
   <BlogPager
     prev={prev}
