@@ -237,10 +237,6 @@
   white-space: pre;
 }
 
-.prose .astro-code .line:empty {
-  min-height: calc(1em * 1.55);
-}
-
 .prose .astro-code .line.diff {
   position: relative;
 }
