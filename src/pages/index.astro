@@ -20,7 +20,7 @@ import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 import Icons from "@ui/Icons.astro";
 import Hero from "@/components/Hero.astro";
-import HeroImage from "@/assets/images/logo.webp";
+import HeroImage from "@/assets/images/hero-image.svg";
 
 const meta = buildMeta({
   description: SITE.description,
@@ -49,6 +49,7 @@ const schema = [
           />
         </Section>
       </Container>
+      <hr />
       <Container size="lg">
         <Section size="md">
           <div class="text-center mb-10">
@@ -74,6 +75,7 @@ const schema = [
           </div>
         </Section>
       </Container>
+      <hr />
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
