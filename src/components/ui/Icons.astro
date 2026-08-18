@@ -79,8 +79,6 @@ const {
   id
 } = Astro.props;
 
-const svgStrokeWidth = fill ? '0' : '2';
-
 const fallbackPath = icons.logo;
 const innerSvgHtml = icons[name as IconName] || fallbackPath;
 ---
@@ -91,7 +89,7 @@ const innerSvgHtml = icons[name as IconName] || fallbackPath;
   viewBox={viewBox}
   width={size}
   height={size}
-  stroke-width={svgStrokeWidth}
+  stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden="true"
