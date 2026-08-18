@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { 
-  label = "Copy Page", 
+  label = "Copy URL",
   class: className = "", 
   rawMarkdown = "" 
 } = Astro.props;
@@ -45,7 +45,6 @@ const s = {
 };
 
 const ACTIONS = [
-  { action: "url", icon: "link", message: "Copy as URL" },
   { action: "markdown", icon: "copy", message: "Copy as Markdown" },
   { action: "view", icon: "markdown", message: "View as Markdown" },
 ];
@@ -109,10 +108,7 @@ const ACTIONS = [
           const action = (e.currentTarget as HTMLElement).getAttribute('data-action');
           details?.removeAttribute('open');
 
-          if (action === 'url') {
-            this.handleCopy(window.location.href);
-          } 
-          else if (action === 'markdown') {
+          if (action === 'markdown') {
             if (rawMarkdown) this.handleCopy(rawMarkdown);
           } 
           else if (action === 'view') {
