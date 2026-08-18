@@ -1,14 +1,9 @@
 /* src/styles/prose/details.css */
-
-:root {
-  --details-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
-}
-
 .prose .accordion {
   display: flex;
   flex-direction: column;
   margin: 1.5rem 0;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
   user-select: none;
@@ -52,11 +47,11 @@
   height: 1.125em;
   color: var(--accent);
   background-color: currentColor;
-  mask-image: var(--details-icon);
+  mask-image: var(--ic-chevron-right);
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
-  -webkit-mask-image: var(--details-icon);
+  -webkit-mask-image: var(--ic-chevron-right);
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
