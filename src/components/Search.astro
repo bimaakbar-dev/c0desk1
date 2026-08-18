@@ -9,7 +9,7 @@ const PAGE_SIZE = 5;
 
 <dialog
   id="search-drawer"
-  aria-label="Pencarian"
+  aria-label="Search"
   class="search-dialog"
   data-wmcp="search"
 >
@@ -28,14 +28,14 @@ const PAGE_SIZE = 5;
     >
       <Fragment slot="prefix">
         <div class="relative flex shrink-0 items-center justify-center size-5">
-          <Icon id="search-icon" name="search" fill class="size-full transition-opacity duration-(--duration)" />
+          <Icon id="search-icon" name="search" class="size-full transition-opacity duration-(--duration)" />
           <Spinner id="search-spinner" size="sm" class="absolute inset-0 hidden size-5! text-(--fg)/80" />
         </div>
       </Fragment>
     </Input>
     <Button
       data-action="close-search"
-      aria-label="Tutup pencarian"
+      aria-label="Close Search"
       variant="icon"
       size="md"
       class="inline-flex! sm:hidden! shrink-0"
@@ -44,7 +44,7 @@ const PAGE_SIZE = 5;
     </Button>
     <Button
       data-action="close-search"
-      aria-label="Tutup pencarian"
+      aria-label="Close search"
       variant="secondary"
       size="sm"
       class="font-mono rounded! hidden! sm:inline-flex!"
@@ -61,11 +61,11 @@ const PAGE_SIZE = 5;
       id="search-list"
       class="hidden divide-y divide-(--border-subtle)"
       role="listbox"
-      aria-label="Hasil pencarian"
+      aria-label="Search result"
     ></ul>
     <div id="search-footer" class="hidden p-3">
       <Button id="search-load-more" variant="secondary" size="md" block>
-        Tampilkan lebih banyak
+        Load more
       </Button>
     </div>
   </div>
@@ -126,8 +126,8 @@ const PAGE_SIZE = 5;
       <Icon name="search" class="size-5 text-(--fg-muted)" />
     </div>
     <div>
-      <p class="text-label-14 text-(--fg-strong) font-medium">Cari dokumentasi</p>
-      <p class="text-sm text-(--fg-muted) mt-1">Ketik untuk mulai mencari</p>
+      <p class="text-label-14 text-(--fg-strong) font-medium">Search</p>
+      <p class="text-sm text-(--fg-muted) mt-1">Type to start searching</p>
     </div>
   </div>
 </template>
