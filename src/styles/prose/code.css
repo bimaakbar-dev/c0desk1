@@ -223,7 +223,7 @@
   display: block;
   width: 100%;
   background: transparent !important;
-  line-height: inherit;
+  /* line-height: inherit; */
   font-family: inherit;
 }
 
@@ -232,7 +232,6 @@
   width: 100%;
   padding: 0 1.5rem !important;
   box-sizing: border-box;
-  line-height: inherit;
   white-space: pre; 
 }
 
