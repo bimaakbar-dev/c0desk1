@@ -233,12 +233,11 @@
   padding: 0 1.5rem !important;
   box-sizing: border-box;
   line-height: inherit;
-  white-space: pre;
-  
+  white-space: pre; 
 }
 
 .prose .astro-code .line:empty {
-  min-height: 1.6em;
+  min-height: calc(1em * 1.55);
 }
 
 .prose .astro-code .line.diff {
