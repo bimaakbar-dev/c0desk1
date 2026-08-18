@@ -54,9 +54,12 @@ const imageAttrs = {
       <Container size="xl">
         <Section size="md">
           <Hero
+            tagline={SITE.tagline}
+            title={SITE.title}
             image={HeroImage}
-            imageAlt="Hero illustration"
-            title={SITE.description}
+            imageAlt="Stradocs Hero Illustration"
+            action="#start"
+            actionLabel="Get Started"
           />
         </Section>
       </Container>
@@ -66,7 +69,7 @@ const imageAttrs = {
       <Container size="lg">
         <Section size="md">
           <div class="text-center mb-10">
-            <h2 class="text-heading-32 md:text-heading-40 lg:text-heading-48 text-(--fg-strong)">
+            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
               Why Choose This Theme?
             </h2>
             <p class="text-body-16 text-(--fg-muted) mt-2">
@@ -75,9 +78,9 @@ const imageAttrs = {
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f) => (
-              <Card padding="lg" radius="md" variant='secondary' class="text-center hover:shadow-md">
-                <div class="flex justify-center mb-3">
-                  <Icons name={f.icon} class="size-6" />
+              <Card padding="lg" radius="md" variant='secondary' class="text-start hover:shadow-md">
+                <div class="flex items-center mb-3">
+                  <Icons name={f.icon} class="size-6 text-brand" />
                 </div>
                 <h3 class="text-heading-18 font-semibold text-(--fg-strong)">
                   {f.title}
@@ -97,7 +100,7 @@ const imageAttrs = {
           
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
             <div class="col-span-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:flex-row lg:gap-12">
-              <h2 class="text-heading-32 md:text-heading-40 lg:text-heading-48 font-medium text-(--fg-strong) text-center lg:text-left text-balance max-w-[16ch]">
+              <h2 id="start" class="text-heading-32 md:text-heading-40 lg:text-heading-48 font-medium text-(--fg-strong) text-center lg:text-left text-balance max-w-[16ch]">
                 Ready to Explore?
               </h2>
               <div class="flex flex-wrap items-center justify-center gap-4">
