@@ -181,19 +181,20 @@
 }
 
 /* ============================================================
-   ASTRO-CODE (SHIKI) — HANYA EKSTERNAL
+   ASTRO-CODE (SHIKI) — EKSTERNAL SAJA
+   TIDAK SENTUH .line, code, span
    ============================================================ */
 .prose .astro-code {
   @apply text-code-14;
   margin: 1.5rem 0 !important;
-  padding: 0.75rem 0 !important;          /* hanya padding atas/bawah */
+  padding: 0.75rem 0 !important;
   background-color: var(--bg-subtle) !important;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
-  /* Biarkan display, line-height, dan struktur internal dari Shiki */
+  /* TIDAK disentuh: display, line-height, struktur internal */
 }
 
 .prose .code-block .astro-code {
@@ -232,10 +233,12 @@
 }
 
 /* ============================================================
-   DIFF (PLUS/MINUS) — TANPA BOX-SHADOW
+   DIFF — IKON + DAN - (TANPA BOX-SHADOW, TANPA FLEX)
+   HANYA TAMBAHKAN IKON TANPA MENGUBAH STRUKTUR LINE
    ============================================================ */
 .prose .astro-code .line.diff {
   position: relative;
+  /* TIDAK sentuh display, width, padding */
 }
 
 .prose .astro-code .line.diff.add::before,
@@ -266,7 +269,7 @@
   -webkit-mask: var(--ic-minus);
 }
 
-/* Background lembut (opsional) */
+/* Background lembut (opsional) — TIDAK sentuh display */
 .prose .astro-code .line.diff.add {
   background-color: rgb(from var(--color-success) r g b / 0.08) !important;
 }
@@ -276,7 +279,7 @@
 }
 
 /* ============================================================
-   HIGHLIGHT, ERROR, WARNING (TETAP FULL WIDTH)
+   HIGHLIGHT, ERROR, WARNING (TETAP)
    ============================================================ */
 .prose .astro-code .line.highlighted {
   background-color: rgb(from var(--accent) r g b / 0.15) !important;
