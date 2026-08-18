@@ -63,27 +63,6 @@
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
 }
-.prose .badge .badge-icon[data-icon="star"] {
-  mask-image: var(--ic-star);
-  -webkit-mask-image: var(--ic-star);
-}
-.prose .badge .badge-icon[data-icon="check"] {
-  mask-image: var(--ic-check);
-  -webkit-mask-image: var(--ic-check);
-}
-.prose .badge .badge-icon[data-icon="warning"] {
-  mask-image: var(--ic-warning);
-  -webkit-mask-image: var(--ic-warning);
-}
-.prose .badge .badge-icon[data-icon="danger"],
-.prose .badge .badge-icon[data-icon="error"] {
-  mask-image: var(--ic-error);
-  -webkit-mask-image: var(--ic-error);
-}
-.prose .badge .badge-icon[data-icon="fire"] {
-  mask-image: var(--ic-fire);
-  -webkit-mask-image: var(--ic-fire);
-}
 
 .prose .badge-sm {
   font-size: 0.55rem;
