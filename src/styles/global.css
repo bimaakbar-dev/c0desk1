@@ -346,19 +346,16 @@
   border: none;
   height: 12px;
   position: relative;
-  color: var(--border-subtle); /* kontrol warna dari sini */
+  color: var(--border-subtle);
   background-color: currentColor;
   -webkit-mask:
-    /* sudut kiri \ */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
-    /* sudut kanan / */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
-    /* garis tengah */
-    linear-gradient(white, white) center / calc(100% - 24px) 1px no-repeat;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
+    linear-gradient(white, white) center top / calc(100% - 24px) 1px no-repeat;
   mask:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
-    linear-gradient(white, white) center / calc(100% - 24px) 1px no-repeat;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='0' y1='0' x2='12' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") left center / 12px 12px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cline x1='12' y1='0' x2='0' y2='12' stroke='white' stroke-width='1'/%3E%3C/svg%3E") right center / 12px 12px no-repeat,
+    linear-gradient(white, white) center top / calc(100% - 24px) 1px no-repeat;
 }
 
   .sr-only {
