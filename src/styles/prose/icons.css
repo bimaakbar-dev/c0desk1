@@ -256,8 +256,8 @@
 
 .prose .icon[data-icon="arrow-right"],
 .prose .button .button-icon[data-icon="arrow-right"] {
-  mask-image: var(--ic-arrow); 
-  -webkit-mask-image: var(--ic-arrow); 
+  mask-image: var(--ic-arrow-right); 
+  -webkit-mask-image: var(--ic-arrow-right); 
 }
 
 .prose .icon[data-icon="chevron-right"] { 
