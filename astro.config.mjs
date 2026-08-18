@@ -127,7 +127,7 @@ export default defineConfig({
         transformerNotationHighlight({ matchAlgorithm: "v3" }),
         transformerNotationWordHighlight({ matchAlgorithm: "v3" }),
         transformerNotationErrorLevel({ matchAlgorithm: "v3" }),
-        transformerRemoveLineBreak(),
+        // transformerRemoveLineBreak(),
       ],
       wrap: false,
     }
