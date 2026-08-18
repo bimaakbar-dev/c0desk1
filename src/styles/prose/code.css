@@ -172,7 +172,7 @@
 }
 
 /* ============================================================
-   FIX: BARIS KOSONG & DIFF/HIGHLIGHT FULL WIDTH
+   BASE ASTRO-CODE
    ============================================================ */
 
 .prose .astro-code {
@@ -223,92 +223,77 @@
 }
 
 /* ============================================================
-   PERBAIKAN UTAMA:
-   - Ganti display: grid → display: block
-   - Set width: 100% agar line memenuhi lebar
-   - Set box-sizing: border-box agar padding tidak overflow
-   - Baris kosong tetap punya tinggi karena line-height
+   SOLUSI FLEXBOX (lebih robust)
    ============================================================ */
 
 .prose .astro-code code {
-  display: block;                 /* CHANGE: dari grid ke block */
-  width: 100%;                    /* CHANGE: pastikan full width */
-  min-width: 100%;                /* CHANGE: antisipasi min-width */
+  display: flex;                    /* CHANGE: flex lebih tangguh */
+  flex-direction: column;           /* CHANGE: vertikal */
+  width: 100%;                      /* CHANGE: full width */
+  min-width: 100%;                  /* CHANGE: antisipasi */
   background: transparent !important;
   line-height: inherit;
   font-family: inherit;
 }
 
 .prose .astro-code .line {
-  display: block;                 /* CHANGE: tetap block */
-  width: 100%;                    /* CHANGE: full width agar background/box-shadow full */
-  padding: 0 1.5rem !important;   /* CHANGE: tambah !important untuk override */
-  box-sizing: border-box;         /* CHANGE: padding tidak menambah lebar */
+  display: flex;                    /* CHANGE: flex agar stretch */
+  width: 100%;                      /* CHANGE: full width */
+  padding: 0 1.5rem !important;
+  box-sizing: border-box;
   line-height: inherit;
   white-space: pre;
-  /* Opsional: jika masih ada garis kosong hilang, tambahkan min-height */
-  /* min-height: calc(1em * 1.55); */  /* opsional, jika line-height 1.55 */
+  flex-shrink: 0;                   /* CHANGE: mencegah line mengecil */
+  /* Baris kosong tetap punya tinggi karena flex + line-height */
 }
 
-/* ============================================================
-   OPSI ALTERNATIF (jika display: block gagal, gunakan flex)
-   ============================================================
-   Jika baris kosong masih hilang atau background tidak full,
-   uncomment blok di bawah dan comment perbaikan di atas.
-
-   .prose .astro-code code {
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     background: transparent !important;
-     line-height: inherit;
-     font-family: inherit;
-   }
-
-   .prose .astro-code .line {
-     display: block;
-     width: 100%;
-     padding: 0 1.5rem !important;
-     box-sizing: border-box;
-     line-height: inherit;
-     white-space: pre;
-     flex-shrink: 0;           // mencegah line mengecil
-   }
-   ============================================================ */
-
-/* ============================================================
-   OPSI ALTERNATIF 2 (jika display: block masih gagal)
-   ============================================================
-   Jika masih ada masalah, gunakan grid tapi dengan grid-template-rows: auto
-   dan min-height: 0, tambahkan min-height pada .line.
-
-   .prose .astro-code code {
-     display: grid;
-     grid-template-rows: auto;   // setiap line minimal 1 baris
-     width: 100%;
-     background: transparent !important;
-     line-height: inherit;
-     font-family: inherit;
-   }
-
-   .prose .astro-code .line {
-     display: block;
-     width: 100%;
-     padding: 0 1.5rem !important;
-     box-sizing: border-box;
-     line-height: inherit;
-     white-space: pre;
-     min-height: calc(1em * 1.55);   // sesuaikan line-height
-   }
-   ============================================================ */
-
+/* Style untuk inner span (syntax highlighting) */
 .prose .astro-code .line > span {
+  display: inline;                  /* CHANGE: default inline, biar warna tetap */
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
 }
 
-/* --- Diff & Highlight (tetap sama, tapi sudah full width karena .line width:100%) --- */
+/* ============================================================
+   ALTERNATIF: Jika flex masih gagal, coba inline-block
+   ============================================================ */
+/*
+.prose .astro-code .line {
+  display: inline-block;
+  width: 100%;
+  padding: 0 1.5rem !important;
+  box-sizing: border-box;
+  line-height: inherit;
+  white-space: pre;
+}
+*/
+
+/* ============================================================
+   ALTERNATIF 2: Jika semua gagal, coba pakai grid dengan min-height
+   ============================================================ */
+/*
+.prose .astro-code code {
+  display: grid;
+  grid-template-rows: auto;
+  width: 100%;
+  background: transparent !important;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.prose .astro-code .line {
+  display: block;
+  width: 100%;
+  padding: 0 1.5rem !important;
+  box-sizing: border-box;
+  line-height: inherit;
+  white-space: pre;
+  min-height: calc(1em * 1.55);   // sesuaikan dengan line-height-mu
+}
+*/
+
+/* --- Diff & Highlight (tetap sama) --- */
 
 .prose .astro-code .line.diff {
   position: relative;
