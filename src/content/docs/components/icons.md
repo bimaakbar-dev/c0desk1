@@ -28,7 +28,7 @@ Icon renders an inline SVG icon. Color follows `currentColor` and can be overrid
 
 :icon[github]{size="sm"}
 
-Click :icon[arrow] to continue.
+Click :icon[arrow-right] to continue.
 ```
 
 :::card[Preview]
@@ -44,7 +44,7 @@ Click :icon[arrow] to continue.
 
 :icon[youtube]
 
-Click :icon[arrow] to continue.
+Click :icon[arrow-right] to continue.
 :::
 
 ## Sizes
