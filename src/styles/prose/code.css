@@ -1,5 +1,8 @@
 /* src/styles/prose/code.css */
 
+/* ============================================================
+   INLINE CODE
+   ============================================================ */
 .prose :not(pre) > code {
   @apply text-code-14;
   color: var(--fg-strong);
@@ -30,6 +33,9 @@
   font-size: inherit !important;
 }
 
+/* ============================================================
+   CODE BLOCK WRAPPER
+   ============================================================ */
 .prose .code-block {
   position: relative;
   margin: 1.5rem 0;
@@ -94,6 +100,9 @@
   opacity: 0.55;
 }
 
+/* ============================================================
+   COPY BUTTON
+   ============================================================ */
 .prose .copy-button {
   display: flex;
   align-items: center;
@@ -172,20 +181,19 @@
 }
 
 /* ============================================================
-   BASE ASTRO-CODE
+   ASTRO-CODE (SHIKI) — HANYA EKSTERNAL
    ============================================================ */
-
 .prose .astro-code {
   @apply text-code-14;
-  display: block;
   margin: 1.5rem 0 !important;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0 !important;          /* hanya padding atas/bawah */
   background-color: var(--bg-subtle) !important;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
+  /* Biarkan display, line-height, dan struktur internal dari Shiki */
 }
 
 .prose .code-block .astro-code {
@@ -194,6 +202,7 @@
   margin: 0 !important;
 }
 
+/* Scrollbar */
 .prose .astro-code {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -223,78 +232,8 @@
 }
 
 /* ============================================================
-   SOLUSI FLEXBOX (lebih robust)
+   DIFF (PLUS/MINUS) — TANPA BOX-SHADOW
    ============================================================ */
-
-.prose .astro-code code {
-  display: flex;                    /* CHANGE: flex lebih tangguh */
-  flex-direction: column;           /* CHANGE: vertikal */
-  width: 100%;                      /* CHANGE: full width */
-  min-width: 100%;                  /* CHANGE: antisipasi */
-  background: transparent !important;
-  line-height: inherit;
-  font-family: inherit;
-}
-
-.prose .astro-code .line {
-  display: flex;                    /* CHANGE: flex agar stretch */
-  width: 100%;                      /* CHANGE: full width */
-  padding: 0 1.5rem !important;
-  box-sizing: border-box;
-  line-height: inherit;
-  white-space: pre;
-  flex-shrink: 0;                   /* CHANGE: mencegah line mengecil */
-  /* Baris kosong tetap punya tinggi karena flex + line-height */
-}
-
-/* Style untuk inner span (syntax highlighting) */
-.prose .astro-code .line > span {
-  display: inline;                  /* CHANGE: default inline, biar warna tetap */
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
-}
-
-/* ============================================================
-   ALTERNATIF: Jika flex masih gagal, coba inline-block
-   ============================================================ */
-/*
-.prose .astro-code .line {
-  display: inline-block;
-  width: 100%;
-  padding: 0 1.5rem !important;
-  box-sizing: border-box;
-  line-height: inherit;
-  white-space: pre;
-}
-*/
-
-/* ============================================================
-   ALTERNATIF 2: Jika semua gagal, coba pakai grid dengan min-height
-   ============================================================ */
-/*
-.prose .astro-code code {
-  display: grid;
-  grid-template-rows: auto;
-  width: 100%;
-  background: transparent !important;
-  line-height: inherit;
-  font-family: inherit;
-}
-
-.prose .astro-code .line {
-  display: block;
-  width: 100%;
-  padding: 0 1.5rem !important;
-  box-sizing: border-box;
-  line-height: inherit;
-  white-space: pre;
-  min-height: calc(1em * 1.55);   // sesuaikan dengan line-height-mu
-}
-*/
-
-/* --- Diff & Highlight (tetap sama) --- */
-
 .prose .astro-code .line.diff {
   position: relative;
 }
@@ -327,16 +266,18 @@
   -webkit-mask: var(--ic-minus);
 }
 
+/* Background lembut (opsional) */
 .prose .astro-code .line.diff.add {
-  background-color: rgb(from var(--color-success) r g b / 0.15) !important;
-  box-shadow: inset 3px 0 0 0 var(--color-success) !important;
+  background-color: rgb(from var(--color-success) r g b / 0.08) !important;
 }
 
 .prose .astro-code .line.diff.remove {
-  background-color: rgb(from var(--color-error) r g b / 0.15) !important;
-  box-shadow: inset 3px 0 0 0 var(--color-error) !important;
+  background-color: rgb(from var(--color-error) r g b / 0.08) !important;
 }
 
+/* ============================================================
+   HIGHLIGHT, ERROR, WARNING (TETAP FULL WIDTH)
+   ============================================================ */
 .prose .astro-code .line.highlighted {
   background-color: rgb(from var(--accent) r g b / 0.15) !important;
   box-shadow: inset 3px 0 0 0 var(--accent) !important;
@@ -352,6 +293,9 @@
   box-shadow: inset 3px 0 0 0 var(--color-warning) !important;
 }
 
+/* ============================================================
+   DARK MODE
+   ============================================================ */
 [data-theme='dark'] .astro-code {
   background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
 }
