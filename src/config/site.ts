@@ -8,8 +8,9 @@ const env = import.meta.env;
 
 export const SITE = {
   name: "Stradocs",
-  tagline: "A modern documentation template",
-  description: "A clean, modern, and customizable documentation theme built with Astro",
+  tagline: "Built for Astro.",
+  title: "Designed for developers who value clarity, speed, and great aesthetics.",
+  description: "Stradocs is a clean, developer-first Astro theme designed for building fast documentation sites and technical blogs.",
   url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
   email: "hello@stradocs.web.id",
   locale: "en-US",
@@ -18,7 +19,6 @@ export const SITE = {
   charset: "utf-8",
   themeColor: "#0a0a0a",
   bgColor: "#000000",
-  foundingYear: 2026,
   logo: Logo.src,
   ogImage: Og.src,
   readingTimeLabel: "min read",
