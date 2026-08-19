@@ -1,7 +1,7 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-indent: 1.5rem;
+  --ft-indent: 1.75rem; /* Sedikit diperlebar agar ada ruang nafas untuk border & geseran */
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
@@ -44,8 +44,10 @@
   margin: 0;
 }
 
+/* --- NESTED DIGESER KE KANAN --- */
 .prose .file-tree ul ul {
   margin: 0;
+  /* Kita beri ruang ekstra agar konten anak tidak menabrak border baru */
   padding-inline-start: var(--ft-indent) !important;
 }
 
@@ -59,12 +61,16 @@
   vertical-align: middle;
 }
 
-/* --- GARIS VERTIKAL: Tepat di tengah indentasi (Gaya VS Code Standar) --- */
+/* --- BORDER DIGESER KE KANAN (PAS DI BAWAH IKON) --- */
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  /* Garis ditarik tepat di tengah ruang indentasi anak */
-  left: calc(var(--ft-indent) / -2);
+  /* 
+     Sebelumnya: left: calc(var(--ft-indent) / -2); (di tengah ruang hampa)
+     Sekarang kita geser ke kanan sejauh ukuran marker + setengah ikon 
+     agar posisinya jatuh tepat di bawah/tengah ikon folder induk.
+  */
+  left: calc((var(--ft-indent) / -2) + 1.15rem); 
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -87,7 +93,7 @@
   padding: 0 0.5rem 0 0.5rem;
 }
 
-/* --- FOLDER (Menggunakan bawaan list-item agar marker OS natural) --- */
+/* --- FOLDER --- */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important; 
   list-style-position: inside !important; 
@@ -110,9 +116,9 @@
   transform: translateY(calc(((var(--text-code-14-line-height) - 1) * 0.5em) + 1px));
 }
 
-/* --- FILE (Diberi padding manual agar ikonnya sejajar lurus dengan folder di atasnya) --- */
+/* --- FILE --- */
 .prose .file-tree div.tree-label {
-  padding-left: 1.5rem; /* Sesuaikan jarak agar lurus dengan ikon folder */
+  padding-left: 1.5rem; 
 }
 
 .prose .file-tree .tree-label span {
