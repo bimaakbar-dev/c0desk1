@@ -1,7 +1,7 @@
 /* src/styles/prose/badge.css */
 
 .prose .badge {
-    @apply text-label-12;
+    @apply text-label-14;
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
