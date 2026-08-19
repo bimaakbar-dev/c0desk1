@@ -134,7 +134,8 @@
 /* ── card as link ─────────────────────────────────────────────────────── */
 
 .prose .card.card-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
   color: inherit;
   text-decoration: none;
   cursor: pointer;
