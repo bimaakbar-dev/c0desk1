@@ -4,9 +4,7 @@
   --ft-marker-width: 1.15em;
   --ft-icon-width: 1.125em;
   --ft-gap: 0.35rem;
-  --ft-marker-gap: 0.5rem;
-  
-  --ft-indent: calc(var(--ft-marker-width) + var(--ft-gap) + var(--ft-icon-width) + 0.35rem);
+  --ft-indent: 1.8rem;
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
@@ -64,14 +62,10 @@
   vertical-align: middle;
 }
 
-.prose .file-tree > ul > li {
-  padding-inline-start: var(--ft-marker-gap);
-}
-
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc((var(--ft-indent) * -1) + var(--ft-marker-width) + var(--ft-gap) + (var(--ft-icon-width) / 2));
+  left: calc(var(--ft-marker-width) + var(--ft-gap) + (var(--ft-icon-width) / 2));
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -93,20 +87,7 @@
   color: var(--fg);
   border-radius: var(--radius-sm);
   
-  padding: 0 0.5rem 0 var(--ft-marker-gap);
-}
-
-.prose .file-tree > ul > li > .tree-folder > details > summary {
-  display: list-item !important; 
-  list-style-position: inside !important; 
-  cursor: pointer;
-  vertical-align: middle;
-  white-space: nowrap; 
-  padding-left: 0.35rem;
-}
-
-.prose .file-tree ul ul .tree-label {
-  padding-left: calc(var(--ft-marker-width) + var(--ft-gap)) !important;
+  padding: 0 0.5rem 0 calc(var(--ft-marker-width) + var(--ft-gap));
 }
 
 .prose .file-tree .tree-folder > details > summary {
@@ -115,6 +96,8 @@
   cursor: pointer;
   vertical-align: middle;
   white-space: nowrap; 
+  
+  margin-left: calc((var(--ft-marker-width) + var(--ft-gap)) * -1);
 }
 
 .prose .file-tree .tree-folder > details[open] > summary {
@@ -143,8 +126,8 @@
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1.125em;
-  height: 1.125em;
+  width: var(--ft-icon-width);
+  height: var(--ft-icon-width);
   margin-right: 0.25rem;
   flex-shrink: 0;
   background-color: currentColor;
