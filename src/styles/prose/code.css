@@ -61,12 +61,6 @@
   transition: opacity 0.15s ease;
 }
 
-.prose .code-block:not(.has-title):hover .code-block-header,
-.prose .code-block:not(.has-title) .copy-button:focus-visible,
-.prose .code-block:not(.has-title) .code-block-header:has(.copy-button[data-copied]) {
-  opacity: 1;
-}
-
 .prose .code-block-title {
   @apply text-code-14;
   font-weight: 500;
@@ -103,6 +97,14 @@
   }
   .prose .code-block:not(.has-title) .astro-code::before {
     opacity: 0.55;
+  }
+}
+
+@media (hover: hover) {
+  .prose .code-block:not(.has-title):hover .code-block-header,
+  .prose .code-block:not(.has-title) .copy-button:focus-visible,
+  .prose .code-block:not(.has-title) .code-block-header:has(.copy-button[data-copied]) {
+    opacity: 1;
   }
 }
 
