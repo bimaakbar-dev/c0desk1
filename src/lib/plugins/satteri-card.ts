@@ -12,13 +12,11 @@ export const satteriCard = defineMdastPlugin({
   containerDirective(node, ctx) {
     if (node.name !== 'card') return;
 
-    // Ekstrak atribut
     const attrs = node.attributes || {};
     const hasIcon = !!attrs.icon;
     const hasHref = !!attrs.href;
     const extraClass = attrs.class || '';
 
-    // Deteksi Label/Title
     const firstChild = node.children?.[0];
     const hasLabelNode = firstChild?.type === 'paragraph' && firstChild.data?.directiveLabel;
     const label = hasLabelNode ? extractText(firstChild.children).trim() : '';
@@ -26,7 +24,6 @@ export const satteriCard = defineMdastPlugin({
 
     const bodyChildren = hasLabelNode ? node.children.slice(1) : node.children;
 
-    // Tentukan Class Induk
     const cardClasses = ['card'];
     if (!hasLabel) cardClasses.push('card-no-title');
     if (!hasIcon) cardClasses.push('card-no-icon');
@@ -35,7 +32,6 @@ export const satteriCard = defineMdastPlugin({
 
     const newChildren: any[] = [];
 
-    // 1. Render Header (jika ada icon atau label)
     if (hasIcon || hasLabel) {
       const headerHastChildren: any[] = [];
       
@@ -49,7 +45,6 @@ export const satteriCard = defineMdastPlugin({
             tagName: 'span',
             properties: { 
               className: ['card-icon'], 
-              // Set icon via style custom property atau bisa gunakan 'data-icon': attrs.icon
               style: `mask-image: var(--ic-${attrs.icon}); -webkit-mask-image: var(--ic-${attrs.icon});` 
             },
             children: [],
@@ -60,7 +55,7 @@ export const satteriCard = defineMdastPlugin({
       if (hasLabel) {
         headerHastChildren.push({
           type: 'element',
-          tagName: 'h4', // Semantik yang lebih baik daripada sekadar div
+          tagName: 'h4',
           properties: { className: ['card-title'] },
           children: [{ type: 'text', value: label }],
         });
@@ -79,7 +74,6 @@ export const satteriCard = defineMdastPlugin({
       });
     }
 
-    // 2. Render Body
     if (bodyChildren.length) {
       newChildren.push({
         type: 'containerDirective',
@@ -93,7 +87,6 @@ export const satteriCard = defineMdastPlugin({
       });
     }
 
-    // 3. Konfigurasi Wrapper (A vs DIV)
     let hName = 'div';
     let hProperties: Record<string, unknown> = { className: cardClasses };
 
@@ -108,7 +101,6 @@ export const satteriCard = defineMdastPlugin({
       };
     }
 
-    // Assign back to node
     ctx.setProperty(node, 'data', {
       ...(node.data ?? {}),
       hName,
