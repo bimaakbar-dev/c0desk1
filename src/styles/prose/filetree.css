@@ -1,7 +1,7 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-indent: 1.75rem;
+  --ft-indent: 1.8rem;
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
