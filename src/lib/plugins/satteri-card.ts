@@ -6,44 +6,39 @@ function extractText(children: any[]): string {
   return children.map((c) => (c.type === 'text' ? c.value : extractText(c.children || []))).join('');
 }
 
-function getAttributes(node: any): Record<string, string> {
-  const props = node.attributes || {};
-  const attrs: Record<string, string> = {};
-  if (props.icon) attrs.icon = props.icon;
-  if (props.href) attrs.href = props.href;
-  if (props.class) attrs.class = props.class;
-  return attrs;
-}
-
 export const satteriCard = defineMdastPlugin({
   name: 'satteri-card',
 
   containerDirective(node, ctx) {
     if (node.name !== 'card') return;
 
-    const firstChild = node.children?.[0];
-    const hasLabelNode =
-      firstChild?.type === 'paragraph' && firstChild.data?.directiveLabel;
-    const label = hasLabelNode ? extractText(firstChild.children).trim() : '';
-    const hasLabel = !!label;
-
-    const attrs = getAttributes(node);
+    // Ekstrak atribut
+    const attrs = node.attributes || {};
     const hasIcon = !!attrs.icon;
     const hasHref = !!attrs.href;
     const extraClass = attrs.class || '';
 
+    // Deteksi Label/Title
+    const firstChild = node.children?.[0];
+    const hasLabelNode = firstChild?.type === 'paragraph' && firstChild.data?.directiveLabel;
+    const label = hasLabelNode ? extractText(firstChild.children).trim() : '';
+    const hasLabel = !!label;
+
     const bodyChildren = hasLabelNode ? node.children.slice(1) : node.children;
 
+    // Tentukan Class Induk
     const cardClasses = ['card'];
     if (!hasLabel) cardClasses.push('card-no-title');
     if (!hasIcon) cardClasses.push('card-no-icon');
+    if (hasHref) cardClasses.push('card-link');
     if (extraClass) cardClasses.push(extraClass);
 
     const newChildren: any[] = [];
 
-    // Header — synthetic aja (icon + title plain text), gak butuh markdown arbitrary
+    // 1. Render Header (jika ada icon atau label)
     if (hasIcon || hasLabel) {
       const headerHastChildren: any[] = [];
+      
       if (hasIcon) {
         headerHastChildren.push({
           type: 'element',
@@ -52,15 +47,20 @@ export const satteriCard = defineMdastPlugin({
           children: [{
             type: 'element',
             tagName: 'span',
-            properties: { className: ['card-icon'], dataIcon: attrs.icon },
+            properties: { 
+              className: ['card-icon'], 
+              // Set icon via style custom property atau bisa gunakan 'data-icon': attrs.icon
+              style: `mask-image: var(--ic-${attrs.icon}); -webkit-mask-image: var(--ic-${attrs.icon});` 
+            },
             children: [],
           }],
         });
       }
+      
       if (hasLabel) {
         headerHastChildren.push({
           type: 'element',
-          tagName: 'div',
+          tagName: 'h4', // Semantik yang lebih baik daripada sekadar div
           properties: { className: ['card-title'] },
           children: [{ type: 'text', value: label }],
         });
@@ -79,7 +79,7 @@ export const satteriCard = defineMdastPlugin({
       });
     }
 
-    // Body — biarin converter bawaan yang urus, apapun isinya
+    // 2. Render Body
     if (bodyChildren.length) {
       newChildren.push({
         type: 'containerDirective',
@@ -93,21 +93,22 @@ export const satteriCard = defineMdastPlugin({
       });
     }
 
+    // 3. Konfigurasi Wrapper (A vs DIV)
     let hName = 'div';
     let hProperties: Record<string, unknown> = { className: cardClasses };
 
     if (hasHref) {
+      const isExternal = attrs.href.startsWith('http');
       hName = 'a';
       hProperties = {
-        className: [...cardClasses, 'card-link'],
+        className: cardClasses,
         href: attrs.href,
-        target: attrs.href.startsWith('http') ? '_blank' : '_self',
-        rel: attrs.href.startsWith('http') ? 'noopener noreferrer' : undefined,
+        target: isExternal ? '_blank' : '_self',
+        rel: isExternal ? 'noopener noreferrer' : undefined,
       };
-    } else {
-      hProperties = { className: cardClasses };
     }
 
+    // Assign back to node
     ctx.setProperty(node, 'data', {
       ...(node.data ?? {}),
       hName,
