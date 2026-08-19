@@ -59,11 +59,10 @@
   vertical-align: middle;
 }
 
-/* --- BORDER DIGESER KE KIRI SEDIKIT --- */
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc((var(--ft-indent) / -2) + 0.85rem); 
+  left: calc((var(--ft-indent) / -2) + (1.125em / 2)); 
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
