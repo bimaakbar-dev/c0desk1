@@ -1,9 +1,12 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-indent: 1.8rem;
-  --ft-marker-gap: 0.5rem;
   --ft-marker-width: 1.15em;
+  --ft-icon-width: 1.125em;
+  --ft-gap: 0.35rem;
+  --ft-marker-gap: 0.5rem;
+  
+  --ft-indent: calc(var(--ft-marker-width) + var(--ft-gap) + var(--ft-icon-width) + 0.35rem);
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
@@ -68,7 +71,7 @@
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc((var(--ft-indent) * -1) + 1.15rem); 
+  left: calc((var(--ft-indent) * -1) + var(--ft-marker-width) + var(--ft-gap) + (var(--ft-icon-width) / 2));
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -103,7 +106,7 @@
 }
 
 .prose .file-tree ul ul .tree-label {
-  padding-left: calc(var(--ft-marker-width) + 0.35rem) !important;
+  padding-left: calc(var(--ft-marker-width) + var(--ft-gap)) !important;
 }
 
 .prose .file-tree .tree-folder > details > summary {
@@ -144,7 +147,6 @@
   height: 1.125em;
   margin-right: 0.25rem;
   flex-shrink: 0;
-  aspect-ratio: 1/1;
   background-color: currentColor;
   
   mask-image: var(--tree-icon, var(--ic-ft-file));
