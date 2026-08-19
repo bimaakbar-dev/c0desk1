@@ -5,14 +5,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem; 
-  line-height: 1.2 !important;
   padding: 0.125rem 0.5rem;  
   border: 1px solid transparent;
   border-radius: var(--radius-full);     
   background-color: var(--bg-muted);
   color: var(--fg);
   white-space: nowrap;
-  vertical-align: middle;
+  vertical-align: baseliney;
 }
 .prose .badge .badge-icon {
   --icon-size: 1em;
