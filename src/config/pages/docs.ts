@@ -2,12 +2,12 @@
 import { SITE } from "../site";
 
 export const DOCS_PAGE = {
-  title: "Documentation",
+  title: "Docs",
   description: "Explore our guides, component references, and Integration documentation.",
   hero: {
-    title: "Welcome to Unloyd Docs",
-    description: "Everything you need to know about my project.",
-    actionLabel: "Start Here",
+    title: "Stradocs",
+    description: "Everything you need to know.",
+    actionLabel: "Start Party",
     action2Label: "Read Blog",
   }
 } as const;
