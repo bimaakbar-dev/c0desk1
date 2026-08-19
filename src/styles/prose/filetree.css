@@ -2,10 +2,10 @@
 
 .prose .file-tree {
   /* --- 1. VARIABEL DINAMIS & MODERN --- */
-  --ft-indent: 2.85rem; 
-  --ft-line-x: 2.15rem;
+  --ft-indent: 1.5rem;
   --ft-marker-gap: 0.5rem;
-  --ft-line-color: rgb(from var(--border) r g b / 70%);
+  --ft-marker-width: 1.15em;
+  --ft-line-color: rgb(from var(--border) r g b / 60%);'
   
   display: block !important;
   width: 100%;
@@ -22,7 +22,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* --- Scrollbar Support --- */
 @supports not selector(::-webkit-scrollbar) {
   .prose .file-tree { scrollbar-width: thin; scrollbar-color: transparent transparent; }
   .prose .file-tree:hover { scrollbar-color: var(--fg-muted) transparent; }
@@ -67,22 +66,10 @@
   padding-inline-start: var(--ft-marker-gap);
 }
 
-.prose .file-tree ul ul > li::before {
-  content: "";
-  position: absolute;
-  
-  left: calc(var(--ft-line-x) - var(--ft-indent));
-  top: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
-  
-  width: calc(var(--ft-indent) - var(--ft-line-x) - 0.25rem);
-  
-  border-bottom: 1px solid var(--ft-line-color);
-}
-
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc(var(--ft-line-x) - var(--ft-indent));
+  left: calc( (var(--ft-indent) * -1) + var(--ft-marker-width) + 0.25rem + 0.5625em );  
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -95,21 +82,24 @@
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
+  
   width: 100%;
   min-width: 100%; 
   box-sizing: border-box;
+  
   margin: 0 !important;
   color: var(--fg);
   border-radius: var(--radius-sm);
+  
   padding: 0 0.5rem 0 var(--ft-marker-gap);
 }
 
-/* KHUSUS FOLDER */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important; 
   list-style-position: inside !important; 
   cursor: pointer;
   vertical-align: middle;
+  
   white-space: nowrap; 
 }
 
@@ -121,9 +111,8 @@
   padding-left: 0.35rem;
 }
 
-/* KHUSUS FILE */
 .prose .file-tree div.tree-label {
-  padding-left: calc(var(--ft-marker-gap) + 1.25rem); 
+  padding-left: calc(var(--ft-marker-gap) + 1.35em); 
 }
 
 .prose .file-tree .tree-folder > details > summary::marker,
