@@ -44,6 +44,7 @@
   content: "";
 }
 
+/* 1. Posisi Angka Default (Jika elemen pertama adalah teks biasa / p) */
 .prose .steps > li::before,
 .prose .steps-container > ol > li::before,
 .prose .steps-container > ul > li::before {
@@ -52,7 +53,9 @@
   content: counter(step);
   position: absolute;
   inset-inline-start: 0;
-  top: 0;
+  
+  /* PRESISI: (Body Line-height 1.7rem - Circle 1.65rem) / 2 */
+  top: 0.025rem;
 
   display: flex;
   align-items: center;
@@ -71,16 +74,13 @@
   box-shadow: 0 0 0 1.5px var(--bg-muted);
 }
 
-.prose .steps > li:has(> h2)::before,
-.prose .steps > li:has(> h3)::before,
-.prose .steps > li:has(> h4)::before,
-.prose .steps-container > ol > li:has(> h2)::before,
-.prose .steps-container > ol > li:has(> h3)::before,
-.prose .steps-container > ol > li:has(> h4)::before,
-.prose .steps-container > ul > li:has(> h2)::before,
-.prose .steps-container > ul > li:has(> h3)::before,
-.prose .steps-container > ul > li:has(> h4)::before {
-  top: -0.25rem;
+/* 2. Posisi Angka Khusus (JIKA elemen PERTAMA adalah h2, h3, atau h4) */
+.prose .steps > li:has(> :first-child:is(h2, h3, h4))::before,
+.prose .steps-container > ol > li:has(> :first-child:is(h2, h3, h4))::before,
+.prose .steps-container > ul > li:has(> :first-child:is(h2, h3, h4))::before {
+  
+  /* PRESISI: (Heading Line-height 1.5rem - Circle 1.65rem) / 2 */
+  top: -0.075rem;
 }
 
 .prose .steps > li::after,
@@ -119,6 +119,8 @@
 .prose .steps-container > ul > li:last-child {
   padding-bottom: 0 !important;
 }
+
+/* --- List Styling (UL / OL) --- */
 
 .prose ul,
 .prose ol {
@@ -173,6 +175,8 @@
 .prose ol ul {
   margin: 8px 0;
 }
+
+/* --- Task List / Checkbox --- */
 
 .prose ul:has(input[type="checkbox"]) {
   padding-left: 1rem;
