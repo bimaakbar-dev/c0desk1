@@ -197,8 +197,38 @@
 
   * {
     margin: 0;
-    scrollbar-color: var(--fg-dim) transparent;
-    scrollbar-width: thin;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--fg-dim) transparent;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--fg-dim);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--fg);
+  }
+  ::-webkit-scrollbar-button,
+  ::-webkit-scrollbar-button:horizontal,
+  ::-webkit-scrollbar-button:vertical,
+  ::-webkit-scrollbar-button:start,
+  ::-webkit-scrollbar-button:end {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    background: transparent !important;
   }
 
   ::selection {
@@ -222,29 +252,11 @@
     cursor: not-allowed;
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: var(--radius-full);
-    background: var(--fg-dim);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--fg-muted);
-  }
-
   html {
     color-scheme: dark;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgb(from var(--accent) r g b / 0.2);
+    -webkit-tap-highlight-color: inherit;
   }
 
   html[data-theme='light'] {
