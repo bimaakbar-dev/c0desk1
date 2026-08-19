@@ -1,10 +1,7 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-marker-width: 1.15em;
-  --ft-icon-width: 1.125em;
-  --ft-gap: 0.35rem;
-  --ft-indent: 1.8rem;
+  --ft-indent: 1.5rem;
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
@@ -62,10 +59,12 @@
   vertical-align: middle;
 }
 
+/* --- GARIS VERTIKAL: Tepat di tengah indentasi (Gaya VS Code Standar) --- */
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc(var(--ft-marker-width) + var(--ft-gap) + (var(--ft-icon-width) / 2));
+  /* Garis ditarik tepat di tengah ruang indentasi anak */
+  left: calc(var(--ft-indent) / -2);
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -75,29 +74,26 @@
   height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
 }
 
+/* --- LABEL ROW (Base Styling) --- */
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
-  
   width: 100%;
   min-width: 100%; 
   box-sizing: border-box;
-  
   margin: 0 !important;
   color: var(--fg);
   border-radius: var(--radius-sm);
-  
-  padding: 0 0.5rem 0 calc(var(--ft-marker-width) + var(--ft-gap));
+  padding: 0 0.5rem 0 0.5rem;
 }
 
+/* --- FOLDER (Menggunakan bawaan list-item agar marker OS natural) --- */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important; 
   list-style-position: inside !important; 
   cursor: pointer;
   vertical-align: middle;
   white-space: nowrap; 
-  
-  margin-left: calc((var(--ft-marker-width) + var(--ft-gap)) * -1);
 }
 
 .prose .file-tree .tree-folder > details[open] > summary {
@@ -114,6 +110,11 @@
   transform: translateY(calc(((var(--text-code-14-line-height) - 1) * 0.5em) + 1px));
 }
 
+/* --- FILE (Diberi padding manual agar ikonnya sejajar lurus dengan folder di atasnya) --- */
+.prose .file-tree div.tree-label {
+  padding-left: 1.5rem; /* Sesuaikan jarak agar lurus dengan ikon folder */
+}
+
 .prose .file-tree .tree-label span {
   display: inline-flex;
   align-items: center;
@@ -122,14 +123,16 @@
   vertical-align: middle;
 }
 
+/* --- ICONS --- */
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: var(--ft-icon-width);
-  height: var(--ft-icon-width);
+  width: 1.125em;
+  height: 1.125em;
   margin-right: 0.25rem;
   flex-shrink: 0;
+  aspect-ratio: 1/1;
   background-color: currentColor;
   
   mask-image: var(--tree-icon, var(--ic-ft-file));
@@ -142,6 +145,7 @@
   -webkit-mask-position: center;
 }
 
+/* --- HIGHLIGHT & UTILITIES --- */
 .prose .file-tree .tree-label[data-highlight] {
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
   color: var(--accent) !important;
