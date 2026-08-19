@@ -33,11 +33,9 @@ Before getting started, make sure you have the following installed:
 :::steps
 1. ### Fork the Repository
 
-   Fork the Stardux repository to your own GitHub account.
+   Fork the :button[Stradocs]{url="https://github.com/bimaakbar-dev/stradocs" icon="fork"} repository to your own GitHub account.
 
    This allows you to create and manage your own version of the project.
-
-   :button[GitHub]{url="https://github.com/bimaakbar-dev/stradocs" icon="fork"}
 
 2. ### Clone Your Fork
 
@@ -79,11 +77,13 @@ Before getting started, make sure you have the following installed:
    Then open `.env` and configure the values you need.
 
    ```env
+   
    # Site
    PUBLIC_SITE_URL=http://localhost:4321
 
    # Contact Form
    PUBLIC_FORM_ENDPOINT=https://formspree.io/f/your-endpoint
+   
    ```
 
    > [!TIP]
