@@ -11,7 +11,7 @@
   background-color: var(--bg-muted);
   color: var(--fg);
   white-space: nowrap;
-  vertical-align: baseliney;
+  vertical-align: baseline;
 }
 .prose .badge .badge-icon {
   --icon-size: 1em;
