@@ -5,7 +5,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    padding-inline: 0.5rem;
     background: var(--fg-strong);
     color: var(--fg-inverted) !important;
     font-weight: 500 !important;
@@ -13,7 +13,7 @@
     border-radius: var(--radius-full);
     text-decoration: none !important;
     cursor: pointer;
-    vertical-align: middle;
+    vertical-align: baseline;
 }
 
 .prose .button.inline-link.is-external::after {
