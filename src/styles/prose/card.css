@@ -81,7 +81,8 @@
 }
 
 .prose .card.card-no-title .card-header {
-  margin-top: 0.15rem;
+  flex-shrink: 0;
+  margin-top: 0;
 }
 
 .prose .card.card-no-title.card-no-icon .card-header {
