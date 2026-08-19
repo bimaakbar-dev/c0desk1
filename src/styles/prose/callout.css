@@ -55,7 +55,6 @@
    * font-size  = var(--text-body-14-size)
    * line-height = var(--text-body-14-line-height)
    */
-  top: 0;
   font-size: var(--text-body-14-size);
   vertical-align: top;
   transform: translateY(
