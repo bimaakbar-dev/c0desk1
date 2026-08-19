@@ -23,16 +23,15 @@
 }
 
 .prose .inline-link.is-external::after {
+  --icon-size: 1em;
+
   content: "";
-  display: inline-flex;
+  display: inline-block;
   font-size: inherit;
-  width: 1em;
-  height: 1em;
-  aspect-ratio: 1/1;
+  width: var(--icon-size);
+  height: var(--icon-size);
   margin-inline-start: 0.125rem;
-  flex-shrink: 0;
   vertical-align: middle;
-  /* transform: translateY(-0.125rem); */
   background-color: var(--fg-subtle);
   mask: var(--ic-external) center / contain no-repeat;
   -webkit-mask: var(--ic-external) center / contain no-repeat;
