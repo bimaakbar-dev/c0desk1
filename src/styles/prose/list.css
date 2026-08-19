@@ -208,10 +208,10 @@
   border-radius: var(--radius-sm);
   background-color: var(--bg-subtle);
 
-  width: 1.115rem;
-  height: 1.115rem;
-  margin-top: 0.25rem;
-
+  --checkbox-size: 1.125rem;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  margin-top: calc(((var(--text-body-16-line-height) * var(--text-body-16-size)) - var(--checkbox-size)) / 2);
   transition: all var(--duration) var(--ease-out);
 }
 
@@ -225,20 +225,17 @@
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked::after {
-  position: absolute;
-  top: 2px;
-  left: 5px;
-
-  transform: rotate(45deg);
-
-  border: solid var(--bg);
-  border-width: 0 2px 2px 0;
-
-  width: 5px;
-  height: 10px;
-
   content: "";
+  position: absolute;
+  width: calc(var(--checkbox-size) * 0.28);
+  height: calc(var(--checkbox-size) * 0.55);
+  border: solid var(--bg);
+  border-width: 0 1.5px 1.5px 0; 
+  top: 45%; 
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
+
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled {
   opacity: 0.5;
@@ -247,10 +244,7 @@
   background-color: var(--bg-muted);
 }
 
-.prose
-  ul:has(input[type="checkbox"])
-  li
-  input[type="checkbox"]:disabled:checked {
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled:checked {
   border-color: var(--accent-ring);
   background-color: var(--accent);
   opacity: 1;
