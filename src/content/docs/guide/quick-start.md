@@ -76,8 +76,7 @@ Before getting started, make sure you have the following installed:
 
    Then open `.env` and configure the values you need.
 
-   ```env
-   
+   ```env   
    # Site
    PUBLIC_SITE_URL=http://localhost:4321
 
