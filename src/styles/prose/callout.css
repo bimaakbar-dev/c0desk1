@@ -2,6 +2,8 @@
 
 .prose aside[data-callout] {
   --callout-color: var(--fg-muted);
+  
+  @apply text-body-14;
 
   display: block;
   box-sizing: border-box;
@@ -17,24 +19,24 @@
   color: inherit;
 }
 
-/* Callout content typography */
-.prose aside[data-callout] * {
+.prose aside[data-callout] > * {
   @apply text-body-14;
 }
 
 /* Accent bar */
 .prose aside[data-callout]::before {
   content: "";
-
   position: absolute;
-  inset-block: 0.65rem;
   inset-inline-start: 0.5rem;
-
   width: 3px;
+  
+  font-size: inherit;
+  inset-block: calc(0.5rem + ((var(--text-body-14-line-height) - 1) * 0.5em));
 
   background-color: var(--callout-color) !important;
   border-radius: var(--radius-full);
 }
+
 
 /* Callout icon */
 .prose aside[data-callout]::after {
@@ -46,9 +48,8 @@
 
   width: var(--icon-size);
   height: var(--icon-size);
-  flex-shrink: 0;
   
-  font-size: var(--text-body-14-size);
+  font-size: inherit;
   top: calc(0.5rem + ((var(--text-body-14-line-height) - 1) * 0.5em));
   
   background-color: var(--callout-color) !important;
