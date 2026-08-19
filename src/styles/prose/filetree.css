@@ -20,7 +20,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Scrollbar Support */
+/* --- Scrollbar Support --- */
 @supports not selector(::-webkit-scrollbar) {
   .prose .file-tree { scrollbar-width: thin; scrollbar-color: transparent transparent; }
   .prose .file-tree:hover { scrollbar-color: var(--fg-muted) transparent; }
@@ -114,16 +114,21 @@
   list-style-position: inside !important; 
   cursor: pointer;
   vertical-align: middle;
-  white-space: nowrap;
+  
+  white-space: nowrap; 
 }
 
 .prose .file-tree .tree-folder > details[open] > summary {
   list-style-position: inside !important;
 }
 
+.prose .file-tree .tree-folder > details > summary span {
+  padding-left: 0.35rem;
+}
+
 /* KHUSUS FILE (DIV) */
 .prose .file-tree div.tree-label {
-  padding-left: calc(var(--ft-marker-gap) + 1.1em); 
+  padding-left: calc(var(--ft-marker-gap) + 1.35em); 
 }
 
 .prose .file-tree .tree-folder > details > summary::marker,
@@ -136,15 +141,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  
+  /* Biarkan teks memanjang tanpa terpotong (ellipsis) agar bisa di-scroll horizontal */
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   vertical-align: middle;
-}
-
-.prose .file-tree .tree-folder > details > summary span {
-  max-width: calc(100% - 1.5em);
-  padding: 0;
 }
 
 /* ── 5. ICONS ──────────────────────────────────────────────────────── */
@@ -157,6 +157,7 @@
   height: 1.125em;
   margin-right: 0.25rem;
   flex-shrink: 0;
+  aspect-ratio: 1/1;
   background-color: currentColor;
   
   mask-image: var(--tree-icon, var(--ic-ft-file));
