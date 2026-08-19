@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 1.25rem;
+  padding: 1.125rem;
   margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -49,7 +49,7 @@
 
 .prose .card-header .card-title {
   @apply text-heading-16;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--fg-strong);
   margin: 0;
   margin-top: calc((var(--card-icon-size) - (var(--text-heading-16-line-height) * var(--text-heading-16-size))) / 2);
@@ -79,7 +79,7 @@
   margin: 1rem 0;
 }
 
-/* (Card No Title) */
+/* Card No Title */
 .prose .card.card-no-title {
   flex-direction: row;
   align-items: flex-start;
@@ -99,7 +99,7 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  padding-right: 3rem;
+  padding-right: 1.65rem;
 }
 
 .prose .card.card-link::after {
@@ -129,7 +129,7 @@
 }
 
 .prose .card.card-link:hover::after {
-  background-color: var(--accent);
+  background-color: var(--fg-strong);
   opacity: 1;
 }
 
