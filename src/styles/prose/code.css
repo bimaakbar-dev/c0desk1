@@ -20,10 +20,10 @@
   color: inherit !important;
   font-size: inherit !important;
   font-family: var(--font-mono) !important;
+  padding-inline: 0.3em;
   background-color: var(--bg-subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.15em 0.4em;
 }
 
 .prose a code {
@@ -34,7 +34,7 @@
 /* --- Code block wrapper --- */
 .prose .code-block {
   position: relative;
-  margin: 1.5rem 0;
+  margin-block: 1.5rem ;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -49,7 +49,7 @@
   left: 1.5rem;
   text-transform: uppercase;
   color: var(--fg-subtle);
-  display: block;
+  display: none;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
@@ -85,7 +85,6 @@
   top: 0.5rem;
   right: 0.5rem;
   z-index: 10;
-  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +96,6 @@
   background: var(--bg);
   color: var(--fg-subtle);
   cursor: pointer;
-  
   opacity: 0; 
   transition: opacity 0.15s ease, transform 0.1s ease;
 }
@@ -156,7 +154,7 @@
 /* --- Astro Code / Shiki Layout --- */
 .prose .astro-code {
   @apply text-code-14;
-  margin: 1.5rem 0 !important;
+  margin-block: 1.5rem !important;
   padding-block: 0.75rem !important;
   background-color: var(--bg-subtle) !important;
   border-radius: var(--radius-md);
@@ -164,6 +162,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
+
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.15s ease;
 }
 
 .prose .code-block .astro-code {
@@ -172,37 +174,43 @@
   margin: 0 !important;
 }
 
-.prose .astro-code {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  transition: scrollbar-color 0.15s ease;
-}
-
 .prose .astro-code:hover {
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--fg-muted) transparent;
 }
 
 .prose .astro-code::-webkit-scrollbar {
-  height: 6px;
+  height: 8px;
+}
+
+.prose .astro-code::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+}
+
+.prose .astro-code::-webkit-scrollbar-corner {
+  display: none !important;
+  background: transparent;
+}
+
+.prose .astro-code::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-md);
 }
 
 .prose .astro-code::-webkit-scrollbar-thumb {
-  background: transparent;
+  background-color: transparent;
   border-radius: var(--radius-full);
-  transition: background 0.15s ease;
 }
 
 .prose .astro-code:hover::-webkit-scrollbar-thumb {
-  background: var(--accent);
-}
-
-.prose .astro-code ::selection {
-  background: rgb(from var(--accent) r g b / 25%);
+  background-color: var(--fg-muted); 
 }
 
 .prose .astro-code code {
   display: block;
-  width: 100%;
+  width: fit-content; 
   min-width: 100%;
   background: transparent !important;
   line-height: inherit;
@@ -212,66 +220,66 @@
 .prose .astro-code .line {
   display: inline-block;
   width: 100%;
-  padding-inline: 1.5rem !important;
   box-sizing: border-box;
   line-height: inherit;
   white-space: pre;
+  padding-inline-end: 2.125rem !important;
+  padding-inline-start: 1.125rem !important;
 }
 
 /* --- Diff & Highlighting --- */
 .prose .astro-code .line.diff {
   position: relative;
-  padding-inline: 1.5rem !important;
+  padding-inline-end: 2.125rem !important;
 }
 
 .prose .astro-code .line.diff.add::before,
 .prose .astro-code .line.diff.remove::before {
+  --icon-size: 1em;
+
   content: "";
   position: absolute;
-  left: 0.25rem;
+  left: 0.125rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 1em;
-  height: 1em;
+  width: var(--icon-size);
+  height: var(--icon-size);
   font-size: inherit;
   flex-shrink: 0;
-  aspect-ratio: 1/1;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
+  mask: center / contain no-repeat;
+  -webkit-mask: center / contain no-repeat;
 }
 
 .prose .astro-code .line.diff.add::before {
   background-color: var(--color-success);
-  mask: var(--ic-plus);
   -webkit-mask: var(--ic-plus);
+  mask: var(--ic-plus);
 }
 
 .prose .astro-code .line.diff.remove::before {
   background-color: var(--color-error);
+   -webkit-mask: var(--ic-minus);
   mask: var(--ic-minus);
-  -webkit-mask: var(--ic-minus);
 }
 
 .prose .astro-code .line.diff.add {
-  background-color: rgb(from var(--color-success) r g b / 40%) !important;
+  background-color: rgb(from var(--color-success) r g b / 20%) !important;
 }
 
 .prose .astro-code .line.diff.remove {
-  background-color: rgb(from var(--color-error) r g b / 40%) !important;
+  background-color: rgb(from var(--color-error) r g b / 20%) !important;
 }
 
 .prose .astro-code .line.highlighted {
-  background-color: rgb(from var(--accent) r g b / 40%) !important;
+  background-color: rgb(from var(--accent) r g b / 20%) !important;
 }
 
 .prose .astro-code .line.error {
-  background-color: rgb(from var(--color-error) r g b / 40%) !important;
+  background-color: rgb(from var(--color-error) r g b / 20%) !important;
 }
 
 .prose .astro-code .line.warning {
-  background-color: rgb(from var(--color-warning) r g b / 40%) !important;
+  background-color: rgb(from var(--color-warning) r g b / 20%) !important;
 }
 
 /* --- Dark Theme --- */
