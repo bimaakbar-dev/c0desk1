@@ -99,45 +99,12 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  padding-right: 1.65rem;
-}
-
-.prose .card.card-link::after {
-  content: '';
-  position: absolute;
-  top: 1.5rem; 
-  right: 1.25rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  background-color: var(--fg-muted);
-  -webkit-mask: var(--ic-arrow-right) center / contain no-repeat;
-  mask: var(--ic-arrow-right) center / contain no-repeat;  
-  opacity: 0.6;
-  transition: transform 0.2s ease;
-}
-
-
-.prose .card.card-link.card-no-title::after {
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .prose .card.card-link:hover {
   border-color: rgb(from var(--fg-subtle) r g b / 50%);
   background-color: var(--bg-muted);
   box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
-}
-
-.prose .card.card-link:hover::after {
-  background-color: var(--fg-strong);
-  opacity: 1;
-}
-
-.prose .card.card-link:not(.card-no-title):hover::after {
-  transform: translateX(4px);
-}
-.prose .card.card-link.card-no-title:hover::after {
-  transform: translateY(-50%) translateX(4px);
 }
 
 .prose .card.card-link:focus-visible {
