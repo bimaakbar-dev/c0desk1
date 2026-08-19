@@ -62,7 +62,7 @@
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc((var(--ft-indent) / -2) + 0.875rem); 
+  left: calc((var(--ft-indent) / -2) + (var(--ft-indent) / 2)); 
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
