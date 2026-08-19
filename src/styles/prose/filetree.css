@@ -3,6 +3,7 @@
 .prose .file-tree {
   /* --- 1. VARIABEL DINAMIS --- */
   --ft-indent: 1.5rem;
+  --ft-marker-gap: 0.5rem;
   
   display: block !important;
   width: 100%;
@@ -17,6 +18,19 @@
   overflow-x: auto !important;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar Support */
+@supports not selector(::-webkit-scrollbar) {
+  .prose .file-tree { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  .prose .file-tree:hover { scrollbar-color: var(--fg-muted) transparent; }
+}
+@supports selector(::-webkit-scrollbar) {
+  .prose .file-tree::-webkit-scrollbar { height: 8px; width: 8px; }
+  .prose .file-tree::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
+  .prose .file-tree::-webkit-scrollbar-track { background: transparent; }
+  .prose .file-tree::-webkit-scrollbar-thumb { background-color: transparent; border-radius: var(--radius-full); }
+  .prose .file-tree:hover::-webkit-scrollbar-thumb { background-color: var(--fg-muted); }
 }
 
 .prose .file-tree,
@@ -49,14 +63,15 @@
 }
 
 .prose .file-tree > ul > li {
-  padding-inline-start: 0.5rem;
+  padding-inline-start: var(--ft-marker-gap);
 }
 
 /* --- 3. KALKULASI GARIS PIXEL-PERFECT --- */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
-  left: calc(var(--ft-indent) / -2);  
+  left: calc(var(--ft-indent) / -2);
+  
   top: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1.5px) / 2));
   
   width: calc(var(--ft-indent) / 2);
@@ -81,14 +96,39 @@
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
+  
   width: 100%;
   min-width: 100%; 
   box-sizing: border-box;
   
   margin: 0 !important;
-  padding: 0 0.25rem;
   color: var(--fg);
   border-radius: var(--radius-sm);
+  
+  padding: 0 0.5rem 0 var(--ft-marker-gap);
+}
+
+/* KHUSUS FOLDER (SUMMARY) */
+.prose .file-tree .tree-folder > details > summary {
+  display: list-item !important; 
+  list-style-position: inside !important; 
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.prose .file-tree .tree-folder > details[open] > summary {
+  list-style-position: inside !important;
+}
+
+/* KHUSUS FILE (DIV) */
+.prose .file-tree div.tree-label {
+  padding-left: calc(var(--ft-marker-gap) + 1.1em); 
+}
+
+.prose .file-tree .tree-folder > details > summary::marker,
+.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
+  color: inherit !important;
+  transform: translateY(calc(((var(--text-code-14-line-height) - 1) * 0.5em) + 1px));
 }
 
 .prose .file-tree .tree-label span {
@@ -99,38 +139,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
+  /* Span menyerap sisa ruang kosong agar area klik penuh */
   flex: 1; 
 }
 
-/* KHUSUS FOLDER (SUMMARY) */
-.prose .file-tree .tree-folder > details > summary {
-  display: list-item !important;
-  list-style: disclosure-closed !important;
-  cursor: pointer;
-  
-  width: 100%;
-  display: block; 
-  padding: 0 0.25rem;
-  margin: 0 !important;
-  vertical-align: middle;
-}
-
-.prose .file-tree .tree-folder > details[open] > summary {
-  list-style: disclosure-open !important;
-}
-
-.prose .file-tree .tree-folder > details > summary::marker,
-.prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
-  color: inherit !important;
-  transform: translateY(calc(((var(--text-code-14-line-height) - 1) * 0.5em) + 1px));
-}
-
 .prose .file-tree .tree-folder > details > summary span {
-  display: inline-flex;
-  align-items: center;
+  width: 100%; 
   padding: 0;
-  vertical-align: middle;
-  width: 100%;
 }
 
 /* ── 5. ICONS ──────────────────────────────────────────────────────── */
