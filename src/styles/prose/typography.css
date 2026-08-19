@@ -66,17 +66,19 @@
 }
 
 .prose .heading-anchor {
-  display: inline-flex;
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
+  --icon-size: 1em;
+  
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
   font-size: inherit;
-  aspect-ratio: 1/1;
+  
   margin-inline-start: 0.25rem;
-  vertical-align: middle;
+  vertical-align: -0.125em;
+  
   color: var(--fg-subtle) !important;
   opacity: 0;
-
+  white-space: nowrap;
   text-decoration: none;
   transition:
     opacity var(--duration) var(--ease-out),
