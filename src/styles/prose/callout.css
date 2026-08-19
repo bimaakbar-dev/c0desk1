@@ -41,31 +41,16 @@
   --icon-size: 1em;
 
   content: "";
-
   position: absolute;
-  inset-inline-start: 1.5rem;
+  inset-inline-start: 1.5rem; 
 
   width: var(--icon-size);
   height: var(--icon-size);
-
-  /*
-   * Align icon with the actual text line box.
-   *
-   * text-body-14:
-   * font-size  = var(--text-body-14-size)
-   * line-height = var(--text-body-14-line-height)
-   */
+  flex-shrink: 0;
+  
   font-size: var(--text-body-14-size);
-  vertical-align: top;
-  transform: translateY(
-    calc(
-      (
-        var(--text-body-14-line-height) * 1em -
-        var(--text-body-14-size)
-      ) / 2
-    )
-  );
-
+  top: calc(0.5rem + ((var(--text-body-14-line-height) - 1) * 0.5em));
+  
   background-color: var(--callout-color) !important;
 
   mask: var(--callout-icon) center / contain no-repeat;
@@ -73,6 +58,7 @@
 
   pointer-events: none;
 }
+
 
 /* Remove default first/last margins */
 .prose aside[data-callout] *:first-child {
