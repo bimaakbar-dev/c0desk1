@@ -82,7 +82,7 @@
 
 .prose .card.card-no-title .card-header {
   flex-shrink: 0;
-  margin-top: 0;
+  margin-top: calc(((var(--text-body-16-line-height) * var(--text-body-16-size)) - 1.75rem) / 2);
 }
 
 .prose .card.card-no-title.card-no-icon .card-header {
