@@ -1,21 +1,33 @@
 /* src/styles/prose/badge.css */
 
 .prose .badge {
-    @apply text-label-14;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    padding-inline: 0.5rem;
-    border-radius: var(--radius-lg);    
-    background-color: var(--bg-muted);
-    color: var(--fg);
-    white-space: nowrap;
-    vertical-align: middle;
+  @apply text-label-14;  
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem; 
+  line-height: 1.2;
+  padding: 0.125rem 0.5rem;  
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);     
+  background-color: var(--bg-muted);
+  color: var(--fg);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.prose .badge .badge-icon {
+  --icon-size: 1em;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  font-size: inherit;  
+  flex-shrink: 0;  
+  background-color: currentColor;
+  mask: center / contain no-repeat;
+  -webkit-mask: center / contain no-repeat;
 }
 
 .prose .badge-default {
   background-color: var(--bg-subtle);
-  border: 1px solid var(--border);
+  border-color: var(--border);
   color: var(--fg);
 }
 .prose .badge-new {
@@ -41,21 +53,9 @@
 .prose .badge-outline {
   background-color: transparent;
   color: var(--fg-strong);
-  border: 1px solid var(--border);
+  border-color: var(--border);
 }
 .prose .badge-ghost {
   background-color: transparent;
   color: var(--fg-muted);
-}
-
-.prose .badge .badge-icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  font-size: inherit;
-  aspect-ratio: 1/1;
-  flex-shrink: 0;
-  background-color: currentColor;
-  mask: center / contain no-repeat;
-  -webkit-mask: center / contain no-repeat;
 }
