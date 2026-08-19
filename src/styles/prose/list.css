@@ -36,6 +36,9 @@
   padding-inline-start: 2.5rem;
   padding-left: 2.5rem;
   padding-bottom: 1.25rem;
+
+  --step-circle-size: 1.65rem;
+  --step-line-width: 1.5px;
 }
 
 .prose .steps > li::marker,
@@ -44,7 +47,6 @@
   content: "";
 }
 
-/* 1. Posisi Angka Default (Jika elemen pertama adalah teks biasa / p) */
 .prose .steps > li::before,
 .prose .steps-container > ol > li::before,
 .prose .steps-container > ul > li::before {
@@ -54,32 +56,29 @@
   position: absolute;
   inset-inline-start: 0;
   
-  /* PRESISI: (Body Line-height 1.7rem - Circle 1.65rem) / 2 */
   top: 0.025rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 1.65rem;
-  height: 1.65rem;
+  width: var(--step-circle-size);
+  height: var(--step-circle-size);
   aspect-ratio: 1 / 1;
 
   border-radius: var(--radius-full);
   padding: 0 !important;
 
   color: var(--fg-strong);
-  border: 1.5px solid rgb(from var(--border) r g b / 100%);
+  border: var(--step-line-width) solid rgb(from var(--border) r g b / 100%);
   background-color: var(--bg-subtle);
-  box-shadow: 0 0 0 1.5px var(--bg-muted);
+  box-shadow: 0 0 0 var(--step-line-width) var(--bg-muted);
 }
 
-/* 2. Posisi Angka Khusus (JIKA elemen PERTAMA adalah h2, h3, atau h4) */
 .prose .steps > li:has(> :first-child:is(h2, h3, h4))::before,
 .prose .steps-container > ol > li:has(> :first-child:is(h2, h3, h4))::before,
 .prose .steps-container > ul > li:has(> :first-child:is(h2, h3, h4))::before {
   
-  /* PRESISI: (Heading Line-height 1.5rem - Circle 1.65rem) / 2 */
   top: -0.075rem;
 }
 
@@ -88,12 +87,15 @@
 .prose .steps-container > ul > li::after {
   content: "";
   position: absolute;
-  inset-inline-start: 0.825rem;
   top: 2rem;
   bottom: 0;
-  width: 0.5px;
+  
   background-color: rgb(from var(--border) r g b / 100%);
-  transform: translateX(-50%);
+
+  inset-inline-start: calc(var(--step-circle-size) / 2);
+  
+  width: var(--step-line-width);
+  margin-left: calc(var(--step-line-width) / -2);
 }
 
 .prose .steps > li:last-child::after,
