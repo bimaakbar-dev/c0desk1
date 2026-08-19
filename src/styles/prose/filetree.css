@@ -1,6 +1,7 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
+  /* --- 1. VARIABEL DINAMIS & MODERN --- */
   --ft-indent: 1.5rem;
   --ft-marker-gap: 0.5rem;
   --ft-marker-width: 1.15em;
@@ -65,10 +66,11 @@
   padding-inline-start: var(--ft-marker-gap);
 }
 
+/* --- GARIS VERTIKAL PRESISI (KONSISTEN) --- */
 .prose .file-tree ul ul > li::after {
   content: "";
-  position: absolute;  
-  left: calc(var(--ft-marker-gap) + var(--ft-marker-width) + 0.35rem + (1.125em / 2));
+  position: absolute;
+  left: calc((var(--ft-indent) / 2) + 0.25rem);
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
@@ -93,13 +95,14 @@
   padding: 0 0.5rem 0 var(--ft-marker-gap);
 }
 
+/* FOLDER: Marker OS menempati ruang hampa */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important; 
   list-style-position: inside !important; 
   cursor: pointer;
   vertical-align: middle;
-  
   white-space: nowrap; 
+  padding-left: 0.35rem;
 }
 
 .prose .file-tree .tree-folder > details[open] > summary {
@@ -107,9 +110,10 @@
 }
 
 .prose .file-tree .tree-folder > details > summary span {
-  padding-left: 0.35rem;
+  padding-left: 0.25rem;
 }
 
+/* FILE: Ruang kosong (dummy) seukuran marker agar kolom ikon konsisten sejajar */
 .prose .file-tree div.tree-label {
   padding-left: calc(var(--ft-marker-gap) + 1.35em); 
 }
@@ -136,6 +140,7 @@
   height: 1.125em;
   margin-right: 0.25rem;
   flex-shrink: 0;
+  aspect-ratio: 1/1;
   background-color: currentColor;
   
   mask-image: var(--tree-icon, var(--ic-ft-file));
