@@ -1,7 +1,7 @@
 /* src/styles/prose/button.css */
 
 .prose .button {
-    @apply text-button-16;
+    @apply text-button-14;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
