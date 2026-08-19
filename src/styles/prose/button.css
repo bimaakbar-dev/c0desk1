@@ -13,9 +13,9 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
     text-decoration: none !important;
+    vertical-align: middle; 
+    white-space: nowrap;
     cursor: pointer;
-    vertical-align: baseline;
-    white-space: nowarp;
 }
 
 .prose .button.inline-link.is-external::after {
@@ -30,8 +30,8 @@
     height: var(--icon-size);
     flex-shrink: 0;
     background-color: currentColor;
-    mask: center / contain no-repeat;
     -webkit-mask: center / contain no-repeat;
+    mask: center / contain no-repeat;
 }
 
 @media (hover: hover) {
