@@ -1,28 +1,29 @@
 ---
 slug: "quick-start"
 title: "Quick Start"
-description: "Get Stardux up and running on your local machine in minutes."
+description: "Get Stradocs up and running on your local machine in minutes."
 category: "Guide"
 order: 1
 draft: false
 author:
-  name: "Stardux Team"
+  name: "Bima Akbar"
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
-  email: "hello@unloyd.web.id"
+  email: "hello@stradocs.web.id"
 seo:
   title: "Quick Start"
-  description: "Get Stardux up and running on your local machine in minutes."
+  description: "Get Stradocs up and running on your local machine in minutes."
   noIndex: false
+lastUpdated: 2026-08-19
 ---
 
-This guide will help you set up Stardux on your local machine and start customizing it.
+This guide will help you set up Stradocs on your local machine and start customizing it.
 
 ## Prerequisites
 
 Before getting started, make sure you have the following installed:
 
-- **Node.js** v22 or later
+- **Node.js** :badge[v22] or later
 - **npm** or **pnpm**
 - **Git**
 - A code editor, such as Visual Studio Code
@@ -36,14 +37,14 @@ Before getting started, make sure you have the following installed:
 
    This allows you to create and manage your own version of the project.
 
-   :button[GitHub]{url="https://github.com" icon="github"}
+   :button[GitHub]{url="https://github.com/bimaakbar-dev/stradocs" icon="fork"}
 
 2. ### Clone Your Fork
 
    Clone your fork to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/stardux.git
+   git clone https://github.com/your-username/stradocs.git
    cd unloyd
    ```
 
@@ -135,6 +136,14 @@ pnpm build
 
 ## Next Steps
 
-Your local Stardux installation is now ready.
+Your local **Stradocs** installation is now ready.
 
-Continue with [Project Structure](/docs/project-structure/) to understand how the project is organized, or go directly to [Configuration](/docs/configuration/) to start customizing your site.
+::::grid
+:::card{icon="learn" href="/docs/project-structure/"}
+Continue with Project Structure to understand how the project is organized.
+:::
+
+:::card{icon="learn" href="/docs/configuration/"}
+Go directly to Configuration to start customizing your site.
+:::
+::::
