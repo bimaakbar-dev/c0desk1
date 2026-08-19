@@ -162,50 +162,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   tab-size: 2;
-}
-
-@supports not selector(::-webkit-scrollbar) {
-  .prose .astro-code {
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-    transition: scrollbar-color 0.15s ease;
-  }
-  .prose .astro-code:hover {
-    scrollbar-color: var(--fg-muted) transparent;
-  }
-}
-
-@supports selector(::-webkit-scrollbar) {
-  .prose .astro-code {
-    scrollbar-width: auto !important;
-    scrollbar-color: auto !important;
-  }
-
-  .prose .astro-code::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-  }
-
-  .prose .astro-code::-webkit-scrollbar-button {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    -webkit-appearance: none !important;
-  }
-
-  .prose .astro-code::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: var(--radius-full);
-  }
-
-  .prose .astro-code::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: var(--radius-full);
-  }
-
-  .prose .astro-code:hover::-webkit-scrollbar-thumb {
-    background-color: var(--fg-muted);
-  }
+  
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.15s ease;
 }
 
 .prose .code-block .astro-code {
