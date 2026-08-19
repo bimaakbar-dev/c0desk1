@@ -1,170 +1,137 @@
 /* src/styles/prose/card.css */
+
+/* ── Base Card ───────────────────────────────────────────────────────── */
 .prose .card {
   position: relative;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-subtle);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 1rem;
+  padding: 1.25rem;
   margin: 1.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
   box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
+/* ── Header & Icon ───────────────────────────────────────────────────── */
 .prose .card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem !important;
-  vertical-align: middle;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .prose .card-header .card-icon-wrapper {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.65em;
-  height: 1.65em;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
   background-color: var(--bg-muted);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-strong);
-  flex-shrink: 0;
 }
 
 .prose .card-header .card-icon {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
+  width: 65%;
+  height: 65%;
   background-color: var(--fg);
-  mask: center / 70% no-repeat;
-  -webkit-mask: center / 70% no-repeat;
+  mask: center / contain no-repeat;
+  -webkit-mask: center / contain no-repeat;
 }
 
-.prose .card-header .card-title,
-.prose .card.card-no-icon .card-header .card-title {
+.prose .card-header .card-title {
   @apply text-heading-16;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-strong);
-  line-height: inherit;
+  margin: 0;
 }
 
 .prose .card-header .card-title code {
   font-size: 0.9em;
 }
 
-.prose .card-body,
-.prose .card-body > * {
+/* ── Body Content ────────────────────────────────────────────────────── */
+.prose .card-body {
   @apply text-body-16;
-}
-
-.prose .card-body > * {
   color: var(--fg-muted);
+  flex: 1;
+  min-width: 0;
 }
 
-.prose .card-body *:first-child {
-  margin-top: 0 !important;
+.prose .card-body > :first-child {
+  margin-top: 0;
 }
-.prose .card-body *:last-child {
-  margin-bottom: 0 !important;
+.prose .card-body > :last-child {
+  margin-bottom: 0;
 }
 
 .prose .card-body .table-wrapper,
 .prose .card-body .code-block {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
+/* ── (Card No Title) ────────────────────────────── */
 .prose .card.card-no-title {
   flex-direction: row;
-  align-items: stretch;
-  gap: 0.75rem;
+  align-items: flex-start;
 }
 
 .prose .card.card-no-title .card-header {
-  flex-shrink: 0;
-  border-bottom: none;
-  background: transparent;
-  align-items: flex-start;
-  justify-content: flex-start;
-  vertical-align: middle;
-  gap: 0;
-}
-
-.prose .card.card-no-title .card-header .card-icon-wrapper {
-  width: 1.75rem;
-  height: 1.75rem;
-}
-
-.prose .card.card-no-title .card-header .card-icon {
-  width: 100%;
-  height: 100%;
-}
-
-.prose .card.card-no-title .card-body > * {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--fg);
-}
-
-.prose .card.card-no-icon .card-header,
-.prose .card.card-no-icon .card-header > a {
-  gap: 0;
+  margin-top: 0.15rem;
 }
 
 .prose .card.card-no-title.card-no-icon .card-header {
   display: none;
 }
 
-.prose .card.card-no-title.card-no-icon .card-body :not(.card-body) {
-  padding: 0;
-  color: var(--fg);
-}
-
-/* ── card as link ─────────────────────────────────────────────────────── */
-
+/* ── Interaksi: Card Link ────────────────────────────────────────────── */
 .prose .card.card-link {
-  display: flex;
-  flex-direction: column;
-  color: inherit;
   text-decoration: none;
+  color: inherit;
   cursor: pointer;
-}
-
-.prose .card.card-link .card-body {
-  padding-right: 2.5rem;
+  padding-right: 3rem;
 }
 
 .prose .card.card-link::after {
   content: '';
   position: absolute;
-  right: 1rem;
+  top: 1.5rem; 
+  right: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: var(--fg-muted);
+  mask: var(--ic-arrow-right) center / contain no-repeat;
+  -webkit-mask-image: var(--ic-arrow-right) center / contain no-repeat;
+  
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.prose .card.card-link.card-no-title::after {
   top: 50%;
   transform: translateY(-50%);
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--fg-muted);
-  mask-image: var(--ic-arrow-right);
-  -webkit-mask-image: var(--ic-arrow-right);
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  opacity: 0.6;
 }
 
 .prose .card.card-link:hover {
-  border-color: rgb(from var(--fg-subtle) r g b / 40%);
+  border-color: rgb(from var(--fg-subtle) r g b / 50%);
   background-color: var(--bg-muted);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 6%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 }
 
 .prose .card.card-link:hover::after {
-  transform: translateY(-50%) translateX(4px);
-  opacity: 1;
   background-color: var(--accent);
+  opacity: 1;
+}
+
+.prose .card.card-link:not(.card-no-title):hover::after {
+  transform: translateX(4px);
+}
+.prose .card.card-link.card-no-title:hover::after {
+  transform: translateY(-50%) translateX(4px);
 }
 
 .prose .card.card-link:focus-visible {
