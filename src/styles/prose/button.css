@@ -6,8 +6,8 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    background: var(--bg-subtle);
-    color: var(--fg-strong) !important;
+    background: var(--fg-strong);
+    color: var(--fg-inverted) !important;
     font-weight: 500 !important;
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
@@ -20,22 +20,20 @@
     display: none;
 }
 
-.prose .button:hover {
-    background: var(--bg-muted);
-    color: var(--accent); 
-}
-
 .prose .button .button-icon {
     display: inline-block;
-    width: 1.25em;
-    height: 1.25em;
-    aspect-ratio: 1/1;
+    font-size: inherit;
+    width: 1em;
+    height: 1em;
     flex-shrink: 0;
+    aspect-ratio: 1/1;
     background-color: currentColor;
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+    mask: center / contain no-repeat;
+    -webkit-mask: center / contain no-repeat;
+}
+
+@media (hover: hover) {
+  .prose .button:hover {
+    background: var(--fg);
+  }
 }
