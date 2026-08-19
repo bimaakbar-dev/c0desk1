@@ -15,6 +15,7 @@
     text-decoration: none !important;
     cursor: pointer;
     vertical-align: baseline;
+    white-space: nowarp;
 }
 
 .prose .button.inline-link.is-external::after {
