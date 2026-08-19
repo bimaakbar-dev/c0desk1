@@ -63,11 +63,7 @@
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  /* 
-     Diturunkan dari +0.95rem menjadi +0.75rem agar garis border bergeser ke kiri.
-     Jika masih kurang ke kiri, jadikan +0.65rem atau +0.5rem.
-  */
-  left: calc((var(--ft-indent) / -2) + 0.75rem); 
+  left: calc((var(--ft-indent) / -2) + 0.85rem); 
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
