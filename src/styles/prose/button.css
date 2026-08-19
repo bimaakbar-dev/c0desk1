@@ -1,11 +1,12 @@
 /* src/styles/prose/button.css */
 
 .prose .button {
-    @apply text-button-14;
+    @apply text-button-16;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
     padding-inline: 0.5rem;
+    padding-block: 0.125rem
     background: var(--fg-strong);
     color: var(--fg-inverted) !important;
     font-weight: 500 !important;
@@ -21,12 +22,12 @@
 }
 
 .prose .button .button-icon {
+    --icon-size: 1em;
     display: inline-block;
     font-size: inherit;
-    width: 1em;
-    height: 1em;
+    width: var(--icon-size);
+    height: var(--icon-size);
     flex-shrink: 0;
-    aspect-ratio: 1/1;
     background-color: currentColor;
     mask: center / contain no-repeat;
     -webkit-mask: center / contain no-repeat;
