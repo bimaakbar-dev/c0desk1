@@ -1,9 +1,11 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  /* --- 1. VARIABEL DINAMIS --- */
-  --ft-indent: 1.5rem;
+  /* --- 1. VARIABEL DINAMIS & MODERN --- */
+  --ft-indent: 2.85rem; 
+  --ft-line-x: 2.15rem;
   --ft-marker-gap: 0.5rem;
+  --ft-line-color: rgb(from var(--border) r g b / 70%);
   
   display: block !important;
   width: 100%;
@@ -46,7 +48,6 @@
   margin: 0;
 }
 
-/* --- 2. LOGIKA NESTING OTOMATIS (Rekursif) --- */
 .prose .file-tree ul ul {
   margin: 0;
   padding-inline-start: var(--ft-indent) !important;
@@ -66,55 +67,49 @@
   padding-inline-start: var(--ft-marker-gap);
 }
 
-/* --- 3. KALKULASI GARIS PIXEL-PERFECT --- */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
-  left: calc(var(--ft-indent) / -2);
   
-  top: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1.5px) / 2));
+  left: calc(var(--ft-line-x) - var(--ft-indent));
+  top: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
   
-  width: calc(var(--ft-indent) / 2);
-  border-bottom: 1.5px solid var(--border);
+  width: calc(var(--ft-indent) - var(--ft-line-x) - 0.25rem);
+  
+  border-bottom: 1px solid var(--ft-line-color);
 }
 
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc(var(--ft-indent) / -2);
+  left: calc(var(--ft-line-x) - var(--ft-indent));
   top: 0;
   bottom: 0;
-  border-left: 1.5px solid var(--border);
+  border-left: 1px solid var(--ft-line-color);
 }
 
 .prose .file-tree ul ul > li:last-child::after {
-  height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1.5px) / 2));
+  height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
 }
-
-/* ── 4. LABEL ROW & FIX MOBILE TAP ───────────── */
 
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
-  
   width: 100%;
   min-width: 100%; 
   box-sizing: border-box;
-  
   margin: 0 !important;
   color: var(--fg);
   border-radius: var(--radius-sm);
-  
   padding: 0 0.5rem 0 var(--ft-marker-gap);
 }
 
-/* KHUSUS FOLDER (SUMMARY) */
+/* KHUSUS FOLDER */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important; 
   list-style-position: inside !important; 
   cursor: pointer;
   vertical-align: middle;
-  
   white-space: nowrap; 
 }
 
@@ -126,9 +121,9 @@
   padding-left: 0.35rem;
 }
 
-/* KHUSUS FILE (DIV) */
+/* KHUSUS FILE */
 .prose .file-tree div.tree-label {
-  padding-left: calc(var(--ft-marker-gap) + 1.35em); 
+  padding-left: calc(var(--ft-marker-gap) + 1.25rem); 
 }
 
 .prose .file-tree .tree-folder > details > summary::marker,
@@ -141,13 +136,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  
-  /* Biarkan teks memanjang tanpa terpotong (ellipsis) agar bisa di-scroll horizontal */
   white-space: nowrap;
   vertical-align: middle;
 }
-
-/* ── 5. ICONS ──────────────────────────────────────────────────────── */
 
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
@@ -160,17 +151,9 @@
   aspect-ratio: 1/1;
   background-color: currentColor;
   
-  mask-image: var(--tree-icon, var(--ic-ft-file));
-  -webkit-mask-image: var(--tree-icon, var(--ic-ft-file));
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
+  -webkit-mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
+  mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
 }
-
-/* ── 6. HIGHLIGHT STATE ────────────────────────────────────────────── */
 
 .prose .file-tree .tree-label[data-highlight] {
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
@@ -187,8 +170,6 @@
   font-weight: 600;
 }
 
-/* ── 7. PLACEHOLDER STATE ──────────────────────────────────────────── */
-
 .prose .file-tree .tree-label[data-placeholder] {
   opacity: 0.5;
   color: var(--fg-muted);
@@ -198,8 +179,6 @@
 .prose .file-tree .tree-label[data-placeholder] span.tree-placeholder::before {
   display: none !important;
 }
-
-/* ── 8. COMMENT ────────────────────────────────────────────────────── */
 
 .prose .file-tree .tree-comment {
   color: var(--fg-muted);
