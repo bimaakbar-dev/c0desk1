@@ -5,13 +5,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
-    padding: 0.15rem 0.5rem;
+    padding-inline: 0.5rem;
     border-radius: var(--radius-lg);    
     background-color: var(--bg-muted);
     color: var(--fg);
     white-space: nowrap;
     vertical-align: middle;
-    text-transform: uppercase;
 }
 
 .prose .badge-default {
@@ -59,10 +58,4 @@
   background-color: currentColor;
   mask: center / contain no-repeat;
   -webkit-mask: center / contain no-repeat;
-}
-
-.prose .badge-sm {
-  font-size: 0.55rem;
-  padding: 0.05rem 0.35rem;
-  gap: 0.15rem;
 }
