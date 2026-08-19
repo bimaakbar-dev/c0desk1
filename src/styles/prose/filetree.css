@@ -68,12 +68,12 @@
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc( (var(--ft-indent) * -1) + var(--ft-marker-width) + 0.25rem + 0.5625em + 0.6rem );    
+  left: calc((var(--ft-indent) * -1) + var(--ft-marker-width) + 0.35rem + (1.125em / 2));
+  
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
 }
-
 
 .prose .file-tree ul ul > li:last-child::after {
   height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
@@ -137,11 +137,16 @@
   height: 1.125em;
   margin-right: 0.25rem;
   flex-shrink: 0;
-  aspect-ratio: 1/1;
   background-color: currentColor;
   
-  -webkit-mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
-  mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
+  mask-image: var(--tree-icon, var(--ic-ft-file));
+  -webkit-mask-image: var(--tree-icon, var(--ic-ft-file));
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
 }
 
 .prose .file-tree .tree-label[data-highlight] {
