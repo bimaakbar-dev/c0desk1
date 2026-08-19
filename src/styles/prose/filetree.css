@@ -1,16 +1,15 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  /* --- 1. VARIABEL DINAMIS & MODERN --- */
   --ft-indent: 1.5rem;
   --ft-marker-gap: 0.5rem;
-  --ft-marker-width: 1.15em; /* KUNCI: Definisi lebar marker untuk kalkulasi garis */
-  --ft-line-color: rgb(from var(--border) r g b / 60%); /* KUNCI: Warna garis halus */
+  --ft-marker-width: 1.15em;
+  --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
   width: 100%;
   max-width: 100%;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   margin: 2rem 0;
   
   background-color: var(--bg-subtle);
@@ -66,17 +65,15 @@
   padding-inline-start: var(--ft-marker-gap);
 }
 
-/* GARIS HORISONTAL SUDAH DIHAPUS TOTAL */
-
-/* --- HANYA GARIS VERTIKAL PRESISI DI TENGAH IKON --- */
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: calc( (var(--ft-indent) * -1) + var(--ft-marker-width) + 0.25rem + 0.5625em );  
+  left: calc( (var(--ft-indent) * -1) + var(--ft-marker-width) + 0.25rem + 0.5625em + 0.6rem );    
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
 }
+
 
 .prose .file-tree ul ul > li:last-child::after {
   height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1px) / 2));
@@ -143,14 +140,8 @@
   aspect-ratio: 1/1;
   background-color: currentColor;
   
-  mask-image: var(--tree-icon, var(--ic-ft-file));
-  -webkit-mask-image: var(--tree-icon, var(--ic-ft-file));
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
+  -webkit-mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
+  mask: var(--tree-icon, var(--ic-ft-file)) center / contain no-repeat;
 }
 
 .prose .file-tree .tree-label[data-highlight] {
