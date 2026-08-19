@@ -1,14 +1,19 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
+  /* --- 1. VARIABEL DINAMIS --- */
+  --ft-indent: 1.5rem;
+  
   display: block !important;
   width: 100%;
   max-width: 100%;
   padding: 0.75rem 1.5rem;
   margin: 2rem 0;
+  
   background-color: var(--bg-subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  
   overflow-x: auto !important;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
@@ -27,9 +32,10 @@
   margin: 0;
 }
 
+/* --- 2. LOGIKA NESTING OTOMATIS (Rekursif) --- */
 .prose .file-tree ul ul {
   margin: 0;
-  padding: 0 !important;
+  padding-inline-start: var(--ft-indent) !important;
 }
 
 .prose .file-tree *:first-child { margin-top: 0; }
@@ -39,47 +45,50 @@
   position: relative;
   margin: 0;
   padding-block: 0.25rem;
-  padding-inline-start: 2.5rem;
   vertical-align: middle;
 }
 
-.prose .file-tree li.tree-depth-0 {
-  padding-inline-start: 1rem;
+.prose .file-tree > ul > li {
+  padding-inline-start: 0.5rem;
 }
 
+/* --- 3. KALKULASI GARIS PIXEL-PERFECT --- */
 .prose .file-tree ul ul > li::before {
   content: "";
   position: absolute;
-  left: 0.65rem;
-  top: 0.9rem;
-  width: 0.5rem;
+  left: calc(var(--ft-indent) / -2);  
+  top: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1.5px) / 2));
+  
+  width: calc(var(--ft-indent) / 2);
   border-bottom: 1.5px solid var(--border);
 }
 
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
-  left: 0.65rem;
+  left: calc(var(--ft-indent) / -2);
   top: 0;
   bottom: 0;
   border-left: 1.5px solid var(--border);
 }
 
 .prose .file-tree ul ul > li:last-child::after {
-  height: 0.9rem;
+  height: calc(0.25rem + (((var(--text-code-14-line-height) * var(--text-code-14-size)) - 1.5px) / 2));
 }
 
-/* ── label row (div atau summary, dua-duanya .tree-label) ───────────── */
+/* ── 4. LABEL ROW & FIX MOBILE TAP ───────────── */
 
 .prose .file-tree .tree-label {
   display: flex;
   align-items: center;
   width: 100%;
-  min-width: 0;
+  min-width: 100%; 
+  box-sizing: border-box;
+  
   margin: 0 !important;
   padding: 0 0.25rem;
   color: var(--fg);
-  box-sizing: border-box;
+  border-radius: var(--radius-sm);
 }
 
 .prose .file-tree .tree-label span {
@@ -90,12 +99,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
+  flex: 1; 
 }
 
+/* KHUSUS FOLDER (SUMMARY) */
 .prose .file-tree .tree-folder > details > summary {
   display: list-item !important;
   list-style: disclosure-closed !important;
   cursor: pointer;
+  
+  width: 100%;
+  display: block; 
   padding: 0 0.25rem;
   margin: 0 !important;
   vertical-align: middle;
@@ -108,7 +122,7 @@
 .prose .file-tree .tree-folder > details > summary::marker,
 .prose .file-tree .tree-folder > details > summary::-webkit-details-marker {
   color: inherit !important;
-  transform: translateY(0.5rem);
+  transform: translateY(calc(((var(--text-code-14-line-height) - 1) * 0.5em) + 1px));
 }
 
 .prose .file-tree .tree-folder > details > summary span {
@@ -116,9 +130,10 @@
   align-items: center;
   padding: 0;
   vertical-align: middle;
+  width: 100%;
 }
 
-/* ── icon: satu rule, bentuk dari --tree-icon (di-set inline oleh plugin) ─ */
+/* ── 5. ICONS ──────────────────────────────────────────────────────── */
 
 .prose .file-tree span.tree-folder::before,
 .prose .file-tree span.tree-file::before {
@@ -130,6 +145,7 @@
   flex-shrink: 0;
   aspect-ratio: 1/1;
   background-color: currentColor;
+  
   mask-image: var(--tree-icon, var(--ic-ft-file));
   -webkit-mask-image: var(--tree-icon, var(--ic-ft-file));
   mask-size: contain;
@@ -140,12 +156,11 @@
   -webkit-mask-position: center;
 }
 
-/* ── highlight state ──────────────────────────────────────────────── */
+/* ── 6. HIGHLIGHT STATE ────────────────────────────────────────────── */
 
 .prose .file-tree .tree-label[data-highlight] {
   background-color: color-mix(in srgb, var(--accent) 10%, transparent) !important;
   color: var(--accent) !important;
-  border-radius: var(--radius-sm);
 }
 
 .prose .file-tree .tree-label[data-highlight] span.tree-file::before,
@@ -158,7 +173,7 @@
   font-weight: 600;
 }
 
-/* ── placeholder state ────────────────────────────────────────────── */
+/* ── 7. PLACEHOLDER STATE ──────────────────────────────────────────── */
 
 .prose .file-tree .tree-label[data-placeholder] {
   opacity: 0.5;
@@ -170,7 +185,7 @@
   display: none !important;
 }
 
-/* ── comment ──────────────────────────────────────────────────────── */
+/* ── 8. COMMENT ────────────────────────────────────────────────────── */
 
 .prose .file-tree .tree-comment {
   color: var(--fg-muted);
