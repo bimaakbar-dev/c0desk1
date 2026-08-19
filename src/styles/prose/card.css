@@ -4,7 +4,7 @@
   --card-icon-size: 1.75rem;
 }
 
-/* ── Base Card ───────────────────────────────────────────────────────── */
+/* Base Card */
 .prose .card {
   position: relative;
   display: flex;
@@ -16,11 +16,11 @@
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
   box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
   overflow: hidden;
 }
 
-/* ── Header & Icon ───────────────────────────────────────────────────── */
+/* Header & Icon */
 .prose .card-header {
   display: flex;
   align-items: flex-start; 
@@ -43,8 +43,8 @@
   width: 65%;
   height: 65%;
   background-color: var(--fg);
-  mask: center / contain no-repeat;
   -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
 }
 
 .prose .card-header .card-title {
@@ -59,7 +59,7 @@
   font-size: 0.9em;
 }
 
-/* ── Body Content ────────────────────────────────────────────────────── */
+/* Body Content */
 .prose .card-body {
   @apply text-body-16;
   color: var(--fg-muted);
@@ -79,7 +79,7 @@
   margin: 1rem 0;
 }
 
-/* ── (Card No Title) ────────────────────────────── */
+/* (Card No Title) */
 .prose .card.card-no-title {
   flex-direction: row;
   align-items: flex-start;
@@ -94,7 +94,7 @@
   display: none;
 }
 
-/* ── Card Link ────────────────────────────────────────────── */
+/* Card Link */
 .prose .card.card-link {
   text-decoration: none;
   color: inherit;
