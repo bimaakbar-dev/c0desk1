@@ -1,7 +1,7 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-indent: 1.75rem; /* Sedikit diperlebar agar ada ruang nafas untuk border & geseran */
+  --ft-indent: 1.75rem;
   --ft-line-color: rgb(from var(--border) r g b / 60%);
   
   display: block !important;
@@ -44,10 +44,8 @@
   margin: 0;
 }
 
-/* --- NESTED DIGESER KE KANAN --- */
 .prose .file-tree ul ul {
   margin: 0;
-  /* Kita beri ruang ekstra agar konten anak tidak menabrak border baru */
   padding-inline-start: var(--ft-indent) !important;
 }
 
@@ -61,16 +59,15 @@
   vertical-align: middle;
 }
 
-/* --- BORDER DIGESER KE KANAN (PAS DI BAWAH IKON) --- */
+/* --- BORDER DIGESER KE KIRI SEDIKIT --- */
 .prose .file-tree ul ul > li::after {
   content: "";
   position: absolute;
   /* 
-     Sebelumnya: left: calc(var(--ft-indent) / -2); (di tengah ruang hampa)
-     Sekarang kita geser ke kanan sejauh ukuran marker + setengah ikon 
-     agar posisinya jatuh tepat di bawah/tengah ikon folder induk.
+     Diturunkan dari +0.95rem menjadi +0.75rem agar garis border bergeser ke kiri.
+     Jika masih kurang ke kiri, jadikan +0.65rem atau +0.5rem.
   */
-  left: calc((var(--ft-indent) / -2) + 1.15rem); 
+  left: calc((var(--ft-indent) / -2) + 0.75rem); 
   top: 0;
   bottom: 0;
   border-left: 1px solid var(--ft-line-color);
