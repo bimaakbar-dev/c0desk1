@@ -56,7 +56,7 @@
   position: absolute;
   inset-inline-start: 0;
   
-  top: 0.025rem;
+  top: calc(((var(--text-body-16-line-height) * var(--text-body-16-size)) - var(--step-circle-size)) / 2);
 
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@
 .prose .steps-container > ol > li:has(> :first-child:is(h2, h3, h4))::before,
 .prose .steps-container > ul > li:has(> :first-child:is(h2, h3, h4))::before {
   
-  top: -0.075rem;
+  top: calc(((var(--text-heading-16-line-height) * var(--text-heading-16-size)) - var(--step-circle-size)) / 2);
 }
 
 .prose .steps > li::after,
