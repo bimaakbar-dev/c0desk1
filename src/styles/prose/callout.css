@@ -1,112 +1,173 @@
 /* src/styles/Callout.css */
+
 .prose aside[data-callout] {
   --callout-color: var(--fg-muted);
+
   display: block;
   box-sizing: border-box;
   position: relative;
+
   margin: 1.75rem 0;
   padding: 0.5rem 1rem 0.5rem 3.25rem;
+
   background: var(--bg-subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  color: inherit;
 
+  color: inherit;
 }
 
+/* Callout content typography */
 .prose aside[data-callout] * {
   @apply text-body-14;
 }
 
+/* Accent bar */
 .prose aside[data-callout]::before {
   content: "";
+
   position: absolute;
   inset-block: 0.65rem;
   inset-inline-start: 0.5rem;
+
   width: 3px;
+
   background-color: var(--callout-color) !important;
   border-radius: var(--radius-full);
-  vertical-align: middle;
 }
 
+/* Callout icon */
 .prose aside[data-callout]::after {
+  --icon-size: 1em;
+
   content: "";
+
   position: absolute;
-  inset-block-start: 0.65rem;
   inset-inline-start: 1.5rem;
-  width: 1em;
-  height: 1em;
-  font-size: inherit;
-  aspect-ratio: 1/1;
-  flex-shrink: 0;
+
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  /*
+   * Align icon with the actual text line box.
+   *
+   * text-body-14:
+   * font-size  = var(--text-body-14-size)
+   * line-height = var(--text-body-14-line-height)
+   */
+  top: 0;
+  font-size: var(--text-body-14-size);
+  vertical-align: top;
+  transform: translateY(
+    calc(
+      (
+        var(--text-body-14-line-height) * 1em -
+        var(--text-body-14-size)
+      ) / 2
+    )
+  );
+
   background-color: var(--callout-color) !important;
+
   mask: var(--callout-icon) center / contain no-repeat;
   -webkit-mask: var(--callout-icon) center / contain no-repeat;
+
   pointer-events: none;
-  vertical-align: middle;
 }
 
+/* Remove default first/last margins */
 .prose aside[data-callout] *:first-child {
   margin-top: 0 !important;
 }
+
 .prose aside[data-callout] *:last-child {
   margin-bottom: 0 !important;
 }
 
+/* Spacing between callout children */
 .prose aside[data-callout] > * + * {
   margin-block-start: 0.75rem;
 }
 
+/* Lists */
 .prose aside[data-callout] ul,
 .prose aside[data-callout] ol {
   padding-inline-start: 1.5rem;
   margin-block: 0.5rem 0;
 }
+
 .prose aside[data-callout] li {
   margin-block-start: 0.375rem;
 }
+
 .prose aside[data-callout] li::marker {
   color: var(--callout-color);
 }
 
+/* Links */
 .prose aside[data-callout] a {
   color: var(--fg-strong);
   font-weight: 500;
+
   text-decoration: underline;
   text-decoration-color: var(--callout-color);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1.5px;
 }
 
+/* Inline code */
 .prose aside[data-callout] :not(pre) > code {
-  font-size: 0.875em;
+  @apply text-code-12;
+
   color: var(--fg-strong);
-  background: color-mix(in srgb, var(--callout-color) 10%, var(--bg-subtle));
-  border: 1px solid color-mix(in srgb, var(--callout-color) 15%, transparent);
-  padding: 0.10em 0.4em;
+
+  background: color-mix(
+    in srgb,
+    var(--callout-color) 10%,
+    var(--bg-subtle)
+  );
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--callout-color) 15%,
+    transparent
+  );
+
+  padding: 0.1em 0.4em;
   border-radius: 0.25rem;
+
   font-weight: 500;
 }
+
+/* ----------------------------------------
+ * Callout variants
+ * ---------------------------------------- */
 
 .prose aside[data-callout="note"] {
   --callout-color: var(--fg-muted);
   --callout-icon: var(--callout-icon-note);
 }
+
 .prose aside[data-callout="tip"] {
   --callout-color: var(--accent);
   --callout-icon: var(--callout-icon-tip);
 }
+
 .prose aside[data-callout="important"] {
   --callout-color: #8b5cf6;
   --callout-icon: var(--callout-icon-important);
 }
+
 .prose aside[data-callout="warning"] {
   --callout-color: var(--color-warning);
   --callout-icon: var(--callout-icon-warning);
 }
+
 .prose aside[data-callout="caution"] {
   --callout-color: #f97316;
   --callout-icon: var(--callout-icon-caution);
 }
+
 .prose aside[data-callout="danger"] {
   --callout-color: var(--color-error);
   --callout-icon: var(--callout-icon-danger);
