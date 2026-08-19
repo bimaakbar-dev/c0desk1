@@ -1,8 +1,6 @@
 // src/lib/mdx/satteri-filetree.ts
 import { defineMdastPlugin } from 'satteri';
-
 import { EXTENSION_ICON } from '../../assets/icons/file';
-
 
 function splitComment(raw: string): { name: string; comment: string } {
   const idxSlash = raw.search(/\s\/\/\s?/);
@@ -26,23 +24,6 @@ function splitComment(raw: string): { name: string; comment: string } {
 function isPlaceholderName(name: string): boolean {
   const trimmed = name.trim();
   return trimmed === '...' || trimmed === '…';
-}
-
-function getDepth(ctx: any, node: any): number {
-  let depth = 0;
-  let current = node;
-  while (true) {
-    const parent = ctx.parent(current);
-    if (!parent) break;
-    if (parent.type === 'list') {
-      depth++;
-    }
-    if (parent.type === 'containerDirective' && (parent as any).name === 'filetree') {
-      break;
-    }
-    current = parent;
-  }
-  return Math.max(0, depth - 1);
 }
 
 function getFileExtension(fileName: string): string {
@@ -97,8 +78,6 @@ export const satteriFileTree = defineMdastPlugin({
     }
 
     if (!isInside) return;
-
-    const depth = getDepth(ctx, node);
 
     const firstChild = node.children[0];
     const hasNestedList = node.children.some((c: any) => c.type === 'list');
@@ -172,7 +151,6 @@ export const satteriFileTree = defineMdastPlugin({
     }
 
     const spanClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
-
     const spanChildren: any[] = [];
 
     if (isPlaceholder) {
@@ -223,47 +201,35 @@ export const satteriFileTree = defineMdastPlugin({
     if (isPlaceholder) wrapperProps['data-placeholder'] = '';
 
     const existingClasses = (node.data?.hProperties?.className as string[]) || [];
-    const depthClass = `tree-depth-${depth}`;
+    
     const typeClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
     const highlightClass = isHighlighted ? 'tree-highlight' : '';
-    const finalLiClasses = [depthClass, typeClass, highlightClass, ...existingClasses].filter(Boolean);
+    const finalLiClasses = [typeClass, highlightClass, ...existingClasses].filter(Boolean);
 
     if (isPlaceholder) {
       const labelNode = {
         type: 'containerDirective',
-        data: {
-          hName: 'div',
-          hProperties: wrapperProps,
-        },
+        data: { hName: 'div', hProperties: wrapperProps },
         children: [contentSpan],
       };
       ctx.setProperty(node, 'children', [labelNode as any]);
     } else if (isFolder && hasNestedList) {
       const summaryNode = {
         type: 'paragraph',
-        data: {
-          hName: 'summary',
-          hProperties: wrapperProps,
-        },
+        data: { hName: 'summary', hProperties: wrapperProps },
         children: [contentSpan],
       };
       const restChildren = node.children.slice(1);
       const detailsNode = {
         type: 'containerDirective',
-        data: {
-          hName: 'details',
-          hProperties: { open: true },
-        },
+        data: { hName: 'details', hProperties: { open: true } },
         children: [summaryNode, ...restChildren],
       };
       ctx.setProperty(node, 'children', [detailsNode as any]);
     } else {
       const labelNode = {
         type: 'containerDirective',
-        data: {
-          hName: 'div',
-          hProperties: wrapperProps,
-        },
+        data: { hName: 'div', hProperties: wrapperProps },
         children: [contentSpan],
       };
       ctx.setProperty(node, 'children', [labelNode as any]);
