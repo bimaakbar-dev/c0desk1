@@ -10,9 +10,8 @@ import Mobile from "./MobileNav.astro";
 const styles = {
   header: [
     "sticky top-0 z-50 w-full pt-(--safe-top)",
-    "h-[var(--header-height,4rem)]",
-    "bg-transparent border-b border-transparent",
-    "transition-all duration-(--duration) ease-(--ease-out)"
+    "h-(--header-height)",
+    "bg-transparent border-b border-transparent"
   ].join(" "),
   wrapper: [
     "grid grid-cols-[1fr_auto] items-center h-full mx-auto",
