@@ -9,16 +9,19 @@ import GithubStar from "@components/GithubStar.astro";
 
 <div
   id="nav-overlay"
-  class="fixed inset-0 z-30 hidden bg-(--bg)/80 backdrop-blur-sm lg:hidden cursor-pointer"
+  class="fixed inset-0 z-30 hidden bg-(--bg-overlay) backdrop-blur-sm lg:hidden cursor-pointer opacity-0 transition-opacity duration-(--duration) ease-out"
   aria-hidden="true"
 />
 
-<aside id="left-sidebar" class="fixed top-[calc(var(--header-height)+0)] inset-x-0 z-45 w-full h-[calc(100vh-var(--header-height))] bg-(--bg) border-b border-(--border) hidden lg:block lg:border-b-0 lg:border-r lg:sticky lg:top-(--header-height) lg:z-0">
+<aside 
+  id="left-sidebar" 
+  class="fixed top-(--header-height) inset-x-0 z-45 w-full h-screen bg-(--bg) border-r border-(--border) hidden lg:block lg:sticky lg:z-0"
+>
   <div class="flex flex-col h-full">
-    <div class="flex-1 overflow-y-auto pt-4 pb-4 lg:py-2 scrollbar-gutter-stable">
+    <div class="flex-1 overflow-y-auto py-4 lg:py-2 scrollbar-gutter-stable">
       <SidebarMenu />
     </div>
-    <div class="inline-flex shrink-0 p-4 justify-center lg:hidden pb-(--safe-bottom)">
+    <div class="inline-flex shrink-0 p-4 justify-center mb-(--safe-bottom) lg:hidden border-t border-(--border-subtle)">
       <Card variant="primary" padding="xs" radius="sm">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
@@ -35,14 +38,27 @@ import GithubStar from "@components/GithubStar.astro";
 <style is:global>
   [data-nav-expanded] #left-sidebar {
     display: block;
+    animation: slideIn var(--duration) var(--ease-out);
   }
 
   [data-nav-expanded] #nav-overlay {
     display: block;
+    opacity: 1;
   }
 
   [data-nav-expanded] {
     overflow: hidden;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (min-width: 50rem) {

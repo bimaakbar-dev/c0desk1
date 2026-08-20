@@ -1,4 +1,6 @@
 ---
+// src/components/docs/DocsNavbar.astro
+
 import { NAV } from "@/config/navs";
 import Select from "@ui/Select.astro";
 
@@ -20,7 +22,7 @@ const activeNavItem = navItems.find((item) => {
 ---
 
 <header>
-  <div class="flex flex-col gap-3 px-4">
+  <div class="flex flex-col lg:hidden gap-3 px-4">
     <Select
       id="docs-navigasi"
       size="md"

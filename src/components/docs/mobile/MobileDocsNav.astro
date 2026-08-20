@@ -1,0 +1,60 @@
+---
+// src/components/docs/mobile/MobileDocsNav.astro
+import Icon from "@ui/Icons.astro";
+import Button from "@ui/Button.astro";
+---
+
+<div class="flex md:hidden gap-1">
+  <nav-toggle>
+    <Button
+      variant="icon"
+      size="md"
+      aria-expanded="false"
+      aria-controls="left-sidebar"
+      aria-label="Buka Menu"
+    >
+      <Icon name="menu" class="open-menu size-5" />
+      <Icon name="close" class="close-menu size-5" />
+    </Button>
+  </nav-toggle>
+</div>
+
+<script>
+  class NavToggle extends HTMLElement {
+    btn = this.querySelector('button')!;
+
+    constructor() {
+      super();
+      this.btn.addEventListener('click', () => this.toggleExpanded());
+      matchMedia('(min-width: 64rem)').addEventListener('change', () => this.setExpanded(false));
+    }
+
+    setExpanded(expanded: boolean) {
+      this.btn.setAttribute('aria-expanded', String(expanded));
+      this.btn.setAttribute('aria-label', expanded ? 'Close Menu' : 'Open Menu');
+      document.body.toggleAttribute('data-nav-expanded', expanded);
+    }
+
+    toggleExpanded() {
+      this.setExpanded(this.btn.getAttribute('aria-expanded') !== 'true');
+    }
+  }
+
+  if (!customElements.get('nav-toggle')) {
+    customElements.define('nav-toggle', NavToggle);
+  }
+</script>
+
+<style>
+  :global(nav-toggle button .close-menu) {
+    display: none;
+  }
+
+  :global(nav-toggle button[aria-expanded='true'] .open-menu) {
+    display: none;
+  }
+
+  :global(nav-toggle button[aria-expanded='true'] .close-menu) {
+    display: block;
+  }
+</style>

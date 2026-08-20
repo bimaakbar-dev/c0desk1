@@ -1,20 +1,21 @@
 ---
 // src/components/Header.astro
 import Container from "./ui/Container.astro";
-import Mobile from "./MobileNav.astro";
 import Theme from "./Theme.astro";
 import Logo from "./ui/Logo.astro";
 import SearchBar from "./ui/SearchBar.astro";
 import NavLink from "./NavLink.astro";
+import Mobile from "./MobileNav.astro";
 
 const styles = {
   header: [
-    "sticky top-0 z-50 w-full h-full pt-(--safe-top)",
-    "bg-none border-b lg:border-b-none border-(--border-subtle)",
-    "transition-opacity duration-(--duration-fast) ease-(--ease-out)"
+    "sticky top-0 z-50 w-full pt-(--safe-top)",
+    "h-[var(--header-height,4rem)]",
+    "bg-transparent border-b border-transparent",
+    "transition-all duration-(--duration) ease-(--ease-out)"
   ].join(" "),
   wrapper: [
-    "grid grid-cols-[1fr_auto] items-center h-(--header-height) mx-auto",
+    "grid grid-cols-[1fr_auto] items-center h-full mx-auto",
     "gap-4"
   ].join(" "),
 
@@ -24,23 +25,29 @@ const styles = {
 ---
 
 <header id="main-header" class={styles.header}>
-  <Container size="full">
+  <Container size="full" class="h-full">
     <div class={styles.wrapper}>
       <div class={styles.left}>
         <Logo />
         <NavLink />
       </div>
+
       <div class={styles.right}>
+        <div class="hidden md:flex">
+          <SearchBar class="min-w-56" />
+        </div>
         <div class="flex md:hidden">
           <SearchBar iconOnly />
         </div>
         <div class="hidden md:flex">
-          <SearchBar class="min-w-56" />
-        </div>
-        <div class="hidden md:flex">
           <Theme />
         </div>
-        <Mobile />
+        {Astro.slots.has('default') ? (
+          <slot />
+        ) : (
+          <Mobile />
+        )}
+        
       </div>
     </div>
   </Container>
@@ -53,11 +60,14 @@ const styles = {
 
     const toggleHeader = () => {
       const isScrolled = window.scrollY > 10;
-      header.classList.toggle("bg-(--bg)", isScrolled);
-      header.classList.toggle("lg:border-(--border-subtle)", isScrolled);
+      header.classList.toggle("bg-(--bg-overlay)", isScrolled);
+      header.classList.toggle("backdrop-blur-md", isScrolled);
+      header.classList.toggle("border-(--border)", isScrolled);
       header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
-      header.classList.toggle("bg-none", !isScrolled);
-      header.classList.toggle("lg:border-none", !isScrolled);
+      
+      header.classList.toggle("bg-transparent", !isScrolled);
+      header.classList.toggle("backdrop-blur-none", !isScrolled);
+      header.classList.toggle("border-transparent", !isScrolled);
     };
 
     window.addEventListener("scroll", toggleHeader, { passive: true });
