@@ -30,7 +30,6 @@ import DocsHeader from "@docs/DocsHeader.astro";
 import DocsFooter from "@docs/DocsFooter.astro";
 import Toc from "@components/TableOfContent.astro";
 import ScrollToTop from "@docs/ScrollToTop.astro";
-
 export async function getStaticPaths() {
   const docsEntries = await getCollection("docs", ({ data }) => !data.draft);
 
@@ -143,7 +142,7 @@ ${entry.body}`;
     <div class="mx-auto w-full min-w-0">
       <Section size="md">
         <article data-pagefind-body data-pagefind-filter="type:docs">
-          <Container size="lg">
+          <Container size="md">
             <DocsHeader
               title={entry.data.title}
               description={entry.data.description}
@@ -153,7 +152,7 @@ ${entry.body}`;
           
           <hr/>
           
-          <Container size="lg">
+          <Container size="md">
             <div class="prose">
               <Content components={components} />
             </div>
@@ -161,7 +160,7 @@ ${entry.body}`;
           
           <hr/>
           
-          <Container size="lg">
+          <Container size="md">
             <DocsFooter
               lastUpdated={entry.data.lastUpdated}
               prev={prevEntry}
