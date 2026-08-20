@@ -6,26 +6,6 @@
   --font-sans: var(--font-Geist);
   --font-mono: var(--font-GeistMono);
 
-  --color-gray-50:  oklch(0.985 0 0);
-  --color-gray-100: oklch(0.965 0 0);
-  --color-gray-200: oklch(0.930 0 0);
-  --color-gray-300: oklch(0.870 0 0);
-  --color-gray-400: oklch(0.760 0 0);
-  --color-gray-500: oklch(0.620 0 0);
-  --color-gray-600: oklch(0.500 0 0);
-  --color-gray-700: oklch(0.400 0 0);
-  --color-gray-800: oklch(0.290 0 0);
-  --color-gray-900: oklch(0.190 0 0);
-  --color-gray-950: oklch(0.110 0 0);
-
-  --color-chart-0: oklch(0.60 0.19 255);
-  --color-chart-1: oklch(0.65 0.17 145);
-  --color-chart-2: oklch(0.68 0.16 55);
-  --color-chart-3: oklch(0.60 0.20 25);
-  --color-chart-4: oklch(0.62 0.15 300);
-  --color-chart-5: oklch(0.68 0.12 195);
-
-
   --color-gold:      rgb(138, 106, 0);
   --color-gold-dark: rgb(201, 165, 58);
   --color-platinum:  rgb(228, 226, 220);
@@ -49,7 +29,7 @@
   --ease-out:    cubic-bezier(0, 0, 0.2, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 
-  --duration:      150ms;
+  --duration:       150ms;
   --duration-sm:   200ms;
   --duration-md:   250ms;
   --duration-lg:   300ms;
@@ -62,123 +42,139 @@
 }
 
 :root[data-theme='dark'] {
-  --bg:         rgb(10, 10, 10);
-  --bg-subtle:  rgb(16, 16, 16);
-  --bg-muted:   rgb(24, 24, 24);
-  --bg-elevated:rgb(31, 31, 31);
-  --bg-overlay: rgb(10, 10, 10 / 0.92);
+  /* --- BACKGROUND --- */
+  --bg:         rgb(9, 9, 11);       
+  --bg-subtle:  rgb(14, 14, 17);     
+  --bg-muted:   rgb(22, 22, 26);     
+  --bg-elevated:rgb(29, 29, 35);     
+  --bg-overlay: rgb(9, 9, 11 / 0.85);
 
-  --fg:         rgb(237, 237, 237);
-  --fg-strong:  rgb(255, 255, 255);
-  --fg-muted:   rgb(160, 160, 160);
-  --fg-subtle:  rgb(125, 125, 125);
-  --fg-dim:     rgb(77, 77, 77);
-  --fg-disabled:rgb(51, 51, 51);
-  --fg-inverted:rgb(10, 10, 10);
+  /* --- FOREGROUND / TEKS --- */
+  --fg:         rgb(240, 240, 242);  
+  --fg-strong:  rgb(255, 255, 255);  
+  --fg-muted:   rgb(156, 163, 175);  
+  --fg-subtle:  rgb(115, 115, 125);  
+  --fg-dim:     rgb(75, 85, 99);     
+  --fg-disabled:rgb(55, 65, 81);     
+  --fg-inverted:rgb(9, 9, 11);       
 
-  --border:        rgb(38, 38, 38);
-  --border-strong: rgb(58, 58, 58);
-  --border-subtle: rgb(22, 22, 22);
+  /* --- BORDER --- */
+  --border:        rgb(39, 39, 42);  
+  --border-strong: rgb(63, 63, 70);  
+  --border-subtle: rgb(24, 24, 27);  
 
+  /* --- SURFACE ALIAS --- */
   --surface:         var(--bg);
   --surface-subtle:  var(--bg-subtle);
   --surface-muted:   var(--bg-muted);
   --surface-elevated:var(--bg-elevated);
 
-  --accent:        rgb(232, 185, 58);
-  --accent-dim:    rgb(232 185 58 / 0.34);
-  --accent-soft:   rgb(232 185 58 / 0.12);
-  --accent-ring:   rgb(232 185 58 / 0.30);
-  --accent-border: rgb(232 185 58 / 0.44);
-  --accent-fg:     rgb(36, 25, 0);
+  /* --- ACCENT --- */
+  --accent:        rgb(245, 197, 66);  
+  --accent-dim:    rgb(245 197 66 / 0.30);
+  --accent-soft:   rgb(245 197 66 / 0.10);
+  --accent-ring:   rgb(245 197 66 / 0.25);
+  --accent-border: rgb(245 197 66 / 0.40);
+  --accent-fg:     rgb(30, 22, 0);     
 
-  --secondary:          rgb(228, 226, 220);
-  --secondary-subtle:   rgb(228 226 220 / 0.08);
-  --secondary-muted:    rgb(228 226 220 / 0.16);
-  --secondary-tertiary: rgb(228 226 220 / 0.26);
-  --secondary-border:   rgb(228 226 220 / 0.38);
-  --secondary-fg:       rgb(26, 24, 21);
+  /* --- SECONDARY --- */
+  --secondary:          rgb(235, 233, 228);  
+  --secondary-subtle:   rgb(235 233 228 / 0.06);
+  --secondary-muted:    rgb(235 233 228 / 0.12);
+  --secondary-tertiary: rgb(235 233 228 / 0.20);
+  --secondary-border:   rgb(235 233 228 / 0.30);
+  --secondary-fg:       rgb(20, 20, 22);
 
-  --success:      rgb(52, 224, 161);
-  --success-soft: rgb(52 224 161 / 0.14);
-  --success-fg:   rgb(5, 46, 28);
+  /* --- STATUS --- */
+  --success:      rgb(34, 197, 94);
+  --success-soft: rgb(34 197 94 / 0.12); 
+  --success-fg:   rgb(5, 46, 28);        
 
-  --error:        rgb(255, 123, 134);
-  --error-soft:   rgb(255 123 134 / 0.14);
-  --error-fg:     rgb(43, 5, 9);
+  --error:        rgb(239, 68, 68);
+  --error-soft:   rgb(239 68 68 / 0.12);  
+  --error-fg:     rgb(69, 10, 10);        
 
-  --warning:      rgb(255, 171, 92);
-  --warning-soft: rgb(255 171 92 / 0.14);
-  --warning-fg:   rgb(43, 21, 0);
+  --warning:      rgb(249, 115, 22);
+  --warning-soft: rgb(249 115 22 / 0.12); 
+  --warning-fg:   rgb(67, 20, 7);         
 
-  --info:         rgb(42, 220, 245);
-  --info-soft:    rgb(42 220 245 / 0.14);
-  --info-fg:      rgb(4, 37, 43);
+  --info:         rgb(6, 182, 212);
+  --info-soft:    rgb(6 182 212 / 0.14);  
+  --info-fg:      rgb(8, 51, 60);         
 
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.80);
-  --shadow-md: 0 6px 16px rgb(0 0 0 / 0.60), 0 0 20px rgb(232 185 58 / 0.05);
-  --shadow-lg: 0 14px 28px rgb(0 0 0 / 0.68), 0 0 32px rgb(232 185 58 / 0.07);
-  --shadow-xl: 0 22px 40px rgb(0 0 0 / 0.76), 0 0 44px rgb(232 185 58 / 0.09);
+  /* --- SHADOWS --- */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.60);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.55);
+  --shadow-xl: 0 20px 38px rgb(0 0 0 / 0.65);
 }
 
 [data-theme='light'] {
-  --bg:         rgb(255, 255, 255);
-  --bg-subtle:  rgb(250, 250, 250);
-  --bg-muted:   rgb(240, 240, 240);
-  --bg-elevated:rgb(255, 255, 255);
-  --bg-overlay: rgb(255 255 255 / 0.94);
+  /* --- BACKGROUND --- */
+  --bg:         rgb(255, 255, 255);  
+  --bg-subtle:  rgb(248, 249, 250);  
+  --bg-muted:   rgb(241, 243, 245);  
+  --bg-elevated:rgb(255, 255, 255);  
+  --bg-overlay: rgb(255 255 255 / 0.90);
 
-  --fg:         rgb(17, 17, 17);
-  --fg-strong:  rgb(0, 0, 0);
-  --fg-muted:   rgb(82, 82, 82);
-  --fg-subtle:  rgb(107, 107, 107);
-  --fg-dim:     rgb(158, 158, 158);
-  --fg-disabled:rgb(199, 199, 199);
-  --fg-inverted:rgb(255, 255, 255);
+  /* --- FOREGROUND / TEKS --- */
+  --fg:         rgb(39, 39, 42);     
+  --fg-strong:  rgb(9, 9, 11);       
+  --fg-muted:   rgb(113, 113, 122);  
+  --fg-subtle:  rgb(161, 161, 170);  
+  --fg-dim:     rgb(212, 212, 216);  
+  --fg-disabled:rgb(228, 228, 231);  
+  --fg-inverted:rgb(255, 255, 255);  
 
-  --border:        rgb(229, 229, 229);
-  --border-strong: rgb(208, 208, 208);
-  --border-subtle: rgb(239, 239, 239);
+  /* --- BORDER --- */
+  --border:        rgb(228, 228, 231);  
+  --border-strong: rgb(161, 161, 170);  
+  --border-subtle: rgb(244, 244, 245);  
 
+  /* --- SURFACE ALIAS --- */
   --surface:         var(--bg);
   --surface-subtle:  var(--bg-subtle);
   --surface-muted:   var(--bg-muted);
   --surface-elevated:var(--bg-elevated);
 
-  --accent:        rgb(107, 112, 117);
-  --accent-dim:    rgb(107 112 117 / 0.22);
-  --accent-soft:   rgb(107 112 117 / 0.09);
-  --accent-ring:   rgb(107 112 117 / 0.28);
-  --accent-border: rgb(107 112 117 / 0.40);
+  /* --- ACCENT --- */
+  --accent:        rgb(63, 63, 70);    
+  --accent-dim:    rgb(63 63 70 / 0.18);
+  --accent-soft:   rgb(63 63 70 / 0.08); 
+  --accent-ring:   rgb(63 63 70 / 0.22);
+  --accent-border: rgb(63 63 70 / 0.35);
   --accent-fg:     rgb(255, 255, 255);
 
-  --secondary:          rgb(138, 106, 0);
-  --secondary-subtle:   rgb(138 106 0 / 0.06);
-  --secondary-muted:    rgb(138 106 0 / 0.12);
-  --secondary-tertiary: rgb(138 106 0 / 0.20);
-  --secondary-border:   rgb(138 106 0 / 0.32);
+  /* --- SECONDARY --- */
+  --secondary:          rgb(161, 118, 0);    
+  --secondary-subtle:   rgb(161 118 0 / 0.05);
+  --secondary-muted:    rgb(161 118 0 / 0.10);
+  --secondary-tertiary: rgb(161 118 0 / 0.18);
+  --secondary-border:   rgb(161 118 0 / 0.28);
   --secondary-fg:       rgb(255, 255, 255);
 
-  --success:      rgb(15, 122, 75);
-  --success-soft: rgb(15 122 75 / 0.11);
+  /* --- STATUS --- */
+  --success:      rgb(16, 150, 88);
+  --success-soft: rgb(16 150 88 / 0.10);
   --success-fg:   rgb(255, 255, 255);
 
-  --error:        rgb(194, 42, 53);
-  --error-soft:   rgb(194 42 53 / 0.11);
+  --error:        rgb(225, 29, 72);
+  --error-soft:   rgb(225 29 72 / 0.10);
   --error-fg:     rgb(255, 255, 255);
 
-  --warning:      rgb(184, 68, 10);
-  --warning-soft: rgb(184 68 10 / 0.11);
+  --warning:      rgb(217, 119, 6);
+  --warning-soft: rgb(217 119 6 / 0.10);
   --warning-fg:   rgb(255, 255, 255);
 
-  --info:         rgb(12, 110, 145);
-  --info-soft:    rgb(12 110 145 / 0.11);
+  --info:         rgb(8, 145, 178);
+  --info-soft:    rgb(8 145 178 / 0.10);
   --info-fg:      rgb(255, 255, 255);
 
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
-  --shadow-md: 0 4px 10px rgb(0 0 0 / 0.08), 0 1px 3px rgb(0 0 0 / 0.05);
-  --shadow-lg: 0 12px 20px rgb(0 0 0 / 0.09), 0 3px 6px rgb(0 0 0 / 0.05);
-  --shadow-xl: 0 22px 32px rgb(0 0 0 / 0.11), 0 6px 10px rgb(0 0 0 / 0.06);
+  /* --- SHADOWS --- */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 10px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 20px rgb(0 0 0 / 0.07), 0 2px 4px rgb(0 0 0 / 0.03);
+  --shadow-xl: 0 20px 32px rgb(0 0 0 / 0.09), 0 4px 8px rgb(0 0 0 / 0.04);
 }
 
 
@@ -352,7 +348,7 @@
   }
 
   hr {
-    margin: 1.5rem 0;
+    margin-block: 1.5rem;
     border: none;
     height: 12px;
     position: relative;
