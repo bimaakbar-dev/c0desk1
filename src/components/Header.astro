@@ -59,13 +59,13 @@ const styles = {
 
     const toggleHeader = () => {
       const isScrolled = window.scrollY > 10;
-      header.classList.toggle("bg-(--bg)", isScrolled);
-
+      header.classList.toggle("bg-(--bg-overlay)", isScrolled);
+      header.classList.toggle("backdrop-blur-md", isScrolled);
       header.classList.toggle("border-(--border)", isScrolled);
       header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
       
       header.classList.toggle("bg-transparent", !isScrolled);
-
+      header.classList.toggle("backdrop-blur-none", !isScrolled);
       header.classList.toggle("border-transparent", !isScrolled);
     };
 

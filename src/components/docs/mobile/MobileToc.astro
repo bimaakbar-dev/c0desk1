@@ -296,7 +296,10 @@ const openLabel = title || "On this page";
     cursor: pointer;
     list-style: none;
     user-select: none;
-    background-color: var(--bg);
+    /* Menggunakan token bg-overlay global untuk efek kaca yang konsisten */
+    background-color: var(--bg-overlay);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   .mobile-toc-summary::-webkit-details-marker {
@@ -308,8 +311,9 @@ const openLabel = title || "On this page";
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
+    aspect-ratio: 1/1;
     color: var(--fg-muted);
   }
 
@@ -383,9 +387,10 @@ const openLabel = title || "On this page";
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1em;
-    height: 1em;
-    flex-shrink: 0
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
     color: var(--fg-muted);
     transition: transform var(--duration) var(--ease-out);
   }
@@ -403,7 +408,10 @@ const openLabel = title || "On this page";
     max-height: 60vh;
     width: 100%;
     padding: 0.5rem 0.5rem 1rem;
-    background-color: var(--bg);
+    /* Menggunakan token bg-overlay global */
+    background-color: var(--bg-overlay);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     transform-origin: top;
