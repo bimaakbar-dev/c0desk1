@@ -1,20 +1,20 @@
 /* src/styles/prose/components/tabs.css */
 
 .prose .tabs {
-  width: 100%;
   margin: 2.5rem 0;
+  width: 100%;
 }
 
 .prose .tabs-list {
   display: flex;
   align-items: stretch;
   gap: 0.25rem;
-  width: 100%;
-  overflow-x: auto;
-  padding: 0.25rem;
-  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  background: var(--bg);
+  padding: 0.25rem;
+  width: 100%;
+  overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -24,23 +24,23 @@
 }
 
 .prose .tabs .tab-button {
-    @apply text-button-14;
-    position: relative;
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    padding: 0.375rem 0.875rem;
-    border: 0;
-    border-radius: var(--radius-sm);
-    background: transparent;
-    color: var(--fg-muted);
-    font-weight: 500;
-    white-space: nowrap;
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.15s ease;
+  @apply text-button-14;
+  display: inline-flex;
+  position: relative;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.15s ease;
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 0.375rem 0.875rem;
+  min-height: 2rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 @media (hover: none) {
@@ -56,9 +56,9 @@
 }
 
 .prose .tabs .tab-button[aria-selected="true"] {
-  color: var(--fg-inverted);
-  background: var(--fg-strong);
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
+  background: var(--fg-strong);
+  color: var(--fg-inverted);
 }
 
 .prose .tabs .tab-button:focus-visible {
@@ -72,8 +72,8 @@
 }
 
 .prose .tabs .tab-panel {
-  width: 100%;
   padding-top: 1rem;
+  width: 100%;
 }
 
 .prose .tabs .tab-panel[hidden] {
@@ -107,8 +107,8 @@
 
   .prose .tabs .tab-button {
     @apply text-button-14;
-    min-height: 1.875rem;
     padding: 0.3125rem 0.75rem;
+    min-height: 1.875rem;
   }
 
   .prose .tabs .tab-panel {

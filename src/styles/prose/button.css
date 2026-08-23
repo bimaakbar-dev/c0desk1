@@ -1,37 +1,37 @@
 /* src/styles/prose/button.css */
 
 .prose .button {
-    @apply text-button-16;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding-inline: 0.5rem;
-    padding-block: 0.25rem;
-    background: var(--fg-strong);
-    color: var(--fg-inverted) !important;
-    font-weight: 500 !important;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-full);
-    text-decoration: none !important;
-    vertical-align: middle; 
-    white-space: nowrap;
-    cursor: pointer;
+  @apply text-button-16;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: 0.25rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--fg-strong);
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+  color: var(--fg-inverted) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  white-space: nowrap;
 }
 
 .prose .button.inline-link.is-external::after {
-    display: none;
+  display: none;
 }
 
 .prose .button .button-icon {
-    --icon-size: 1em;
-    display: inline-block;
-    font-size: inherit;
-    width: var(--icon-size);
-    height: var(--icon-size);
-    flex-shrink: 0;
-    background-color: currentColor;
-    -webkit-mask: center / contain no-repeat;
-    mask: center / contain no-repeat;
+  --icon-size: 1em;
+  display: inline-block;
+  flex-shrink: 0;
+  -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
+  background-color: currentColor;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  font-size: inherit;
 }
 
 @media (hover: hover) {

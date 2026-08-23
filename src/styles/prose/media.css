@@ -25,17 +25,17 @@
 .prose picture,
 .prose video,
 .prose .video-wrapper {
-  background-color: var(--bg-subtle);
   border-radius: var(--radius-lg);
+  background-color: var(--bg-subtle);
   overflow: hidden;
 }
 .prose figcaption {
   @apply text-caption-13;
+  vertical-align: middle;
+  margin-top: 0.5rem;
   color: var(--fg-muted);
   text-align: center;
   text-wrap: pretty;
-  vertical-align: middle;
-  margin-top: 0.5rem;
 }
 
 @media (min-width: 50rem) {

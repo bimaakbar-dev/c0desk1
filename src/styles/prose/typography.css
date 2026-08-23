@@ -5,54 +5,54 @@
 }
 
 .prose :where(h1, h2, h3, h4, h5, h6) {
-  text-wrap: balance;
   position: relative;
+  text-wrap: balance;
 }
 
 .prose h1 {
   @apply text-heading-32;
-  margin-bottom: 1.5rem;
   margin-top: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--fg-strong);
   font-weight: 700;
 }
 
 .prose h2 {
   @apply text-heading-24;
-  margin-bottom: 1.5rem;
   margin-top: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--fg-strong);
   font-weight: 600;
 }
 
 .prose h3 {
   @apply text-heading-20;
-  margin-bottom: 1.5rem;
   margin-top: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--fg-strong);
   font-weight: 500;
 }
 
 .prose h4 {
   @apply text-heading-18;
-  margin-bottom: 1rem;
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--fg-strong);
   font-weight: 500;
 }
 
 .prose h5 {
   @apply text-heading-16;
-  margin-bottom: 1rem;
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--fg-muted);
   font-weight: 500;
 }
 
 .prose h6 {
   @apply text-heading-14;
-  margin-bottom: 1rem;
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--fg-subtle);
   font-weight: 500;
 }
@@ -62,38 +62,39 @@
 }
 
 .prose :where(h2, h3) {
-  scroll-margin-top: calc(var(--header-height) + var(--scroll-padding)) !important;
+  scroll-margin-top: calc(
+    var(--header-height) + var(--scroll-padding)
+  ) !important;
 }
 
 .prose .heading-anchor {
   --icon-size: 1em;
-  
+
   display: inline-block;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  font-size: inherit;
-  
-  margin-inline-start: 0.25rem;
   vertical-align: -0.125em;
-  
-  color: var(--fg-subtle) !important;
   opacity: 0;
-  white-space: nowrap;
-  text-decoration: none;
   transition:
     opacity var(--duration) var(--ease-out),
     color var(--duration) var(--ease-out);
+
+  margin-inline-start: 0.25rem;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  color: var(--fg-subtle) !important;
+  font-size: inherit;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .prose .heading-anchor::after {
-  content: "";
   display: block;
-  width: 100%;
-  height: 100%;
-  background-color: currentColor;
   mask: var(--ic-link) center / contain no-repeat;
   -webkit-mask: var(--ic-link) center / contain no-repeat;
-  
+  background-color: currentColor;
+  width: 100%;
+  height: 100%;
+  content: "";
 }
 
 .prose .heading-anchor:focus-visible {
@@ -132,9 +133,9 @@
   .prose :where(h1, h2, h3, h4, h5, h6):hover > .heading-anchor {
     opacity: 1;
   }
-  
+
   .prose .heading-anchor:hover {
-    color: var(--fg-strong) !important
+    color: var(--fg-strong) !important;
   }
 }
 
@@ -142,9 +143,9 @@
   .prose :where(h1, h2, h3, h4, h5, h6):hover > .heading-anchor {
     opacity: 1;
   }
-  
+
   .prose .heading-anchor:hover {
-    color: var(--fg-strong) !important
+    color: var(--fg-strong) !important;
   }
 }
 

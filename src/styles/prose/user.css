@@ -2,31 +2,31 @@
 
 .prose .user,
 .prose .user-link {
-    @apply text-body-16;
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-    gap: 0.25rem;
-    padding: 0;
-    margin: 0;
-    color: inherit;
-    white-space: nowrap;
+  @apply text-body-16;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  white-space: nowrap;
 }
 
 .prose .user-link {
-    font-weight: 500 !important;
-    color: var(--fg) !important;
+  color: var(--fg) !important;
+  font-weight: 500 !important;
 }
 
 .prose .user .user-role,
 .prose .user-link .user-role {
-    color: var(--fg-muted) !important;
+  color: var(--fg-muted) !important;
 }
 
 .prose .user-link.inline-link.is-external::after,
 .prose .user-link::after {
-    display: none !important;
-    content: none !important;
+  display: none !important;
+  content: none !important;
 }
 
 .prose .user > .user-avatar > img,
@@ -36,50 +36,50 @@
 
 .prose .user .user-avatar-placeholder,
 .prose .user-link .user-avatar-placeholder {
-    position: relative;
+  position: relative;
 }
 .prose .user .user-avatar-placeholder::before,
 .prose .user-link .user-avatar-placeholder::before {
-  content: "";
   position: absolute;
+  mask-image: var(--ic-user);
+  -webkit-mask-image: var(--ic-user);
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
   inset: 0.125rem;
   background-color: var(--fg-muted);
-  mask-image: var(--ic-user);
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-image: var(--ic-user);
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
+  content: "";
 }
 
 .prose .user .user-avatar-placeholder,
 .prose .user .user-avatar,
 .prose .user-link .user-avatar-placeholder,
 .prose .user-link .user-avatar {
-    display: block;
-    width: 1.5rem;
-    height: 1.5rem;
-    overflow: hidden;
-    object-fit: cover;
-    flex-shrink: 0;
-    margin: 0;
-    border: 1px solid var(--border);
-    background-color: var(--bg-subtle);
-    border-radius: var(--radius-full);
-    user-select: none;
-    aspect-ratio: 1/1;
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  aspect-ratio: 1/1;
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: hidden;
+  object-fit: cover;
+  user-select: none;
 }
 
 @media (hover: none) {
-    .prose .user-link:hover {
-        color: var(--accent) !important;
-    }
+  .prose .user-link:hover {
+    color: var(--accent) !important;
+  }
 }
 
 @media (hover: hover) {
-    .prose .user-link:hover {
-        color: var(--accent) !important;
-    }
+  .prose .user-link:hover {
+    color: var(--accent) !important;
+  }
 }

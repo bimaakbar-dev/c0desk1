@@ -205,8 +205,6 @@
   --text-numeric-14-weight: 500;
 }
 
-
-
 /* =========================================================
  * Display
  * ========================================================= */
@@ -238,7 +236,6 @@
   line-height: var(--text-display-64-line-height);
   letter-spacing: var(--text-display-64-letter-spacing);
 }
-
 
 /* =========================================================
  * Heading
@@ -298,7 +295,6 @@
   letter-spacing: var(--text-heading-14-letter-spacing);
 }
 
-
 /* =========================================================
  * Body / Copy
  * ========================================================= */
@@ -337,7 +333,6 @@
   line-height: var(--text-body-13-line-height);
   letter-spacing: var(--text-body-13-letter-spacing);
 }
-
 
 /* =========================================================
  * Label
@@ -378,7 +373,6 @@
   letter-spacing: var(--text-label-11-letter-spacing);
 }
 
-
 /* =========================================================
  * Overline
  * ========================================================= */
@@ -414,7 +408,6 @@
   letter-spacing: var(--text-overline-10-letter-spacing);
   text-transform: uppercase;
 }
-
 
 /* =========================================================
  * Caption
@@ -454,7 +447,6 @@
   line-height: var(--text-caption-11-line-height);
   letter-spacing: var(--text-caption-11-letter-spacing);
 }
-
 
 /* =========================================================
  * Code / Mono
@@ -514,7 +506,6 @@
   letter-spacing: 0;
 }
 
-
 /* =========================================================
  * Button
  * ========================================================= */
@@ -539,7 +530,6 @@
   line-height: var(--text-button-13-line-height);
   letter-spacing: var(--text-button-13-letter-spacing);
 }
-
 
 /* =========================================================
  * Numeric

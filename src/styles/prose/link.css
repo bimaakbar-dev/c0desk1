@@ -24,17 +24,17 @@
 
 .prose .inline-link.is-external::after {
   --icon-size: 1em;
-
-  content: "";
   display: inline-block;
-  font-size: inherit;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  margin-inline-start: 0.125rem;
   vertical-align: middle;
-  background-color: var(--fg-subtle);
   mask: var(--ic-external) center / contain no-repeat;
   -webkit-mask: var(--ic-external) center / contain no-repeat;
+  margin-inline-start: 0.125rem;
+  background-color: var(--fg-subtle);
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  content: "";
+  font-size: inherit;
 }
 
 @media (hover: none) {

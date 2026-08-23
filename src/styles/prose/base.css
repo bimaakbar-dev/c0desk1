@@ -2,15 +2,15 @@
 
 .prose {
   @apply text-body-16;
-  color: var(--fg);
   max-width: initial;
-
-  text-rendering: optimizeLegibility;
   hanging-punctuation: first last;
+  color: var(--fg);
   font-feature-settings:
     "ss01" on,
     "ss02" on,
     "kern" on;
+
+  text-rendering: optimizeLegibility;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

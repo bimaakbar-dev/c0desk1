@@ -1,13 +1,11 @@
-import { 
-  ROUTES, 
-} from "../site";
-import { 
-    DOCS_PAGE, 
-    BLOG_PAGE,
-    ARCHIVE_PAGE,
-    CONTACT_PAGE,
-    ABOUT_PAGE
+import {
+  ABOUT_PAGE,
+  ARCHIVE_PAGE,
+  BLOG_PAGE,
+  CONTACT_PAGE,
+  DOCS_PAGE,
 } from "../pages";
+import { ROUTES } from "../site";
 
 type NavItem = {
   label: string;
@@ -41,15 +39,13 @@ export const NAV = {
   footerBar: [
     {
       title: "Learn",
-      items: [
-        { label: DOCS_PAGE.title, href: ROUTES.docs },
-      ],
+      items: [{ label: DOCS_PAGE.title, href: ROUTES.docs }],
     },
     {
       title: "Explore",
       items: [
         { label: BLOG_PAGE.title, href: ROUTES.blog },
-        { label: ARCHIVE_PAGE.title, href: ROUTES.archive }
+        { label: ARCHIVE_PAGE.title, href: ROUTES.archive },
       ],
     },
     {
@@ -74,6 +70,10 @@ export const NAV = {
     },
   ] as FooterNav[],
   Social: [
-    { label: "Twitter", href: "https://twitter.com/your-username", icon: "twitter" },
+    {
+      label: "Twitter",
+      href: "https://twitter.com/your-username",
+      icon: "twitter",
+    },
   ] as Socials[],
 } as const;

@@ -1,32 +1,32 @@
 /* src/styles/prose/badge.css */
 
 .prose .badge {
-  @apply text-label-14;  
+  @apply text-label-14;
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem; 
-  padding-inline: 0.5rem;  
+  vertical-align: baseline;
+  gap: 0.25rem;
   border: 1px solid transparent;
-  border-radius: var(--radius-full);     
+  border-radius: var(--radius-full);
   background-color: var(--bg-muted);
+  padding-inline: 0.5rem;
   color: var(--fg);
   white-space: nowrap;
-  vertical-align: baseline;
 }
 .prose .badge .badge-icon {
   --icon-size: 1em;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  font-size: inherit;  
-  flex-shrink: 0;  
-  background-color: currentColor;
+  flex-shrink: 0;
   mask: center / contain no-repeat;
   -webkit-mask: center / contain no-repeat;
+  background-color: currentColor;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  font-size: inherit;
 }
 
 .prose .badge-default {
-  background-color: var(--bg-subtle);
   border-color: var(--border);
+  background-color: var(--bg-subtle);
   color: var(--fg);
 }
 .prose .badge-new {
@@ -50,9 +50,9 @@
   color: white;
 }
 .prose .badge-outline {
+  border-color: var(--border);
   background-color: transparent;
   color: var(--fg-strong);
-  border-color: var(--border);
 }
 .prose .badge-ghost {
   background-color: transparent;

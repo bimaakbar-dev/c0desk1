@@ -1,15 +1,15 @@
 /* src/styles/prose/components/table.css */
 
 .prose .table-wrapper {
-  position: relative;
   display: block;
+  position: relative;
+  margin: 2.5rem 0;
   width: 100%;
   max-width: 100%;
-  margin: 2.5rem 0;
   overflow-x: auto;
+  scrollbar-color: var(--border-subtle) transparent;
 
   scrollbar-width: thin;
-  scrollbar-color: var(--border-subtle) transparent;
 
   -webkit-overflow-scrolling: touch;
 }
@@ -19,17 +19,17 @@
 }
 
 .prose .table-wrapper::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
   border-radius: var(--radius-full);
+  background: var(--border-subtle);
 }
 
 .prose .table-wrapper > table {
   display: table;
+  border-collapse: separate;
+  border-spacing: 0;
   width: 100%;
   min-width: max-content;
   table-layout: auto;
-  border-spacing: 0;
-  border-collapse: separate;
 }
 
 .prose thead {
@@ -37,9 +37,9 @@
 }
 
 .prose thead th {
-  white-space: nowrap;
-  background: var(--bg-subtle);
   border-block: 1px solid var(--border);
+  background: var(--bg-subtle);
+  white-space: nowrap;
 }
 
 .prose thead tr:first-child th:first-child {
@@ -57,8 +57,8 @@
 .prose th,
 .prose td {
   @apply text-numeric-14;
-  padding: 0.625rem 1rem;
   vertical-align: baseline;
+  padding: 0.625rem 1rem;
 }
 
 .prose th {
@@ -71,8 +71,8 @@
 }
 
 .prose tbody td {
-  color: var(--fg);
   background: none;
+  color: var(--fg);
 }
 
 .prose tbody tr:not(:first-child) td {
@@ -80,8 +80,8 @@
 }
 
 .prose td {
-  overflow-wrap: anywhere;
   word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .prose td a,
@@ -100,8 +100,8 @@
 }
 
 .prose tbody tr:active td {
-    background: var(--bg-muted);
-  }
+  background: var(--bg-muted);
+}
 
 @media (hover: hover) {
   .prose tbody tr:hover td {

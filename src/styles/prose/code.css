@@ -3,11 +3,11 @@
 /* --- Inline code --- */
 .prose :not(pre) > code {
   @apply text-code-14;
-  color: var(--fg-strong);
-  background-color: var(--bg-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
+  background-color: var(--bg-muted);
   padding: 0.15em 0.4em;
+  color: var(--fg-strong);
   white-space: break-spaces;
 }
 
@@ -17,13 +17,13 @@
 .prose h4 code,
 .prose h5 code,
 .prose h6 code {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
+  padding-inline: 0.3em;
   color: inherit !important;
   font-size: inherit !important;
   font-family: var(--font-mono) !important;
-  padding-inline: 0.3em;
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
 }
 
 .prose a code {
@@ -43,17 +43,17 @@
 /* --- Langs --- */
 .prose .code-block .astro-code::before {
   @apply text-mono-label-13;
-  content: attr(data-language);
+  display: none;
   position: absolute;
   top: 0.625rem;
   left: 1.5rem;
-  text-transform: uppercase;
-  color: var(--fg-subtle);
-  display: none;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--duration) var(--ease-out);
   z-index: 1;
+  transition: opacity var(--duration) var(--ease-out);
+  pointer-events: none;
+  content: attr(data-language);
+  color: var(--fg-subtle);
+  text-transform: uppercase;
 }
 
 /* 1. Mobile / Touchscreen */
@@ -73,7 +73,7 @@
   .prose .copy-button[data-copied] {
     opacity: 1;
   }
-  
+
   .prose .code-block:hover .astro-code::before {
     opacity: 0.55;
   }
@@ -81,30 +81,32 @@
 
 /* --- Copy button --- */
 .prose .copy-button {
+  display: flex;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
   flex-shrink: 0;
-  padding: 0;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  z-index: 10;
+  transition:
+    opacity var(--duration) var(--ease-out),
+    transform 100ms var(--ease-out);
+  cursor: pointer;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg);
-  border: 1px solid var(--border);
+  padding: 0;
+  width: 1.75rem;
+  height: 1.75rem;
   color: var(--fg-subtle);
-  cursor: pointer;
-  opacity: 0; 
-  transition: opacity var(--duration) var(--ease-out), transform 100ms var(--ease-out);
 }
 
 .prose .copy-button:hover {
+  border-color: var(--border-strong);
   background: var(--bg-muted);
   color: var(--fg-strong);
-  border-color: var(--border-strong);
 }
 
 .prose .copy-button:active {
@@ -118,15 +120,15 @@
 
 .prose .copy-icon {
   display: block;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  background-color: currentColor;
   width: 1rem;
   height: 1rem;
-  background-color: currentColor;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
 }
 
 .prose .copy-icon.icon-copy {
@@ -141,9 +143,9 @@
 }
 
 .prose .copy-button[data-copied] {
-  color: var(--success);
   border-color: rgb(from var(--success) r g b / 40%);
   background: var(--success-soft);
+  color: var(--success);
 }
 
 .prose .copy-button[data-copied] .icon-copy {
@@ -157,24 +159,24 @@
 /* --- Astro Code / Shiki Layout --- */
 .prose .astro-code {
   @apply text-code-14;
+  transition: scrollbar-color var(--duration) var(--ease-out);
   margin-block: 1.5rem !important;
-  padding-block: 0.75rem !important;
-  background-color: var(--bg-subtle) !important;
-  border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle) !important;
+  padding-block: 0.75rem !important;
   overflow-x: auto;
   overflow-y: hidden;
-  tab-size: 2;
-  
-  scrollbar-width: thin;
   scrollbar-color: transparent transparent;
-  transition: scrollbar-color var(--duration) var(--ease-out);
+
+  scrollbar-width: thin;
+  tab-size: 2;
 }
 
 .prose .code-block .astro-code {
+  margin: 0 !important;
   border: none !important;
   border-radius: 0 !important;
-  margin: 0 !important;
 }
 
 .prose .astro-code:hover {
@@ -183,21 +185,21 @@
 
 .prose .astro-code code {
   display: block;
-  width: fit-content; 
-  min-width: 100%;
   background: transparent !important;
+  width: fit-content;
+  min-width: 100%;
   line-height: inherit;
   font-family: inherit;
 }
 
 .prose .astro-code .line {
   display: inline-block;
-  width: 100%;
   box-sizing: border-box;
+  padding-inline-start: 1.125rem !important;
+  padding-inline-end: 2.65rem !important;
+  width: 100%;
   line-height: inherit;
   white-space: pre;
-  padding-inline-end: 2.65rem !important;
-  padding-inline-start: 1.125rem !important;
 }
 
 /* --- Diff & Highlighting --- */
@@ -209,31 +211,31 @@
 .prose .astro-code .line.diff.add::before,
 .prose .astro-code .line.diff.remove::before {
   --icon-size: 1em;
-
-  content: "";
   position: absolute;
-  left: 0.125rem;
   top: 50%;
-  transform: translateY(-50%);
-  width: var(--icon-size);
-  height: var(--icon-size);
-  font-size: inherit;
+  left: 0.125rem;
   flex-shrink: 0;
-  aspect-ratio: 1/1;
+  transform: translateY(-50%);
   mask: center / contain no-repeat;
   -webkit-mask: center / contain no-repeat;
+  aspect-ratio: 1/1;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  content: "";
+  font-size: inherit;
 }
 
 .prose .astro-code .line.diff.add::before {
-  background-color: var(--success);
   -webkit-mask: var(--ic-plus);
   mask: var(--ic-plus);
+  background-color: var(--success);
 }
 
 .prose .astro-code .line.diff.remove::before {
-  background-color: var(--error);
   -webkit-mask: var(--ic-minus);
   mask: var(--ic-minus);
+  background-color: var(--error);
 }
 
 .prose .astro-code .line.diff.add {
@@ -245,8 +247,8 @@
 }
 
 .prose .astro-code .line.highlighted {
-  background-color: var(--accent-soft) !important;
   border-left: 2px solid var(--accent);
+  background-color: var(--accent-soft) !important;
   padding-inline-start: calc(1.125rem - 2px) !important;
 }
 
@@ -259,11 +261,11 @@
 }
 
 /* --- Dark Theme --- */
-[data-theme='dark'] .astro-code {
+[data-theme="dark"] .astro-code {
   background-color: rgb(from var(--bg-subtle) r g b / 100%) !important;
 }
 
-[data-theme='dark'] .astro-code span {
+[data-theme="dark"] .astro-code span {
   background: transparent !important;
   color: var(--shiki-dark, inherit) !important;
 }

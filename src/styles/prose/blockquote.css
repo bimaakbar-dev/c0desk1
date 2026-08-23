@@ -1,21 +1,21 @@
 /* src/styles/prose/blockquote.css */
 .prose blockquote {
   @apply text-body-18;
+  position: relative;
   margin: 2rem 0;
+  background: transparent;
   padding: 1.25rem 1.5rem 1.25rem 1rem;
   color: var(--fg-strong);
-  position: relative;
-  background: transparent;
 }
 
 .prose blockquote::before {
-  content: "";
   position: absolute;
   inset-block: 1.25rem;
   inset-inline-start: 0;
-  width: 3px;
-  background: var(--accent);
   border-radius: var(--radius-full);
+  background: var(--accent);
+  width: 3px;
+  content: "";
 }
 
 .prose blockquote *:first-child {
@@ -41,62 +41,61 @@
 .prose blockquote footer {
   @apply text-body-14;
   display: flex;
-  color: var(--fg-muted);
   margin-top: 1rem;
+  color: var(--fg-muted);
   font-style: normal;
   text-align: start;
 }
 
 .prose blockquote cite::before {
+  padding-right: 0.25rem;
   content: "—";
   color: var(--fg-subtle);
-  padding-right: 0.25rem;
 }
 
 .prose figure.quote blockquote::before {
   display: none;
-  
 }
 
 .prose .quote {
   display: block;
+  position: relative;
   flex-direction: column;
   margin: 2rem 0;
   border: none;
   background: none;
   padding: 0 0.5rem;
   color: var(--fg-strong);
-  position: relative;
 }
 
 .prose .quote-body {
   position: relative;
-  padding: 0 0.5rem;
   margin: 0;
+  padding: 0 0.5rem;
   text-align: left;
 }
 
 .prose .quote-body p:first-child::before {
-  content: "“";
   position: absolute;
   top: 0.5rem;
   left: -0.5rem;
+  pointer-events: none;
+  content: "“";
   color: var(--fg-subtle);
   font-size: 2rem;
   line-height: 1;
-  pointer-events: none;
   font-family: var(--font-serif);
 }
 
 .prose .quote-body p:last-child::after {
-  content: "”";
   position: relative;
   top: 0.5rem;
   right: 0;
+  pointer-events: none;
+  content: "”";
   color: var(--fg-subtle);
   font-size: 2rem;
   line-height: 1;
-  pointer-events: none;
   font-family: var(--font-serif);
 }
 

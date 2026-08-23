@@ -15,7 +15,7 @@ export const ABOUT_PAGE = {
     },
     secondaryAction: {
       label: "View on GitHub",
-      href: "https://github.com",
+      href: "https://github.com/bimaakbar-dev/stradocs",
     },
   },
 

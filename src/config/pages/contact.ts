@@ -1,5 +1,5 @@
 // src/config/pages/contact.ts
-import { SITE, ROUTES } from "@/consts";
+import { SITE } from "@/consts";
 
 export const CONTACT_PAGE = {
   title: "Contact",

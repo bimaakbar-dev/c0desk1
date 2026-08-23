@@ -3,19 +3,19 @@
 .prose aside[data-callout] {
   --callout-color: var(--fg-muted);
   --callout-bg: var(--bg-subtle);
-  
+
   @apply text-body-14;
 
   display: block;
-  box-sizing: border-box;
   position: relative;
+  box-sizing: border-box;
 
   margin: 1.75rem 0;
-  padding: 0.5rem 1rem 0.5rem 3.25rem;
-
-  background: var(--callout-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+
+  background: var(--callout-bg);
+  padding: 0.5rem 1rem 0.5rem 3.25rem;
 
   color: inherit;
 }
@@ -26,41 +26,47 @@
 
 /* Accent bar */
 .prose aside[data-callout]::before {
-  content: "";
   position: absolute;
-  inset-inline-start: 0.5rem;
-  width: 3px;
-  
-  font-size: inherit;
   inset-block: calc(0.5rem + ((var(--text-body-14-line-height) - 1) * 0.5em));
+  inset-inline-start: 0.5rem;
+  border-radius: var(--radius-full);
 
   background-color: var(--callout-color) !important;
-  border-radius: var(--radius-full);
-}
+  width: 3px;
+  content: "";
 
+  font-size: inherit;
+}
 
 /* Callout icon */
 .prose aside[data-callout]::after {
   --icon-size: 1.25em;
-
-  content: "";
   position: absolute;
-  inset-inline-start: 1.5rem; 
 
-  width: var(--icon-size);
-  height: var(--icon-size);
-  
-  top: calc(0.5rem + (((var(--text-body-14-line-height) * var(--text-body-14-size)) - var(--icon-size)) / 2));
-  
-  background-color: var(--callout-color) !important;
+  top: calc(
+    0.5rem +
+      (
+        (
+            (var(--text-body-14-line-height) * var(--text-body-14-size)) -
+              var(--icon-size)
+          ) /
+          2
+      )
+  );
 
   mask: var(--callout-icon) center / contain no-repeat;
   -webkit-mask: var(--callout-icon) center / contain no-repeat;
+  inset-inline-start: 1.5rem;
+
+  background-color: var(--callout-color) !important;
+
+  width: var(--icon-size);
+  height: var(--icon-size);
 
   pointer-events: none;
+
+  content: "";
 }
-
-
 
 /* Remove default first/last margins */
 .prose aside[data-callout] *:first-child {
@@ -79,8 +85,8 @@
 /* Lists */
 .prose aside[data-callout] ul,
 .prose aside[data-callout] ol {
-  padding-inline-start: 1.5rem;
   margin-block: 0.5rem 0;
+  padding-inline-start: 1.5rem;
 }
 
 .prose aside[data-callout] li {
@@ -98,30 +104,22 @@
 
   text-decoration: underline;
   text-decoration-color: var(--callout-color);
-  text-underline-offset: 0.2em;
   text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
 }
 
 /* Inline code */
 .prose aside[data-callout] :not(pre) > code {
   @apply text-code-12;
 
-  color: var(--fg-strong);
+  border: 1px solid color-mix(in srgb, var(--callout-color) 20%, transparent);
+  border-radius: 0.25rem;
 
-  background: color-mix(
-    in srgb,
-    var(--callout-color) 12%,
-    var(--bg)
-  );
-
-  border: 1px solid color-mix(
-    in srgb,
-    var(--callout-color) 20%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--callout-color) 12%, var(--bg));
 
   padding: 0.1em 0.4em;
-  border-radius: 0.25rem;
+
+  color: var(--fg-strong);
 
   font-weight: 500;
 }

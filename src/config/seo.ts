@@ -1,8 +1,5 @@
 // src/config/seo.ts
-import { 
-  SITE, 
-  IMAGE 
-} from "./site";
+import { IMAGE, SITE } from "./site";
 
 const env = import.meta.env;
 
@@ -79,9 +76,14 @@ export function buildMeta(opts: {
   keywords?: string[];
 }) {
   const title = opts.title
-    ? SEO.titleTemplate.replace("%s", opts.title).slice(0, SEO.titleMaxLength + 20)
+    ? SEO.titleTemplate
+        .replace("%s", opts.title)
+        .slice(0, SEO.titleMaxLength + 20)
     : SEO.titleDefault;
-  const description = (opts.description ?? SEO.description).slice(0, SEO.descriptionMaxLength);
+  const description = (opts.description ?? SEO.description).slice(
+    0,
+    SEO.descriptionMaxLength,
+  );
   const canonical = opts.canonical ?? SEO.canonical;
   const ogImage = opts.ogImage ?? SEO.ogImage;
   const ogImageAlt = opts.ogImageAlt ?? SEO.ogImageAlt;

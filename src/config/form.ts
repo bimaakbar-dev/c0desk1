@@ -1,6 +1,8 @@
 // src/config/form.ts
 export const FORM_CONFIG = {
-  endpoint: import.meta.env.PUBLIC_FORM_ENDPOINT || "https://formspree.io/f/your-endpoint",
+  endpoint:
+    import.meta.env.PUBLIC_FORM_ENDPOINT ||
+    "https://formspree.io/f/your-endpoint",
 
   labels: {
     name: "Name",

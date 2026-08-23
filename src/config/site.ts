@@ -1,7 +1,7 @@
 // src/config/site.ts
-import Logo from "../assets/images/logo.webp";
-import Thumbnails from "../assets/images/cover.svg";
 import Avatar from "../assets/images/author.jpg";
+import Thumbnails from "../assets/images/cover.svg";
+import Logo from "../assets/images/logo.webp";
 import Og from "../assets/images/og-image.webp";
 
 const env = import.meta.env;
@@ -9,8 +9,10 @@ const env = import.meta.env;
 export const SITE = {
   name: "Stradocs",
   tagline: "Built for Astro.",
-  title: "Designed for developers who value clarity, speed, and great aesthetics.",
-  description: "Stradocs is a clean, developer-first Astro theme designed for building fast documentation sites and technical blogs.",
+  title:
+    "Designed for developers who value clarity, speed, and great aesthetics.",
+  description:
+    "Stradocs is a clean, developer-first Astro theme designed for building fast documentation sites and technical blogs.",
   url: env.PUBLIC_SITE_URL || "https://galevior.pages.dev",
   email: "hello@stradocs.web.id",
   locale: "en-US",
@@ -41,7 +43,6 @@ export const ROUTES = {
   cookie: "/cookie-policy",
   privacy: "/privacy-policy",
   terms: "/terms-of-service",
-  "404": "/404",
   sitemap: "/sitemap.xml",
   manifest: "/manifest.json",
   robots: "/robots.txt",

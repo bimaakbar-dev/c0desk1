@@ -3,10 +3,10 @@
 .prose .steps,
 .prose .steps-container > ol,
 .prose .steps-container > ul {
+  counter-reset: step;
   margin: 2rem 0;
   padding: 0;
   list-style: none;
-  counter-reset: step;
 }
 
 .prose .steps h2,
@@ -32,10 +32,10 @@
 .prose .steps-container > ul > li {
   position: relative;
   counter-increment: step;
-  min-height: 1.75rem;
+  padding-bottom: 1.25rem;
   padding-inline-start: 2.5rem;
   padding-left: 2.5rem;
-  padding-bottom: 1.25rem;
+  min-height: 1.75rem;
 
   --step-circle-size: 1.65rem;
   --step-line-width: 1.5px;
@@ -52,50 +52,61 @@
 .prose .steps-container > ul > li::before {
   @apply text-numeric-14;
 
-  content: counter(step);
-  position: absolute;
-  inset-inline-start: 0;
-  
-  top: calc(((var(--text-body-16-line-height) * var(--text-body-16-size)) - var(--step-circle-size)) / 2);
-
   display: flex;
-  align-items: center;
+  position: absolute;
+
+  top: calc(
+    (
+        (var(--text-body-16-line-height) * var(--text-body-16-size)) -
+          var(--step-circle-size)
+      ) /
+      2
+  );
   justify-content: center;
+  align-items: center;
+  inset-inline-start: 0;
+  box-shadow: 0 0 0 var(--step-line-width) var(--bg-muted);
+  border: var(--step-line-width) solid rgb(from var(--border) r g b / 100%);
+
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  padding: 0 !important;
+  aspect-ratio: 1 / 1;
 
   width: var(--step-circle-size);
   height: var(--step-circle-size);
-  aspect-ratio: 1 / 1;
 
-  border-radius: var(--radius-full);
-  padding: 0 !important;
+  content: counter(step);
 
   color: var(--fg-strong);
-  border: var(--step-line-width) solid rgb(from var(--border) r g b / 100%);
-  background-color: var(--bg-subtle);
-  box-shadow: 0 0 0 var(--step-line-width) var(--bg-muted);
 }
 
 .prose .steps > li:has(> :first-child:is(h2, h3, h4))::before,
 .prose .steps-container > ol > li:has(> :first-child:is(h2, h3, h4))::before,
 .prose .steps-container > ul > li:has(> :first-child:is(h2, h3, h4))::before {
-  
-  top: calc(((var(--text-heading-16-line-height) * var(--text-heading-16-size)) - var(--step-circle-size)) / 2);
+  top: calc(
+    (
+        (var(--text-heading-16-line-height) * var(--text-heading-16-size)) -
+          var(--step-circle-size)
+      ) /
+      2
+  );
 }
 
 .prose .steps > li::after,
 .prose .steps-container > ol > li::after,
 .prose .steps-container > ul > li::after {
-  content: "";
   position: absolute;
   top: 2rem;
   bottom: 0;
-  
-  background-color: rgb(from var(--border) r g b / 100%);
+  margin-left: calc(var(--step-line-width) / -2);
 
   inset-inline-start: calc(var(--step-circle-size) / 2);
-  
+
+  background-color: rgb(from var(--border) r g b / 100%);
+
   width: var(--step-line-width);
-  margin-left: calc(var(--step-line-width) / -2);
+  content: "";
 }
 
 .prose .steps > li:last-child::after,
@@ -189,8 +200,8 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 0 !important;
   margin-bottom: 8px;
+  padding: 0 !important;
 }
 
 .prose ul:has(input[type="checkbox"]) li::before {
@@ -209,10 +220,16 @@
   background-color: var(--bg-subtle);
 
   --checkbox-size: 1.125rem;
+  transition: all var(--duration) var(--ease-out);
+  margin-top: calc(
+    (
+        (var(--text-body-16-line-height) * var(--text-body-16-size)) -
+          var(--checkbox-size)
+      ) /
+      2
+  );
   width: var(--checkbox-size);
   height: var(--checkbox-size);
-  margin-top: calc(((var(--text-body-16-line-height) * var(--text-body-16-size)) - var(--checkbox-size)) / 2);
-  transition: all var(--duration) var(--ease-out);
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:hover {
@@ -225,17 +242,16 @@
 }
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked::after {
-  content: "";
   position: absolute;
-  width: calc(var(--checkbox-size) * 0.28);
-  height: calc(var(--checkbox-size) * 0.55);
-  border: solid var(--bg);
-  border-width: 0 1.5px 1.5px 0; 
-  top: 45%; 
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
+  border: solid var(--bg);
+  border-width: 0 1.5px 1.5px 0;
+  width: calc(var(--checkbox-size) * 0.28);
+  height: calc(var(--checkbox-size) * 0.55);
+  content: "";
 }
-
 
 .prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled {
   opacity: 0.5;
@@ -244,10 +260,13 @@
   background-color: var(--bg-muted);
 }
 
-.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled:checked {
+.prose
+  ul:has(input[type="checkbox"])
+  li
+  input[type="checkbox"]:disabled:checked {
+  opacity: 1;
   border-color: var(--accent-ring);
   background-color: var(--accent);
-  opacity: 1;
 }
 
 @media (min-width: 50rem) {
