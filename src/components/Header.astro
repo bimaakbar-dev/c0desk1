@@ -6,39 +6,24 @@ import Logo from "./ui/Logo.astro";
 import SearchBar from "./ui/SearchBar.astro";
 import NavLink from "./NavLink.astro";
 import Mobile from "./MobileNav.astro";
-
-const styles = {
-  header: [
-    "sticky top-0 z-50 w-full pt-(--safe-top)",
-    "h-(--header-height)",
-    "bg-transparent border-b border-transparent",
-  ].join(" "),
-  wrapper: [
-    "grid grid-cols-[1fr_auto] items-center h-full mx-auto",
-    "gap-4",
-  ].join(" "),
-
-  left: "flex items-center gap-4",
-  right: "flex items-center gap-2",
-};
 ---
 
-<header id="main-header" class={styles.header}>
+<header id="main-header">
   <Container size="full" class="h-full">
-    <div class={styles.wrapper}>
-      <div class={styles.left}>
+    <div class="header-wrapper">
+      <div class="header-left">
         <Logo />
         <NavLink />
       </div>
 
-      <div class={styles.right}>
-        <div class="hidden md:flex">
-          <SearchBar class="min-w-56" />
+      <div class="header-right">
+        <div class="desktop-search">
+          <SearchBar class="search-min" />
         </div>
-        <div class="flex md:hidden">
+        <div class="mobile-search">
           <SearchBar iconOnly />
         </div>
-        <div class="hidden md:flex">
+        <div class="desktop-theme">
           <Theme />
         </div>
         {Astro.slots.has("default") ? <slot /> : <Mobile />}
@@ -47,6 +32,75 @@ const styles = {
   </Container>
 </header>
 
+<style>
+  #main-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    padding-top: var(--safe-top);
+    height: var(--header-height);
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color var(--duration-md) var(--ease-out),
+                border-color var(--duration-md) var(--ease-out),
+                box-shadow var(--duration-md) var(--ease-out);
+  }
+
+  /* Muncul warna background solid dan border saat di-scroll */
+  #main-header.scrolled {
+    background-color: var(--bg);
+    border-bottom-color: var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* --- LAYOUT WRAPPER & GRID --- */
+  .header-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    height: 100%;
+    margin-inline: auto;
+    gap: 1rem;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* --- RESPONSIF --- */
+  .desktop-search,
+  .desktop-theme {
+    display: none;
+  }
+
+  .mobile-search {
+    display: flex;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-search,
+    .desktop-theme {
+      display: flex;
+    }
+    .mobile-search {
+      display: none;
+    }
+  }
+
+  .search-min {
+    min-width: 14rem;
+  }
+</style>
+
 <script is:inline>
   (() => {
     const header = document.getElementById("main-header");
@@ -54,14 +108,7 @@ const styles = {
 
     const toggleHeader = () => {
       const isScrolled = window.scrollY > 10;
-      header.classList.toggle("bg-(--bg)", isScrolled);
-      header.classList.toggle("backdrop-blur-md", isScrolled);
-      header.classList.toggle("border-(--border)", isScrolled);
-      header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
-
-      header.classList.toggle("bg-transparent", !isScrolled);
-      header.classList.toggle("backdrop-blur-none", !isScrolled);
-      header.classList.toggle("border-transparent", !isScrolled);
+      header.classList.toggle("scrolled", isScrolled);
     };
 
     window.addEventListener("scroll", toggleHeader, { passive: true });
