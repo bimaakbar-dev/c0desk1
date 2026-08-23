@@ -60,7 +60,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 > [!DANGER]
 > This may cause irreversible effects.
-> :::
+:::
 
 ## Variants
 
@@ -74,7 +74,6 @@ Callout blocks highlight important information with a colored accent and icon. T
 | `DANGER`    | Red    |
 
 ## Notes
-
 - Type must be uppercase: `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`, `DANGER`
 - Content can include multiple paragraphs, lists, and code blocks
 - Must be written as a block-level element, not inline
