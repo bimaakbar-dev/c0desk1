@@ -8,39 +8,40 @@ interface Props {
   rawMarkdown?: string;
 }
 
-const { 
+const {
   label = "Copy URL",
-  class: className = "", 
-  rawMarkdown = "" 
+  class: className = "",
+  rawMarkdown = "",
 } = Astro.props;
 
 const safeMarkdown = encodeURIComponent(rawMarkdown);
 
 const s = {
   wrapper: [
-    'relative inline-flex items-stretch rounded ring-1 shadow-(--shadow-sm)',
-    'ring-(--border) bg-(--bg-subtle)',
-    'transition-shadow duration-(--duration)'
+    "relative inline-flex items-stretch rounded ring-1 shadow-(--shadow-sm)",
+    "ring-(--border) bg-(--bg-subtle)",
+    "transition-shadow duration-(--duration)",
   ].join(" "),
 
   actionGroup: [
-    'flex items-center gap-1.5 text-button-13 md:text-button-14',
-    'hover:bg-(--bg-muted)',
-    'cursor-pointer select-none'
+    "flex items-center gap-1.5 text-button-13 md:text-button-14",
+    "hover:bg-(--bg-muted)",
+    "cursor-pointer select-none",
   ].join(" "),
 
-  actionIcon: 'relative inline-flex items-center justify-center shrink-0 size-4',
+  actionIcon:
+    "relative inline-flex items-center justify-center shrink-0 size-4",
 
   actionDropdown: [
-    'absolute right-0 top-[calc(100%+0.5rem)] min-w-[11rem] z-50 rounded-md ring-1 p-1',
-    'ring-(--border) bg-(--bg-subtle) shadow-(--shadow-lg)',
-    'animate-in fade-in slide-in-from-top-2 origin-top-right',
+    "absolute right-0 top-[calc(100%+0.5rem)] min-w-[11rem] z-50 rounded-md ring-1 p-1",
+    "ring-(--border) bg-(--bg-subtle) shadow-(--shadow-lg)",
+    "animate-in fade-in slide-in-from-top-2 origin-top-right",
   ].join(" "),
 
   actionDropdownItems: [
-    'flex items-center gap-2 p-2 text-button-13 md:text-button-14 text-start rounded w-full',
-    'text-(--fg) hover:bg-(--bg-muted) hover:text-(--fg-strong)',
-    'cursor-pointer transition-colors'
+    "flex items-center gap-2 p-2 text-button-13 md:text-button-14 text-start rounded w-full",
+    "text-(--fg) hover:bg-(--bg-muted) hover:text-(--fg-strong)",
+    "cursor-pointer transition-colors",
   ].join(" "),
 };
 
@@ -51,41 +52,51 @@ const ACTIONS = [
 ---
 
 <copy-dropdown data-markdown={safeMarkdown} class:list={[s.wrapper, className]}>
-  <button 
+  <button
     type="button"
-    data-action="copy-default" 
-    aria-label="Copy page URL" 
-    class:list={["px-2.5 py-2 rounded-l", s.actionGroup]}
+    data-action="copy-default"
+    aria-label="Copy page URL"
+    class:list={["rounded-l px-2.5 py-2", s.actionGroup]}
   >
     <div class={s.actionIcon}>
-      <Icon name="copy" class="icon-copy w-full h-full text-(--fg-strong)" />
-      <Icon name="check" class="icon-check w-full h-full hidden absolute inset-0 text-(--accent) transition-opacity duration-(--duration)" />
+      <Icon name="copy" class="icon-copy h-full w-full text-(--fg-strong)" />
+      <Icon
+        name="check"
+        class="icon-check absolute inset-0 hidden h-full w-full text-(--accent) transition-opacity duration-(--duration)"
+      />
     </div>
     <span>{label}</span>
   </button>
 
-  <details class="relative group">
-    <summary class:list={[
-      "px-2.5 py-2 rounded-r border-l border-(--border) h-full",
-      "list-none flex items-center justify-center",
-      s.actionGroup
-    ]}>
+  <details class="group relative">
+    <summary
+      class:list={[
+        "h-full rounded-r border-l border-(--border) px-2.5 py-2",
+        "flex list-none items-center justify-center",
+        s.actionGroup,
+      ]}
+    >
       <div class={s.actionIcon}>
-        <Icon name="chevron-down" class="w-full h-full text-(--fg-strong) group-open:rotate-180 transition-transform" />
+        <Icon
+          name="chevron-down"
+          class="h-full w-full text-(--fg-strong) transition-transform group-open:rotate-180"
+        />
       </div>
     </summary>
 
     <div class={s.actionDropdown}>
-      {ACTIONS.map((item) => (
-        <button
-          type="button"
-          data-action={item.action}
-          class={s.actionDropdownItems}
-        >
-          <Icon name={item.icon as any} class={s.actionIcon} />
-          {item.message}
-        </button>
-      ))}
+      {
+        ACTIONS.map((item) => (
+          <button
+            type="button"
+            data-action={item.action}
+            class={s.actionDropdownItems}
+          >
+            <Icon name={item.icon as any} class={s.actionIcon} />
+            {item.message}
+          </button>
+        ))
+      }
     </div>
   </details>
 </copy-dropdown>
@@ -97,62 +108,65 @@ const ACTIONS = [
     connectedCallback() {
       const rawMarkdown = decodeURIComponent(this.dataset.markdown || "");
       const primaryBtn = this.querySelector('[data-action="copy-default"]');
-      const details = this.querySelector('details');
-      
-      primaryBtn?.addEventListener('click', () => {
+      const details = this.querySelector("details");
+
+      primaryBtn?.addEventListener("click", () => {
         this.handleCopy(window.location.href);
       });
 
-      this.querySelectorAll('button[data-action]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const action = (e.currentTarget as HTMLElement).getAttribute('data-action');
-          details?.removeAttribute('open');
+      this.querySelectorAll("button[data-action]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const action = (e.currentTarget as HTMLElement).getAttribute(
+            "data-action",
+          );
+          details?.removeAttribute("open");
 
-          if (action === 'markdown') {
+          if (action === "markdown") {
             if (rawMarkdown) this.handleCopy(rawMarkdown);
-          } 
-          else if (action === 'view') {
+          } else if (action === "view") {
             if (rawMarkdown) {
-              const blob = new Blob([rawMarkdown], { type: 'text/plain;charset=utf-8' });
+              const blob = new Blob([rawMarkdown], {
+                type: "text/plain;charset=utf-8",
+              });
               const url = URL.createObjectURL(blob);
-              window.open(url, '_blank');
+              window.open(url, "_blank");
             }
           }
         });
       });
 
       this.closeOnOutsideClick = (e: MouseEvent) => {
-        if (details?.hasAttribute('open') && !this.contains(e.target as Node)) {
-          details.removeAttribute('open');
+        if (details?.hasAttribute("open") && !this.contains(e.target as Node)) {
+          details.removeAttribute("open");
         }
       };
-      document.addEventListener('click', this.closeOnOutsideClick);
+      document.addEventListener("click", this.closeOnOutsideClick);
     }
 
     disconnectedCallback() {
       if (this.closeOnOutsideClick) {
-        document.removeEventListener('click', this.closeOnOutsideClick);
+        document.removeEventListener("click", this.closeOnOutsideClick);
       }
     }
 
     private async handleCopy(text: string) {
       try {
         await navigator.clipboard.writeText(text);
-        const iconCopy = this.querySelector('.icon-copy');
-        const iconCheck = this.querySelector('.icon-check');
-        
-        iconCopy?.classList.add('hidden');
-        iconCheck?.classList.remove('hidden');
-        
+        const iconCopy = this.querySelector(".icon-copy");
+        const iconCheck = this.querySelector(".icon-check");
+
+        iconCopy?.classList.add("hidden");
+        iconCheck?.classList.remove("hidden");
+
         setTimeout(() => {
-          iconCopy?.classList.remove('hidden');
-          iconCheck?.classList.add('hidden');
+          iconCopy?.classList.remove("hidden");
+          iconCheck?.classList.add("hidden");
         }, 2000);
       } catch (err) {
-        console.error('Failed to copy: ', err);
+        console.error("Failed to copy: ", err);
       }
     }
   }
 
-  customElements.define('copy-dropdown', CopyDropdown);
+  customElements.define("copy-dropdown", CopyDropdown);
 </script>

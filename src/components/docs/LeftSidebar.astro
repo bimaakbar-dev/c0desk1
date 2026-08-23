@@ -9,19 +9,22 @@ import GithubStar from "@components/GithubStar.astro";
 
 <div
   id="nav-overlay"
-  class="fixed inset-0 z-30 hidden bg-(--bg-overlay) backdrop-blur-sm lg:hidden cursor-pointer opacity-0 transition-opacity duration-(--duration) ease-out"
+  class="fixed inset-0 z-30 hidden cursor-pointer bg-(--bg-overlay) opacity-0 backdrop-blur-sm transition-opacity duration-(--duration) ease-out lg:hidden"
   aria-hidden="true"
-/>
-
-<aside 
-  id="left-sidebar" 
-  class="fixed top-(--header-height) inset-x-0 z-45 w-full h-screen bg-(--bg) border-r border-(--border) hidden lg:block lg:sticky lg:z-0"
 >
-  <div class="flex flex-col h-full">
-    <div class="flex-1 overflow-y-auto py-4 lg:py-2 scrollbar-gutter-stable">
+</div>
+
+<aside
+  id="left-sidebar"
+  class="fixed inset-x-0 top-(--header-height) z-45 hidden h-screen w-full border-r border-(--border) bg-(--bg) lg:sticky lg:z-0 lg:block"
+>
+  <div class="flex h-full flex-col">
+    <div class="flex-1 scrollbar-gutter-stable overflow-y-auto py-4 lg:py-2">
       <SidebarMenu />
     </div>
-    <div class="inline-flex shrink-0 p-4 justify-center mb-(--safe-bottom) lg:hidden border-t border-(--border-subtle)">
+    <div
+      class="mb-(--safe-bottom) inline-flex shrink-0 justify-center border-t border-(--border-subtle) p-4 lg:hidden"
+    >
       <Card variant="primary" padding="xs" radius="sm">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
@@ -52,12 +55,12 @@ import GithubStar from "@components/GithubStar.astro";
 
   @keyframes slideIn {
     from {
-      opacity: 0;
       transform: translateY(-0.5rem);
+      opacity: 0;
     }
     to {
-      opacity: 1;
       transform: translateY(0);
+      opacity: 1;
     }
   }
 
@@ -69,14 +72,14 @@ import GithubStar from "@components/GithubStar.astro";
 </style>
 
 <script>
-  const overlay = document.getElementById('nav-overlay');
+  const overlay = document.getElementById("nav-overlay");
   if (overlay) {
-    overlay.addEventListener('click', () => {
-      document.body.removeAttribute('data-nav-expanded');
-      const btn = document.querySelector('nav-toggle button');
+    overlay.addEventListener("click", () => {
+      document.body.removeAttribute("data-nav-expanded");
+      const btn = document.querySelector("nav-toggle button");
       if (btn) {
-        btn.setAttribute('aria-expanded', 'false');
-        btn.setAttribute('aria-label', 'Open Menu');
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open Menu");
       }
     });
   }

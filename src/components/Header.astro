@@ -11,15 +11,15 @@ const styles = {
   header: [
     "sticky top-0 z-50 w-full pt-(--safe-top)",
     "h-(--header-height)",
-    "bg-transparent border-b border-transparent"
+    "bg-transparent border-b border-transparent",
   ].join(" "),
   wrapper: [
     "grid grid-cols-[1fr_auto] items-center h-full mx-auto",
-    "gap-4"
+    "gap-4",
   ].join(" "),
 
   left: "flex items-center gap-4",
-  right: "flex items-center gap-2"
+  right: "flex items-center gap-2",
 };
 ---
 
@@ -41,12 +41,7 @@ const styles = {
         <div class="hidden md:flex">
           <Theme />
         </div>
-        {Astro.slots.has('default') ? (
-          <slot />
-        ) : (
-          <Mobile />
-        )}
-        
+        {Astro.slots.has("default") ? <slot /> : <Mobile />}
       </div>
     </div>
   </Container>
@@ -60,10 +55,12 @@ const styles = {
     const toggleHeader = () => {
       const isScrolled = window.scrollY > 10;
       header.classList.toggle("bg-(--bg)", isScrolled);
+      header.classList.toggle("backdrop-blur-md", isScrolled);
       header.classList.toggle("border-(--border)", isScrolled);
       header.classList.toggle("shadow-(--shadow-sm)", isScrolled);
-      
+
       header.classList.toggle("bg-transparent", !isScrolled);
+      header.classList.toggle("backdrop-blur-none", !isScrolled);
       header.classList.toggle("border-transparent", !isScrolled);
     };
 

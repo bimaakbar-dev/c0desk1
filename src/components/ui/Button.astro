@@ -1,27 +1,24 @@
 ---
 // src/components/ui/Button.astro
-import type { HTMLAttributes } from 'astro/types';
-import Spinner from './Spinner.astro';
-import Icons from './Icons.astro';
+import type { HTMLAttributes } from "astro/types";
+import Spinner from "./Spinner.astro";
+import Icons from "./Icons.astro";
 
 type ButtonVariant =
-  | 'accent'
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'ghost'
-  | 'danger'
-  | 'icon';
+  | "accent"
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "ghost"
+  | "danger"
+  | "icon";
 
-type ButtonSize = 
-  | 'sm'
-  | 'md'
-  | 'lg';
+type ButtonSize = "sm" | "md" | "lg";
 
-export interface Props extends Omit<HTMLAttributes<'button'>, 'prefix'> {
+export interface Props extends Omit<HTMLAttributes<"button">, "prefix"> {
   href?: string;
-  target?: HTMLAttributes<'a'>['target'];
-  rel?: HTMLAttributes<'a'>['rel'];
+  target?: HTMLAttributes<"a">["target"];
+  rel?: HTMLAttributes<"a">["rel"];
   variant?: ButtonVariant;
   size?: ButtonSize;
   prefix?: any;
@@ -38,8 +35,8 @@ const {
   href,
   target,
   rel,
-  variant = 'primary',
-  size = 'md',
+  variant = "primary",
+  size = "md",
   prefix,
   prefixIcon,
   suffix,
@@ -48,90 +45,96 @@ const {
   loadingText,
   block = false,
   disabled = false,
-  class: className = '',
+  class: className = "",
   ...props
 } = Astro.props;
 
 const isLink = !!href;
 const isDisabled = loading || disabled;
-const isIconOnly = variant === 'icon';
+const isIconOnly = variant === "icon";
 
 const baseClasses = [
-  'inline-flex items-center justify-center shrink-0 ring-1 border outline-offset-4',
-  'font-medium whitespace-nowrap',
-  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)',
-  'disabled:opacity-50 disabled:pointer-events-none'
+  "inline-flex items-center justify-center shrink-0 ring-1 border outline-offset-4",
+  "font-medium whitespace-nowrap",
+  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--accent-ring)",
+  "disabled:opacity-50 disabled:pointer-events-none",
 ].join(" ");
 
 const variantClasses: Record<ButtonVariant, string> = {
   accent: [
-    'bg-(--accent) text-(--accent-fg) ring-transparent border-transparent',
-    'hover:bg-(--accent)/80'
+    "bg-(--accent) text-(--accent-fg) ring-transparent border-transparent",
+    "hover:bg-(--accent)/80",
   ].join(" "),
 
   primary: [
-    'bg-(--fg-strong) text-(--fg-inverted)! ring-transparent border-transparent',
-    'hover:bg-(--fg-strong)/80'
+    "bg-(--fg-strong) text-(--fg-inverted)! ring-transparent border-transparent",
+    "hover:bg-(--fg-strong)/80",
   ].join(" "),
 
   secondary: [
-    'bg-(--bg-subtle) text-(--fg) ring-(--border) border-transparent',
-    'hover:bg-(--bg-muted)/80'
+    "bg-(--bg-subtle) text-(--fg) ring-(--border) border-transparent",
+    "hover:bg-(--bg-muted)/80",
   ].join(" "),
 
   outline: [
-    'bg-transparent ring-(--border-strong) text-(--fg) border-transparent',
-    'hover:bg-(--bg-muted)'
+    "bg-transparent ring-(--border-strong) text-(--fg) border-transparent",
+    "hover:bg-(--bg-muted)",
   ].join(" "),
 
   ghost: [
-    'bg-transparent text-(--fg) ring-transparent border-transparent',
-    'hover:bg-(--bg-muted)'
+    "bg-transparent text-(--fg) ring-transparent border-transparent",
+    "hover:bg-(--bg-muted)",
   ].join(" "),
 
   danger: [
-    'bg-(--color-error) text-white ring-transparent border-transparent',
-    'hover:bg-(--color-error)/80'
+    "bg-(--color-error) text-white ring-transparent border-transparent",
+    "hover:bg-(--color-error)/80",
   ].join(" "),
 
   icon: [
-    'bg-transparent text-(--fg-muted) ring-transparent border-transparent',
-    'hover:bg-(--bg-muted) hover:text-(--fg-strong)'
-  ].join(" ")
+    "bg-transparent text-(--fg-muted) ring-transparent border-transparent",
+    "hover:bg-(--bg-muted) hover:text-(--fg-strong)",
+  ].join(" "),
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-7 px-2 text-button-13 gap-1.5',
-  md: 'h-8 px-3 text-button-14 gap-2',
-  lg: 'h-10 px-4 text-button-16 gap-2.5'
+  sm: "h-7 px-2 text-button-13 gap-1.5",
+  md: "h-8 px-3 text-button-14 gap-2",
+  lg: "h-10 px-4 text-button-16 gap-2.5",
 };
 
 const iconSizeClasses: Record<ButtonSize, string> = {
-  sm: 'size-6',
-  md: 'size-8',
-  lg: 'size-10'
+  sm: "size-6",
+  md: "size-8",
+  lg: "size-10",
 };
 
 const sizeClass = isIconOnly ? iconSizeClasses[size] : sizeClasses[size];
 const hasDecorators = !!prefix || !!suffix || loading;
 
-const alignmentClass = block 
-  ? (hasDecorators ? 'w-full justify-start' : 'w-full justify-center') 
-  : '';
+const alignmentClass = block
+  ? hasDecorators
+    ? "w-full justify-start"
+    : "w-full justify-center"
+  : "";
 
 const classes = [
   baseClasses,
   variantClasses[variant],
   sizeClass,
   alignmentClass,
-  loading && 'opacity-80 pointer-events-none',
-  isIconOnly && 'aspect-square p-0',
+  loading && "opacity-80 pointer-events-none",
+  isIconOnly && "aspect-square p-0",
   className,
-].filter(Boolean).join(' ');
+]
+  .filter(Boolean)
+  .join(" ");
 
 const textContainerClasses = [
   "inline-flex items-center shrink-0 gap-1.5",
-  block && hasDecorators ? "flex-1 justify-start text-start" : "justify-center text-center"
+  block && hasDecorators
+    ? "flex-1 justify-start text-start"
+    : "justify-center text-center",
 ].join(" ");
 ---
 
@@ -141,14 +144,17 @@ const textContainerClasses = [
       href={href}
       target={target}
       rel={rel}
-      class:list={['rounded-full no-underline!', classes]}
+      class:list={["rounded-full no-underline!", classes]}
       aria-busy={loading || undefined}
-      aria-disabled={isDisabled ? 'true' : undefined}
+      aria-disabled={isDisabled ? "true" : undefined}
       {...(props as any)}
     >
-      {loading && <Spinner size="sm" class="inline-block items-center shrink-0" />}
-      
-      {!loading && (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
+      {loading && (
+        <Spinner size="sm" class="inline-block shrink-0 items-center" />
+      )}
+
+      {!loading &&
+        (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
 
       {!isIconOnly && (
         <span class={textContainerClasses}>
@@ -162,16 +168,19 @@ const textContainerClasses = [
     </a>
   ) : (
     <button
-      type={(props as any).type || 'button'}
+      type={(props as any).type || "button"}
       disabled={isDisabled}
-      class:list={['rounded', classes]}
+      class:list={["rounded", classes]}
       aria-busy={loading || undefined}
-      aria-disabled={isDisabled ? 'true' : undefined}
+      aria-disabled={isDisabled ? "true" : undefined}
       {...(props as any)}
     >
-      {loading && <Spinner size="sm" class="inline-block items-center shrink-0" />}
-      
-      {!loading && (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
+      {loading && (
+        <Spinner size="sm" class="inline-block shrink-0 items-center" />
+      )}
+
+      {!loading &&
+        (prefixIcon ? <Icons name={prefixIcon} class="size-4" /> : prefix)}
 
       {!isIconOnly && (
         <span class={textContainerClasses}>

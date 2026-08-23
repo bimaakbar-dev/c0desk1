@@ -1,6 +1,6 @@
 ---
 // src/components/Footer.astro
-import { SITE} from "@/consts";
+import { SITE } from "@/consts";
 import { NAV } from "@/config/navs";
 import { canonicalUrl } from "@/lib/utils";
 
@@ -11,15 +11,16 @@ import Icon from "@ui/Icons.astro";
 
 const currentYear = new Date().getFullYear();
 
-const copyrightYear = currentYear ;
+const copyrightYear = currentYear;
 
 const $ = {
   wrapper: "relative w-full border-t border-(--border)",
   group: "grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4",
   navigation: "flex flex-col gap-3 items-start",
   label: "text-label-12 font-medium uppercase font-mono text-(--fg-strong)",
-  title: "text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong) inline-flex items-center gap-1.5 align-middle",
-  meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60"
+  title:
+    "text-body-14 text-(--fg-muted) font-medium hover:text-(--fg-strong) active:text-(--fg-strong) inline-flex items-center gap-1.5 align-middle",
+  meta: "flex flex-col-reverse sm:flex justify-between mt-8 pt-4 gap-2 items-center text-center text-body-14 text-(--fg-muted)/60",
 };
 ---
 
@@ -28,34 +29,39 @@ const $ = {
   <Section size="md">
     <Container size="lg">
       <div class={$.group}>
-        {NAV.footerBar.map((section) => (
-          <div class={$.navigation}>
-            <h3 class={$.label} set:html={section.title} />
-            <ul class="space-y-1.5">
-              {section.items.map((item) => {
-                const isExternal = item.href.startsWith("http");
-                const href = isExternal ? item.href : canonicalUrl(item.href);
-                return (
-                  <li>
-                    <a
-                      href={href}
-                      class={$.title}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                    >
-                      {item.icon && <Icon name={item.icon} class="size-4" />}
-                      {item.label}
-                      {isExternal && <Icon name="external" class="size-3.5" />}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+        {
+          NAV.footerBar.map((section) => (
+            <div class={$.navigation}>
+              <h3 class={$.label} set:html={section.title} />
+              <ul class="space-y-1.5">
+                {section.items.map((item) => {
+                  const isExternal = item.href.startsWith("http");
+                  const href = isExternal ? item.href : canonicalUrl(item.href);
+                  return (
+                    <li>
+                      <a
+                        href={href}
+                        class={$.title}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                      >
+                        {item.icon && <Icon name={item.icon} class="size-4" />}
+                        {item.label}
+                        {isExternal && (
+                          <Icon name="external" class="size-3.5" />
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))
+        }
       </div>
       <div class={$.meta}>
-        Copyright {SITE.name} {copyrightYear}. All rights reserved.
+        Copyright {SITE.name}
+        {copyrightYear}. All rights reserved.
       </div>
     </Container>
   </Section>

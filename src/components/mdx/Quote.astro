@@ -15,9 +15,13 @@ const { user, avatar, role, url } = Astro.props;
   <blockquote class="quote-body">
     <slot />
   </blockquote>
-  {user && (
-    <figcaption class="quote-footer">
-      <User avatar={avatar} role={role} url={url}>{user}</User>
-    </figcaption>
-  )}
+  {
+    user && (
+      <figcaption class="quote-footer">
+        <User avatar={avatar} role={role} url={url}>
+          {user}
+        </User>
+      </figcaption>
+    )
+  }
 </figure>

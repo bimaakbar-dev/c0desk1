@@ -9,20 +9,30 @@ const currentPath = Astro.url.pathname;
 const navItems = NAV.navBar.map((item) => ({
   ...item,
   value: item.label.toLowerCase(),
-  href: (!item.isExternal && !item.href.startsWith("http") && !item.href.startsWith("#"))
-    ? (item.href.endsWith("/") ? item.href : item.href + "/")
-    : item.href,
+  href:
+    !item.isExternal &&
+    !item.href.startsWith("http") &&
+    !item.href.startsWith("#")
+      ? item.href.endsWith("/")
+        ? item.href
+        : item.href + "/"
+      : item.href,
 }));
 
 const activeNavItem = navItems.find((item) => {
-  if (item.isExternal || item.href.startsWith("http") || item.href.startsWith("#")) return false;
+  if (
+    item.isExternal ||
+    item.href.startsWith("http") ||
+    item.href.startsWith("#")
+  )
+    return false;
   if (item.href === "/") return currentPath === "/";
   return currentPath === item.href || currentPath.startsWith(item.href);
 });
 ---
 
 <header>
-  <div class="flex flex-col lg:hidden gap-3 px-4">
+  <div class="flex flex-col gap-3 px-4 lg:hidden">
     <Select
       id="docs-navigasi"
       size="md"

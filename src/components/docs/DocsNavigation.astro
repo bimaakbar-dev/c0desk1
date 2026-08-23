@@ -1,28 +1,27 @@
 ---
 // src/components/docs/DocsNavigation.astro
-import { getCollection } from 'astro:content';
-import { 
-  ROUTES, 
-  SIDEBAR_CONFIG 
-} from '@/consts';
-import { getSlug } from '@/lib/utils';
+import { getCollection } from "astro:content";
+import { ROUTES, SIDEBAR_CONFIG } from "@/consts";
+import { getSlug } from "@/lib/utils";
 
-import SidebarGroup from '@ui/SidebarGroup.astro';
-import SidebarLink from '@ui/SidebarLink.astro';
+import SidebarGroup from "@ui/SidebarGroup.astro";
+import SidebarLink from "@ui/SidebarLink.astro";
 
-const allDocs = await getCollection('docs', ({ data }) => !data.draft);
+const allDocs = await getCollection("docs", ({ data }) => !data.draft);
 
 const docsByCategory = Object.groupBy(
   allDocs,
-  (doc) => doc.data.category ?? 'Uncategorized'
+  (doc) => doc.data.category ?? "Uncategorized",
 ) as Partial<Record<string, typeof allDocs>>;
 
 for (const category in docsByCategory) {
-  docsByCategory[category]?.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+  docsByCategory[category]?.sort(
+    (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
+  );
 }
 
 const categoryMap = new Map(SIDEBAR_CONFIG.map((c) => [c.category, c.label]));
-const configCategories = SIDEBAR_CONFIG.map(c => c.category);
+const configCategories = SIDEBAR_CONFIG.map((c) => c.category);
 const availableCategories = Object.keys(docsByCategory);
 
 const sortedCategories = [
@@ -30,13 +29,17 @@ const sortedCategories = [
   ...availableCategories.filter((cat) => !categoryMap.has(cat as any)),
 ];
 
-const ungroupedDocs = (docsByCategory['Uncategorized'] ?? []).filter((doc) => !doc.data.category);
+const ungroupedDocs = (docsByCategory["Uncategorized"] ?? []).filter(
+  (doc) => !doc.data.category,
+);
 
-const currentPath = Astro.url.pathname.endsWith('/')
+const currentPath = Astro.url.pathname.endsWith("/")
   ? Astro.url.pathname
   : `${Astro.url.pathname}/`;
 
-const baseDocsRoute = ROUTES.docs.endsWith('/') ? ROUTES.docs : `${ROUTES.docs}/`;
+const baseDocsRoute = ROUTES.docs.endsWith("/")
+  ? ROUTES.docs
+  : `${ROUTES.docs}/`;
 
 const getHref = (doc: (typeof allDocs)[number]) => {
   const slug = getSlug(doc);
@@ -47,7 +50,7 @@ const getHref = (doc: (typeof allDocs)[number]) => {
 const checkIsActive = (href: string) => currentPath === href;
 
 const $ = {
-  wrapper: 'flex flex-col space-y-1 w-full flex-1 py-2 px-4',
+  wrapper: "flex flex-col space-y-1 w-full flex-1 py-2 px-4",
 };
 ---
 
@@ -55,13 +58,18 @@ const $ = {
   {
     sortedCategories.map((category) => {
       const categoryDocs = docsByCategory[category] ?? [];
-      const hasActiveChild = categoryDocs.some((doc) => checkIsActive(getHref(doc)));
+      const hasActiveChild = categoryDocs.some((doc) =>
+        checkIsActive(getHref(doc)),
+      );
       const label = categoryMap.get(category as any) ?? category;
 
       return (
         <SidebarGroup title={label} open={hasActiveChild}>
           {categoryDocs.map((doc) => (
-            <SidebarLink href={getHref(doc)} isActive={checkIsActive(getHref(doc))}>
+            <SidebarLink
+              href={getHref(doc)}
+              isActive={checkIsActive(getHref(doc))}
+            >
               {doc.data.title}
             </SidebarLink>
           ))}

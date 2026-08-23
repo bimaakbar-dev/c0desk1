@@ -8,39 +8,32 @@ import Icon from "./Icons.astro";
 import Spinner from "./Spinner.astro";
 import Card from "./Card.astro";
 
-const {
-  endpoint,
-  labels,
-  placeholders,
-  success,
-  error,
-  button,
-  helper,
-} = FORM_CONFIG;
+const { endpoint, labels, placeholders, success, error, button, helper } =
+  FORM_CONFIG;
 ---
 
 <div id="contact-container">
   <div
     id="success-message"
-    class="hidden bg-elevated border border-(--border) rounded-xl p-12 text-center animate-in fade-in zoom-in-95 duration-300 shadow-sm"
+    class="bg-elevated animate-in fade-in zoom-in-95 hidden rounded-xl border border-(--border) p-12 text-center shadow-sm duration-300"
     role="status"
     aria-live="polite"
   >
     <div
-      class="w-12 h-12 mx-auto mb-5 rounded-full bg-(--border) flex items-center justify-center text-strong"
+      class="text-strong mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-(--border)"
     >
       <Icon name="check" class="size-5" aria-hidden="true" />
     </div>
-    <h3 class="text-body-16 font-semibold text-strong mb-2">
+    <h3 class="text-body-16 text-strong mb-2 font-semibold">
       {success.title}
     </h3>
-    <p class="text-body-14 text-muted max-w-sm mx-auto">
+    <p class="text-body-14 text-muted mx-auto max-w-sm">
       {success.description}
     </p>
   </div>
 
   <form id="contact-form" class="space-y-6" data-wmcp="contact" novalidate>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
       <Input
         id="name"
         name="name"
@@ -86,9 +79,16 @@ const {
       autocomplete="off"
     />
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+    <div
+      class="flex flex-col justify-between gap-4 pt-2 sm:flex-row sm:items-center"
+    >
       <div class="flex items-center gap-2">
-        <Icon name="info" fill class="size-4.5 text-(--fg-subtle) items-start" aria-hidden="true" />
+        <Icon
+          name="info"
+          fill
+          class="size-4.5 items-start text-(--fg-subtle)"
+          aria-hidden="true"
+        />
         <span class="text-label-14 text-(--fg-muted)">
           {success.description}
         </span>
@@ -111,7 +111,7 @@ const {
       id="error-message"
       padding="sm"
       radius="sm"
-      class="hidden mt-4 bg-(--color-error)/10 ring-(--error-soft)! text-(--color-error) text-label-13 text-center"
+      class="text-label-13 mt-4 hidden bg-(--color-error)/10 text-center text-(--color-error) ring-(--error-soft)!"
       role="alert"
       aria-live="assertive"
     >
@@ -124,13 +124,21 @@ const {
 </div>
 
 <script>
-  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const form = document.getElementById(
+    "contact-form",
+  ) as HTMLFormElement | null;
   const successMessage = document.getElementById("success-message");
   const errorMessage = document.getElementById("error-message");
-  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement | null;
+  const submitBtn = document.getElementById(
+    "submit-btn",
+  ) as HTMLButtonElement | null;
   const btnText = document.getElementById("btn-text") as HTMLElement | null;
-  const btnSpinner = document.getElementById("btn-spinner") as HTMLElement | null;
-  const formInputs = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(".contact-input");
+  const btnSpinner = document.getElementById(
+    "btn-spinner",
+  ) as HTMLElement | null;
+  const formInputs = document.querySelectorAll<
+    HTMLInputElement | HTMLTextAreaElement
+  >(".contact-input");
 
   const FORM_ENDPOINT = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
 

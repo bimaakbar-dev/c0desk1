@@ -37,7 +37,7 @@ const {
   role = "menu",
 } = Astro.props;
 
-const isMenu     = role === "menu";
+const isMenu = role === "menu";
 const optionRole = isMenu ? "menuitem" : "option";
 const activeOption = options.find((opt) => opt.value === selectedValue);
 
@@ -54,7 +54,7 @@ const itemSizeClasses: Record<SelectSize, string> = {
 };
 
 const $ = {
-  wrapper:  "relative w-full",
+  wrapper: "relative w-full",
   summary: [
     "flex w-full items-center justify-between",
     "ring-1 ring-(--border) bg-(--bg-subtle) text-(--fg)",
@@ -66,10 +66,12 @@ const $ = {
     "list-none [&::-webkit-details-marker]:hidden",
     sizeClasses[size],
     className,
-  ].filter(Boolean).join(" "),
+  ]
+    .filter(Boolean)
+    .join(" "),
 
-  items:   "flex items-center shrink-0 gap-2 truncate flex-1 text-left",
-  prefix:  "shrink-0 text-(--fg-subtle) size-5",
+  items: "flex items-center shrink-0 gap-2 truncate flex-1 text-left",
+  prefix: "shrink-0 text-(--fg-subtle) size-5",
   chevron: [
     "shrink-0 text-(--fg-subtle) size-4",
     "transition-transform duration-(--duration)",
@@ -86,98 +88,98 @@ const $ = {
     "scrollbar-thin origin-top",
   ].join(" "),
 
-  item: (isActive: boolean, itemSize: string) => [
-    "flex w-full items-start gap-2.5 text-left",
-    "transition-all duration-(--duration) cursor-pointer",
-    "focus:outline-none focus:bg-(--bg-muted) focus:text-(--fg-strong)",
-    itemSize,
-    isActive
-      ? "bg-(--bg-muted) text-(--fg-strong)"
-      : "text-(--fg-muted) hover:bg-(--bg-muted) hover:text-(--fg-strong)",
-  ].join(" "),
+  item: (isActive: boolean, itemSize: string) =>
+    [
+      "flex w-full items-start gap-2.5 text-left",
+      "transition-all duration-(--duration) cursor-pointer",
+      "focus:outline-none focus:bg-(--bg-muted) focus:text-(--fg-strong)",
+      itemSize,
+      isActive
+        ? "bg-(--bg-muted) text-(--fg-strong)"
+        : "text-(--fg-muted) hover:bg-(--bg-muted) hover:text-(--fg-strong)",
+    ].join(" "),
 };
 
 const itemSize = itemSizeClasses[size];
 ---
 
-<details
-  data-select-wrapper
-  class:list={["custom-select", $.wrapper]}>
-
+<details data-select-wrapper class:list={["custom-select", $.wrapper]}>
   <summary
     class={$.summary}
     aria-haspopup={role}
-    aria-label={activeOption?.label || placeholder}>
-
+    aria-label={activeOption?.label || placeholder}
+  >
     <span class={$.items}>
       {prefix && <Icon name={prefix as any} class={$.prefix} />}
-      {activeOption?.icon && <Icon name={activeOption.icon as any} class={$.prefix} />}
+      {
+        activeOption?.icon && (
+          <Icon name={activeOption.icon as any} class={$.prefix} />
+        )
+      }
       <span
         data-select-label
-        class={activeOption ? "text-(--fg-strong)" : "text-(--fg-muted)"}>
+        class={activeOption ? "text-(--fg-strong)" : "text-(--fg-muted)"}
+      >
         {activeOption?.label || placeholder}
       </span>
     </span>
 
-    <Icon
-      name={suffix as any}
-      data-select-icon
-      class={$.chevron} />
+    <Icon name={suffix as any} data-select-icon class={$.chevron} />
   </summary>
 
-  <div
-    role={role}
-    aria-label="Pilihan"
-    class={$.dropdown}>
-    {options.map((option) => {
-      const isActive = option.value === selectedValue;
-      const ariaCurrent = isMenu && isActive ? "page" : undefined;
-      const ariaSelected = !isMenu ? isActive : undefined;
+  <div role={role} aria-label="Pilihan" class={$.dropdown}>
+    {
+      options.map((option) => {
+        const isActive = option.value === selectedValue;
+        const ariaCurrent = isMenu && isActive ? "page" : undefined;
+        const ariaSelected = !isMenu ? isActive : undefined;
 
-      const inner = (
-        <>
-          {option.icon && <Icon name={option.icon as any} class="size-5 shrink-0" />}
-          <div class="flex-1 min-w-0">
-            <div class="truncate">{option.label}</div>
-            {option.subtitle && (
-              <div class="truncate text-[13px] text-(--fg-subtle) mt-0.5">
-                {option.subtitle}
-              </div>
+        const inner = (
+          <>
+            {option.icon && (
+              <Icon name={option.icon as any} class="size-5 shrink-0" />
             )}
-          </div>
-          {isActive && !isMenu && (
-            <Icon
-              name="check"
-              class="shrink-0 size-4 text-(--accent)"
-            />
-          )}
-        </>
-      );
+            <div class="min-w-0 flex-1">
+              <div class="truncate">{option.label}</div>
+              {option.subtitle && (
+                <div class="mt-0.5 truncate text-[13px] text-(--fg-subtle)">
+                  {option.subtitle}
+                </div>
+              )}
+            </div>
+            {isActive && !isMenu && (
+              <Icon name="check" class="size-4 shrink-0 text-(--accent)" />
+            )}
+          </>
+        );
 
-      return option.href ? (
-        <a
-          href={option.href}
-          target={option.isExternal ? "_blank" : undefined}
-          rel={option.isExternal ? "noopener noreferrer" : undefined}
-          class={$.item(isActive, itemSize)}
-          data-select-option
-          role={optionRole}
-          aria-current={ariaCurrent}
-          aria-selected={ariaSelected}>
-          {inner}
-        </a>
-      ) : (
-        <button
-          type="button"
-          data-value={option.value}
-          class={$.item(isActive, itemSize)}
-          data-select-option
-          role={optionRole}
-          aria-selected={ariaSelected}>
-          {inner}
-        </button>
-      );
-    })}
+        return option.href ? (
+          <a
+            href={option.href}
+            target={option.isExternal ? "_blank" : undefined}
+            rel={option.isExternal ? "noopener noreferrer" : undefined}
+            class={$.item(isActive, itemSize)}
+            data-select-option
+            role={optionRole}
+            aria-current={ariaCurrent}
+            aria-selected={ariaSelected}
+          >
+            {inner}
+          </a>
+        ) : (
+          <button
+            type="button"
+            data-value={option.value}
+            class={$.item(isActive, itemSize)}
+            data-select-option
+            role={optionRole}
+            aria-selected={ariaSelected}
+          >
+            {inner}
+          </button>
+        );
+      })
+    }
   </div>
 </details>
 
@@ -196,12 +198,12 @@ const itemSize = itemSizeClasses[size];
 
   @keyframes selectIn {
     from {
-      opacity: 0;
       transform: scale(0.96) translateY(-4px);
+      opacity: 0;
     }
     to {
-      opacity: 1;
       transform: scale(1) translateY(0);
+      opacity: 1;
     }
   }
 
@@ -211,33 +213,50 @@ const itemSize = itemSizeClasses[size];
     }
   }
 
-  .scrollbar-thin::-webkit-scrollbar       { width: 4px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--fg-strong); border-radius: 9999px; }
-  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: var(--fg-strong);
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
 </style>
 
 <script>
   document.addEventListener("click", (e) => {
-    document.querySelectorAll("details[data-select-wrapper][open]").forEach((d) => {
-      if (!d.contains(e.target as Node)) {
-        (d as HTMLDetailsElement).open = false;
-      }
-    });
+    document
+      .querySelectorAll("details[data-select-wrapper][open]")
+      .forEach((d) => {
+        if (!d.contains(e.target as Node)) {
+          (d as HTMLDetailsElement).open = false;
+        }
+      });
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    document.querySelectorAll("details[data-select-wrapper][open]").forEach((d) => {
-      (d as HTMLDetailsElement).open = false;
-    });
+    document
+      .querySelectorAll("details[data-select-wrapper][open]")
+      .forEach((d) => {
+        (d as HTMLDetailsElement).open = false;
+      });
   });
 
   document.addEventListener("click", (e) => {
-    const option = (e.target as HTMLElement).closest("[data-select-option]") as HTMLElement | null;
+    const option = (e.target as HTMLElement).closest(
+      "[data-select-option]",
+    ) as HTMLElement | null;
     if (!option || option.tagName === "A") return;
 
-    const wrapper  = option.closest("[data-select-wrapper]") as HTMLDetailsElement;
-    const labelEl  = wrapper?.querySelector("[data-select-label]") as HTMLElement;
+    const wrapper = option.closest(
+      "[data-select-wrapper]",
+    ) as HTMLDetailsElement;
+    const labelEl = wrapper?.querySelector(
+      "[data-select-label]",
+    ) as HTMLElement;
     if (!wrapper || !labelEl) return;
 
     const label = option.querySelector(".truncate")?.textContent?.trim() ?? "";
@@ -251,15 +270,17 @@ const itemSize = itemSizeClasses[size];
       const el = opt as HTMLElement;
       const isThis = el === option;
       el.setAttribute("aria-selected", String(isThis));
-      el.classList.toggle("bg-(--bg-muted)",   isThis);
+      el.classList.toggle("bg-(--bg-muted)", isThis);
       el.classList.toggle("text-(--fg-strong)", isThis);
-      el.classList.toggle("text-(--fg-muted)",  !isThis);
+      el.classList.toggle("text-(--fg-muted)", !isThis);
     });
 
-    wrapper.dispatchEvent(new CustomEvent("select-change", {
-      bubbles: true,
-      detail: { value, label },
-    }));
+    wrapper.dispatchEvent(
+      new CustomEvent("select-change", {
+        bubbles: true,
+        detail: { value, label },
+      }),
+    );
 
     wrapper.open = false;
   });

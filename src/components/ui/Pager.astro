@@ -17,7 +17,8 @@ const { prev, next } = Astro.props;
 
 {
   (prev || next) && (
-    <nav aria-label="Pagination navigasi"
+    <nav
+      aria-label="Pagination navigasi"
       class="mt-12 border-t border-(--border-subtle) pt-8"
     >
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -29,7 +30,7 @@ const { prev, next } = Astro.props;
             >
               <span class="text-label-14 flex items-center justify-start gap-1.5 font-medium text-(--fg-muted)">
                 <span class="h-4 w-4 transition-transform group-hover:-translate-x-1">
-                  <Icon name="arrow-left" class="w-full h-full" />
+                  <Icon name="arrow-left" class="h-full w-full" />
                 </span>
                 Sebelumnya
               </span>
@@ -41,7 +42,7 @@ const { prev, next } = Astro.props;
         ) : (
           <div />
         )}
-        
+
         {next ? (
           <div class="shrink-0 items-center text-right">
             <a
@@ -51,7 +52,7 @@ const { prev, next } = Astro.props;
               <span class="text-label-14 flex items-center justify-end gap-1.5 font-medium text-(--fg-muted)">
                 Selanjutnya
                 <span class="h-4 w-4 transition-transform group-hover:translate-x-1">
-                  <Icon name="arrow-right" class="w-full h-full" />
+                  <Icon name="arrow-right" class="h-full w-full" />
                 </span>
               </span>
               <span class="truncate text-[14px] font-semibold text-(--fg-strong)">

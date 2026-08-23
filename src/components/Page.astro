@@ -1,19 +1,16 @@
 ---
 interface Props {
-    class?: string
+  class?: string;
 }
 
-const {
-  class: className = '',
-} = Astro.props;
+const { class: className = "" } = Astro.props;
 
-const deafultClass = "min-h-screen w-full flex flex-col flex-1 pl-(--safe-left) pr-(--safe-right)";
+const deafultClass =
+  "min-h-screen w-full flex flex-col flex-1 pl-(--safe-left) pr-(--safe-right)";
 
-const classes = [
-    deafultClass,
-    className,
-]
+const classes = [deafultClass, className];
 ---
+
 <div class:list={[classes]}>
-    <slot />
+  <slot />
 </div>

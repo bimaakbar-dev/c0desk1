@@ -1,8 +1,8 @@
 ---
 // src/components/ui/Textarea.astro
-import type { HTMLAttributes } from 'astro/types';
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<'textarea'> {
+interface Props extends HTMLAttributes<"textarea"> {
   label?: string;
   error?: string;
   helper?: string;
@@ -19,7 +19,7 @@ const {
   ...rest
 } = Astro.props;
 
-const textareaId = id || label?.toLowerCase().replace(/\s+/g, '-');
+const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
 
 const $ = {
   wrapper: "flex flex-col gap-2 w-full",
@@ -33,40 +33,49 @@ const $ = {
     "transition-opacity disabled:opacity-40 disabled:cursor-not-allowed",
     "resize-y min-h-[56px]",
   ].join(" "),
-}
+};
 ---
 
 <div data-textarea-root class={$.wrapper}>
-  {label && (
-    <label for={textareaId} class={$.label}>
+  {
+    label && (
+      <label for={textareaId} class={$.label}>
         {label}
-        {required && <span class="text-red-500 ml-0.5">*</span>}
-    </label>
-  )}
-  
-  <div class="relative flex items-center w-full">
+        {required && <span class="ml-0.5 text-red-500">*</span>}
+      </label>
+    )
+  }
+
+  <div class="relative flex w-full items-center">
     <textarea
       id={textareaId}
       rows={rows}
       class:list={[
         $.textarea,
-        error ? "border-(--error) text-(--error) focus:border-(--error) focus:ring-(--error)" : "",
+        error
+          ? "border-(--error) text-(--error) focus:border-(--error) focus:ring-(--error)"
+          : "",
         className,
       ]}
-      {...rest as HTMLAttributes<'textarea'>}
-    ></textarea>
+      {...rest as HTMLAttributes<"textarea">}></textarea>
   </div>
 
-  {(error || helper || Astro.slots.has('helper')) && (
-    <div class="flex flex-col gap-1 mt-2">
-      {error && <p class="text-[12px] font-medium text-(--error) animate-in fade-in">{error}</p>}
-      {(helper || Astro.slots.has('helper')) && (
-        <div class="text-[12px] text-(--fg-muted)">
-          {helper || <slot name="helper" />}
-        </div>
-      )}
-    </div>
-  )}
+  {
+    (error || helper || Astro.slots.has("helper")) && (
+      <div class="mt-2 flex flex-col gap-1">
+        {error && (
+          <p class="animate-in fade-in text-[12px] font-medium text-(--error)">
+            {error}
+          </p>
+        )}
+        {(helper || Astro.slots.has("helper")) && (
+          <div class="text-[12px] text-(--fg-muted)">
+            {helper || <slot name="helper" />}
+          </div>
+        )}
+      </div>
+    )
+  }
 </div>
 
 <style is:global>

@@ -63,40 +63,21 @@ const $ = {
           aria-label="Previous page"
           variant="icon"
           size="md"
-          class:list={[
-            $.item,
-            currentPage === 1 && $.disabled,
-          ]}
+          class:list={[$.item, currentPage === 1 && $.disabled]}
         >
-          <Icon
-            name="chevron-left"
-            class={$.icon}
-          />
+          <Icon name="chevron-left" class={$.icon} />
         </Button>
 
         {pages.map((page) =>
           page === "..." ? (
-            <Icon
-              name="more"
-              class:list={[
-                $.icon,
-                $.dots
-              ]}
-            />
+            <Icon name="more" class:list={[$.icon, $.dots]} />
           ) : (
             <Button
               href={href(page)}
-              aria-current={
-                page === currentPage
-                  ? "page"
-                  : undefined
-              }
+              aria-current={page === currentPage ? "page" : undefined}
               variant="icon"
               size="md"
-              class:list={[
-                $.item,
-                page === currentPage && $.active,
-              ]}
+              class:list={[$.item, page === currentPage && $.active]}
             >
               {page}
             </Button>
@@ -109,15 +90,9 @@ const $ = {
           aria-label="Next page"
           variant="icon"
           size="md"
-          class:list={[
-            $.item,
-            currentPage === totalPages && $.disabled,
-          ]}
+          class:list={[$.item, currentPage === totalPages && $.disabled]}
         >
-          <Icon
-            name="chevron-right"
-            class={$.icon}
-          />
+          <Icon name="chevron-right" class={$.icon} />
         </Button>
       </div>
     </nav>

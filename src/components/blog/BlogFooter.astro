@@ -11,33 +11,29 @@ interface Props {
   lastUpdated?: Date;
 }
 
-const {
-  prev,
-  next,
-  lastUpdated,
-} = Astro.props;
+const { prev, next, lastUpdated } = Astro.props;
 
 const $ = {
-  wrapper: "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
+  wrapper:
+    "items-center justify-center flex-1 shrink-0 mb-(--safe-bottom) pt-4 space-y-6",
   date: "text-body-13 text-(--fg-muted)",
-}
+};
 ---
 
 <footer data-pagefind-ignore class={$.wrapper}>
-  {lastUpdated && (
-    <p class={$.date}>
-      <time 
-        data-page-meta="date" 
-        data-pagefind-sort="date" 
-        datetime={lastUpdated.toISOString()}
-      >
-        <span>Last update: </span>
-        {formatDate(lastUpdated)}
-      </time>
-    </p>
-  )}
-  <BlogPager
-    prev={prev}
-    next={next}
-  />
+  {
+    lastUpdated && (
+      <p class={$.date}>
+        <time
+          data-page-meta="date"
+          data-pagefind-sort="date"
+          datetime={lastUpdated.toISOString()}
+        >
+          <span>Last update: </span>
+          {formatDate(lastUpdated)}
+        </time>
+      </p>
+    )
+  }
+  <BlogPager prev={prev} next={next} />
 </footer>

@@ -1,8 +1,8 @@
 ---
 //src/components/ui/Icons.astro
 
-import { uiIcons } from '../../assets/icons/uiIcons';
-import { socialIcons } from '../../assets/icons/socialIcons';
+import { uiIcons } from "../../assets/icons/uiIcons";
+import { socialIcons } from "../../assets/icons/socialIcons";
 
 const icons = {
   ...uiIcons,
@@ -71,12 +71,12 @@ interface Props {
   viewBox?: string;
 }
 
-const { 
+const {
   name,
-  size = '24',
-  class: className ='size-5',
-  viewBox= '0 0 24 24',
-  id
+  size = "24",
+  class: className = "size-5",
+  viewBox = "0 0 24 24",
+  id,
 } = Astro.props;
 
 const fallbackPath = icons.logo;
@@ -95,8 +95,8 @@ const innerSvgHtml = icons[name as IconName] || fallbackPath;
   aria-hidden="true"
   focusable="false"
   class:list={[
-    "block items-center justify-center shrink-0 aspect-square",
-    className
+    "block aspect-square shrink-0 items-center justify-center",
+    className,
   ]}
   set:html={innerSvgHtml}
 />

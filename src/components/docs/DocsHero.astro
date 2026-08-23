@@ -29,24 +29,22 @@ const {
 } = Astro.props;
 
 const $ = {
-  section: [
-    "relative py-16 lg:py-24",
-    "bg-(--bg)",
-  ].join(" "),
-  
+  section: ["relative py-16 lg:py-24", "bg-(--bg)"].join(" "),
+
   backgroundPattern: [
     "absolute inset-0 z-0",
     "bg-[radial-gradient(var(--fg)_1px,transparent_1px)]",
     "[background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)]",
-    "opacity-60"
+    "opacity-60",
   ].join(" "),
 
-  container: "relative z-10 mx-auto max-w-4xl text-center flex flex-col items-center",
-  
+  container:
+    "relative z-10 mx-auto max-w-4xl text-center flex flex-col items-center",
+
   badge: [
     "gap-1.5 mb-5",
     "text-label-12 font-medium",
-    badge ? "" : "hidden"
+    badge ? "" : "hidden",
   ].join(" "),
 
   title: [
@@ -61,39 +59,39 @@ const $ = {
 ---
 
 <Section class={$.section}>
-  <div class={$.backgroundPattern} aria-hidden="true" />
-  
-  <Container size="lg" class={$.container}>
+  <div class={$.backgroundPattern} aria-hidden="true"></div>
 
-    {badge && (
-      <Badge variant="accent" class={$.badge}>
-        <Icon name="sparkle" class="size-3.5 text-(--accent)" />
-        <span>{badge}</span>
-      </Badge>
-    )}
+  <Container size="lg" class={$.container}>
+    {
+      badge && (
+        <Badge variant="accent" class={$.badge}>
+          <Icon name="sparkle" class="size-3.5 text-(--accent)" />
+          <span>{badge}</span>
+        </Badge>
+      )
+    }
 
     <h1 class={$.title} set:html={title} />
-    
+
     <p class={$.description}>{description}</p>
 
     <div class={$.actions}>
-      <Button 
-        href={primaryHref} 
-        variant="primary" 
+      <Button
+        href={primaryHref}
+        variant="primary"
         size="lg"
-        suffix={<Icon name="rocket" class="size-4" />}
+        suffix={(<Icon name="rocket" class="size-4" />)}
       >
         {primaryText}
       </Button>
-      <Button 
-        href={secondaryHref} 
-        variant="outline" 
+      <Button
+        href={secondaryHref}
+        variant="outline"
         size="lg"
-        suffix={<Icon name="arrow-right" class="size-4" />}
+        suffix={(<Icon name="arrow-right" class="size-4" />)}
       >
         {secondaryText}
       </Button>
     </div>
-
   </Container>
 </Section>

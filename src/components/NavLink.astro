@@ -20,12 +20,12 @@ const links = NAV.navBar.map((item) => {
   {
     links.map((item) => {
       const hrefPath = item.isExternal ? "" : new URL(item.href).pathname;
-      
-      const isActive = !item.isExternal && (
-        hrefPath === "/" 
-          ? currentPath === "/" 
-          : currentPath === hrefPath || currentPath.startsWith(hrefPath)
-      );
+
+      const isActive =
+        !item.isExternal &&
+        (hrefPath === "/"
+          ? currentPath === "/"
+          : currentPath === hrefPath || currentPath.startsWith(hrefPath));
 
       return (
         <a

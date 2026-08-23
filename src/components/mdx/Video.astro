@@ -20,7 +20,7 @@ const {
 const getYouTubeId = (url: string) => {
   if (!url) return null;
   const m = url.match(
-    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
   );
   return m ? m[1] : null;
 };
@@ -49,31 +49,29 @@ const embedSrc = ytId
 
 <figure class="video-figure">
   <div class="video-wrapper">
-    {isDirect ? (
-      <video
-        src={src}
-        controls
-        playsinline
-        autoplay={autoplay}
-        loop={loop}
-        muted={muted}
-        title={title}
-        class="video-element"
-      />
-    ) : (
-      <iframe
-        src={embedSrc!}
-        title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        loading="lazy"
-        class="video-element"
-      />
-    )}
+    {
+      isDirect ? (
+        <video
+          src={src}
+          controls
+          playsinline
+          autoplay={autoplay}
+          loop={loop}
+          muted={muted}
+          title={title}
+          class="video-element"
+        />
+      ) : (
+        <iframe
+          src={embedSrc!}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+          class="video-element"
+        />
+      )
+    }
   </div>
-  {caption && 
-    <figcaption>
-      {caption}
-    </figcaption>
-  }
+  {caption && <figcaption>{caption}</figcaption>}
 </figure>

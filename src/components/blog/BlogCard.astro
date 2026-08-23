@@ -1,15 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
-import { 
-  formatDateCompact, 
-  getSlug } from "@lib/utils";
+import { formatDateCompact, getSlug } from "@lib/utils";
 
-import {
-  IMAGE,
-  SITE,
-  ROUTES,
-} from "@/consts";
+import { IMAGE, SITE, ROUTES } from "@/consts";
 
 import Button from "@ui/Button.astro";
 import Card from "@ui/Card.astro";
@@ -21,15 +15,8 @@ interface Props {
 
 const { entry, index = 0 } = Astro.props;
 
-const {
-  title,
-  description,
-  slug,
-  category,
-  pubDate,
-  author,
-  cover,
-} = entry.data;
+const { title, description, slug, category, pubDate, author, cover } =
+  entry.data;
 
 const cleanSlug = getSlug(entry);
 const href = `${ROUTES.blog}/${cleanSlug}/`;
@@ -65,47 +52,53 @@ const $ = {
 
 <article class={$.wrapper}>
   <Card padding="md" radius="sm" variant="secondary" class={$.body}>
-    {cover?.src && (
-      <div class={$.coverWrapper}>
-        <img
-          src={cover.src}
-          alt={cover.alt ?? title}
-          width={IMAGE.thumbnail.width}
-          height={IMAGE.thumbnail.height}
-          loading={imageLoading}
-          fetchpriority={imagePriority}
-          decoding="async"
-          onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
-          class={$.coverImage}
-        />
-      </div>
-    )}
+    {
+      cover?.src && (
+        <div class={$.coverWrapper}>
+          <img
+            src={cover.src}
+            alt={cover.alt ?? title}
+            width={IMAGE.thumbnail.width}
+            height={IMAGE.thumbnail.height}
+            loading={imageLoading}
+            fetchpriority={imagePriority}
+            decoding="async"
+            onerror={`this.onerror=null; this.src='${IMAGE.thumbnail.placeholder}'`}
+            class={$.coverImage}
+          />
+        </div>
+      )
+    }
     <div class={$.meta}>
       <span set:html={category} />
       <div class={$.metaRight}>
         <p>
-          {pubDate && (
-            <time
-              datetime={pubDate.toISOString()}
-              set:html={formatDateCompact(pubDate)}
-            />
-          )}
+          {
+            pubDate && (
+              <time
+                datetime={pubDate.toISOString()}
+                set:html={formatDateCompact(pubDate)}
+              />
+            )
+          }
         </p>
-        {author?.avatar && (
-          <div class={$.avatar}>
-            <img
-              src={Author.avatar}
-              alt={Author.alt}
-              width={Author.width}
-              height={Author.height}
-              loading={imageLoading}
-              decoding="async"
-              fetchpriority={imagePriority}
-              onerror={`this.onerror=null; this.src='${IMAGE.avatar.placeholder}'`}
-              class={$.avatarImage}
-            />
-          </div>
-        )}
+        {
+          author?.avatar && (
+            <div class={$.avatar}>
+              <img
+                src={Author.avatar}
+                alt={Author.alt}
+                width={Author.width}
+                height={Author.height}
+                loading={imageLoading}
+                decoding="async"
+                fetchpriority={imagePriority}
+                onerror={`this.onerror=null; this.src='${IMAGE.avatar.placeholder}'`}
+                class={$.avatarImage}
+              />
+            </div>
+          )
+        }
       </div>
     </div>
     <div class={$.content}>

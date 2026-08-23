@@ -68,25 +68,27 @@ const $ = {
 
   <div id="mobile-menu-panel" class={$.panel}>
     <nav class={$.panelWrapper}>
-      {links.map((item, i) => {
-        const hrefPath = item.isExternal ? "" : new URL(item.href).pathname;
-        const isActive = !item.isExternal && currentPath === hrefPath;
+      {
+        links.map((item, i) => {
+          const hrefPath = item.isExternal ? "" : new URL(item.href).pathname;
+          const isActive = !item.isExternal && currentPath === hrefPath;
 
-        return (
-          <a
-            aria-label={item.label}
-            href={item.href}
-            style={`transition-delay: ${i * 30}ms`}
-            class:list={[
-              $.panelItem,
-              isActive ? "text-(--fg-strong)" : "text-(--fg-muted)",
-            ]}
-          >
-            <Icon name={item.icon as any} class={$.panelPrefix} />
-            {item.label}
-          </a>
-        );
-      })}
+          return (
+            <a
+              aria-label={item.label}
+              href={item.href}
+              style={`transition-delay: ${i * 30}ms`}
+              class:list={[
+                $.panelItem,
+                isActive ? "text-(--fg-strong)" : "text-(--fg-muted)",
+              ]}
+            >
+              <Icon name={item.icon as any} class={$.panelPrefix} />
+              {item.label}
+            </a>
+          );
+        })
+      }
       <Card
         variant="outline"
         padding="xs"
@@ -107,7 +109,9 @@ const $ = {
 
 <script>
   function initMobileNavDetails() {
-    const details = document.getElementById("mobile-menu-details") as HTMLDetailsElement | null;
+    const details = document.getElementById(
+      "mobile-menu-details",
+    ) as HTMLDetailsElement | null;
     if (!details) return;
 
     const links = details.querySelectorAll(".mobile-nav-link");
@@ -143,9 +147,11 @@ const $ = {
 
     details.addEventListener("toggle", () => {
       if (details.open) {
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        const scrollbarWidth =
+          window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = "hidden";
-        if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+        if (scrollbarWidth > 0)
+          document.body.style.paddingRight = `${scrollbarWidth}px`;
       } else {
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";

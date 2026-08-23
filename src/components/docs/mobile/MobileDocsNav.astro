@@ -4,7 +4,7 @@ import Icon from "@ui/Icons.astro";
 import Button from "@ui/Button.astro";
 ---
 
-<div class="flex md:hidden gap-1">
+<div class="flex gap-1 md:hidden">
   <nav-toggle>
     <Button
       variant="icon"
@@ -21,27 +21,32 @@ import Button from "@ui/Button.astro";
 
 <script>
   class NavToggle extends HTMLElement {
-    btn = this.querySelector('button')!;
+    btn = this.querySelector("button")!;
 
     constructor() {
       super();
-      this.btn.addEventListener('click', () => this.toggleExpanded());
-      matchMedia('(min-width: 64rem)').addEventListener('change', () => this.setExpanded(false));
+      this.btn.addEventListener("click", () => this.toggleExpanded());
+      matchMedia("(min-width: 64rem)").addEventListener("change", () =>
+        this.setExpanded(false),
+      );
     }
 
     setExpanded(expanded: boolean) {
-      this.btn.setAttribute('aria-expanded', String(expanded));
-      this.btn.setAttribute('aria-label', expanded ? 'Close Menu' : 'Open Menu');
-      document.body.toggleAttribute('data-nav-expanded', expanded);
+      this.btn.setAttribute("aria-expanded", String(expanded));
+      this.btn.setAttribute(
+        "aria-label",
+        expanded ? "Close Menu" : "Open Menu",
+      );
+      document.body.toggleAttribute("data-nav-expanded", expanded);
     }
 
     toggleExpanded() {
-      this.setExpanded(this.btn.getAttribute('aria-expanded') !== 'true');
+      this.setExpanded(this.btn.getAttribute("aria-expanded") !== "true");
     }
   }
 
-  if (!customElements.get('nav-toggle')) {
-    customElements.define('nav-toggle', NavToggle);
+  if (!customElements.get("nav-toggle")) {
+    customElements.define("nav-toggle", NavToggle);
   }
 </script>
 
@@ -50,11 +55,11 @@ import Button from "@ui/Button.astro";
     display: none;
   }
 
-  :global(nav-toggle button[aria-expanded='true'] .open-menu) {
+  :global(nav-toggle button[aria-expanded="true"] .open-menu) {
     display: none;
   }
 
-  :global(nav-toggle button[aria-expanded='true'] .close-menu) {
+  :global(nav-toggle button[aria-expanded="true"] .close-menu) {
     display: block;
   }
 </style>

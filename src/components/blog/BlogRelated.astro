@@ -1,9 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { 
-  formatDate, 
-  getSlug 
-} from "@lib/utils";
+import { formatDate, getSlug } from "@lib/utils";
 import { ROUTES } from "@/consts";
 
 export interface Props {
@@ -22,9 +19,7 @@ const getTags = (entry: CollectionEntry<"blog">): string[] => {
 
 const candidatePosts = allPosts.filter(
   (post) =>
-    post.id !== currentEntry.id &&
-    !post.data.draft &&
-    getTags(post).length > 0
+    post.id !== currentEntry.id && !post.data.draft && getTags(post).length > 0,
 );
 
 if (candidatePosts.length === 0) {
@@ -54,8 +49,7 @@ const related = postsWithScore.slice(0, maxItems).map((item) => item.post);
 
 const $ = {
   label: "text-heading-24 font-semibold text-(--fg-strong) mb-6",
-  card:
-    "flex flex-col rounded ring-1 ring-(--border) bg-transparent p-2 gap-0.5 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
+  card: "flex flex-col rounded ring-1 ring-(--border) bg-transparent p-2 gap-0.5 hover:bg-(--bg-muted) active:bg-(--bg-muted)",
   title:
     "text-heading-16 font-medium text-(--fg) group-hover:text-(--fg-strong) group-active:text-(--fg-strong)",
   date: "text-body-14! text-(--fg-muted) mt-auto",
@@ -77,7 +71,10 @@ const $ = {
                 <h3 class={$.title} set:html={post.data.title} />
                 <p>
                   {post.data.pubDate && (
-                    <time class={$.date} set:html={formatDate(post.data.pubDate)} />
+                    <time
+                      class={$.date}
+                      set:html={formatDate(post.data.pubDate)}
+                    />
                   )}
                 </p>
               </a>
