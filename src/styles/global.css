@@ -6,15 +6,13 @@
   --font-sans: var(--font-Geist);
   --font-mono: var(--font-GeistMono);
 
-  --color-gold: rgb(138, 106, 0);
-  --color-gold-dark: rgb(201, 165, 58);
-  --color-platinum: rgb(228, 226, 220);
-  --color-steel: rgb(82, 88, 92);
+  --color-platinum: rgb(229, 229, 229);
+  --color-steel: rgb(115, 115, 115);
 
-  --color-success: rgb(15, 122, 75);
-  --color-error: rgb(194, 42, 53);
-  --color-warning: rgb(184, 68, 10);
-  --color-info: rgb(12, 110, 145);
+  --color-success: rgb(34, 197, 94);
+  --color-error: rgb(239, 68, 68);
+  --color-warning: rgb(249, 115, 22);
+  --color-info: rgb(6, 182, 212);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -42,26 +40,26 @@
 }
 
 :root[data-theme="dark"] {
-  /* --- BACKGROUND --- */
-  --bg: rgb(9, 9, 11);
-  --bg-subtle: rgb(14, 14, 17);
-  --bg-muted: rgb(22, 22, 26);
-  --bg-elevated: rgb(29, 29, 35);
-  --bg-overlay: rgb(9, 9, 11 / 0.85);
+  /* --- BACKGROUND (Stealth Noir Pure Black) --- */
+  --bg: rgb(5, 5, 5);
+  --bg-subtle: rgb(10, 10, 10);
+  --bg-muted: rgb(18, 18, 18);
+  --bg-elevated: rgb(26, 26, 26);
+  --bg-overlay: rgb(5, 5, 5 / 0.85);
 
-  /* --- FOREGROUND / TEKS --- */
-  --fg: rgb(240, 240, 242);
-  --fg-strong: rgb(255, 255, 255);
-  --fg-muted: rgb(156, 163, 175);
-  --fg-subtle: rgb(115, 115, 125);
-  --fg-dim: rgb(75, 85, 99);
-  --fg-disabled: rgb(55, 65, 81);
-  --fg-inverted: rgb(9, 9, 11);
+  /* --- FOREGROUND / TEKS (Subtle Silver Monochromatic) --- */
+  --fg: rgb(168, 168, 168);
+  --fg-strong: rgb(240, 240, 240);
+  --fg-muted: rgb(115, 115, 115);
+  --fg-subtle: rgb(82, 82, 82);
+  --fg-dim: rgb(50, 50, 50);
+  --fg-disabled: rgb(38, 38, 38);
+  --fg-inverted: rgb(5, 5, 5);
 
-  /* --- BORDER --- */
-  --border: rgb(39, 39, 42);
-  --border-strong: rgb(63, 63, 70);
-  --border-subtle: rgb(24, 24, 27);
+  /* --- BORDER (Ultra-Subtle Lines) --- */
+  --border: rgb(30, 30, 30);
+  --border-strong: rgb(50, 50, 50);
+  --border-subtle: rgb(15, 15, 15);
 
   /* --- SURFACE ALIAS --- */
   --surface: var(--bg);
@@ -69,23 +67,23 @@
   --surface-muted: var(--bg-muted);
   --surface-elevated: var(--bg-elevated);
 
-  /* --- ACCENT --- */
-  --accent: rgb(245, 197, 66);
-  --accent-dim: rgb(245 197 66 / 0.3);
-  --accent-soft: rgb(245 197 66 / 0.1);
-  --accent-ring: rgb(245 197 66 / 0.25);
-  --accent-border: rgb(245 197 66 / 0.4);
-  --accent-fg: rgb(30, 22, 0);
+  /* --- ACCENT (The Metallic Glint / Platinum) --- */
+  --accent: rgb(229, 229, 229);
+  --accent-dim: rgb(229 229 229 / 0.15);
+  --accent-soft: rgb(229 229 229 / 0.05);
+  --accent-ring: rgb(229 229 229 / 0.25);
+  --accent-border: rgb(229 229 229 / 0.3);
+  --accent-fg: rgb(5, 5, 5);
 
   /* --- SECONDARY --- */
-  --secondary: rgb(235, 233, 228);
-  --secondary-subtle: rgb(235 233 228 / 0.06);
-  --secondary-muted: rgb(235 233 228 / 0.12);
-  --secondary-tertiary: rgb(235 233 228 / 0.2);
-  --secondary-border: rgb(235 233 228 / 0.3);
-  --secondary-fg: rgb(20, 20, 22);
+  --secondary: rgb(168, 168, 168);
+  --secondary-subtle: rgb(168 168 168 / 0.06);
+  --secondary-muted: rgb(168 168 168 / 0.12);
+  --secondary-tertiary: rgb(168 168 168 / 0.2);
+  --secondary-border: rgb(168 168 168 / 0.3);
+  --secondary-fg: rgb(5, 5, 5);
 
-  /* --- STATUS --- */
+  /* --- STATUS (Muted / Low Contrast to Fit Vibe) --- */
   --success: rgb(34, 197, 94);
   --success-soft: rgb(34 197 94 / 0.12);
   --success-fg: rgb(5, 46, 28);
@@ -95,7 +93,7 @@
   --error-fg: rgb(69, 10, 10);
 
   --warning: rgb(249, 115, 22);
-  --warning-soft: rgb(249 115 22 / 0.12);
+  --warning-soft: rgb(249 115, 22 / 0.12);
   --warning-fg: rgb(67, 20, 7);
 
   --info: rgb(6, 182, 212);
@@ -103,28 +101,28 @@
   --info-fg: rgb(8, 51, 60);
 
   /* --- SHADOWS --- */
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.6);
-  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
-  --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.55);
-  --shadow-xl: 0 20px 38px rgb(0 0 0 / 0.65);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.8);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.7);
+  --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.8);
+  --shadow-xl: 0 20px 38px rgb(0 0 0 / 0.9);
 }
 
 [data-theme="light"] {
-  /* --- BACKGROUND --- */
-  --bg: rgb(255, 255, 255);
-  --bg-subtle: rgb(248, 249, 250);
-  --bg-muted: rgb(241, 243, 245);
+  /* --- BACKGROUND (Clean Paper Minimalist) --- */
+  --bg: rgb(250, 250, 250);
+  --bg-subtle: rgb(244, 244, 245);
+  --bg-muted: rgb(228, 228, 231);
   --bg-elevated: rgb(255, 255, 255);
-  --bg-overlay: rgb(255 255 255 / 0.9);
+  --bg-overlay: rgb(250 250 250 / 0.9);
 
-  /* --- FOREGROUND / TEKS --- */
-  --fg: rgb(39, 39, 42);
+  /* --- FOREGROUND / TEKS (Charcoal Balanced) --- */
+  --fg: rgb(82, 82, 91);
   --fg-strong: rgb(9, 9, 11);
   --fg-muted: rgb(113, 113, 122);
   --fg-subtle: rgb(161, 161, 170);
   --fg-dim: rgb(212, 212, 216);
   --fg-disabled: rgb(228, 228, 231);
-  --fg-inverted: rgb(255, 255, 255);
+  --fg-inverted: rgb(250, 250, 250);
 
   /* --- BORDER --- */
   --border: rgb(228, 228, 231);
@@ -137,20 +135,20 @@
   --surface-muted: var(--bg-muted);
   --surface-elevated: var(--bg-elevated);
 
-  /* --- ACCENT --- */
-  --accent: rgb(63, 63, 70);
-  --accent-dim: rgb(63 63 70 / 0.18);
-  --accent-soft: rgb(63 63 70 / 0.08);
-  --accent-ring: rgb(63 63 70 / 0.22);
-  --accent-border: rgb(63 63 70 / 0.35);
-  --accent-fg: rgb(255, 255, 255);
+  /* --- ACCENT (Deep Zinc / Charcoal Glint) --- */
+  --accent: rgb(24, 24, 27);
+  --accent-dim: rgb(24 24 27 / 0.15);
+  --accent-soft: rgb(24 24 27 / 0.05);
+  --accent-ring: rgb(24 24 27 / 0.25);
+  --accent-border: rgb(24 24 27 / 0.3);
+  --accent-fg: rgb(250, 250, 250);
 
   /* --- SECONDARY --- */
-  --secondary: rgb(161, 118, 0);
-  --secondary-subtle: rgb(161 118 0 / 0.05);
-  --secondary-muted: rgb(161 118 0 / 0.1);
-  --secondary-tertiary: rgb(161 118 0 / 0.18);
-  --secondary-border: rgb(161 118 0 / 0.28);
+  --secondary: rgb(82, 82, 91);
+  --secondary-subtle: rgb(82 82 91 / 0.05);
+  --secondary-muted: rgb(82 82 91 / 0.1);
+  --secondary-tertiary: rgb(82 82 91 / 0.18);
+  --secondary-border: rgb(82 82 91 / 0.28);
   --secondary-fg: rgb(255, 255, 255);
 
   /* --- STATUS --- */
