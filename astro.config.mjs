@@ -3,15 +3,12 @@ import {
   defineConfig,
   fontProviders,
   passthroughImageService,
-  svgoOptimizer
+  svgoOptimizer,
 } from "astro/config";
 
 import { SITE } from "./src/consts";
 
-import { 
-  satteri, 
-  satteriHeadingIdsPlugin 
-} from "@astrojs/markdown-satteri";
+import { satteri, satteriHeadingIdsPlugin } from "@astrojs/markdown-satteri";
 
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
@@ -23,38 +20,35 @@ import {
   transformerNotationErrorLevel,
   transformerNotationHighlight,
   transformerNotationWordHighlight,
-  transformerRemoveLineBreak,
 } from "@shikijs/transformers";
 
 import {
-  satteriHeadingAnchor,
-  satteriExternalLink,
-  satteriTabsHast,
-  satteriCallout,
-  satteriSteps,
-  satteriTabs,
-  satteriFileTree,
   satteriAccordion,
-  satteriUser,
   satteriBadge,
   satteriButton,
-  satteriFigure,
-  satteriVideo,
+  satteriCallout,
   satteriCard,
-  satteriIcon,
-  satteriGrid,
-  satteriQuote,
   satteriChangelog,
   satteriCodeBlock,
+  satteriExternalLink,
+  satteriFigure,
+  satteriFileTree,
+  satteriGrid,
+  satteriHeadingAnchor,
+  satteriIcon,
   satteriKbd,
-  satteriTable
+  satteriQuote,
+  satteriSteps,
+  satteriTable,
+  satteriTabs,
+  satteriTabsHast,
+  satteriUser,
+  satteriVideo,
 } from "./src/lib/plugins";
 
 import pagefind from "astro-pagefind";
 
-
 // import sitemap from "@astrojs/sitemap";
-
 
 // https://astro.build/config
 export default defineConfig({
@@ -70,17 +64,16 @@ export default defineConfig({
         smartPunctuation: true,
         gfm: {
           footnotes: {
-            label: "Referensi",
+            label: "Footnotes",
             backContent: "↑",
-            backLabel: "Kembali ke referensi {reference}",
+            backLabel: "Back to reference {reference}",
           },
-          
         },
         wikilinks: true,
         superscript: true,
         subscript: true,
-        math: { 
-          singleDollarTextMath: false 
+        math: {
+          singleDollarTextMath: false,
         },
       },
       hastPlugins: [
@@ -90,7 +83,6 @@ export default defineConfig({
         satteriTabsHast,
         satteriTable,
         satteriCodeBlock,
-        
       ],
       mdastPlugins: [
         satteriCallout,
@@ -108,17 +100,15 @@ export default defineConfig({
         satteriGrid,
         satteriQuote,
 
-
         satteriKbd,
         satteriChangelog,
-        
       ],
     }),
     syntaxHighlight: "shiki",
     shikiConfig: {
       themes: {
         light: "github-light",
-        dark: 'github-dark',
+        dark: "github-dark",
       },
       transformers: [
         transformerMetaHighlight(),
@@ -130,15 +120,15 @@ export default defineConfig({
         // transformerRemoveLineBreak(),
       ],
       wrap: false,
-    }
+    },
   },
   integrations: [
     //sitemap(),
     mdx({
       optimize: true,
       extendMarkdownConfig: true,
-    }), 
-    pagefind(), 
+    }),
+    pagefind(),
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -184,6 +174,6 @@ export default defineConfig({
   },
   experimental: {
     incrementalBuild: true,
-    svgOptimizer: svgoOptimizer()
+    svgOptimizer: svgoOptimizer(),
   },
 });
