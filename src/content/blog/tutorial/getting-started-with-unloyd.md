@@ -81,12 +81,13 @@ For documentation pages, create `.md` files in `src/content/docs/` with the righ
 Unloyd is a static site — it works with any static hosting platform. The recommended option is Cloudflare Pages:
 
 :::steps
+
 1. Push your code to GitHub or GitLab.
 2. Connect your repo to Cloudflare Pages.
 3. Set build command to `npm run build` and output directory to `dist`.
 4. Add `PUBLIC_SITE_URL` to your environment variables.
 5. Deploy.
-:::
+   :::
 
 That's it. Cloudflare will build and serve your site automatically on every push.
 

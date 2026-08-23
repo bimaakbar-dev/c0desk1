@@ -1,21 +1,21 @@
 // src/lib/mdx/satteri-figure.ts
-import { defineMdastPlugin } from 'satteri';
+import { defineMdastPlugin } from "satteri";
 
 export const satteriFigure = defineMdastPlugin({
-  name: 'satteri-figure',
+  name: "satteri-figure",
 
   paragraph(node, ctx) {
-    const imageIndex = node.children.findIndex((c: any) => c.type === 'image');
+    const imageIndex = node.children.findIndex((c: any) => c.type === "image");
     if (imageIndex === -1) return;
 
     const imageNode = node.children[imageIndex] as any;
 
-    let caption = '';
+    let caption = "";
     let captionIndex = -1;
 
     for (let i = imageIndex + 1; i < node.children.length; i++) {
       const child = node.children[i];
-      if (child.type === 'text') {
+      if (child.type === "text") {
         const match = child.value.match(/^\s*\{\s*(.+?)\s*\}\s*$/);
         if (match) {
           caption = match[1].trim();
@@ -27,13 +27,13 @@ export const satteriFigure = defineMdastPlugin({
 
     const figureChildren: any[] = [
       {
-        type: 'image',
+        type: "image",
         url: imageNode.url,
-        alt: imageNode.alt || '',
+        alt: imageNode.alt || "",
         title: imageNode.title || undefined,
         data: {
           hProperties: {
-            loading: 'lazy',
+            loading: "lazy",
           },
         },
       },
@@ -41,29 +41,29 @@ export const satteriFigure = defineMdastPlugin({
 
     if (caption) {
       figureChildren.push({
-        type: 'containerDirective',
+        type: "containerDirective",
         data: {
-          hName: 'figcaption',
+          hName: "figcaption",
           hProperties: {},
         },
-        children: [{ type: 'text', value: caption }],
+        children: [{ type: "text", value: caption }],
       });
     }
 
     const otherChildren = node.children.filter(
-      (_: any, i: number) => i !== imageIndex && i !== captionIndex
+      (_: any, i: number) => i !== imageIndex && i !== captionIndex,
     );
 
     if (otherChildren.length > 0) {
       figureChildren.push(...otherChildren);
     }
 
-    ctx.setProperty(node, 'data', {
+    ctx.setProperty(node, "data", {
       ...(node.data || {}),
-      hName: 'figure',
+      hName: "figure",
       hProperties: {},
     });
 
-    ctx.setProperty(node, 'children', figureChildren);
+    ctx.setProperty(node, "children", figureChildren);
   },
 });

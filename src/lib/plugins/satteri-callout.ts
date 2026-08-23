@@ -1,13 +1,13 @@
 // src/lib/mdx/satteri-callout.ts
-import { defineMdastPlugin } from 'satteri';
+import { defineMdastPlugin } from "satteri";
 
 const CALLOUT_TYPES = {
-  NOTE: 'note',
-  TIP: 'tip',
-  IMPORTANT: 'important',
-  WARNING: 'warning',
-  CAUTION: 'caution',
-  DANGER: 'danger',
+  NOTE: "note",
+  TIP: "tip",
+  IMPORTANT: "important",
+  WARNING: "warning",
+  CAUTION: "caution",
+  DANGER: "danger",
 } as const;
 
 type CalloutType = keyof typeof CALLOUT_TYPES;
@@ -15,16 +15,16 @@ type CalloutType = keyof typeof CALLOUT_TYPES;
 const CALLOUT_PATTERN = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|DANGER)\]\s*/i;
 
 export const satteriCallout = defineMdastPlugin({
-  name: 'satteri-callout',
+  name: "satteri-callout",
 
   blockquote(node, ctx) {
     const firstChild = node.children[0];
-    if (!firstChild || firstChild.type !== 'paragraph') {
+    if (!firstChild || firstChild.type !== "paragraph") {
       return;
     }
 
     const firstText = firstChild.children[0];
-    if (!firstText || firstText.type !== 'text') {
+    if (!firstText || firstText.type !== "text") {
       return;
     }
 
@@ -47,19 +47,19 @@ export const satteriCallout = defineMdastPlugin({
 
     const newParagraph = { ...firstChild, children: newChildren };
 
-    ctx.setProperty(node, 'children', [
+    ctx.setProperty(node, "children", [
       newParagraph,
       ...node.children.slice(1),
     ]);
 
     const baseData = node.data || {};
-    ctx.setProperty(node, 'data', {
+    ctx.setProperty(node, "data", {
       ...baseData,
-      hName: 'aside',
+      hName: "aside",
       hProperties: {
         ...(baseData.hProperties || {}),
-        className: ['callout'],
-        'data-callout': type,
+        className: ["callout"],
+        "data-callout": type,
       },
     });
   },

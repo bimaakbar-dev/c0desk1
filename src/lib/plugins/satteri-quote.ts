@@ -13,7 +13,7 @@ export const satteriQuote = defineMdastPlugin({
     for (const child of node.children) {
       if (child.type === "paragraph") {
         const hasUser = child.children?.some(
-          (c: any) => c.type === "textDirective" && c.name === "user"
+          (c: any) => c.type === "textDirective" && c.name === "user",
         );
 
         if (hasUser) {

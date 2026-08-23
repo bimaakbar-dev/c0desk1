@@ -1,32 +1,21 @@
 // src/pages/rss.xml.ts
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 
-import { 
-  SITE, 
-  ROUTES, 
-  PAGINATION 
-} from "@/consts";
+import { PAGINATION, ROUTES, SITE } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from "@/lib/utils";
+import { canonicalUrl, getSlug } from "@/lib/utils";
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
 
   if (typeof cover === "string") {
-    return cover.startsWith("http")
-      ? cover
-      : `${baseUrl}${cover}`;
+    return cover.startsWith("http") ? cover : `${baseUrl}${cover}`;
   }
 
   if (typeof cover === "object" && cover.src) {
-    return cover.src.startsWith("http")
-      ? cover.src
-      : `${baseUrl}${cover.src}`;
+    return cover.src.startsWith("http") ? cover.src : `${baseUrl}${cover.src}`;
   }
 
   return null;
@@ -74,20 +63,14 @@ export const GET: APIRoute = async (context) => {
     ...blog.map((post) => ({
       ...post.data,
       url: canonicalUrl(`${ROUTES.blog}/${getSlug(post)}`),
-      date:
-        post.data.pubDate ??
-        post.data.lastUpdated ??
-        new Date(0),
+      date: post.data.pubDate ?? post.data.lastUpdated ?? new Date(0),
       tags: post.data.tags || [],
     })),
 
     ...docs.map((doc) => ({
       ...doc.data,
       url: canonicalUrl(`${ROUTES.docs}/${getSlug(doc)}`),
-      date:
-        doc.data.pubDate ??
-        doc.data.lastUpdated ??
-        new Date(0),
+      date: doc.data.pubDate ?? doc.data.lastUpdated ?? new Date(0),
       tags: doc.data.category ? [doc.data.category] : [],
     })),
   ]
@@ -123,11 +106,7 @@ export const GET: APIRoute = async (context) => {
       const coverAlt = escapeHtmlAttr(item.cover?.alt || item.title);
 
       const html = `
-        ${
-          coverUrl
-            ? `<p><img src="${coverUrl}" alt="${coverAlt}" /></p>`
-            : ""
-        }
+        ${coverUrl ? `<p><img src="${coverUrl}" alt="${coverAlt}" /></p>` : ""}
         <p>${item.description ?? ""}</p>
       `.trim();
 
@@ -135,13 +114,11 @@ export const GET: APIRoute = async (context) => {
         title: item.title,
         link: item.url,
         pubDate: item.date,
-        description:
-          item.description ??
-          `Baca ${item.title} di ${SITE.name}.`,
+        description: item.description ?? `Baca ${item.title} di ${SITE.name}.`,
         author: `${authorEmail} (${authorName})`,
         categories: item.category
           ? [...new Set([item.category, ...(item.tags || [])])]
-          : (item.tags || []),
+          : item.tags || [],
         enclosure: undefined,
         customData: `
           ${

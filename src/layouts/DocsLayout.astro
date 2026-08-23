@@ -1,7 +1,7 @@
 ---
 // src/layouts/DocsLayout.astro
 import Layout from "./Layout.astro";
-import Header from "@components/Header.astro"; 
+import Header from "@components/Header.astro";
 import PageFrame from "@/components/PageFrame.astro";
 import MobileDocsNav from "@docs/mobile/MobileDocsNav.astro";
 import ScrollToTop from "@docs/mobile/ScrollToTop.astro";
@@ -18,21 +18,22 @@ interface Props {
   publisher?: string;
 }
 
-const { 
-  meta, 
-  schema, 
-  isHome = false, 
+const {
+  meta,
+  schema,
+  isHome = false,
   canonical,
   author,
   publisher,
 } = Astro.props;
 ---
-<Layout 
-  hideHeader 
+
+<Layout
+  hideHeader
   hideFooter
-  {meta} 
-  {schema} 
-  {isHome} 
+  {meta}
+  {schema}
+  {isHome}
   {canonical}
   {author}
   {publisher}
@@ -45,9 +46,9 @@ const {
     <main id="docs-content" class="w-full min-w-0 flex-1">
       <slot />
     </main>
-    <aside 
+    <aside
       aria-label="Table of Contents"
-      class="hidden lg:block sticky top-0 h-screen w-full overflow-y-auto px-4 py-4 border-l border-(--border) scrollbar-gutter-stable"
+      class="sticky top-0 hidden h-screen w-full scrollbar-gutter-stable overflow-y-auto border-l border-(--border) px-4 py-4 lg:block"
     >
       <slot name="right" />
     </aside>

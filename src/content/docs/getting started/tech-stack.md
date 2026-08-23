@@ -21,12 +21,12 @@ Stardux is built with a modern, lightweight technology stack focused on performa
 
 ## Overview
 
-| Technology | Purpose |
-| --- | --- |
-| [Astro 7.2](https://astro.build) | Core framework and static site generation |
-| [Tailwind CSS 4](https://tailwindcss.com) | Styling and responsive design |
-| [Pagefind](https://pagefind.app) | Static full-text search |
-| [Cloudflare Pages](https://pages.cloudflare.com) | Deployment and hosting |
+| Technology                                       | Purpose                                   |
+| ------------------------------------------------ | ----------------------------------------- |
+| [Astro 7.2](https://astro.build)                 | Core framework and static site generation |
+| [Tailwind CSS 4](https://tailwindcss.com)        | Styling and responsive design             |
+| [Pagefind](https://pagefind.app)                 | Static full-text search                   |
+| [Cloudflare Pages](https://pages.cloudflare.com) | Deployment and hosting                    |
 
 ## Astro
 

@@ -4,7 +4,7 @@ description: "Meet Stradocs, an open-source Astro theme designed for building mo
 pubDate: 2026-08-16
 category: "Announcement"
 cover:
-  src: '/images/og/og-announcement.webp'
+  src: "/images/og/og-announcement.webp"
   alt: Stradocs Announcement
 tags:
   - Stradocs
@@ -20,7 +20,7 @@ author:
 seo:
   title: "Introducing Stradocs"
   description: "Meet Stradocs, an open-source Astro theme for building modern documentation sites and blogs."
-  ogImage: '/images/og/og-announcement.webp'
+  ogImage: "/images/og/og-announcement.webp"
   noIndex: false
 ---
 

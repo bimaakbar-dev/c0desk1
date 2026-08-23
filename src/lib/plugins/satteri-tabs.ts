@@ -28,10 +28,7 @@ function getLabel(node: any): string {
   const children = node.children || [];
   const firstNode = children[0];
 
-  if (
-    firstNode?.type === "paragraph" &&
-    firstNode.data?.directiveLabel
-  ) {
+  if (firstNode?.type === "paragraph" && firstNode.data?.directiveLabel) {
     const label = extractText(firstNode).trim();
 
     if (label) {
@@ -67,7 +64,7 @@ export const satteriTabs = defineMdastPlugin({
     const label = getLabel(node);
 
     let children = node.children || [];
-    
+
     const firstNode = children[0];
 
     if (

@@ -33,14 +33,14 @@ Click :icon[arrow-right] to continue.
 
 :::card[Preview]
 :icon[star]
- 
-:icon[star]{size="md"} 
+
+:icon[star]{size="md"}
 
 :icon[star]{size="lg"}
 
 :icon[github]
- 
-:icon[twitter] 
+
+:icon[twitter]
 
 :icon[youtube]
 
@@ -49,18 +49,18 @@ Click :icon[arrow-right] to continue.
 
 ## Sizes
 
-| Value | Size |
-| --- | --- |
-| `sm` | 12px |
-| `md` | 16px (default) |
-| `lg` | 20px |
+| Value | Size           |
+| ----- | -------------- |
+| `sm`  | 12px           |
+| `md`  | 16px (default) |
+| `lg`  | 20px           |
 
 ## Attributes
 
-| Attribute | Required | Description |
-| --- | --- | --- |
-| `size` | No | Icon size — `sm`, `md`, or `lg` (default: `md`) |
-| `class` | No | Additional CSS classes |
+| Attribute | Required | Description                                     |
+| --------- | -------- | ----------------------------------------------- |
+| `size`    | No       | Icon size — `sm`, `md`, or `lg` (default: `md`) |
+| `class`   | No       | Additional CSS classes                          |
 
 ## Notes
 

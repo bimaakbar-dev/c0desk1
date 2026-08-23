@@ -1,42 +1,55 @@
 // src/pages/sitemap.xml.ts
-import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
+import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 
-import { 
-  ROUTES 
-} from '@/consts';
+import { ROUTES } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from '@/lib/utils';
+import { canonicalUrl, getSlug } from "@/lib/utils";
 
 function escapeXml(str: string): string {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const blog = await getCollection('blog', ({ data }) => !data.draft && !data.seo?.noIndex);
-  const docs = await getCollection('docs', ({ data }) => !data.draft && !data.seo?.noIndex);
-  const legal = await getCollection('legal', ({ data }) => !data.draft && !data.seo?.noIndex);
+  const blog = await getCollection(
+    "blog",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
+  const docs = await getCollection(
+    "docs",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
+  const legal = await getCollection(
+    "legal",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
 
-  const urls: { loc: string; lastmod?: string; changefreq?: string; priority?: number }[] = [];
+  const urls: {
+    loc: string;
+    lastmod?: string;
+    changefreq?: string;
+    priority?: number;
+  }[] = [];
 
   // ===== Static Routes =====
   const staticRoutes = [
-    { path: ROUTES.home, priority: 1.0, changefreq: 'daily' },
-    { path: ROUTES.docs, priority: 0.9, changefreq: 'weekly' },
-    { path: ROUTES.blog, priority: 0.8, changefreq: 'weekly' },
-    { path: ROUTES.archive, priority: 0.5, changefreq: 'monthly' },
+    { path: ROUTES.home, priority: 1.0, changefreq: "daily" },
+    { path: ROUTES.docs, priority: 0.9, changefreq: "weekly" },
+    { path: ROUTES.blog, priority: 0.8, changefreq: "weekly" },
+    { path: ROUTES.archive, priority: 0.5, changefreq: "monthly" },
   ];
 
   if (ROUTES.about) {
-    staticRoutes.push({ path: ROUTES.about, priority: 0.7, changefreq: 'monthly' });
+    staticRoutes.push({
+      path: ROUTES.about,
+      priority: 0.7,
+      changefreq: "monthly",
+    });
   }
 
   staticRoutes.forEach(({ path, priority, changefreq }) => {
@@ -51,7 +64,7 @@ export const GET: APIRoute = async ({ site }) => {
     urls.push({
       loc: canonicalUrl(`${ROUTES.blog}/${slug}`),
       lastmod: date ? new Date(date).toISOString() : undefined,
-      changefreq: 'weekly',
+      changefreq: "weekly",
       priority: 0.6,
     });
   });
@@ -63,7 +76,7 @@ export const GET: APIRoute = async ({ site }) => {
     urls.push({
       loc: canonicalUrl(`${ROUTES.docs}/${slug}`),
       lastmod: date ? new Date(date).toISOString() : undefined,
-      changefreq: 'weekly',
+      changefreq: "weekly",
       priority: 0.7,
     });
   });
@@ -75,7 +88,7 @@ export const GET: APIRoute = async ({ site }) => {
     urls.push({
       loc: canonicalUrl(slug),
       lastmod: date ? new Date(date).toISOString() : undefined,
-      changefreq: 'yearly',
+      changefreq: "yearly",
       priority: 0.2,
     });
   });
@@ -86,21 +99,19 @@ ${urls
   .map(
     (url) => `  <url>
     <loc>${escapeXml(url.loc)}</loc>${
-      url.lastmod ? `\n    <lastmod>${url.lastmod}</lastmod>` : ''
+      url.lastmod ? `\n    <lastmod>${url.lastmod}</lastmod>` : ""
     }${
-      url.changefreq ? `\n    <changefreq>${url.changefreq}</changefreq>` : ''
-    }${
-      url.priority ? `\n    <priority>${url.priority}</priority>` : ''
-    }
-  </url>`
+      url.changefreq ? `\n    <changefreq>${url.changefreq}</changefreq>` : ""
+    }${url.priority ? `\n    <priority>${url.priority}</priority>` : ""}
+  </url>`,
   )
-  .join('\n')}
+  .join("\n")}
 </urlset>`;
 
   return new Response(sitemap.trim(), {
     headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };

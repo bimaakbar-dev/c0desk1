@@ -1,20 +1,20 @@
 // src/pages/llms.txt.ts
-import type { APIRoute } from 'astro';
-import { SITE, ROUTES } from '@/consts';
+import { ROUTES, SITE } from "@/consts";
+import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async () => {
-  const baseUrl = SITE.url.replace(/\/$/, '');
+  const baseUrl = SITE.url.replace(/\/$/, "");
 
   const pages = [
-    { name: 'Home', path: ROUTES.home },
-    { name: 'Documentation', path: ROUTES.docs },
-    { name: 'Blog', path: ROUTES.blog },
-    { name: 'Blog Archive', path: ROUTES.archive },
-    { name: 'About', path: ROUTES.about },
-    { name: 'Contact', path: ROUTES.contact },
-    { name: 'RSS Feed', path: ROUTES.rss },
-    { name: 'JSON Feed', path: ROUTES.feedJson },
-    { name: 'Atom Feed', path: ROUTES.feedAtom },
+    { name: "Home", path: ROUTES.home },
+    { name: "Documentation", path: ROUTES.docs },
+    { name: "Blog", path: ROUTES.blog },
+    { name: "Blog Archive", path: ROUTES.archive },
+    { name: "About", path: ROUTES.about },
+    { name: "Contact", path: ROUTES.contact },
+    { name: "RSS Feed", path: ROUTES.rss },
+    { name: "JSON Feed", path: ROUTES.feedJson },
+    { name: "Atom Feed", path: ROUTES.feedAtom },
   ];
 
   const content = `
@@ -44,7 +44,7 @@ ${SITE.name} is a modern, open-source documentation and blog template built with
 
 ## Pages
 
-${pages.map((p) => `- [${p.name}](${baseUrl}${p.path})`).join('\n')}
+${pages.map((p) => `- [${p.name}](${baseUrl}${p.path})`).join("\n")}
 
 ## Content Collections
 
@@ -97,13 +97,13 @@ MIT — free to use, modify, and distribute.
 
 ---
 
-Last updated: ${new Date().toISOString().split('T')[0]}
+Last updated: ${new Date().toISOString().split("T")[0]}
 `.trim();
 
   return new Response(content, {
     headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };

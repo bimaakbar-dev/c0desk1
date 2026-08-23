@@ -56,6 +56,7 @@ A ready-to-use contact form with Formspree integration.
 You can get Stradocs running locally in just a few steps:
 
 :::steps
+
 1. Fork the :button[Stradocs]{url="https://github.com/bimaakbar-dev/stradocs" icon="fork"}
 
 2. Clone your fork to your local machine.
@@ -63,7 +64,7 @@ You can get Stradocs running locally in just a few steps:
 3. Install the project dependencies with `npm install`.
 
 4. Start the development server with `npm run dev`.
-:::
+   :::
 
 For a complete installation guide, see [Quick Start](/docs/quick-start/).
 

@@ -1,14 +1,10 @@
 function initTabs(root: HTMLElement) {
   const buttons = Array.from(
-    root.querySelectorAll<HTMLButtonElement>(
-      '[data-tab-trigger][role="tab"]',
-    ),
+    root.querySelectorAll<HTMLButtonElement>('[data-tab-trigger][role="tab"]'),
   );
 
   const panels = Array.from(
-    root.querySelectorAll<HTMLElement>(
-      '[role="tabpanel"]',
-    ),
+    root.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
   );
 
   if (!buttons.length || !panels.length) {
@@ -19,10 +15,7 @@ function initTabs(root: HTMLElement) {
     buttons.forEach((button, buttonIndex) => {
       const active = buttonIndex === index;
 
-      button.setAttribute(
-        "aria-selected",
-        active ? "true" : "false",
-      );
+      button.setAttribute("aria-selected", active ? "true" : "false");
 
       button.tabIndex = active ? 0 : -1;
     });
@@ -55,9 +48,7 @@ function initTabs(root: HTMLElement) {
       if (event.key === "ArrowRight") {
         nextIndex = (index + 1) % buttons.length;
       } else if (event.key === "ArrowLeft") {
-        nextIndex =
-          (index - 1 + buttons.length) %
-          buttons.length;
+        nextIndex = (index - 1 + buttons.length) % buttons.length;
       } else if (event.key === "Home") {
         nextIndex = 0;
       } else if (event.key === "End") {
@@ -73,13 +64,10 @@ function initTabs(root: HTMLElement) {
   });
 
   const activeIndex = buttons.findIndex(
-    (button) =>
-      button.getAttribute("aria-selected") === "true",
+    (button) => button.getAttribute("aria-selected") === "true",
   );
 
   activate(activeIndex >= 0 ? activeIndex : 0);
 }
 
-document
-  .querySelectorAll<HTMLElement>("[data-tabs]")
-  .forEach(initTabs);
+document.querySelectorAll<HTMLElement>("[data-tabs]").forEach(initTabs);

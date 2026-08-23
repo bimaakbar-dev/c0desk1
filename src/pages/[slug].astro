@@ -1,8 +1,5 @@
 ---
-import { 
-  getCollection, 
-  render 
-} from "astro:content";
+import { getCollection, render } from "astro:content";
 
 import {
   HOME_PAGE,
@@ -13,11 +10,7 @@ import {
   schemaBreadcrumb,
 } from "@/consts";
 
-import { 
-  formatDate, 
-  getSlug, 
-  canonicalUrl 
-} from "@/lib/utils";
+import { formatDate, getSlug, canonicalUrl } from "@/lib/utils";
 
 import { components } from "@/components/mdx/MDXComponents";
 
@@ -26,7 +19,10 @@ import Section from "@ui/Section.astro";
 import Container from "@ui/Container.astro";
 
 export async function getStaticPaths() {
-  const legalEntries = await getCollection("legal", ({ data }) => !data.seo?.noIndex);
+  const legalEntries = await getCollection(
+    "legal",
+    ({ data }) => !data.seo?.noIndex,
+  );
 
   return legalEntries.map((entry) => ({
     params: { slug: getSlug(entry) },
@@ -56,16 +52,8 @@ const metaDescription =
 
 const keywords = entry.data.tags || [
   entry.data.title.toLowerCase(),
-  ...(currentSlug.includes("privacy") ? [
-    	"privacy", 
-		"data",
-		"protection"
-	] : []),
-  ...(currentSlug.includes("terms") ? [
-		"terms", 
-		"conditions", 
-		"service"
-	] : []),
+  ...(currentSlug.includes("privacy") ? ["privacy", "data", "protection"] : []),
+  ...(currentSlug.includes("terms") ? ["terms", "conditions", "service"] : []),
 ];
 
 const metaProps = buildMeta({
@@ -116,20 +104,20 @@ const $ = {
           <header class={$.header}>
             <h1 class={$.title} set:html={entry.data.title} />
             <div class={$.meta}>
-              {entry.data.lastUpdated && (
-                <p>
-                  <time
-                    datetime={entry.data.lastUpdated.toISOString()}
-                  >
-                    Last updated: {formatDate(entry.data.lastUpdated)}
-                  </time>
-                </p>
-              )}
+              {
+                entry.data.lastUpdated && (
+                  <p>
+                    <time datetime={entry.data.lastUpdated.toISOString()}>
+                      Last updated: {formatDate(entry.data.lastUpdated)}
+                    </time>
+                  </p>
+                )
+              }
               <p class={$.description} set:html={entry.data.description} />
             </div>
           </header>
         </Container>
-        <hr/>
+        <hr />
         <Container size="md">
           <div class="prose">
             <Content components={components} />

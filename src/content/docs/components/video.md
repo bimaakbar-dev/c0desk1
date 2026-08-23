@@ -31,20 +31,20 @@ Video embeds a YouTube, Vimeo, or local video file. Platform is detected automat
 
 ## Supported Platforms
 
-| Platform | Format |
-| --- | --- |
-| YouTube | `youtube.com/watch?v=ID` or `youtu.be/ID` |
-| YouTube Shorts | `youtube.com/shorts/ID` — embedded as 9:16 |
-| Vimeo | `vimeo.com/123456789` |
-| Local file | `/videos/file.mp4` — renders as native `<video>` |
+| Platform       | Format                                           |
+| -------------- | ------------------------------------------------ |
+| YouTube        | `youtube.com/watch?v=ID` or `youtu.be/ID`        |
+| YouTube Shorts | `youtube.com/shorts/ID` — embedded as 9:16       |
+| Vimeo          | `vimeo.com/123456789`                            |
+| Local file     | `/videos/file.mp4` — renders as native `<video>` |
 
 ## Attributes
 
-| Attribute | Description |
-| --- | --- |
-| `width` | Video width (default: `100%`) |
-| `height` | Video height (default: `400`) |
-| `title` | Accessibility label (default: `"Video embed"`) |
+| Attribute | Description                                    |
+| --------- | ---------------------------------------------- |
+| `width`   | Video width (default: `100%`)                  |
+| `height`  | Video height (default: `400`)                  |
+| `title`   | Accessibility label (default: `"Video embed"`) |
 
 ## Notes
 

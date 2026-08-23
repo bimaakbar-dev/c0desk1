@@ -1,8 +1,5 @@
 ---
-import { 
-  getCollection, 
-  render 
-} from "astro:content";
+import { getCollection, render } from "astro:content";
 
 import {
   SITE,
@@ -15,10 +12,7 @@ import {
   schemaBreadcrumb,
 } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from "@/lib/utils";
+import { getSlug, canonicalUrl } from "@/lib/utils";
 
 import { components } from "@components/mdx/MDXComponents";
 
@@ -61,8 +55,7 @@ const allPosts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort(
     (a, b) =>
-      (b.data.pubDate?.getTime() ?? 0) -
-      (a.data.pubDate?.getTime() ?? 0),
+      (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0),
   );
 
 const currentIndex = allPosts.findIndex((item) => item.id === entry.id);
@@ -78,7 +71,7 @@ const currentUrl = canonicalUrl(`${ROUTES.blog}/${cleanSlug}`);
 
 const breadcrumbItems = [
   { label: HOME_PAGE.title, href: canonicalUrl() },
-  { label: BLOG_PAGE.title, href: canonicalUrl(ROUTES.blog) }
+  { label: BLOG_PAGE.title, href: canonicalUrl(ROUTES.blog) },
 ];
 
 const author = entry.data.author?.name || SITE.name;
@@ -126,19 +119,16 @@ const schema = [
 ];
 ---
 
-<BlogLayout
-  meta={meta}
-  schema={schema}
-  author={author}
-  publisher={publisher}
->
-  <div data-pagefind-weight="3" class="hidden" />
+<BlogLayout meta={meta} schema={schema} author={author} publisher={publisher}>
+  <div data-pagefind-weight="3" class="hidden"></div>
   <MobileToc title={entry.data.title} headings={headings} />
   <Fragment slot="left">
-    <div aria-hidden="true" />
+    <div aria-hidden="true"></div>
   </Fragment>
   <Fragment>
-    <div class="mx-auto w-full min-w-0 p-0 lg:p-4 m-2 pb-(--safe-bottom) rounded-xl">
+    <div
+      class="m-2 mx-auto w-full min-w-0 rounded-xl p-0 pb-(--safe-bottom) lg:p-4"
+    >
       <Section size="sm">
         <article data-pagefind-body data-pagefind-filter="type:blog">
           <Container size="md">
@@ -159,7 +149,7 @@ const schema = [
             </div>
           </Container>
           <hr class="mt-6 md:mt-8" />
-          <Container size="md">         
+          <Container size="md">
             <BlogFooter
               lastUpdated={entry.data.lastUpdated}
               prev={prevEntry}

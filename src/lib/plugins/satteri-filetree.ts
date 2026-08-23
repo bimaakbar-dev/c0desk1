@@ -1,6 +1,6 @@
 // src/lib/mdx/satteri-filetree.ts
-import { defineMdastPlugin } from 'satteri';
-import { EXTENSION_ICON } from '../../assets/icons/file';
+import { defineMdastPlugin } from "satteri";
+import { EXTENSION_ICON } from "../../assets/icons/file";
 
 function splitComment(raw: string): { name: string; comment: string } {
   const idxSlash = raw.search(/\s\/\/\s?/);
@@ -14,7 +14,7 @@ function splitComment(raw: string): { name: string; comment: string } {
     idx = idxHash;
   }
   if (idx === -1) {
-    return { name: raw.trim(), comment: '' };
+    return { name: raw.trim(), comment: "" };
   }
   const name = raw.slice(0, idx).trim();
   const comment = raw.slice(idx).trim();
@@ -23,24 +23,24 @@ function splitComment(raw: string): { name: string; comment: string } {
 
 function isPlaceholderName(name: string): boolean {
   const trimmed = name.trim();
-  return trimmed === '...' || trimmed === '…';
+  return trimmed === "..." || trimmed === "…";
 }
 
 function getFileExtension(fileName: string): string {
   const trimmed = fileName.trim();
-  if (trimmed.endsWith('/')) return 'folder';
-  if (trimmed.startsWith('.')) {
-    const parts = trimmed.split('.');
+  if (trimmed.endsWith("/")) return "folder";
+  if (trimmed.startsWith(".")) {
+    const parts = trimmed.split(".");
     if (parts.length > 1) {
-      return parts.slice(1).join('.').toLowerCase();
+      return parts.slice(1).join(".").toLowerCase();
     }
-    return '';
+    return "";
   }
-  const parts = trimmed.split('.');
+  const parts = trimmed.split(".");
   if (parts.length > 1) {
     return parts[parts.length - 1].toLowerCase();
   }
-  return '';
+  return "";
 }
 
 function normalizeFileName(raw: string): string {
@@ -48,17 +48,17 @@ function normalizeFileName(raw: string): string {
 }
 
 export const satteriFileTree = defineMdastPlugin({
-  name: 'satteri-filetree',
+  name: "satteri-filetree",
 
   containerDirective(node: any, ctx: any) {
-    if (node.name !== 'filetree') return;
+    if (node.name !== "filetree") return;
     const baseData = node.data || {};
-    ctx.setProperty(node, 'data', {
+    ctx.setProperty(node, "data", {
       ...baseData,
-      hName: 'div',
+      hName: "div",
       hProperties: {
         ...(baseData.hProperties || {}),
-        className: ['file-tree'],
+        className: ["file-tree"],
       },
     });
   },
@@ -70,7 +70,10 @@ export const satteriFileTree = defineMdastPlugin({
     while (true) {
       const parent = ctx.parent(current);
       if (!parent) break;
-      if (parent.type === 'containerDirective' && (parent as any).name === 'filetree') {
+      if (
+        parent.type === "containerDirective" &&
+        (parent as any).name === "filetree"
+      ) {
         isInside = true;
         break;
       }
@@ -80,49 +83,55 @@ export const satteriFileTree = defineMdastPlugin({
     if (!isInside) return;
 
     const firstChild = node.children[0];
-    const hasNestedList = node.children.some((c: any) => c.type === 'list');
+    const hasNestedList = node.children.some((c: any) => c.type === "list");
 
-    let fileName = '';
+    let fileName = "";
     let isHighlighted = false;
-    let comment = '';
+    let comment = "";
     let strongNode: any = null;
     let isPlaceholder = false;
 
-    if (firstChild && firstChild.type === 'paragraph' && Array.isArray(firstChild.children)) {
+    if (
+      firstChild &&
+      firstChild.type === "paragraph" &&
+      Array.isArray(firstChild.children)
+    ) {
       const children = firstChild.children as any[];
       if (children.length > 0) {
-        strongNode = children.find((c: any) => c.type === 'strong');
+        strongNode = children.find((c: any) => c.type === "strong");
         if (strongNode) {
           isHighlighted = true;
           const textChild = strongNode.children?.[0];
-          if (textChild?.type === 'text') {
-            const raw = textChild.value || '';
+          if (textChild?.type === "text") {
+            const raw = textChild.value || "";
             const { name, comment: cmt } = splitComment(raw);
             fileName = normalizeFileName(name);
             comment = cmt;
           }
           const rest = children.filter((c: any) => c !== strongNode);
           for (const child of rest) {
-            if (child.type === 'text') {
+            if (child.type === "text") {
               const { comment: cmt } = splitComment(child.value);
               if (cmt) {
                 const trimmed = cmt.trim();
-                if (trimmed) comment = comment ? comment + ' ' + trimmed : trimmed;
+                if (trimmed)
+                  comment = comment ? comment + " " + trimmed : trimmed;
               }
             }
           }
         } else {
-          const textNode = children.find((c: any) => c.type === 'text');
+          const textNode = children.find((c: any) => c.type === "text");
           if (textNode) {
-            const raw = textNode.value || '';
+            const raw = textNode.value || "";
             const { name, comment: cmt } = splitComment(raw);
             fileName = normalizeFileName(name);
             comment = cmt;
           } else {
-            let fullText = '';
+            let fullText = "";
             for (const child of children) {
-              if (child.type === 'text') fullText += child.value;
-              else if (child.type === 'inlineCode' && child.value) fullText += child.value;
+              if (child.type === "text") fullText += child.value;
+              else if (child.type === "inlineCode" && child.value)
+                fullText += child.value;
             }
             const { name, comment: cmt } = splitComment(fullText);
             fileName = normalizeFileName(name);
@@ -133,28 +142,35 @@ export const satteriFileTree = defineMdastPlugin({
     }
 
     if (!fileName) {
-      fileName = 'untitled';
+      fileName = "untitled";
     }
 
     isPlaceholder = isPlaceholderName(fileName);
 
-    const isFolder = !isPlaceholder && (fileName.endsWith('/') || hasNestedList);
+    const isFolder =
+      !isPlaceholder && (fileName.endsWith("/") || hasNestedList);
     const isFile = !isPlaceholder && !isFolder;
 
-    const displayName = isFolder ? fileName.replace(/\/$/, '').trim() : fileName.trim();
+    const displayName = isFolder
+      ? fileName.replace(/\/$/, "").trim()
+      : fileName.trim();
 
-    let ext = '';
+    let ext = "";
     if (isFolder) {
-      ext = 'folder';
+      ext = "folder";
     } else if (isFile) {
       ext = getFileExtension(fileName);
     }
 
-    const spanClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
+    const spanClass = isPlaceholder
+      ? "tree-placeholder"
+      : isFolder
+        ? "tree-folder"
+        : "tree-file";
     const spanChildren: any[] = [];
 
     if (isPlaceholder) {
-      spanChildren.push({ type: 'text', value: '…' });
+      spanChildren.push({ type: "text", value: "…" });
     } else {
       if (isHighlighted && strongNode) {
         const strongClone = {
@@ -166,73 +182,82 @@ export const satteriFileTree = defineMdastPlugin({
         };
         spanChildren.push(strongClone);
       } else {
-        spanChildren.push({ type: 'text', value: displayName });
+        spanChildren.push({ type: "text", value: displayName });
       }
       if (comment) {
         const trimmedComment = comment.trim();
         if (trimmedComment) {
-          spanChildren.push({ type: 'text', value: ' ' });
+          spanChildren.push({ type: "text", value: " " });
           spanChildren.push({
-            type: 'containerDirective',
+            type: "containerDirective",
             data: {
-              hName: 'span',
-              hProperties: { className: ['tree-comment'] },
+              hName: "span",
+              hProperties: { className: ["tree-comment"] },
             },
-            children: [{ type: 'text', value: trimmedComment }],
+            children: [{ type: "text", value: trimmedComment }],
           });
         }
       }
     }
 
     const contentSpan = {
-      type: 'containerDirective',
+      type: "containerDirective",
       data: {
-        hName: 'span',
+        hName: "span",
         hProperties: { className: [spanClass] },
       },
       children: spanChildren,
     };
 
     const wrapperProps: any = {
-      className: ['tree-label'],
+      className: ["tree-label"],
     };
 
-    if (isHighlighted) wrapperProps['data-highlight'] = '';
-    if (isPlaceholder) wrapperProps['data-placeholder'] = '';
+    if (isHighlighted) wrapperProps["data-highlight"] = "";
+    if (isPlaceholder) wrapperProps["data-placeholder"] = "";
 
-    const existingClasses = (node.data?.hProperties?.className as string[]) || [];
-    
-    const typeClass = isPlaceholder ? 'tree-placeholder' : isFolder ? 'tree-folder' : 'tree-file';
-    const highlightClass = isHighlighted ? 'tree-highlight' : '';
-    const finalLiClasses = [typeClass, highlightClass, ...existingClasses].filter(Boolean);
+    const existingClasses =
+      (node.data?.hProperties?.className as string[]) || [];
+
+    const typeClass = isPlaceholder
+      ? "tree-placeholder"
+      : isFolder
+        ? "tree-folder"
+        : "tree-file";
+    const highlightClass = isHighlighted ? "tree-highlight" : "";
+    const finalLiClasses = [
+      typeClass,
+      highlightClass,
+      ...existingClasses,
+    ].filter(Boolean);
 
     if (isPlaceholder) {
       const labelNode = {
-        type: 'containerDirective',
-        data: { hName: 'div', hProperties: wrapperProps },
+        type: "containerDirective",
+        data: { hName: "div", hProperties: wrapperProps },
         children: [contentSpan],
       };
-      ctx.setProperty(node, 'children', [labelNode as any]);
+      ctx.setProperty(node, "children", [labelNode as any]);
     } else if (isFolder && hasNestedList) {
       const summaryNode = {
-        type: 'paragraph',
-        data: { hName: 'summary', hProperties: wrapperProps },
+        type: "paragraph",
+        data: { hName: "summary", hProperties: wrapperProps },
         children: [contentSpan],
       };
       const restChildren = node.children.slice(1);
       const detailsNode = {
-        type: 'containerDirective',
-        data: { hName: 'details', hProperties: { open: true } },
+        type: "containerDirective",
+        data: { hName: "details", hProperties: { open: true } },
         children: [summaryNode, ...restChildren],
       };
-      ctx.setProperty(node, 'children', [detailsNode as any]);
+      ctx.setProperty(node, "children", [detailsNode as any]);
     } else {
       const labelNode = {
-        type: 'containerDirective',
-        data: { hName: 'div', hProperties: wrapperProps },
+        type: "containerDirective",
+        data: { hName: "div", hProperties: wrapperProps },
         children: [contentSpan],
       };
-      ctx.setProperty(node, 'children', [labelNode as any]);
+      ctx.setProperty(node, "children", [labelNode as any]);
     }
 
     const bData = node.data || {};
@@ -240,11 +265,11 @@ export const satteriFileTree = defineMdastPlugin({
       className: finalLiClasses,
     };
     if (ext) {
-      liProps['data-ext'] = ext;
-      const iconVar = EXTENSION_ICON[ext] ?? '--ic-ft-file';
+      liProps["data-ext"] = ext;
+      const iconVar = EXTENSION_ICON[ext] ?? "--ic-ft-file";
       liProps.style = `--tree-icon: var(${iconVar})`;
     }
-    ctx.setProperty(node, 'data', {
+    ctx.setProperty(node, "data", {
       ...bData,
       hProperties: liProps,
     });

@@ -31,6 +31,7 @@ Before getting started, make sure you have the following installed:
 ## Installation
 
 :::steps
+
 1. ### Fork the Repository
 
    Fork the :button[Stradocs]{url="https://github.com/bimaakbar-dev/stradocs" icon="fork"} repository to your own GitHub account.
@@ -54,15 +55,19 @@ Before getting started, make sure you have the following installed:
 
    ::::tabs
    :::tab[npm]
+
    ```bash
    npm install
    ```
+
    :::
 
    :::tab[pnpm]
+
    ```bash
    pnpm install
    ```
+
    :::
    ::::
 
@@ -76,13 +81,13 @@ Before getting started, make sure you have the following installed:
 
    Then open `.env` and configure the values you need.
 
-   ```env   
+   ```env
    # Site
    PUBLIC_SITE_URL=http://localhost:4321
 
    # Contact Form
    PUBLIC_FORM_ENDPOINT=https://formspree.io/f/your-endpoint
-   
+
    ```
 
    > [!TIP]
@@ -96,15 +101,19 @@ Before getting started, make sure you have the following installed:
 
    ::::tabs
    :::tab[npm]
+
    ```bash
    npm run dev
    ```
+
    :::
 
    :::tab[pnpm]
+
    ```bash
    pnpm dev
    ```
+
    :::
    ::::
 
@@ -113,17 +122,18 @@ Before getting started, make sure you have the following installed:
    ```text
    http://localhost:4321
    ```
-:::
+
+   :::
 
 ## Available Scripts
 
 Stardux includes several npm scripts for development and production.
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the local development server |
-| `npm run build` | Build the production site into the `dist/` directory |
-| `npm run preview` | Preview the production build locally |
+| Command           | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `npm run dev`     | Start the local development server                   |
+| `npm run build`   | Build the production site into the `dist/` directory |
+| `npm run preview` | Preview the production build locally                 |
 
 If you use pnpm, replace `npm run` with `pnpm`.
 

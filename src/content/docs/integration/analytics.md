@@ -24,38 +24,43 @@ Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set th
 ## Google Analytics (GA4)
 
 :::steps
+
 1. ### Get Your Measurement ID
    - Go to [Google Analytics](https://analytics.google.com/)
    - Navigate to **Admin** → **Data Streams** → select or create a web stream
    - Copy the **Measurement ID** (format: `G-XXXXXXXXXX`)
 
 2. ### Add to Environment Variables
+
    ```env
    PUBLIC_ANALYTICS_GOOGLE=G-XXXXXXXXXX
    ```
 
 3. ### Deploy
+
    The script loads automatically on build. No further setup needed.
 
    > [!NOTE]
    > The script uses `data-consent="required"` and is integrated with the cookie consent system.
-:::
+   > :::
 
 ## Yandex Metrica
 
 :::steps
+
 1. ### Get Your Counter ID
    - Go to [Yandex Metrica](https://metrica.yandex.com/)
    - Create a new counter and copy the **Counter ID** (numeric value)
 
 2. ### Add to Environment Variables
+
    ```env
    PUBLIC_ANALYTICS_YANDEX=XXXXXXXXX
    ```
 
 3. ### Deploy
    The script loads automatically on build. No further setup needed.
-:::
+   :::
 
 ## How It Works
 

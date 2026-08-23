@@ -15,10 +15,10 @@ export const satteriHeadingAnchor = defineHastPlugin({
 
       const hasAnchor = node.children.some(
         (child) =>
-            child.type === "element" &&
-            child.tagName === "a" &&
-            child.properties?.href === `#${id}`,
-        );
+          child.type === "element" &&
+          child.tagName === "a" &&
+          child.properties?.href === `#${id}`,
+      );
 
       if (hasAnchor) {
         return;

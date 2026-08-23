@@ -1,48 +1,47 @@
 // src/pages/feed.json.ts
-import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
+import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 
-import { 
-  SITE, 
-  ROUTES, 
-  PAGINATION 
-} from '@/consts';
+import { PAGINATION, ROUTES, SITE } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from '@/lib/utils';
+import { canonicalUrl, getSlug } from "@/lib/utils";
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
-  if (typeof cover === 'string') {
-    return cover.startsWith('http') ? cover : `${baseUrl}${cover}`;
+  if (typeof cover === "string") {
+    return cover.startsWith("http") ? cover : `${baseUrl}${cover}`;
   }
-  if (typeof cover === 'object' && cover.src) {
-    return cover.src.startsWith('http') ? cover.src : `${baseUrl}${cover.src}`;
+  if (typeof cover === "object" && cover.src) {
+    return cover.src.startsWith("http") ? cover.src : `${baseUrl}${cover.src}`;
   }
   return null;
 }
 
 function getImageType(url: string): string {
-  const ext = url.split('.').pop()?.toLowerCase() || '';
+  const ext = url.split(".").pop()?.toLowerCase() || "";
   const types: Record<string, string> = {
-    png: 'image/png',
-    webp: 'image/webp',
-    svg: 'image/svg+xml',
-    gif: 'image/gif',
-    avif: 'image/avif',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
+    png: "image/png",
+    webp: "image/webp",
+    svg: "image/svg+xml",
+    gif: "image/gif",
+    avif: "image/avif",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
   };
-  return types[ext] || 'image/jpeg';
+  return types[ext] || "image/jpeg";
 }
 
 export const GET: APIRoute = async (context) => {
-  const baseUrl = (context.site?.toString() ?? SITE.url).replace(/\/$/, '');
+  const baseUrl = (context.site?.toString() ?? SITE.url).replace(/\/$/, "");
 
-  const blog = await getCollection('blog', ({ data }) => !data.draft && !data.seo?.noIndex);
-  const docs = await getCollection('docs', ({ data }) => !data.draft && !data.seo?.noIndex);
+  const blog = await getCollection(
+    "blog",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
+  const docs = await getCollection(
+    "docs",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
 
   const rawItems = [
     ...blog.map((post) => {
@@ -57,7 +56,7 @@ export const GET: APIRoute = async (context) => {
         tags: post.data.category
           ? [...new Set([post.data.category, ...(post.data.tags || [])])]
           : post.data.tags || [],
-        type: 'blog',
+        type: "blog",
       };
     }),
     ...docs.map((doc) => {
@@ -70,7 +69,7 @@ export const GET: APIRoute = async (context) => {
         cover: doc.data.cover,
         author: doc.data.author,
         tags: doc.data.category ? [doc.data.category] : [],
-        type: 'docs',
+        type: "docs",
       };
     }),
   ];
@@ -80,7 +79,7 @@ export const GET: APIRoute = async (context) => {
     .slice(0, PAGINATION.postsPerFeed);
 
   const feed = {
-    version: 'https://jsonfeed.org/version/1.1',
+    version: "https://jsonfeed.org/version/1.1",
     title: SITE.name,
     home_page_url: canonicalUrl(),
     feed_url: canonicalUrl(ROUTES.feedJson),
@@ -145,8 +144,8 @@ export const GET: APIRoute = async (context) => {
 
   return new Response(JSON.stringify(feed, null, 2), {
     headers: {
-      'Content-Type': 'application/feed+json; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
+      "Content-Type": "application/feed+json; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };

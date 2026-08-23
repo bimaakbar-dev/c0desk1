@@ -8,12 +8,10 @@ import {
   PAGINATION,
   buildMeta,
   schemaWebPage,
-  schemaBreadcrumb
+  schemaBreadcrumb,
 } from "@/consts";
 
-import { 
-  canonicalUrl 
-} from "@/lib/utils";
+import { canonicalUrl } from "@/lib/utils";
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
@@ -30,8 +28,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.draft)
     .sort(
       (a, b) =>
-        (b.data.pubDate?.getTime() ?? 0) -
-        (a.data.pubDate?.getTime() ?? 0)
+        (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0),
     );
 
   const totalPosts = publishedPosts.length;
@@ -59,37 +56,34 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { 
-  posts: pagePosts, 
-  currentPage, 
-  totalPages, 
-  featuredPosts 
+const {
+  posts: pagePosts,
+  currentPage,
+  totalPages,
+  featuredPosts,
 } = Astro.props;
 
 const displayPosts = currentPage === 1 ? pagePosts.slice(3) : pagePosts;
 
 const blogUrl = canonicalUrl(ROUTES.blog);
-const currentUrl = currentPage === 1
-  ? blogUrl
-  : canonicalUrl(`${ROUTES.blog}/${currentPage}`);
+const currentUrl =
+  currentPage === 1 ? blogUrl : canonicalUrl(`${ROUTES.blog}/${currentPage}`);
 
-const prevPageUrl = currentPage > 2
-  ? canonicalUrl(`${ROUTES.blog}/${currentPage - 1}`)
-  : currentPage === 2
-    ? blogUrl
+const prevPageUrl =
+  currentPage > 2
+    ? canonicalUrl(`${ROUTES.blog}/${currentPage - 1}`)
+    : currentPage === 2
+      ? blogUrl
+      : undefined;
+
+const nextPageUrl =
+  currentPage < totalPages
+    ? canonicalUrl(`${ROUTES.blog}/${currentPage + 1}`)
     : undefined;
-
-const nextPageUrl = currentPage < totalPages
-  ? canonicalUrl(`${ROUTES.blog}/${currentPage + 1}`)
-  : undefined;
 
 const isFirstPage = currentPage === 1;
 
-const { 
-  title, 
-  description, 
-  noPosts 
-} = BLOG_PAGE;
+const { title, description, noPosts } = BLOG_PAGE;
 
 const meta = buildMeta({
   title,
@@ -112,14 +106,11 @@ const schema = [
 ];
 ---
 
-<Layout
-  meta={meta}
-  schema={schema}
-  prev={prevPageUrl}
-  next={nextPageUrl}
->
+<Layout meta={meta} schema={schema} prev={prevPageUrl} next={nextPageUrl}>
   <main id="main-content" class="w-full min-w-0 flex-1">
-    <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+    <div
+      class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)"
+    >
       <Container size="xl">
         <Section size="md">
           <BlogHero title={title} description={description} />
@@ -127,47 +118,57 @@ const schema = [
       </Container>
       <Container size="xl">
         <Section size="lg">
-          {pagePosts.length === 0 && totalPages === 1 ? (
-            <div class="text-center py-12">
-              <p class="text-heading-18 font-medium text-(--fg-strong)">{noPosts.title}</p>
-              <p class="text-body-14 text-(--fg-muted) mt-2">{noPosts.description}</p>
-            </div>
-          ) : (
-            <>
-              {currentPage === 1 && featuredPosts && featuredPosts.length > 0 && (
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
-                  {featuredPosts.map((post, index) => (
-                    <BlogCard entry={post} index={index} />
-                  ))}
-                </div>
-              )}
-
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {displayPosts.map((post, index) => {
-                  const cleanPostData = {
-                    ...post,
-                    data: {
-                      ...post.data,
-                      cover: undefined,
-                    },
-                  };
-                  return <BlogCard entry={cleanPostData} index={index + 3} />;
-                })}
+          {
+            pagePosts.length === 0 && totalPages === 1 ? (
+              <div class="py-12 text-center">
+                <p class="text-heading-18 font-medium text-(--fg-strong)">
+                  {noPosts.title}
+                </p>
+                <p class="text-body-14 mt-2 text-(--fg-muted)">
+                  {noPosts.description}
+                </p>
               </div>
+            ) : (
+              <>
+                {currentPage === 1 &&
+                  featuredPosts &&
+                  featuredPosts.length > 0 && (
+                    <div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+                      {featuredPosts.map((post, index) => (
+                        <BlogCard entry={post} index={index} />
+                      ))}
+                    </div>
+                  )}
 
-              {totalPages > 1 && (
-                <div class="mt-10">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    href={(page) =>
-                      page === 1 ? `${ROUTES.blog}/` : `${ROUTES.blog}/${page}/`
-                    }
-                  />
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+                  {displayPosts.map((post, index) => {
+                    const cleanPostData = {
+                      ...post,
+                      data: {
+                        ...post.data,
+                        cover: undefined,
+                      },
+                    };
+                    return <BlogCard entry={cleanPostData} index={index + 3} />;
+                  })}
                 </div>
-              )}
-            </>
-          )}
+
+                {totalPages > 1 && (
+                  <div class="mt-10">
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      href={(page) =>
+                        page === 1
+                          ? `${ROUTES.blog}/`
+                          : `${ROUTES.blog}/${page}/`
+                      }
+                    />
+                  </div>
+                )}
+              </>
+            )
+          }
         </Section>
       </Container>
     </div>

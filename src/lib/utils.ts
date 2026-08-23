@@ -1,7 +1,5 @@
 //src/lib/utils.ts
-import { 
-  SITE 
-} from "@/consts";
+import { SITE } from "@/consts";
 
 const CDN_ORIGIN = "https://cdn.c0desk1.my.id";
 
@@ -32,41 +30,45 @@ function ensureDate(date: Date | string | number): Date {
   return new Date(date);
 }
 
-export function formatDate(date: Date | string | number, locale: string = SITE.locale): string {
+export function formatDate(
+  date: Date | string | number,
+  locale: string = SITE.locale,
+): string {
   const d = ensureDate(date);
   return d.toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
-export function formatDateCompact(date: Date | string | number, locale: string = SITE.locale): string {
+export function formatDateCompact(
+  date: Date | string | number,
+  locale: string = SITE.locale,
+): string {
   const d = ensureDate(date);
   return d.toLocaleDateString(locale, {
-    month: 'short',
-    day: 'numeric',
+    month: "short",
+    day: "numeric",
   });
 }
 
 export function formatDateISO(date: Date | string | number): string {
   const d = ensureDate(date);
-  return d.toISOString().split('T')[0];
+  return d.toISOString().split("T")[0];
 }
 
 export function getSlug(entry: any): string {
   if (entry.data?.slug) {
     return entry.data.slug;
   }
-  return entry.id?.split('/').pop() ?? '';
+  return entry.id?.split("/").pop() ?? "";
 }
 
 export function canonicalUrl(path: string = ""): string {
   const base = SITE.url.replace(/\/+$/, "");
-  
-  const cleanPath = path
-    .replace(/^\/+/, "")
-    .replace(/\/+$/, "");
+
+  const cleanPath = path.replace(/^\/+/, "").replace(/\/+$/, "");
   if (!cleanPath) {
     return `${base}/`;
   }
@@ -74,51 +76,51 @@ export function canonicalUrl(path: string = ""): string {
 }
 
 export function stripMarkdown(content: string): string {
-  if (!content?.trim()) return '';
+  if (!content?.trim()) return "";
 
   let text = content;
 
-  text = text.replace(/^\s*---[\s\S]*?---\s*/, '');
+  text = text.replace(/^\s*---[\s\S]*?---\s*/, "");
 
-  const lines = text.split('\n');
+  const lines = text.split("\n");
 
   text = lines
     .filter((line) => {
       const trimmed = line.trim();
 
       return (
-        !trimmed.startsWith('import ') &&
-        !trimmed.startsWith('// ') &&
-        !trimmed.startsWith('/*')
+        !trimmed.startsWith("import ") &&
+        !trimmed.startsWith("// ") &&
+        !trimmed.startsWith("/*")
       );
     })
-    .join('\n');
+    .join("\n");
 
-  text = text.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
-  text = text.replace(/<[^>]*>/g, ' ');
-  text = text.replace(/^#{1,6}\s+/gm, '');
-  text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
-  text = text.replace(/\*([^*]+)\*/g, '$1');
-  text = text.replace(/__([^_]+)__/g, '$1');
-  text = text.replace(/_([^_]+)_/g, '$1');
-  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-  text = text.replace(/!\[[^\]]*\]\([^)]+\)/g, '');
-  text = text.replace(/`([^`]+)`/g, '$1');
-  text = text.replace(/[#*`>_\-+]/g, ' ');
-  text = text.replace(/\s+/g, ' ').trim();
+  text = text.replace(/\{\/\*[\s\S]*?\*\/\}/g, "");
+  text = text.replace(/<[^>]*>/g, " ");
+  text = text.replace(/^#{1,6}\s+/gm, "");
+  text = text.replace(/\*\*([^*]+)\*\*/g, "$1");
+  text = text.replace(/\*([^*]+)\*/g, "$1");
+  text = text.replace(/__([^_]+)__/g, "$1");
+  text = text.replace(/_([^_]+)_/g, "$1");
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+  text = text.replace(/!\[[^\]]*\]\([^)]+\)/g, "");
+  text = text.replace(/`([^`]+)`/g, "$1");
+  text = text.replace(/[#*`>_\-+]/g, " ");
+  text = text.replace(/\s+/g, " ").trim();
 
   return text;
 }
 
 export function truncate(text: string, length: number = 100): string {
-  if (!text) return '';
+  if (!text) return "";
   if (text.length <= length) return text;
-  return text.slice(0, length).trim() + '...';
+  return text.slice(0, length).trim() + "...";
 }
 
 export function generateExcerpt(
   content: string,
-  maxLength: number = 160
+  maxLength: number = 160,
 ): string {
   return truncate(stripMarkdown(content), maxLength);
 }

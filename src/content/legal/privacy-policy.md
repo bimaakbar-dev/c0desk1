@@ -8,6 +8,7 @@ seo:
   description: Read C0desk1's privacy policy to understand how we collect, use, and protect your personal data, including our use of Google and Yandex services.
   noIndex: false
 ---
+
 Your privacy is important to us. This Privacy Policy explains what information we collect, how we use it, and your rights regarding that information when you visit our website.
 
 We comply with applicable privacy laws, including the General Data Protection Regulation (GDPR) and ePrivacy Directive, and we work with advertising partners such as **Google AdSense** and **Yandex Ads** to display relevant ads.
@@ -18,12 +19,12 @@ We comply with applicable privacy laws, including the General Data Protection Re
 
 We may collect the following types of data:
 
-| Category | Examples | Method |
-|----------|----------|--------|
-| **Technical data** | IP address, browser type, device, operating system, screen resolution | Automatically via analytics & server logs |
-| **Usage data** | Pages visited, time spent, clicks, scroll depth, referral source | Automatically via analytics (Google Analytics, Yandex Metrica) |
-| **Communication data** | Name, email address, message content | Submitted via contact or comment forms |
-| **Cookies & similar technologies** | User preferences, session IDs, ad tracking identifiers | Stored on your device (see Section 4) |
+| Category                           | Examples                                                              | Method                                                         |
+| ---------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **Technical data**                 | IP address, browser type, device, operating system, screen resolution | Automatically via analytics & server logs                      |
+| **Usage data**                     | Pages visited, time spent, clicks, scroll depth, referral source      | Automatically via analytics (Google Analytics, Yandex Metrica) |
+| **Communication data**             | Name, email address, message content                                  | Submitted via contact or comment forms                         |
+| **Cookies & similar technologies** | User preferences, session IDs, ad tracking identifiers                | Stored on your device (see Section 4)                          |
 
 We do **not** collect sensitive personal data (e.g., health, political opinions, biometric data).
 
@@ -44,14 +45,14 @@ We do **not** sell your personal data to third parties.
 
 We use the following third-party services that may process your data:
 
-| Service | Function | Data Location | Privacy Policy |
-|---------|----------|---------------|----------------|
-| **Google Analytics** | Traffic analysis | Google servers (US/EU) | [Google Privacy](https://policies.google.com/privacy) |
-| **Yandex Metrica** | Traffic analysis | Yandex servers (Russia/EU) | [Yandex Privacy](https://yandex.com/legal/confidential/) |
-| **Google AdSense** | Advertising | Google servers | [Google AdSense](https://policies.google.com/technologies/ads) |
-| **Yandex Ads** | Advertising | Yandex servers | [Yandex Ads](https://yandex.com/legal/advertising/) |
-| **Cloudflare** | CDN, DDoS protection, security | Global | [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/) |
-| **GitHub** | Hosting (repository) | GitHub servers | [GitHub Privacy](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) |
+| Service              | Function                       | Data Location              | Privacy Policy                                                                                             |
+| -------------------- | ------------------------------ | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Google Analytics** | Traffic analysis               | Google servers (US/EU)     | [Google Privacy](https://policies.google.com/privacy)                                                      |
+| **Yandex Metrica**   | Traffic analysis               | Yandex servers (Russia/EU) | [Yandex Privacy](https://yandex.com/legal/confidential/)                                                   |
+| **Google AdSense**   | Advertising                    | Google servers             | [Google AdSense](https://policies.google.com/technologies/ads)                                             |
+| **Yandex Ads**       | Advertising                    | Yandex servers             | [Yandex Ads](https://yandex.com/legal/advertising/)                                                        |
+| **Cloudflare**       | CDN, DDoS protection, security | Global                     | [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/)                                            |
+| **GitHub**           | Hosting (repository)           | GitHub servers             | [GitHub Privacy](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) |
 
 These third parties may collect and process your data according to their own privacy policies. We recommend you review them.
 
@@ -60,21 +61,24 @@ These third parties may collect and process your data according to their own pri
 This website uses **cookies** and similar tracking technologies to enhance functionality, analyze traffic, and serve personalized ads.
 
 ### What are cookies?
+
 Cookies are small text files stored on your device when you visit a website. They help remember your preferences and track your activity.
 
 ### Types of cookies we use:
 
-| Type | Purpose | Examples |
-|------|---------|----------|
-| **Strictly Necessary** | Required for basic site functions (navigation, security) | Session cookies, load balancing |
-| **Preference Cookies** | Remember your settings (theme, language) | Dark/light mode, font size |
-| **Analytics Cookies** | Collect anonymous usage statistics | Google Analytics, Yandex Metrica |
-| **Advertising Cookies** | Deliver relevant ads, limit ad frequency | Google AdSense, Yandex Ads |
+| Type                    | Purpose                                                  | Examples                         |
+| ----------------------- | -------------------------------------------------------- | -------------------------------- |
+| **Strictly Necessary**  | Required for basic site functions (navigation, security) | Session cookies, load balancing  |
+| **Preference Cookies**  | Remember your settings (theme, language)                 | Dark/light mode, font size       |
+| **Analytics Cookies**   | Collect anonymous usage statistics                       | Google Analytics, Yandex Metrica |
+| **Advertising Cookies** | Deliver relevant ads, limit ad frequency                 | Google AdSense, Yandex Ads       |
 
 ### Consent Management (CMP)
+
 We use a **Consent Management Platform** to obtain and manage your cookie preferences. When you first visit our website, a banner will appear allowing you to accept, reject, or customize your cookie settings. You can change your preferences at any time by clicking the "Cookie Preferences" link in the footer.
 
 **Your choices:**
+
 - Accept all cookies
 - Reject non-essential cookies (only necessary cookies will be used)
 - Manage specific vendor preferences
@@ -86,15 +90,18 @@ Without accepting advertising cookies, you will still see ads, but they may be l
 This website uses **Google AdSense** and **Yandex Ads** to display relevant advertisements.
 
 ### How Google AdSense works:
+
 - Google uses cookies to serve ads based on your prior visits to our website or other websites.
 - Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our site and/or other sites on the Internet.
 - You may opt out of personalized advertising by visiting [Google Ad Settings](https://adssettings.google.com/).
 
 ### How Yandex Ads works:
+
 - Yandex Ads may collect data about your browsing behavior to show you relevant advertisements.
 - You can manage your ad preferences at [Yandex Ad Settings](https://yandex.com/support/ad-settings/).
 
 ### Opt-out options:
+
 - **Google Ad Settings**: [https://adssettings.google.com/](https://adssettings.google.com/)
 - **Yandex Ad Settings**: [https://yandex.com/support/ad-settings/](https://yandex.com/support/ad-settings/)
 - **Network Advertising Initiative (NAI)** opt-out: [https://optout.networkadvertising.org/](https://optout.networkadvertising.org/)

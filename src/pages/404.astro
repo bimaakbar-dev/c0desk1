@@ -1,14 +1,8 @@
 ---
 // src/pages/404.astro
-import {
-  NOT_FOUND_PAGE,
-  ROUTES,
-  buildMeta,
-} from "@/consts";
+import { NOT_FOUND_PAGE, ROUTES, buildMeta } from "@/consts";
 
-import { 
-  canonicalUrl 
-} from "@/lib/utils";
+import { canonicalUrl } from "@/lib/utils";
 
 import Layout from "@/layouts/Layout.astro";
 import Section from "@ui/Section.astro";
@@ -16,11 +10,7 @@ import Container from "@ui/Container.astro";
 import Button from "@ui/Button.astro";
 import Icons from "@ui/Icons.astro";
 
-const { 
-  title, 
-  description, 
-  button 
-} = NOT_FOUND_PAGE;
+const { title, description, button } = NOT_FOUND_PAGE;
 
 const meta = buildMeta({
   title: title,
@@ -33,20 +23,26 @@ const homeUrl = canonicalUrl();
 ---
 
 <Layout hideHeader hideFooter meta={meta}>
-  <main id="main-content" data-pagefind-ignore class="min-h-screen flex items-center">
+  <main
+    id="main-content"
+    data-pagefind-ignore
+    class="flex min-h-screen items-center"
+  >
     <Section size="lg" class="w-full">
-      <Container size="md" class="text-center items-center">
-        <h1 class="text-heading-56 text-display-64 font-bold text-(--fg-strong) mb-4">
+      <Container size="md" class="items-center text-center">
+        <h1
+          class="text-heading-56 text-display-64 mb-4 font-bold text-(--fg-strong)"
+        >
           404
         </h1>
-        <p class="text-body-16 text-(--fg-muted) mb-6">
+        <p class="text-body-16 mb-6 text-(--fg-muted)">
           {description}
         </p>
         <Button
           href={homeUrl}
           variant="primary"
           size="md"
-          prefix={<Icons name="arrow-left" class="size-4" />}
+          prefix={(<Icons name="arrow-left" class="size-4" />)}
         >
           {button.label}
         </Button>

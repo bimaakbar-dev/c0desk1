@@ -1,18 +1,11 @@
 ---
 // src/pages/index.astro
-import {
-  SITE,
-  ROUTES,
-  buildMeta,
-  schemaWebPage
-} from "@/consts";
+import { SITE, ROUTES, buildMeta, schemaWebPage } from "@/consts";
 
-import { 
-  canonicalUrl 
-} from "@/lib/utils";
+import { canonicalUrl } from "@/lib/utils";
 
 import { features } from "@/config/pages";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 
 import Layout from "@/layouts/Layout.astro";
 import Container from "@ui/Container.astro";
@@ -36,22 +29,24 @@ const schema = [
     title: SITE.name,
     description: SITE.description,
     url: canonicalUrl(),
-  })
+  }),
 ];
 
 const imageAttrs = {
-	loading: 'lazy' as const,
-	decoding: 'async' as const,
-	fetchpriority: 'high' as const,
-	width: 1200,
-	height: 400,
-	alt: 'Hero illustration',
+  loading: "lazy" as const,
+  decoding: "async" as const,
+  fetchpriority: "high" as const,
+  width: 1200,
+  height: 400,
+  alt: "Hero illustration",
 };
 ---
 
 <Layout {meta} {schema} isHome>
   <main id="main-content" class="w-full min-w-0 flex-1">
-    <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+    <div
+      class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)"
+    >
       <Container size="xl">
         <Section size="md">
           <Hero
@@ -69,7 +64,11 @@ const imageAttrs = {
       </Container>
       <Container size="lg">
         <Section size="md">
-          <p class="text-heading-32">This is a customizable documentation template built with <span class="text-(--accent)">Astro</span>. It's designed to help you create beautiful documentation quickly.</p>
+          <p class="text-heading-32">
+            This is a customizable documentation template built with <span
+              class="text-(--accent)">Astro</span
+            >. It's designed to help you create beautiful documentation quickly.
+          </p>
         </Section>
       </Container>
       <Container size="full" class="px-0!">
@@ -77,23 +76,32 @@ const imageAttrs = {
       </Container>
       <Container size="lg">
         <Section size="md">
-          <div class="text-center mb-10">
-            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
+          <div class="mb-10 text-center">
+            <h2
+              class="text-heading-24 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)"
+            >
               Why Choose This Theme?
             </h2>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f) => (
-              <Card padding="lg" radius="md" variant='secondary' class="text-start hover:shadow-md">
-                <div class="flex items-center mb-3">
-                  <Icons name={f.icon} class="size-6 text-brand" />
-                </div>
-                <h3 class="text-heading-18 font-semibold text-(--fg-strong)">
-                  {f.title}
-                </h3>
-                <p class="text-body-14 text-(--fg-muted) mt-1">{f.desc}</p>
-              </Card>
-            ))}
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {
+              features.map((f) => (
+                <Card
+                  padding="lg"
+                  radius="md"
+                  variant="secondary"
+                  class="text-start hover:shadow-md"
+                >
+                  <div class="mb-3 flex items-center">
+                    <Icons name={f.icon} class="text-brand size-6" />
+                  </div>
+                  <h3 class="text-heading-18 font-semibold text-(--fg-strong)">
+                    {f.title}
+                  </h3>
+                  <p class="text-body-14 mt-1 text-(--fg-muted)">{f.desc}</p>
+                </Card>
+              ))
+            }
           </div>
         </Section>
       </Container>
@@ -103,11 +111,16 @@ const imageAttrs = {
       <Image src={HeroImageDesktop} {...imageAttrs} />
       <Container size="lg">
         <Section size="md">
-          <div class="text-center mb-10">
-            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
+          <div class="mb-10 text-center">
+            <h2
+              class="text-heading-24 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)"
+            >
               Support Markdown & MDX
             </h2>
-            <p class="text-heading-32 mt-2">Native support for the essential standards. Extended through Satteri directives—only when you need it.</p>
+            <p class="text-heading-32 mt-2">
+              Native support for the essential standards. Extended through
+              Satteri directives—only when you need it.
+            </p>
           </div>
         </Section>
       </Container>
@@ -116,11 +129,15 @@ const imageAttrs = {
       </Container>
       <Container size="lg">
         <Section size="md">
-          <div class="text-center mb-10">
-            <h2 class="text-heading-24 md:text-heading-40 lg:text-heading-48 text-(--fg-strong) font-semibold">
+          <div class="mb-10 text-center">
+            <h2
+              class="text-heading-24 md:text-heading-40 lg:text-heading-48 font-semibold text-(--fg-strong)"
+            >
               Forever Open Source.
             </h2>
-            <p class="text-heading-32 mt-2">Modify, extend, or strip it down. It's completely open.</p>
+            <p class="text-heading-32 mt-2">
+              Modify, extend, or strip it down. It's completely open.
+            </p>
           </div>
         </Section>
       </Container>
@@ -130,25 +147,25 @@ const imageAttrs = {
       <Image src={HeroImageMobile} {...imageAttrs} />
       <Container size="xl">
         <Section size="lg" class="py-12 md:py-16 lg:py-24">
-          
           <div class="grid grid-cols-12 gap-x-6 gap-y-6">
-            <div class="col-span-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:flex-row lg:gap-12">
-              <h2 id="start" class="text-heading-32 md:text-heading-40 lg:text-heading-48 font-medium text-(--fg-strong) text-center lg:text-left text-balance max-w-[16ch]">
+            <div
+              class="col-span-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:flex-row lg:gap-12"
+            >
+              <h2
+                id="start"
+                class="text-heading-32 md:text-heading-40 lg:text-heading-48 max-w-[16ch] text-center font-medium text-balance text-(--fg-strong) lg:text-left"
+              >
                 Ready to Explore?
               </h2>
               <div class="flex flex-wrap items-center justify-center gap-4">
-                <Button
-                  href={`${ROUTES.docs}/`}
-                  variant="primary"
-                  size="lg"
-                >
+                <Button href={`${ROUTES.docs}/`} variant="primary" size="lg">
                   View Docs
                 </Button>
                 <Button
                   href="https://github.com/bimaakbar-dev/stradocs"
                   variant="ghost"
                   size="lg"
-                  suffix={<Icons name="external" class="size-4.5" />}
+                  suffix={(<Icons name="external" class="size-4.5" />)}
                 >
                   GitHub
                 </Button>
@@ -157,7 +174,6 @@ const imageAttrs = {
           </div>
         </Section>
       </Container>
-
     </div>
   </main>
 </Layout>

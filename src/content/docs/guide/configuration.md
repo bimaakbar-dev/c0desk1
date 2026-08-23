@@ -1,5 +1,5 @@
 ---
-slug: 'configuration'
+slug: "configuration"
 title: "Configuration"
 description: "Learn how to customize Stardux from site identity to navigation and SEO."
 category: "Guide"
@@ -20,6 +20,7 @@ lastUpdated: 2026-08-16
 Stardux keeps its configuration in the `src/config/` directory. You can customize your site's identity, navigation, page content, SEO, forms, and more without modifying component code.
 
 :::filetree
+
 - src/config/
   - navs/
     - docsSidebar.ts
@@ -38,7 +39,7 @@ Stardux keeps its configuration in the `src/config/` directory. You can customiz
   - schema.ts
   - seo.ts
   - site.ts
-:::
+    :::
 
 ## `site.ts` — Site Identity
 
@@ -48,7 +49,8 @@ The `site.ts` file contains the main configuration for your website, including i
 export const SITE = {
   name: "Stardux",
   tagline: "A modern documentation",
-  description: "A clean, modern, and customizable documentation themes built with Astro",
+  description:
+    "A clean, modern, and customizable documentation themes built with Astro",
   url: env.PUBLIC_SITE_URL || "https://your-site.com",
   email: "yourname@mail",
   locale: "en-US",
@@ -122,11 +124,12 @@ The values inside verification and analytics are loaded from environment variabl
 
 Navigation settings are located in the `src/config/navs/` directory.
 :::filetree
+
 - src/config/navs/
   - docsSidebar.ts
   - globalNavs.ts
   - ...
-:::
+    :::
 
 ### `globalNavs.ts` Global navigation
 
@@ -185,6 +188,7 @@ title: "Configuration"
 category: "Guide"
 ---
 ```
+
 To change the sidebar order, simply reorder the items inside `SIDEBAR_CONFIG`.
 
 To add a new documentation category, add the category to your sidebar configuration and make sure your documentation files use the same `category` value.
@@ -195,15 +199,15 @@ The `src/config/pages/` directory contains configuration files for individual pa
 
 These files control static content such as page titles, descriptions, button labels, messages, and empty states.
 
-| File | Page |
-| --- | --- |
-| `404.ts` | 404 page |
-| `about.ts` | About page |
+| File         | Page                       |
+| ------------ | -------------------------- |
+| `404.ts`     | 404 page                   |
+| `about.ts`   | About page                 |
 | `archive.ts` | Archive & activity heatmap |
-| `blog.ts` | Blog listing |
-| `contact.ts` | Contact page |
-| `docs.ts` | Documentation page |
-| `landing.ts` | Landing page |
+| `blog.ts`    | Blog listing               |
+| `contact.ts` | Contact page               |
+| `docs.ts`    | Documentation page         |
+| `landing.ts` | Landing page               |
 
 For example, you can change a page title or button label directly from its configuration file without editing the page component.
 
@@ -213,15 +217,15 @@ The `schema.ts` file provides helper functions for generating JSON-LD structured
 
 These helpers automatically use information from `SITE` and `ORG` where applicable.
 
-| Function | Schema type | Use for |
-| --- | --- | --- |
-| `schemaWebSite` | WebSite | Root site schema |
-| `schemaOrganization` | Organization | Organization identity |
-| `schemaWebPage` | WebPage | Static pages |
-| `schemaArticle` | Article | Blog posts |
-| `schemaBreadcrumb` | BreadcrumbList | Navigation breadcrumbs |
-| `schemaSoftwareApplication` | SoftwareApplication | App or tool pages |
-| `schemaFAQ` | FAQPage | FAQ sections |
+| Function                    | Schema type         | Use for                |
+| --------------------------- | ------------------- | ---------------------- |
+| `schemaWebSite`             | WebSite             | Root site schema       |
+| `schemaOrganization`        | Organization        | Organization identity  |
+| `schemaWebPage`             | WebPage             | Static pages           |
+| `schemaArticle`             | Article             | Blog posts             |
+| `schemaBreadcrumb`          | BreadcrumbList      | Navigation breadcrumbs |
+| `schemaSoftwareApplication` | SoftwareApplication | App or tool pages      |
+| `schemaFAQ`                 | FAQPage             | FAQ sections           |
 
 In most cases, you do not need to modify these helper functions. They automatically generate structured data based on your site configuration and page content.
 
@@ -257,8 +261,7 @@ export const FORM_CONFIG = {
 
   error: {
     title: "Something went wrong",
-    description:
-      "Please check your connection and try again.",
+    description: "Please check your connection and try again.",
   },
 
   button: {

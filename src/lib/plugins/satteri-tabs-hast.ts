@@ -1,11 +1,7 @@
 // src/lib/mdx/satteri-tabs-hast.ts
 
+import type { Element, ElementContent, Properties } from "hast";
 import { defineHastPlugin } from "satteri";
-import type {
-  Element,
-  ElementContent,
-  Properties,
-} from "hast";
 
 function getClassName(node: Element): string[] {
   const value = node.properties?.className;
@@ -21,22 +17,16 @@ function getClassName(node: Element): string[] {
   return [];
 }
 
-function getDataValue(
-  node: Element,
-  name: string,
-): string | undefined {
+function getDataValue(node: Element, name: string): string | undefined {
   const properties = node.properties;
 
   if (!properties) {
     return undefined;
   }
 
-  const camelCaseName =
-    `data${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+  const camelCaseName = `data${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 
-  const value =
-    properties[name] ??
-    properties[camelCaseName];
+  const value = properties[name] ?? properties[camelCaseName];
 
   if (typeof value === "string") {
     return value;
@@ -80,20 +70,18 @@ export const satteriTabsHast = defineHastPlugin({
 
       const children = node.children || [];
 
-      const panels = children.filter(
-        (child): child is Element => {
-          if (child.type !== "element") {
-            return false;
-          }
+      const panels = children.filter((child): child is Element => {
+        if (child.type !== "element") {
+          return false;
+        }
 
-          const childClasses = getClassName(child);
+        const childClasses = getClassName(child);
 
-          return (
-            childClasses.includes("tab-panel") ||
-            child.properties?.dataTab !== undefined
-          );
-        },
-      );
+        return (
+          childClasses.includes("tab-panel") ||
+          child.properties?.dataTab !== undefined
+        );
+      });
 
       if (panels.length === 0) {
         return;
@@ -103,43 +91,21 @@ export const satteriTabsHast = defineHastPlugin({
       const groupId = `tabs-${groupIndex}`;
 
       const tabs = panels.map((panel, index) => {
-        const label =
-          getDataValue(panel, "tabLabel") ||
-          `Tab ${index + 1}`;
+        const label = getDataValue(panel, "tabLabel") || `Tab ${index + 1}`;
 
         const tabId = `${groupId}-tab-${index}`;
         const panelId = `${groupId}-panel-${index}`;
 
-        ctx.setProperty(
-          panel,
-          "id",
-          panelId,
-        );
+        ctx.setProperty(panel, "id", panelId);
 
-        ctx.setProperty(
-          panel,
-          "role",
-          "tabpanel",
-        );
+        ctx.setProperty(panel, "role", "tabpanel");
 
-        ctx.setProperty(
-          panel,
-          "aria-labelledby",
-          tabId,
-        );
+        ctx.setProperty(panel, "aria-labelledby", tabId);
 
-        ctx.setProperty(
-          panel,
-          "tabindex",
-          index === 0 ? 0 : -1,
-        );
+        ctx.setProperty(panel, "tabindex", index === 0 ? 0 : -1);
 
         if (index !== 0) {
-          ctx.setProperty(
-            panel,
-            "hidden",
-            true,
-          );
+          ctx.setProperty(panel, "hidden", true);
         }
 
         return {
@@ -150,25 +116,22 @@ export const satteriTabsHast = defineHastPlugin({
         };
       });
 
-      const tabButtons: ElementContent[] =
-        tabs.map((tab) =>
-          createElement(
-            "button",
-            {
-              type: "button",
-              id: tab.tabId,
-              role: "tab",
-              "aria-selected": tab.active
-                ? "true"
-                : "false",
-              "aria-controls": tab.panelId,
-              tabindex: tab.active ? 0 : -1,
-              className: ["tab-button"],
-              dataTabTrigger: "",
-            },
-            [createText(tab.label)],
-          ),
-        );
+      const tabButtons: ElementContent[] = tabs.map((tab) =>
+        createElement(
+          "button",
+          {
+            type: "button",
+            id: tab.tabId,
+            role: "tab",
+            "aria-selected": tab.active ? "true" : "false",
+            "aria-controls": tab.panelId,
+            tabindex: tab.active ? 0 : -1,
+            className: ["tab-button"],
+            dataTabTrigger: "",
+          },
+          [createText(tab.label)],
+        ),
+      );
 
       const tabList = createElement(
         "div",
@@ -188,14 +151,7 @@ export const satteriTabsHast = defineHastPlugin({
         panels,
       );
 
-      ctx.setProperty(
-        node,
-        "children",
-        [
-          tabList,
-          panelsContainer,
-        ],
-      );
+      ctx.setProperty(node, "children", [tabList, panelsContainer]);
     },
   },
 });

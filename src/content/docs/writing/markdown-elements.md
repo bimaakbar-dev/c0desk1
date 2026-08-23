@@ -20,19 +20,24 @@ seo:
 > Visual reference for how standard Markdown elements render in Unloyd. For custom directives, see [Components](/docs/components/).
 
 # Heading 1
+
 ## Heading 2
+
 ### Heading 3
+
 #### Heading 4
+
 ##### Heading 5
+
 ###### Heading 6
 
 ## Emphasis
 
 **Bold**
 
-*Italic*
+_Italic_
 
-***Bold Italic***
+**_Bold Italic_**
 
 ~~Strikethrough~~
 
@@ -61,20 +66,20 @@ seo:
 
 ## Table
 
-| Feature | Status | Version |
-| --- | --- | --- |
-| Astro 7 | ✅ | 7.2.0 |
-| TailwindCSS 4 | ✅ | 4.0.0 |
+| Feature       | Status | Version |
+| ------------- | ------ | ------- |
+| Astro 7       | ✅     | 7.2.0   |
+| TailwindCSS 4 | ✅     | 4.0.0   |
 
 ## Code
 
 ```js
-const greeting = 'Hello, world!';
+const greeting = "Hello, world!";
 console.log(greeting);
 ```
 
 ```js
-const greeting = 'Hello, world!'; // [!code --]
+const greeting = "Hello, world!"; // [!code --]
 console.log(greeting); // [!code ++]
 ```
 
@@ -84,10 +89,7 @@ console.log(greeting); // [!code ++]
 
 [External link](https://github.com/bimaakbar-dev)
 
-
-
 ![OG Image](../../../assets/images/og-image.webp)
-
 
 ## Footnotes
 

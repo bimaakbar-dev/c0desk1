@@ -15,10 +15,10 @@ interface Props {
   publisher?: string;
 }
 
-const { 
-  meta, 
-  schema, 
-  isHome = false, 
+const {
+  meta,
+  schema,
+  isHome = false,
   canonical,
   author,
   publisher,
@@ -30,16 +30,17 @@ const $ = {
     "w-full min-w-0 px-2 pb-(--safe-bottom) lg:h-[calc(100vh-var(--header-height))]",
     "sticky top-(--header-height)",
     "hidden lg:block",
-    "overflow-y-auto"
+    "overflow-y-auto",
   ].join(" "),
   right: [
     "w-full min-w-0 px-2 pb-(--safe-bottom) lg:h-[calc(100vh-var(--header-height))]",
     "sticky top-(--header-height)",
     "hidden lg:block",
-    "overflow-y-auto"
+    "overflow-y-auto",
   ].join(" "),
-}
+};
 ---
+
 <Layout {meta} {schema} {isHome} {canonical} {author} {publisher}>
   <PageFrame>
     <aside class={$.left}>

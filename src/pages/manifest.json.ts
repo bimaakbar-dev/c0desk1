@@ -1,6 +1,6 @@
 // src/pages/manifest.json.ts
-import type { APIRoute } from 'astro';
-import { SITE, ROUTES, IMAGE } from '@/consts';
+import { ROUTES, SITE } from "@/consts";
+import type { APIRoute } from "astro";
 
 export const GET: APIRoute = () => {
   const manifest = {
@@ -20,27 +20,27 @@ export const GET: APIRoute = () => {
         src: "/favicon/android-chrome-192x192.png",
         sizes: "192x192",
         type: "image/png",
-        purpose: "any"
+        purpose: "any",
       },
       {
         src: "/favicon/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any"
+        purpose: "any",
       },
       {
         src: "/favicon/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "maskable"
-      }
-    ]
+        purpose: "maskable",
+      },
+    ],
   };
 
   return new Response(JSON.stringify(manifest, null, 2), {
     headers: {
-      'Content-Type': 'application/manifest+json; charset=utf-8',
-      'Cache-Control': 'public, max-age=86400',
+      "Content-Type": "application/manifest+json; charset=utf-8",
+      "Cache-Control": "public, max-age=86400",
     },
   });
 };

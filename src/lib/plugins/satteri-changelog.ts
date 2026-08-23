@@ -15,7 +15,10 @@ export const satteriChangelog = defineMdastPlugin({
             let logTitle = "Update";
             let contentChildren = child.children || [];
 
-            if (contentChildren.length > 0 && contentChildren[0].type === "paragraph") {
+            if (
+              contentChildren.length > 0 &&
+              contentChildren[0].type === "paragraph"
+            ) {
               const firstPara = contentChildren[0] as any;
               if (firstPara.children && firstPara.children.length > 0) {
                 logTitle = firstPara.children[0].value || "Update";

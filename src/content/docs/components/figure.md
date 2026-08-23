@@ -23,16 +23,20 @@ Figure wraps an image in a `<figure>` element with an optional caption. Without 
 
 ::::tabs
 :::tab[Markdown]
+
 ```md
 ![Alt text](https://placehold.co/600x400){This is a caption}
 ```
+
 :::
 :::tab[MDX]
+
 ```mdx
 <Figure src="https://placehold.co/600x400" alt="Alt text">
   This is a caption
 </Figure>
 ```
+
 :::
 ::::
 

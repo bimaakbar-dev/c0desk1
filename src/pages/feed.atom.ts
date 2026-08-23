@@ -1,57 +1,56 @@
 // src/pages/feed.atom.ts
-import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
+import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 
-import { 
-  SITE, 
-  ROUTES, 
-  PAGINATION 
-} from '@/consts';
+import { PAGINATION, ROUTES, SITE } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from '@/lib/utils';
+import { canonicalUrl, getSlug } from "@/lib/utils";
 
 function escapeXml(str: string): string {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 function getCoverUrl(cover: any, baseUrl: string): string | null {
   if (!cover) return null;
-  if (typeof cover === 'string') {
-    return cover.startsWith('http') ? cover : `${baseUrl}${cover}`;
+  if (typeof cover === "string") {
+    return cover.startsWith("http") ? cover : `${baseUrl}${cover}`;
   }
-  if (typeof cover === 'object' && cover.src) {
-    return cover.src.startsWith('http') ? cover.src : `${baseUrl}${cover.src}`;
+  if (typeof cover === "object" && cover.src) {
+    return cover.src.startsWith("http") ? cover.src : `${baseUrl}${cover.src}`;
   }
   return null;
 }
 
 function getImageType(url: string): string {
-  const ext = url.split('.').pop()?.toLowerCase() || '';
+  const ext = url.split(".").pop()?.toLowerCase() || "";
   const types: Record<string, string> = {
-    png: 'image/png',
-    webp: 'image/webp',
-    svg: 'image/svg+xml',
-    gif: 'image/gif',
-    avif: 'image/avif',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
+    png: "image/png",
+    webp: "image/webp",
+    svg: "image/svg+xml",
+    gif: "image/gif",
+    avif: "image/avif",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
   };
-  return types[ext] || 'image/jpeg';
+  return types[ext] || "image/jpeg";
 }
 
 export const GET: APIRoute = async (context) => {
-  const baseUrl = (context.site?.toString() ?? SITE.url).replace(/\/$/, '');
+  const baseUrl = (context.site?.toString() ?? SITE.url).replace(/\/$/, "");
 
-  const blog = await getCollection('blog', ({ data }) => !data.draft && !data.seo?.noIndex);
-  const docs = await getCollection('docs', ({ data }) => !data.draft && !data.seo?.noIndex);
+  const blog = await getCollection(
+    "blog",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
+  const docs = await getCollection(
+    "docs",
+    ({ data }) => !data.draft && !data.seo?.noIndex,
+  );
 
   const rawItems = [
     ...blog.map((post) => {
@@ -65,7 +64,7 @@ export const GET: APIRoute = async (context) => {
         author: post.data.author?.name || SITE.name,
         authorEmail: post.data.author?.email || SITE.email,
         tags: post.data.tags || [],
-        type: 'blog',
+        type: "blog",
         slug: slug,
       };
     }),
@@ -80,7 +79,7 @@ export const GET: APIRoute = async (context) => {
         author: doc.data.author?.name || SITE.name,
         authorEmail: doc.data.author?.email || SITE.email,
         tags: doc.data.category ? [doc.data.category] : [],
-        type: 'docs',
+        type: "docs",
         slug: slug,
       };
     }),
@@ -93,7 +92,7 @@ export const GET: APIRoute = async (context) => {
   const feedUpdated = sortedItems[0]?.updated ?? new Date();
 
   const feedYear = String(feedUpdated.getFullYear());
-  const feedId = `tag:${baseUrl.replace(/^https?:\/\//, '')},${feedYear}:feed`;
+  const feedId = `tag:${baseUrl.replace(/^https?:\/\//, "")},${feedYear}:feed`;
 
   const atomFeed = `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${SITE.lang}">
@@ -105,7 +104,7 @@ export const GET: APIRoute = async (context) => {
   <id>${feedId}</id>
   <rights>&#xA9; ${new Date().getFullYear()} ${escapeXml(SITE.name)}</rights>
   <generator uri="${baseUrl}" version="1.0">Astro</generator>
-  <icon>${canonicalUrl('favicon/favicon.ico')}</icon>
+  <icon>${canonicalUrl("favicon/favicon.ico")}</icon>
   
   <author>
     <name>${escapeXml(SITE.name)}</name>
@@ -116,7 +115,9 @@ export const GET: APIRoute = async (context) => {
     .map((item) => {
       const coverUrl = getCoverUrl(item.cover, baseUrl);
       const escapedTitle = escapeXml(item.title);
-      const escapedDescription = escapeXml(item.description || `Baca ${item.title} di ${SITE.name}.`);
+      const escapedDescription = escapeXml(
+        item.description || `Baca ${item.title} di ${SITE.name}.`,
+      );
       const summary = item.description ?? `Baca ${item.title}`;
 
       const coverAlt = escapeXml(item.cover?.alt || item.title);
@@ -127,21 +128,23 @@ export const GET: APIRoute = async (context) => {
         rawContent = `<p><img src="${coverUrl}" alt="${coverAlt}" /></p>\n${rawContent}`;
       }
 
-      const imageType = coverUrl ? getImageType(coverUrl) : 'image/jpeg';
+      const imageType = coverUrl ? getImageType(coverUrl) : "image/jpeg";
       const enclosure = coverUrl
         ? `    <link rel="enclosure" href="${coverUrl}" type="${imageType}" />\n`
-        : '';
+        : "";
 
       const entryYear = new Date(item.date).getFullYear();
-      const entryId = `tag:${baseUrl.replace(/^https?:\/\//, '')},${entryYear}:${item.type}:${item.slug}`;
+      const entryId = `tag:${baseUrl.replace(/^https?:\/\//, "")},${entryYear}:${item.type}:${item.slug}`;
 
       const categoryLines = [
         `    <category term="${escapeXml(item.type)}" />`,
-        ...(item.category ? [`    <category term="${escapeXml(item.category)}" />`] : []),
+        ...(item.category
+          ? [`    <category term="${escapeXml(item.category)}" />`]
+          : []),
         ...(item.tags || [])
           .filter((tag: string) => tag !== item.category)
           .map((tag: string) => `    <category term="${escapeXml(tag)}" />`),
-      ].join('\n');
+      ].join("\n");
 
       return `  <entry>
     <title>${escapedTitle}</title>
@@ -156,15 +159,16 @@ export const GET: APIRoute = async (context) => {
       <email>${escapeXml(item.authorEmail)}</email>
     </author>
 ${categoryLines}
-${enclosure ? '' + enclosure.trim() : ''}
+${enclosure ? "" + enclosure.trim() : ""}
   </entry>`;
-  }).join('\n')}
+    })
+    .join("\n")}
 </feed>`;
 
   return new Response(atomFeed.trim(), {
     headers: {
-      'Content-Type': 'application/atom+xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
+      "Content-Type": "application/atom+xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };

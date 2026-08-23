@@ -1,6 +1,6 @@
 ---
 title: Cookie Policy
-slug: 'cookie-policy'
+slug: "cookie-policy"
 description: Information about the use of cookies on the c0desk1 website and how you can manage them.
 lastUpdated: 2026-04-30T17:23Z
 seo:
@@ -8,6 +8,7 @@ seo:
   description: Explanations about cookies, the types of cookies used, and how to manage your cookie preferences.
   noIndex: false
 ---
+
 The **c0desk1** website uses cookies to enhance user experience, analyze traffic, and display advertisements.
 
 ---
@@ -22,33 +23,33 @@ Cookies are small text files stored on your device (computer, smartphone, tablet
 
 ## 2. Cookies We Use
 
-| Type of Cookie | Function | Duration |
-| -------------------- | -------------------------------------------------------------------------- | --------- |
-| **Essential Cookies** | Store theme preferences (dark/light mode) | 1 year |
-| **Analytics Cookies** | Measure traffic and visitor behavior (Google Analytics, Yandex Metrica) | 2 years |
-| **Advertising Cookies** | Display relevant ads (Google AdSense, Yandex Ads) | 1-2 years |
+| Type of Cookie          | Function                                                                | Duration  |
+| ----------------------- | ----------------------------------------------------------------------- | --------- |
+| **Essential Cookies**   | Store theme preferences (dark/light mode)                               | 1 year    |
+| **Analytics Cookies**   | Measure traffic and visitor behavior (Google Analytics, Yandex Metrica) | 2 years   |
+| **Advertising Cookies** | Display relevant ads (Google AdSense, Yandex Ads)                       | 1-2 years |
 
 ## 3. Third-Party Cookies
 
 We use third-party services that place cookies:
 
-| Service | Function | Policy |
-| -------------------- | --------------- | -------------------------------------------------------------------- |
+| Service              | Function         | Policy                                                            |
+| -------------------- | ---------------- | ----------------------------------------------------------------- |
 | **Google Analytics** | Traffic analysis | [Google Policy](https://policies.google.com/technologies/cookies) |
-| **Yandex Metrica** | Traffic analysis | [Yandex Policy](https://yandex.com/legal/cookies_policy/) |
-| **Google AdSense** | Advertising | [Google Policy](https://policies.google.com/technologies/ads) |
-| **Yandex Ads** | Advertising | [Yandex Policy](https://yandex.com/legal/advertising/) |
+| **Yandex Metrica**   | Traffic analysis | [Yandex Policy](https://yandex.com/legal/cookies_policy/)         |
+| **Google AdSense**   | Advertising      | [Google Policy](https://policies.google.com/technologies/ads)     |
+| **Yandex Ads**       | Advertising      | [Yandex Policy](https://yandex.com/legal/advertising/)            |
 
 ## 4. How to Manage Cookies
 
 You can manage cookies through your browser settings:
 
-| Browser | Method |
+| Browser     | Method                                    |
 | ----------- | ----------------------------------------- |
-| **Chrome** | Settings → Privacy and Security → Cookies |
-| **Firefox** | Options → Privacy & Security → Cookies |
-| **Safari** | Preferences → Privacy → Cookies |
-| **Edge** | Settings → Privacy & Security → Cookies |
+| **Chrome**  | Settings → Privacy and Security → Cookies |
+| **Firefox** | Options → Privacy & Security → Cookies    |
+| **Safari**  | Preferences → Privacy → Cookies           |
+| **Edge**    | Settings → Privacy & Security → Cookies   |
 
 Disabling cookies may affect website functionality, such as:
 

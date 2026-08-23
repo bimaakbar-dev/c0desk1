@@ -23,6 +23,7 @@ Quote renders a `<figure>` with a `<blockquote>` and an optional `<figcaption>` 
 
 ::::tabs
 :::tab[Markdown]
+
 ```md
 :::quote
 Unloyd made my docs look great.
@@ -30,14 +31,22 @@ Unloyd made my docs look great.
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 :::
 ```
+
 :::
 :::tab[MDX]
+
 ```mdx
 <Quote>
   Unloyd made my docs look great.
-  <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
+  <User
+    avatar="https://avatars.githubusercontent.com/u/81931118?v=4"
+    url="https://github.com/bimaakbar-dev"
+  >
+    Bima Akbar
+  </User>
 </Quote>
 ```
+
 :::
 ::::
 

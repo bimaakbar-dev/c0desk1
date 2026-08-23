@@ -1,8 +1,5 @@
 ---
-import { 
-  getCollection, 
-  render 
-} from "astro:content";
+import { getCollection, render } from "astro:content";
 
 import {
   SITE,
@@ -12,13 +9,10 @@ import {
   DOCS_PAGE,
   buildMeta,
   schemaWebPage,
-  schemaBreadcrumb 
+  schemaBreadcrumb,
 } from "@/consts";
 
-import { 
-  getSlug, 
-  canonicalUrl 
-} from "@/lib/utils";
+import { getSlug, canonicalUrl } from "@/lib/utils";
 
 import { components } from "@components/mdx/MDXComponents";
 
@@ -52,7 +46,9 @@ if (!entry) {
 const { Content, headings } = await render(entry);
 
 const allDocs = await getCollection("docs", ({ data }) => !data.draft);
-const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+const sortedDocs = [...allDocs].sort(
+  (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
+);
 
 const docsByCategory = Object.groupBy(
   sortedDocs,
@@ -64,7 +60,9 @@ const availableCategories = Object.keys(docsByCategory);
 
 const sortedCategories = [
   ...configCategories.filter((cat) => cat in docsByCategory),
-  ...availableCategories.filter((cat) => !configCategories.includes(cat as any)),
+  ...availableCategories.filter(
+    (cat) => !configCategories.includes(cat as any),
+  ),
 ];
 
 const ungroupedDocs = sortedDocs.filter((doc) => !doc.data.category);
@@ -74,8 +72,11 @@ const orderedPaginationItems = [
   ...ungroupedDocs,
 ];
 
-const currentIndex = orderedPaginationItems.findIndex((item) => item.id === entry.id);
-const prevEntry = currentIndex > 0 ? orderedPaginationItems[currentIndex - 1] : null;
+const currentIndex = orderedPaginationItems.findIndex(
+  (item) => item.id === entry.id,
+);
+const prevEntry =
+  currentIndex > 0 ? orderedPaginationItems[currentIndex - 1] : null;
 const nextEntry =
   currentIndex < orderedPaginationItems.length - 1
     ? orderedPaginationItems[currentIndex + 1]
@@ -130,12 +131,7 @@ const fullMarkdownContent = `
 ${entry.body}`;
 ---
 
-<DocsLayout
-  meta={meta}
-  schema={schema}
-  author={author}
-  publisher={publisher}
->
+<DocsLayout meta={meta} schema={schema} author={author} publisher={publisher}>
   <MobileToc title={entry.data.title} headings={headings} />
 
   <Fragment>
@@ -149,17 +145,17 @@ ${entry.body}`;
               content={fullMarkdownContent}
             />
           </Container>
-          
-          <hr/>
-          
+
+          <hr />
+
           <Container size="md">
             <div class="prose">
               <Content components={components} />
             </div>
           </Container>
-          
-          <hr/>
-          
+
+          <hr />
+
           <Container size="md">
             <DocsFooter
               lastUpdated={entry.data.lastUpdated}
@@ -176,9 +172,9 @@ ${entry.body}`;
     <div class="fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 lg:block">
       <Toc headings={headings} />
     </div>
-    <div class="flex flex-col justify-between min-h-full">
+    <div class="flex min-h-full flex-col justify-between">
       <div class="space-y-4"></div>
-      <div class="pt-4 mt-auto">
+      <div class="mt-auto pt-4">
         <ScrollToTop label="Scroll to top" class="text-(--fg-muted)" />
       </div>
     </div>

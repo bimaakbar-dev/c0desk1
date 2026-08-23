@@ -1,12 +1,12 @@
 // src/lib/mdx/satteri-button.ts
-import { defineMdastPlugin } from 'satteri';
+import { defineMdastPlugin } from "satteri";
 
 function getLabel(node: any): string {
   const labelNode = node.children?.[0];
-  if (labelNode?.type === 'text') {
+  if (labelNode?.type === "text") {
     return labelNode.value.trim();
   }
-  return '';
+  return "";
 }
 
 function getAttributes(node: any): Record<string, string> {
@@ -15,26 +15,26 @@ function getAttributes(node: any): Record<string, string> {
   if (props.url) attrs.url = props.url;
   if (props.label) attrs.label = props.label;
   if (props.icon) attrs.icon = props.icon;
-  if (props.block !== undefined) attrs.block = 'true';
+  if (props.block !== undefined) attrs.block = "true";
   if (props.class) attrs.class = props.class;
   return attrs;
 }
 
 export const satteriButton = defineMdastPlugin({
-  name: 'satteri-button',
+  name: "satteri-button",
 
   leafDirective(node, ctx) {
-    if (node.name !== 'button') return;
+    if (node.name !== "button") return;
     this._buildButton(node, ctx);
   },
 
   containerDirective(node, ctx) {
-    if (node.name !== 'button') return;
+    if (node.name !== "button") return;
     this._buildButton(node, ctx);
   },
 
   textDirective(node, ctx) {
-    if (node.name !== 'button') return;
+    if (node.name !== "button") return;
     this._buildButton(node, ctx, true);
   },
 
@@ -45,21 +45,21 @@ export const satteriButton = defineMdastPlugin({
     const url = attrs.url || label;
     if (!url) return;
 
-    const buttonLabel = attrs.label || (label !== url ? label : 'Kunjungi');
-    const isBlock = attrs.block === 'true';
-    const blockClass = isBlock ? ' button-block' : '';
-    const extraClass = attrs.class || '';
+    const buttonLabel = attrs.label || (label !== url ? label : "Kunjungi");
+    const isBlock = attrs.block === "true";
+    const blockClass = isBlock ? " button-block" : "";
+    const extraClass = attrs.class || "";
 
     const children: any[] = [];
 
     if (attrs.icon) {
       children.push({
-        type: 'containerDirective',
+        type: "containerDirective",
         data: {
-          hName: 'span',
+          hName: "span",
           hProperties: {
-            className: ['button-icon'],
-            'data-icon': attrs.icon,
+            className: ["button-icon"],
+            "data-icon": attrs.icon,
           },
         },
         children: [],
@@ -67,23 +67,25 @@ export const satteriButton = defineMdastPlugin({
     }
 
     children.push({
-      type: 'text',
+      type: "text",
       value: buttonLabel,
     });
 
-    const finalBlockClass = isText ? '' : blockClass;
+    const finalBlockClass = isText ? "" : blockClass;
 
-    ctx.setProperty(node, 'data', {
+    ctx.setProperty(node, "data", {
       ...(node.data || {}),
-      hName: 'a',
+      hName: "a",
       hProperties: {
         href: url,
-        className: ['button', finalBlockClass, extraClass].filter(Boolean).join(' '),
-        target: url.startsWith('http') ? '_blank' : '_self',
-        rel: url.startsWith('http') ? 'noopener noreferrer' : undefined,
+        className: ["button", finalBlockClass, extraClass]
+          .filter(Boolean)
+          .join(" "),
+        target: url.startsWith("http") ? "_blank" : "_self",
+        rel: url.startsWith("http") ? "noopener noreferrer" : undefined,
       },
     });
 
-    ctx.setProperty(node, 'children', children);
+    ctx.setProperty(node, "children", children);
   },
 });

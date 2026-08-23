@@ -42,6 +42,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 ```
 
 :::card[Preview]
+
 > [!NOTE]
 > General information.
 
@@ -59,18 +60,18 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 > [!DANGER]
 > This may cause irreversible effects.
-:::
+> :::
 
 ## Variants
 
-| Type | Color |
-| --- | --- |
-| `NOTE` | Muted |
-| `TIP` | Accent |
+| Type        | Color  |
+| ----------- | ------ |
+| `NOTE`      | Muted  |
+| `TIP`       | Accent |
 | `IMPORTANT` | Purple |
-| `WARNING` | Yellow |
-| `CAUTION` | Orange |
-| `DANGER` | Red |
+| `WARNING`   | Yellow |
+| `CAUTION`   | Orange |
+| `DANGER`    | Red    |
 
 ## Notes
 

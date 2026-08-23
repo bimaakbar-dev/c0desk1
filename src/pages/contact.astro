@@ -16,11 +16,7 @@ import Section from "@ui/Section.astro";
 
 import ContactForm from "@ui/ContactForm.astro";
 
-const { 
-  title, 
-  description, 
-  hero 
-} = CONTACT_PAGE;
+const { title, description, hero } = CONTACT_PAGE;
 
 const baseUrl = SITE.url.replace(/\/$/, "");
 const currentUrl = `${baseUrl}${ROUTES.contact}/`;
@@ -30,12 +26,7 @@ const meta = buildMeta({
   description,
   canonical: currentUrl,
   ogType: "website",
-  keywords: [
-    "contact", 
-    "support", 
-    "feedback", 
-    "question"
-  ],
+  keywords: ["contact", "support", "feedback", "question"],
 });
 
 const schema = [
@@ -55,20 +46,28 @@ const schema = [
 
 <Layout {meta} {schema}>
   <main id="main-content" class="w-full min-w-0 flex-1">
-    <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+    <div
+      class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)"
+    >
       <Container size="xl">
         <Section
           size="lg"
-          class="pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-20 lg:pb-28"
+          class="pt-16 pb-12 md:pt-24 md:pb-20 lg:pt-32 lg:pb-28"
         >
           <div class="grid grid-cols-12 gap-x-6 gap-y-8 lg:gap-y-10">
-            <div class="col-span-full lg:col-span-7 flex flex-col gap-4">
-              <h1 class="text-heading-32 md:text-heading-48 lg:text-heading-64 text-balance font-medium text-(--fg-strong) max-w-[14ch]">
+            <div class="col-span-full flex flex-col gap-4 lg:col-span-7">
+              <h1
+                class="text-heading-32 md:text-heading-48 lg:text-heading-64 max-w-[14ch] font-medium text-balance text-(--fg-strong)"
+              >
                 {hero.title}
               </h1>
             </div>
-            <div class="col-span-full lg:col-span-5 flex flex-col gap-8 lg:py-2">
-              <p class="text-body-16 md:text-body-18 text-balance text-(--fg-muted) max-w-[48ch]">
+            <div
+              class="col-span-full flex flex-col gap-8 lg:col-span-5 lg:py-2"
+            >
+              <p
+                class="text-body-16 md:text-body-18 max-w-[48ch] text-balance text-(--fg-muted)"
+              >
                 {hero.description}
               </p>
             </div>

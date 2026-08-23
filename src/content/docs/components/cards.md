@@ -23,6 +23,7 @@ Card renders an info box with an optional icon, title, and content. Adding `href
 
 ::::tabs
 :::tab[Markdown]
+
 ```md
 :::card[Title]
 Card with title and content.
@@ -44,30 +45,23 @@ Card with icon, no title.
 Minimal card, content only.
 :::
 ```
+
 :::
 
 :::tab[MDX]
+
 ```html
-<Card title="Title">
-Card with title and content.
-</Card>
+<Card title="Title"> Card with title and content. </Card>
 
-<Card title="Title" icon="star">
-Card with icon and title.
-</Card>
+<Card title="Title" icon="star"> Card with icon and title. </Card>
 
-<Card title="Title" href="/docs/">
-Clickable card link.
-</Card>
+<Card title="Title" href="/docs/"> Clickable card link. </Card>
 
-<Card icon="star">
-Card with icon, no title.
-</Card>
+<Card icon="star"> Card with icon, no title. </Card>
 
-<Card>
-Minimal card, content only.
-</Card>
+<Card> Minimal card, content only. </Card>
 ```
+
 :::
 ::::
 
@@ -95,20 +89,20 @@ Minimal card, content only.
 
 ## Variants
 
-| Variant | Syntax |
-| --- | --- |
-| Full | `:::card[Title]{icon="star"}` |
-| No icon | `:::card[Title]` |
-| No title | `:::card{icon="info"}` |
-| Minimal | `:::card` |
+| Variant  | Syntax                        |
+| -------- | ----------------------------- |
+| Full     | `:::card[Title]{icon="star"}` |
+| No icon  | `:::card[Title]`              |
+| No title | `:::card{icon="info"}`        |
+| Minimal  | `:::card`                     |
 
 ## Attributes
 
-| Attribute | Required | Description |
-| --- | --- | --- |
-| `icon` | No | Icon name |
-| `href` | No | Makes the entire card a clickable link |
-| `class` | No | Additional CSS classes |
+| Attribute | Required | Description                            |
+| --------- | -------- | -------------------------------------- |
+| `icon`    | No       | Icon name                              |
+| `href`    | No       | Makes the entire card a clickable link |
+| `class`   | No       | Additional CSS classes                 |
 
 ## Notes
 

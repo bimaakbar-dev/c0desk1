@@ -24,18 +24,21 @@ Unloyd includes a contact form powered by [Formspree](https://formspree.io) — 
 ## Setup
 
 :::steps
+
 1. ### Create a Formspree Account
    - Go to [Formspree](https://formspree.io) and create a free account
    - Create a new form and copy the endpoint URL
-   
+
    Your endpoint will look like: `https://formspree.io/f/xxxxxxxx`
 
 2. ### Add to Environment Variables
+
    ```env
    PUBLIC_FORM_ENDPOINT=https://formspree.io/f/xxxxxxxx
    ```
 
 3. ### Customize Form Text
+
    Edit labels, placeholders, and messages in `src/config/pages/form.ts`:
 
    ```ts
@@ -50,16 +53,16 @@ Unloyd includes a contact form powered by [Formspree](https://formspree.io) — 
 
 4. ### Deploy
    The form is ready once the environment variable is set and the site is deployed.
-:::
+   :::
 
 ## Formspree Free Plan
 
-| Feature | Limit |
-| --- | --- |
-| Submissions | 50 per month |
-| Forms | 1 |
-| Email notifications | ✓ |
-| Spam protection | ✓ |
+| Feature             | Limit        |
+| ------------------- | ------------ |
+| Submissions         | 50 per month |
+| Forms               | 1            |
+| Email notifications | ✓            |
+| Spam protection     | ✓            |
 
 Upgrade to a paid plan if you need higher limits.
 

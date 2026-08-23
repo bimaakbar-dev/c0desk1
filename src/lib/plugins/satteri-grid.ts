@@ -1,18 +1,18 @@
 // src/lib/mdx/satteri-grid.ts
-import { defineMdastPlugin } from 'satteri';
+import { defineMdastPlugin } from "satteri";
 
 export const satteriGrid = defineMdastPlugin({
-  name: 'satteri-grid',
+  name: "satteri-grid",
 
   containerDirective(node, ctx) {
     const name = node.name?.toLowerCase();
 
-    if (name === 'grid') {
-      ctx.setProperty(node, 'data', {
+    if (name === "grid") {
+      ctx.setProperty(node, "data", {
         ...(node.data || {}),
-        hName: 'div',
+        hName: "div",
         hProperties: {
-          className: ['grid-card'],
+          className: ["grid-card"],
         },
       });
     }

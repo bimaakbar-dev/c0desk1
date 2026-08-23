@@ -23,6 +23,7 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 ::::tabs
 :::tab[Markdown]
+
 ```md
 :user[Bima Akbar]
 
@@ -32,18 +33,33 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
 ```
+
 :::
 
 :::tab[MDX]
+
 ```mdx
 <User>Bima Akbar</User>
 
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">Bima Akbar</User>
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">
+  Bima Akbar
+</User>
 
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">Bima Akbar</User>
+<User
+  avatar="https://avatars.githubusercontent.com/u/81931118?v=4"
+  role="Developer"
+>
+  Bima Akbar
+</User>
 
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
+<User
+  avatar="https://avatars.githubusercontent.com/u/81931118?v=4"
+  url="https://github.com/bimaakbar-dev"
+>
+  Bima Akbar
+</User>
 ```
+
 :::
 ::::
 
@@ -59,12 +75,12 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 ## Attributes
 
-| Attribute | Required | Description |
-| --- | --- | --- |
-| `avatar` | **No** | Avatar image URL — renders as a rounded image |
-| `role` | **No** | Role label displayed after the name with a `·` separator |
-| `url` | **No** | Wraps the user in a link |
-| `class` | **No** | Additional CSS classes |
+| Attribute | Required | Description                                              |
+| --------- | -------- | -------------------------------------------------------- |
+| `avatar`  | **No**   | Avatar image URL — renders as a rounded image            |
+| `role`    | **No**   | Role label displayed after the name with a `·` separator |
+| `url`     | **No**   | Wraps the user in a link                                 |
+| `class`   | **No**   | Additional CSS classes                                   |
 
 ## Notes
 

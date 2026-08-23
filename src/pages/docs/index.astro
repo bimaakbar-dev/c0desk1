@@ -22,11 +22,13 @@ import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 
 const allDocs = await getCollection("docs", ({ data }) => !data.draft);
-const sortedDocs = [...allDocs].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+const sortedDocs = [...allDocs].sort(
+  (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
+);
 
 const docsByCategory = Object.groupBy(
   sortedDocs,
-  (doc) => doc.data.category ?? "Uncategorized"
+  (doc) => doc.data.category ?? "Uncategorized",
 ) as Partial<Record<string, typeof allDocs>>;
 
 const firstCategoryConfig = SIDEBAR_CONFIG[0];
@@ -37,7 +39,7 @@ if (firstCategoryConfig) {
   const categoryDocs = docsByCategory[categoryKey] || [];
   if (categoryDocs.length > 0) {
     const sortedCategoryDocs = [...categoryDocs].sort(
-      (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)
+      (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999),
     );
     startReadingDoc = sortedCategoryDocs[0];
   }
@@ -48,11 +50,13 @@ if (!startReadingDoc) {
 }
 
 const docUrl = (doc: any) => `${ROUTES.docs}/${getSlug(doc)}/`;
-const startReadingHref = startReadingDoc ? docUrl(startReadingDoc) : `${ROUTES.docs}/`;
+const startReadingHref = startReadingDoc
+  ? docUrl(startReadingDoc)
+  : `${ROUTES.docs}/`;
 
 const meta = buildMeta({
   title: DOCS_PAGE.title,
-  description:  DOCS_PAGE.description,
+  description: DOCS_PAGE.description,
   canonical: `${SITE.url}${ROUTES.docs}/`,
   ogType: "website",
 });
@@ -60,7 +64,7 @@ const meta = buildMeta({
 const schema = [
   schemaWebPage({
     title: DOCS_PAGE.title,
-    description:  DOCS_PAGE.description,
+    description: DOCS_PAGE.description,
     url: `${SITE.url}${ROUTES.docs}/`,
     type: "CollectionPage",
   }),
@@ -77,12 +81,15 @@ const $ = {
   linkList: "w-full space-y-2",
   linkItem:
     "flex min-w-0 items-center gap-2 py-1.5 rounded-sm text-button-14 text-(--fg-muted) hover:text-(--fg-strong)",
-  viewAll: "mt-auto p-0! text-(--fg-muted) hover:bg-transparent hover:text-(--fg-strong)",
+  viewAll:
+    "mt-auto p-0! text-(--fg-muted) hover:bg-transparent hover:text-(--fg-strong)",
 };
 ---
 
 <Layout meta={meta} schema={schema}>
-  <div class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)">
+  <div
+    class="relative flex w-full flex-1 flex-col items-center pb-(--safe-bottom)"
+  >
     <main id="main-content" class="w-full min-w-0 flex-1">
       <DocsHero
         title={DOCS_PAGE.hero.title}
@@ -94,53 +101,59 @@ const $ = {
       <hr />
       <Section size="md">
         <Container size="xl">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        	  {SIDEBAR_CONFIG.map((config) => {
-              const categoryDocs = docsByCategory[config.category] ?? [];
-              if (categoryDocs.length === 0) return null;
+          <div
+            class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          >
+            {
+              SIDEBAR_CONFIG.map((config) => {
+                const categoryDocs = docsByCategory[config.category] ?? [];
+                if (categoryDocs.length === 0) return null;
 
-              const firstDoc = categoryDocs[0];
-              const mainHref = docUrl(firstDoc);
+                const firstDoc = categoryDocs[0];
+                const mainHref = docUrl(firstDoc);
 
-              return (
-                <Card
-                  padding="lg"
-                  radius="md"
-                  variant="secondary"
-                  class={$.card}
-                >
-                  <div class="space-y-1.5">
-                    <h2 class={$.cardTitle}>{config.label}</h2>
-                    <p class={$.cardDesc}>
-                      {categoryDocs.length} {categoryDocs.length === 1 ? "article" : "articles"} in this section.
-                    </p>
-                  </div>
-                  <div class={$.linkList}>
-                    {categoryDocs.slice(0, 3).map((doc) => (
-                      <a
-                        href={docUrl(doc)}
-                        aria-label={`Read ${doc.data.title}`}
-                        class={$.linkItem}
-                      >
-                        <Icon name="brain" class="size-4 shrink-0" />
-                        <span class="min-w-0 truncate">{doc.data.title}</span>
-                      </a>
-                    ))}
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="md"
-                    href={mainHref}
-                    aria-label={`View all ${config.label}`}
-                    suffix={<Icon name="arrow-right" class="size-4" />}
-                    class={$.viewAll}
-                    block
+                return (
+                  <Card
+                    padding="lg"
+                    radius="md"
+                    variant="secondary"
+                    class={$.card}
                   >
-                    View all
-                  </Button>
-                </Card>
-              );
-            })}
+                    <div class="space-y-1.5">
+                      <h2 class={$.cardTitle}>{config.label}</h2>
+                      <p class={$.cardDesc}>
+                        {categoryDocs.length}{" "}
+                        {categoryDocs.length === 1 ? "article" : "articles"} in
+                        this section.
+                      </p>
+                    </div>
+                    <div class={$.linkList}>
+                      {categoryDocs.slice(0, 3).map((doc) => (
+                        <a
+                          href={docUrl(doc)}
+                          aria-label={`Read ${doc.data.title}`}
+                          class={$.linkItem}
+                        >
+                          <Icon name="brain" class="size-4 shrink-0" />
+                          <span class="min-w-0 truncate">{doc.data.title}</span>
+                        </a>
+                      ))}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="md"
+                      href={mainHref}
+                      aria-label={`View all ${config.label}`}
+                      suffix={<Icon name="arrow-right" class="size-4" />}
+                      class={$.viewAll}
+                      block
+                    >
+                      View all
+                    </Button>
+                  </Card>
+                );
+              })
+            }
           </div>
         </Container>
       </Section>

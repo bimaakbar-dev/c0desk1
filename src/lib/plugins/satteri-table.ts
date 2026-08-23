@@ -1,18 +1,18 @@
 // plugins/satteri-table.ts
-import { defineHastPlugin } from 'satteri'
-import type { Element } from 'hast'
+import type { Element } from "hast";
+import { defineHastPlugin } from "satteri";
 
 export const satteriTable = defineHastPlugin({
-  name: 'satteri-table',
+  name: "satteri-table",
   element: {
-    filter: ['table'],
+    filter: ["table"],
     visit(node: Element, ctx) {
       ctx.replaceNode(node, {
-        type: 'element',
-        tagName: 'div',
-        properties: { className: ['table-wrapper'] },
+        type: "element",
+        tagName: "div",
+        properties: { className: ["table-wrapper"] },
         children: [node],
-      })
+      });
     },
   },
-})
+});

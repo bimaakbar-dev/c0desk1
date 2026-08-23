@@ -23,6 +23,7 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
 
 ```md
 :::filetree
+
 - src/
   - components/
     - Header.astro
@@ -34,11 +35,12 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
 - package.json
 - **README.md** # highlighted file
 - ...
-:::
+  :::
 ```
 
 ::::card[Preview]
 :::filetree
+
 - src/
   - components/
     - Header.astro
@@ -50,12 +52,13 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
 - package.json
 - **README.md** # highlighted file
 - ...
-:::
-::::
+  :::
+  ::::
 
 ## Icons for extension
 
 :::filetree
+
 - mega-project/
   - .dockerignore
   - .editorconfig
@@ -227,25 +230,18 @@ Filetree renders a folder and file structure with automatic icons, collapsible f
     - main.cpp
     - main.h
     - main.hpp
-  - libs/
-    - library.jar
-    - module.dll
-    - lib.so
-    - lib.dylib
-    - module.o
-    - app.exe
-    - app.wasm
-:::
+  - libs/ - library.jar - module.dll - lib.so - lib.dylib - module.o - app.exe - app.wasm
+    :::
 
 ## Features
 
-| Syntax | Description |
-| --- | --- |
-| `folder/` | Trailing slash marks a folder |
-| `file.ext` | Any extension marks a file |
-| `**name**` | Bold highlights the item with accent color |
-| `# comment` or `// comment` | Inline comment shown in muted color |
-| `...` | Placeholder for hidden content |
+| Syntax                      | Description                                |
+| --------------------------- | ------------------------------------------ |
+| `folder/`                   | Trailing slash marks a folder              |
+| `file.ext`                  | Any extension marks a file                 |
+| `**name**`                  | Bold highlights the item with accent color |
+| `# comment` or `// comment` | Inline comment shown in muted color        |
+| `...`                       | Placeholder for hidden content             |
 
 ## Notes
 

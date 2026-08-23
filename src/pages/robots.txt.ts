@@ -1,23 +1,19 @@
 // src/pages/robots.txt.ts
-import type { APIRoute } from 'astro';
-import { 
-  SITE, 
-  ROUTES, 
-  SEO 
-} from '@/consts';
+import { ROUTES, SEO, SITE } from "@/consts";
+import type { APIRoute } from "astro";
 
-import { canonicalUrl } from '@/lib/utils';
+import { canonicalUrl } from "@/lib/utils";
 
 export const GET: APIRoute = ({ site }) => {
   const isIndexable = SEO.robots.index;
-  const baseUrl = (site?.href || SITE.url).replace(/\/$/, '');
-  
-  const sitemapUrl = canonicalUrl(ROUTES.sitemap).replace(/\/$/, '');
-  const pureHost = baseUrl.replace(/^https?:\/\//, '');
+  const baseUrl = (site?.href || SITE.url).replace(/\/$/, "");
+
+  const sitemapUrl = canonicalUrl(ROUTES.sitemap).replace(/\/$/, "");
+  const pureHost = baseUrl.replace(/^https?:\/\//, "");
 
   const robotsTxt = `
 User-agent: *
-${isIndexable ? 'Allow: /' : 'Disallow: /'}
+${isIndexable ? "Allow: /" : "Disallow: /"}
 
 # Disallow: /api/
 # Disallow: /_astro/
@@ -32,8 +28,8 @@ Host: ${pureHost}
 
   return new Response(robotsTxt, {
     headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=86400',
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=86400",
     },
   });
 };

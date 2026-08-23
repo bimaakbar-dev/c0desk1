@@ -23,6 +23,7 @@ Button renders an inline link styled as a button, with optional icon and variant
 
 ::::tabs
 :::tab[Markdown]
+
 ```md
 :button[Download]{url="/" icon="download"}
 
@@ -32,17 +33,28 @@ Button renders an inline link styled as a button, with optional icon and variant
 
 :button[Learn More]{url="/" variant="secondary"}
 ```
+
 :::
 :::tab[MDX]
+
 ```mdx
-<Button url="/" icon="download">Download</Button>
+<Button url="/" icon="download">
+  Download
+</Button>
 
-<Button url="https://github.com" icon="github">GitHub</Button>
+<Button url="https://github.com" icon="github">
+  GitHub
+</Button>
 
-<Button url="/" variant="primary">View Demo</Button>
+<Button url="/" variant="primary">
+  View Demo
+</Button>
 
-<Button url="/" variant="secondary">Learn More</Button>
+<Button url="/" variant="secondary">
+  Learn More
+</Button>
 ```
+
 :::
 ::::
 
@@ -59,24 +71,24 @@ Button renders an inline link styled as a button, with optional icon and variant
 
 ## Variants
 
-| Variant | Style |
-| --- | --- |
-| `primary` | Solid (default) |
-| `secondary` | Light outline |
-| `success` | Green |
-| `danger` | Red |
-| `outline` | Transparent with border |
-| `ghost` | Transparent, no border |
+| Variant     | Style                   |
+| ----------- | ----------------------- |
+| `primary`   | Solid (default)         |
+| `secondary` | Light outline           |
+| `success`   | Green                   |
+| `danger`    | Red                     |
+| `outline`   | Transparent with border |
+| `ghost`     | Transparent, no border  |
 
 ## Attributes
 
-| Attribute | Required | Description |
-| --- | --- | --- |
-| `url` | Yes | Link destination |
-| `icon` | No | Icon name (e.g. `download`, `github`, `external`, `arrow`, `star`) |
-| `variant` | No | Button style (default: `primary`) |
-| `block` | No | Full-width button |
-| `class` | No | Additional CSS classes |
+| Attribute | Required | Description                                                        |
+| --------- | -------- | ------------------------------------------------------------------ |
+| `url`     | Yes      | Link destination                                                   |
+| `icon`    | No       | Icon name (e.g. `download`, `github`, `external`, `arrow`, `star`) |
+| `variant` | No       | Button style (default: `primary`)                                  |
+| `block`   | No       | Full-width button                                                  |
+| `class`   | No       | Additional CSS classes                                             |
 
 ## Notes
 
