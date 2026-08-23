@@ -12,6 +12,7 @@
 .prose .accordion,
 .prose .accordion summary {
   @apply text-heading-16;
+  color: var(--fg-strong);
 }
 
 .prose .accordion[open] > :not(summary) * {
@@ -45,7 +46,7 @@
   flex-shrink: 0;
   width: 1.125em;
   height: 1.125em;
-  color: var(--accent);
+  color: var(--fg-subtle);
   background-color: currentColor;
   mask-image: var(--ic-chevron-right);
   mask-size: contain;

@@ -32,18 +32,24 @@
   border-collapse: separate;
 }
 
-.prose thead th {
-  background: var(--bg-subtle);
-  white-space: nowrap;
-  
+.prose thead {
+  background: transparent;
 }
 
-.prose thead th:first-child {
+.prose thead th {
+  white-space: nowrap;
+  background: var(--bg-subtle);
+  border-block: 1px solid var(--border);
+}
+
+.prose thead tr:first-child th:first-child {
+  border-left: 1px solid var(--border);
   border-top-left-radius: var(--radius-md);
   border-bottom-left-radius: var(--radius-md);
 }
 
-.prose thead th:last-child {
+.prose thead tr:first-child th:last-child {
+  border-right: 1px solid var(--border);
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
 }
@@ -57,7 +63,7 @@
 
 .prose th {
   color: var(--fg-strong);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .prose th:not([align]) {
@@ -70,7 +76,7 @@
 }
 
 .prose tbody tr:not(:first-child) td {
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border);
 }
 
 .prose td {
@@ -84,7 +90,8 @@
 }
 
 .prose td code {
-  padding: 0.025em 0.25em;
+  padding-inline: 0.25em;
+  padding-block: 0.05em;
 }
 
 .prose td small {

@@ -1,8 +1,8 @@
 /* src/styles/prose/components/filetree.css */
 
 .prose .file-tree {
-  --ft-indent: 1.85rem;
-  --ft-line-color: rgb(from var(--border) r g b / 60%);
+  --ft-indent: 2rem;
+  --ft-line-color: rgb(from var(--border) r g b / 80%);
   
   display: block !important;
   width: 100%;
@@ -17,18 +17,6 @@
   overflow-x: auto !important;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-}
-
-@supports not selector(::-webkit-scrollbar) {
-  .prose .file-tree { scrollbar-width: thin; scrollbar-color: transparent transparent; }
-  .prose .file-tree:hover { scrollbar-color: var(--fg-muted) transparent; }
-}
-@supports selector(::-webkit-scrollbar) {
-  .prose .file-tree::-webkit-scrollbar { height: 8px; width: 8px; }
-  .prose .file-tree::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
-  .prose .file-tree::-webkit-scrollbar-track { background: transparent; }
-  .prose .file-tree::-webkit-scrollbar-thumb { background-color: transparent; border-radius: var(--radius-full); }
-  .prose .file-tree:hover::-webkit-scrollbar-thumb { background-color: var(--fg-muted); }
 }
 
 .prose .file-tree,
@@ -126,8 +114,8 @@
 .prose .file-tree span.tree-file::before {
   content: "";
   display: inline-block;
-  width: 1.125em;
-  height: 1.125em;
+  width: 1em;
+  height: 1em;
   margin-right: 0.25rem;
   flex-shrink: 0;
   aspect-ratio: 1/1;

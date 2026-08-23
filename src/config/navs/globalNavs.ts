@@ -33,12 +33,10 @@ export const NAV = {
   navBar: [
     { label: DOCS_PAGE.title, href: ROUTES.docs, icon: "learn" },
     { label: BLOG_PAGE.title, href: ROUTES.blog, icon: "blog" },
-    { label: ARCHIVE_PAGE.title, href: ROUTES.archive, icon: "ai-agent" },
   ] as NavItem[],
   mobileNavBar: [
     { label: DOCS_PAGE.title, href: ROUTES.docs, icon: "learn" },
     { label: BLOG_PAGE.title, href: ROUTES.blog, icon: "blog" },
-    { label: ARCHIVE_PAGE.title, href: ROUTES.archive, icon: "ai-agent" },
   ] as NavItem[],
   footerBar: [
     {

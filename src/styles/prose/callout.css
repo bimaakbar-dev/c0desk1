@@ -2,6 +2,7 @@
 
 .prose aside[data-callout] {
   --callout-color: var(--fg-muted);
+  --callout-bg: var(--bg-subtle);
   
   @apply text-body-14;
 
@@ -12,7 +13,7 @@
   margin: 1.75rem 0;
   padding: 0.5rem 1rem 0.5rem 3.25rem;
 
-  background: var(--bg-subtle);
+  background: var(--callout-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 
@@ -40,7 +41,7 @@
 
 /* Callout icon */
 .prose aside[data-callout]::after {
-  --icon-size: 1.25rem;
+  --icon-size: 1.25em;
 
   content: "";
   position: absolute;
@@ -109,13 +110,13 @@
 
   background: color-mix(
     in srgb,
-    var(--callout-color) 10%,
-    var(--bg-subtle)
+    var(--callout-color) 12%,
+    var(--bg)
   );
 
   border: 1px solid color-mix(
     in srgb,
-    var(--callout-color) 15%,
+    var(--callout-color) 20%,
     transparent
   );
 
@@ -126,7 +127,7 @@
 }
 
 /* ----------------------------------------
- * Callout variants
+ * Variants
  * ---------------------------------------- */
 
 .prose aside[data-callout="note"] {
@@ -140,7 +141,7 @@
 }
 
 .prose aside[data-callout="important"] {
-  --callout-color: #8b5cf6;
+  --callout-color: var(--info);
   --callout-icon: var(--callout-icon-important);
 }
 

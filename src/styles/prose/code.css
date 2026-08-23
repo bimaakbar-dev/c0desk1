@@ -5,7 +5,7 @@
   @apply text-code-14;
   color: var(--fg-strong);
   background-color: var(--bg-muted);
-  border: 1px solid rgb(from var(--border) r g b / 100%);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 0.15em 0.4em;
   white-space: break-spaces;
@@ -34,7 +34,7 @@
 /* --- Code block wrapper --- */
 .prose .code-block {
   position: relative;
-  margin-block: 1.5rem ;
+  margin-block: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -52,7 +52,7 @@
   display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--duration) var(--ease-out);
   z-index: 1;
 }
 
@@ -94,15 +94,17 @@
   padding: 0;
   border-radius: var(--radius-md);
   background: var(--bg);
+  border: 1px solid var(--border);
   color: var(--fg-subtle);
   cursor: pointer;
   opacity: 0; 
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  transition: opacity var(--duration) var(--ease-out), transform 100ms var(--ease-out);
 }
 
 .prose .copy-button:hover {
   background: var(--bg-muted);
   color: var(--fg-strong);
+  border-color: var(--border-strong);
 }
 
 .prose .copy-button:active {
@@ -139,8 +141,9 @@
 }
 
 .prose .copy-button[data-copied] {
-  color: var(--color-success);
-  border-color: rgb(from var(--color-success) r g b / 40%);
+  color: var(--success);
+  border-color: rgb(from var(--success) r g b / 40%);
+  background: var(--success-soft);
 }
 
 .prose .copy-button[data-copied] .icon-copy {
@@ -165,7 +168,7 @@
   
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
-  transition: scrollbar-color 0.15s ease;
+  transition: scrollbar-color var(--duration) var(--ease-out);
 }
 
 .prose .code-block .astro-code {
@@ -222,35 +225,37 @@
 }
 
 .prose .astro-code .line.diff.add::before {
-  background-color: var(--color-success);
+  background-color: var(--success);
   -webkit-mask: var(--ic-plus);
   mask: var(--ic-plus);
 }
 
 .prose .astro-code .line.diff.remove::before {
-  background-color: var(--color-error);
-   -webkit-mask: var(--ic-minus);
+  background-color: var(--error);
+  -webkit-mask: var(--ic-minus);
   mask: var(--ic-minus);
 }
 
 .prose .astro-code .line.diff.add {
-  background-color: rgb(from var(--color-success) r g b / 20%) !important;
+  background-color: rgb(from var(--success) r g b / 15%) !important;
 }
 
 .prose .astro-code .line.diff.remove {
-  background-color: rgb(from var(--color-error) r g b / 20%) !important;
+  background-color: rgb(from var(--error) r g b / 15%) !important;
 }
 
 .prose .astro-code .line.highlighted {
-  background-color: rgb(from var(--accent) r g b / 20%) !important;
+  background-color: var(--accent-soft) !important;
+  border-left: 2px solid var(--accent);
+  padding-inline-start: calc(1.125rem - 2px) !important;
 }
 
 .prose .astro-code .line.error {
-  background-color: rgb(from var(--color-error) r g b / 20%) !important;
+  background-color: var(--error-soft) !important;
 }
 
 .prose .astro-code .line.warning {
-  background-color: rgb(from var(--color-warning) r g b / 20%) !important;
+  background-color: var(--warning-soft) !important;
 }
 
 /* --- Dark Theme --- */

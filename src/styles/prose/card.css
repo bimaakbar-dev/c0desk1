@@ -15,8 +15,8 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
-  transition: box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration) var(--ease-out);
   overflow: hidden;
 }
 
@@ -42,7 +42,7 @@
 .prose .card-header .card-icon {
   width: 65%;
   height: 65%;
-  background-color: var(--fg);
+  background-color: var(--fg-strong);
   -webkit-mask: center / contain no-repeat;
   mask: center / contain no-repeat;
 }
@@ -102,9 +102,9 @@
 }
 
 .prose .card.card-link:hover {
-  border-color: rgb(from var(--fg-subtle) r g b / 50%);
+  border-color: var(--border-strong);
   background-color: var(--bg-muted);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
+  box-shadow: var(--shadow-md);
 }
 
 .prose .card.card-link:focus-visible {
