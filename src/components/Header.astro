@@ -42,12 +42,9 @@ import Mobile from "./MobileNav.astro";
     height: var(--header-height);
     background-color: transparent;
     border-bottom: 1px solid transparent;
-    transition: background-color var(--duration-md) var(--ease-out),
-                border-color var(--duration-md) var(--ease-out),
-                box-shadow var(--duration-md) var(--ease-out);
+    transition: box-shadow var(--duration-md) var(--ease-out);
   }
 
-  /* Muncul warna background solid dan border saat di-scroll */
   #main-header.scrolled {
     background-color: var(--bg);
     border-bottom-color: var(--border);
