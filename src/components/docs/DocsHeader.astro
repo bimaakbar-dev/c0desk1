@@ -18,13 +18,13 @@ const Description =
 ---
 
 <header data-pagefind-ignore class={Header}>
+  <div class="flex items-center justify-end">
+    <ActionCopy rawMarkdown={content} />
+  </div>
   <h1 data-pagefind-meta="title" class={Title} set:html={title} />
   <p
     data-pagefind-meta="description"
     class={Description}
     set:html={description}
   />
-  <div class="flex items-center justify-end">
-    <ActionCopy rawMarkdown={content} />
-  </div>
 </header>
