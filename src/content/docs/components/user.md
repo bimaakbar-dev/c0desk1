@@ -20,6 +20,7 @@ seo:
 User renders an inline profile with an avatar, name, optional role, and optional link.
 
 ## Usage
+User is an inline component — it can be placed inside a paragraph.
 
 ::::tabs
 :::tab[Markdown]
@@ -76,27 +77,27 @@ User renders an inline profile with an avatar, name, optional role, and optional
 ## Attributes
 
 ::::card[Props]
-:::accordion[`avatar`]
-**Required:** optional
+:::accordion
+`avatar`
 
+**Required:** optional
 Avatar image URL — renders as a rounded image
 :::
 
-:::accordion[`role`]
-**Required:** optional
+:::accordion
+`role`
 
+**Required:** optional
 Role label displayed after the name with a `·` separator
 :::
 
-:::accordion[`url`]
-**Required:** optional
+:::accordion
+`url`
 
+**Required:** optional
 Wraps the user in a link
 :::
 ::::
 
 > [!NOTE]
->   Note
-> - User is an inline component — it can be placed inside a paragraph
-> - A placeholder avatar is shown if `avatar` is not provided
-> - External links automatically include `rel="noopener noreferrer nofollow"`
+> A placeholder avatar is shown if `avatar` is not provided
