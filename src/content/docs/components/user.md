@@ -78,22 +78,25 @@ User renders an inline profile with an avatar, name, optional role, and optional
 ::::card[Props]
 :::accordion[`avatar`]
 **Required:** optional
+
 Avatar image URL — renders as a rounded image
 :::
 
-:::accoridon[`role`]
+:::accordion[`role`]
 **Required:** optional
+
 Role label displayed after the name with a `·` separator
 :::
 
-:::accoridon[`url`]
+:::accordion[`url`]
 **Required:** optional
+
 Wraps the user in a link
 :::
 ::::
 
 > [!NOTE]
-> ##Note
-> User is an inline component — it can be placed inside a paragraph
-> A placeholder avatar is shown if `avatar` is not provided
-> External links automatically include `rel="noopener noreferrer nofollow"`
+>   Note
+> - User is an inline component — it can be placed inside a paragraph
+> - A placeholder avatar is shown if `avatar` is not provided
+> - External links automatically include `rel="noopener noreferrer nofollow"`
