@@ -1,15 +1,6 @@
 // src/lib/mdx/satteri-dl.ts
 import { defineMdastPlugin } from "satteri";
 
-function extractText(node: any): string {
-  if (!node) return "";
-  if (typeof node.value === "string") return node.value;
-  if (Array.isArray(node.children)) {
-    return node.children.map(extractText).join("");
-  }
-  return "";
-}
-
 export const satteriDl = defineMdastPlugin({
   name: "satteri-dl",
 
@@ -20,8 +11,8 @@ export const satteriDl = defineMdastPlugin({
     }
 
     const children = node.children || [];
-    const dlChildren: any[] = [];
 
+    // Ubah kontainer utama menjadi <dl>
     ctx.setProperty(node, "data", {
       ...(node.data || {}),
       hName: "dl",
@@ -31,28 +22,43 @@ export const satteriDl = defineMdastPlugin({
       },
     });
 
-    for (let i = 0; i < children.length; i++) {
-      const child = children[i];
+    // Proses anak-anak di dalam :::dl
+    const processedChildren = children.map((child: any) => {
+      if (!child) return child;
 
-      if (child.type === "paragraph") {
-        const tag = i % 2 === 0 ? "dt" : "dd";
-        
-        dlChildren.push({
+      // Cek apakah ini text directive dengan nama 'dt' -> misal ::dt[Type]
+      if (child.type === "textDirective" && child.name === "dt") {
+        return {
           ...child,
           data: {
             ...(child.data || {}),
-            hName: tag,
+            hName: "dt",
             hProperties: {
               ...(child.data?.hProperties || {}),
-              className: [tag === "dt" ? "prop-dt" : "prop-dd"],
+              className: ["prop-dt"],
             },
           },
-        });
-      } else {
-        dlChildren.push(child);
+        };
       }
-    }
 
-    ctx.setProperty(node, "children", dlChildren as any);
+      // Selain ::dt (biasanya paragraf atau teks penjelas di bawahnya), jadikan <dd>
+      if (child.type === "paragraph" || child.type === "text") {
+        return {
+          ...child,
+          data: {
+            ...(child.data || {}),
+            hName: "dd",
+            hProperties: {
+              ...(child.data?.hProperties || {}),
+              className: ["prop-dd"],
+            },
+          },
+        };
+      }
+
+      return child;
+    });
+
+    ctx.setProperty(node, "children", processedChildren as any);
   },
 });
