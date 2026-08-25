@@ -1,4 +1,5 @@
 /* src/styles/prose/details.css */
+
 .prose .accordion {
   display: flex;
   flex-direction: column;
@@ -7,60 +8,46 @@
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
   user-select: none;
-}
-
-.prose .accordion,
-.prose .accordion summary {
-  @apply text-heading-16;
   color: var(--fg-strong);
+  @apply text-heading-16;
 }
 
-.prose .accordion[open] > :not(summary) * {
-  @apply-text-body-14;
-}
-
-.prose .accordion summary,
-.prose .accordion[open] > :not(summary) * {
-  padding: 0.5rem 0.75rem;
-}
 .prose .accordion summary {
   display: flex;
   align-items: center;
-  vertical-align: middle;
   gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
   list-style: none !important;
+  color: var(--fg-strong);
 }
 
-.prose .accordion summary::-webkit-details-marker {
-  display: none !important;
-}
-
+.prose .accordion summary::-webkit-details-marker,
 .prose .accordion summary::marker {
+  display: none !important;
   content: none !important;
 }
 
 .prose .accordion summary::before {
   display: inline-block;
   flex-shrink: 0;
-  mask-image: var(--ic-chevron-right);
-  -webkit-mask-image: var(--ic-chevron-right);
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  transition: transform var(--duration) ease-in-out;
-  background-color: currentColor;
   width: 1.125em;
   height: 1.125em;
   content: "";
+  background-color: currentColor;
   color: var(--fg-subtle);
+  mask: var(--ic-chevron-right) center / contain no-repeat;
+  -webkit-mask: var(--ic-chevron-right) center / contain no-repeat;  
+  transition: transform var(--duration) ease-in-out;
 }
 
 .prose .accordion[open] summary::before {
   transform: rotate(90deg);
+}
+
+.prose .accordion[open] > :not(summary) {
+  padding: 0.5rem 0.75rem;
+  @apply text-body-14;
 }
 
 .prose .accordion[open] > :not(summary) :first-child {
