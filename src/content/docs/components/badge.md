@@ -61,8 +61,8 @@ Badge renders a small inline label with optional color variant and icon.
 
 ## Attributes
 
-::::card[Props]
-:::accordion[`variant`]
+:::::card[Props]
+::::accordion[`variant`]
 **Type:** `default` | `new` | `warning` | `success` | `info` | `danger` | `outline` | `ghost`
 
 **Default:** `default`
@@ -80,14 +80,17 @@ Badge color variant theme.
 Icon displayed on the left side of the badge label.
 :::
 
-:::accordion[`class`]
-**Type:** `string`
+::::accordion[`class`]
+:::dl
+**Type:** 
+`string`
 
-**Required:** *Optional*
-
-Additional CSS classes for custom styling.
+**Required:**
+*Optional*
 :::
+Additional CSS classes for custom styling.
 ::::
+:::::
 
 > [!NOTE]
 > Badge is an inline component — it can be placed seamlessly inside paragraphs or headers.
