@@ -70,15 +70,15 @@ Badge renders a small inline label with optional color variant and icon.
 **Required:** *Optional*
 
 Badge color variant theme.
-:::
+::::
 
-:::accordion[`icon`]
+::::accordion[`icon`]
 **Type:** `string`
 
 **Required:** *Optional*
 
 Icon displayed on the left side of the badge label.
-:::
+::::
 
 ::::accordion[`class`]
 :::dl
@@ -88,6 +88,7 @@ Icon displayed on the left side of the badge label.
 **Required:**
 *Optional*
 :::
+
 Additional CSS classes for custom styling.
 ::::
 :::::
