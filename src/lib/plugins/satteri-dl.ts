@@ -22,13 +22,15 @@ export const satteriDl = defineMdastPlugin({
       },
     });
 
-    // Proses anak-anak di dalam :::dl
-    const processedChildren = children.map((child: any) => {
-      if (!child) return child;
+    const processedChildren: any[] = [];
 
-      // Cek apakah ini text directive dengan nama 'dt' -> misal ::dt[Type]
-      if (child.type === "textDirective" && child.name === "dt") {
-        return {
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (!child) continue;
+
+      // 1. Tangkap Leaf Directive ::dt[...]
+      if (child.type === "leafDirective" && child.name === "dt") {
+        processedChildren.push({
           ...child,
           data: {
             ...(child.data || {}),
@@ -38,12 +40,17 @@ export const satteriDl = defineMdastPlugin({
               className: ["prop-dt"],
             },
           },
-        };
+        });
+        continue;
       }
 
-      // Selain ::dt (biasanya paragraf atau teks penjelas di bawahnya), jadikan <dd>
+      // 2. Paragraf atau teks di bawahnya otomatis jadi <dd>
       if (child.type === "paragraph" || child.type === "text") {
-        return {
+        if (child.type === "paragraph" && (!child.children || child.children.length === 0)) {
+          continue;
+        }
+
+        processedChildren.push({
           ...child,
           data: {
             ...(child.data || {}),
@@ -53,11 +60,9 @@ export const satteriDl = defineMdastPlugin({
               className: ["prop-dd"],
             },
           },
-        };
+        });
       }
-
-      return child;
-    });
+    }
 
     ctx.setProperty(node, "children", processedChildren as any);
   },
