@@ -90,6 +90,7 @@ export default defineConfig({
         satteriSteps,
         satteriButton,
         satteriBadge,
+        satteriDl,
         satteriFileTree,
         satteriTabs,
         satteriUser,
