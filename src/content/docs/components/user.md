@@ -77,25 +77,19 @@ User is an inline component — it can be placed inside a paragraph.
 ## Attributes
 
 ::::card[Props]
-:::accordion
-`avatar`
-
+:::accordion[`avatar`]
 **Required:** *optional*
 
 Avatar image URL — renders as a rounded image
 :::
 
-:::accordion
-`role`
-
+:::accordion[`role`]
 **Required:** *optional*
 
 Role label displayed after the name with a `·` separator
 :::
 
-:::accordion
-`url`
-
+:::accordion[`url`]
 **Required:** *optional*
 
 Wraps the user in a link
