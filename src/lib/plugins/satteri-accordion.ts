@@ -1,4 +1,4 @@
-// src/lib/mdx/satteri-accordion.ts
+// src/lib/plugins/satteri-accordion.ts
 import { defineMdastPlugin } from "satteri";
 
 function extractText(node: any): string {
@@ -10,23 +10,6 @@ function extractText(node: any): string {
   return "";
 }
 
-function getLabel(node: any): string {
-  const attributes = node.attributes;
-  if (typeof attributes?.label === "string") {
-    const label = attributes.label.trim();
-    if (label) return label;
-  }
-
-  const children = node.children || [];
-  const firstNode = children[0];
-  if (firstNode?.type === "paragraph" && firstNode.data?.directiveLabel) {
-    const label = extractText(firstNode).trim();
-    if (label) return label;
-  }
-
-  return "Klik untuk membuka";
-}
-
 export const satteriAccordion = defineMdastPlugin({
   name: "satteri-accordion",
 
@@ -36,13 +19,27 @@ export const satteriAccordion = defineMdastPlugin({
       return;
     }
 
-    const label = getLabel(node);
-
     let children = node.children || [];
+    let summaryChildren: any[] = [];
+    let remainingChildren = children;
 
-    const firstNode = children[0];
-    if (firstNode?.type === "paragraph" && firstNode.data?.directiveLabel) {
-      children = children.slice(1);
+    const attributes = node.attributes;
+    if (typeof attributes?.label === "string" && attributes.label.trim()) {
+      summaryChildren = [
+        {
+          type: "text",
+          value: attributes.label.trim(),
+        },
+      ];
+    } 
+    else {
+      const firstNode = children[0];
+      if (firstNode) {
+        summaryChildren = firstNode.children || [{ type: "text", value: extractText(firstNode) }];
+        remainingChildren = children.slice(1);
+      } else {
+        summaryChildren = [{ type: "text", value: "Klik untuk membuka" }];
+      }
     }
 
     ctx.setProperty(node, "data", {
@@ -62,22 +59,18 @@ export const satteriAccordion = defineMdastPlugin({
           className: ["accordion-summary"],
         },
       },
-      children: [
-        {
-          type: "text",
-          value: label,
-        },
-      ],
+      children: summaryChildren,
     };
+
     const contentNode = {
-      type: "containerDirective",
+      type: "div",
       data: {
         hName: "div",
         hProperties: {
           className: ["accordion-content"],
         },
       },
-      children: children,
+      children: remainingChildren,
     };
 
     ctx.setProperty(node, "children", [summaryNode, contentNode] as any);
