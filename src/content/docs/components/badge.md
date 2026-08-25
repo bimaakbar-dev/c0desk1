@@ -64,15 +64,15 @@ Badge renders a small inline label with optional color variant and icon.
 :::::card[Props]
 ::::accordion[`variant`]
 :::dl
-::dt[Type:]
+::dt[Type]
 
 `default` | `new` | `warning` | `success` | `info` | `danger` | `outline` | `ghost`
 
-::dt[Default:]
+::dt[Default]
 
 `default`
 
-::dt[Required:]
+::dt[Required]
 
 *Optional*
 :::
@@ -86,7 +86,7 @@ Badge color variant theme.
 
 `string`
 
-::dt[Required:]
+::dt[Required]
 
 *Optional*
 :::
@@ -96,10 +96,10 @@ Icon displayed on the left side of the badge label.
 
 ::::accordion[`class`]
 :::dl
-::dt[Type:]
+::dt[Type]
 `string`
 
-::dt[Required:]
+::dt[Required]
 *Optional*
 :::
 
