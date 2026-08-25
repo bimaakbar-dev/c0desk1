@@ -22,6 +22,7 @@ export { satteriIcon } from "./satteri-icon";
 export { satteriQuote } from "./satteri-quote";
 export { satteriUser } from "./satteri-user";
 export { satteriVideo } from "./satteri-video";
+export { satteriDl } from "./satteri-dl";
 
 // ===== UTILITY PLUGINS =====
 export { satteriTable } from "./satteri-table";
