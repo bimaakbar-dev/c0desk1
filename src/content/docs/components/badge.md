@@ -65,15 +65,12 @@ Badge renders a small inline label with optional color variant and icon.
 ::::accordion[`variant`]
 :::dl
 ::dt[Type]
-
 `default` | `new` | `warning` | `success` | `info` | `danger` | `outline` | `ghost`
 
 ::dt[Default]
-
 `default`
 
 ::dt[Required]
-
 *Optional*
 :::
 
@@ -83,11 +80,9 @@ Badge color variant theme.
 ::::accordion[`icon`]
 :::dl
 ::dt[Type:]
-
 `string`
 
 ::dt[Required]
-
 *Optional*
 :::
 
