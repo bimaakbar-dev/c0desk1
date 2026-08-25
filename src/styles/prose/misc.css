@@ -1,6 +1,6 @@
 /* src/styles/prose/components/misc.css */
 .prose .prop-dl {
-  @apply text-body-14;
+  @apply text-body-13;
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 0.25rem 1rem;
@@ -12,11 +12,15 @@
   font-weight: 500;
   color: var(--fg-strong);
   margin: 0;
+  white-space: nowrap;
 }
 
 .prose .prop-dd {
   margin: 0;
   color: var(--fg-subtle);
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .prose sub,
