@@ -3,9 +3,9 @@
   @apply text-body-13;
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: 0.25rem 1rem;
+  gap: 0.25rem 1.5rem;
   margin: 0 0 0.75rem 0;
-  font-size: 0.875rem;
+  /*font-size: 0.875rem;*/
 }
 
 .prose .prop-dt {
