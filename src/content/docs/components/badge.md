@@ -77,9 +77,10 @@ Badge color variant theme.
 
 ::::accordion[`icon`]
 :::dl
-Type
+::dt[Type:]
 `string`
-Required
+
+::dt[Required:]
 *Optional*
 :::
 
@@ -88,9 +89,10 @@ Icon displayed on the left side of the badge label.
 
 ::::accordion[`class`]
 :::dl
-Type
+::dt[Type:]
 `string`
-Required
+
+::dt[Required:]
 *Optional*
 :::
 
