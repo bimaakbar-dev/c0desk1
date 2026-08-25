@@ -16,7 +16,7 @@
 }
 
 .prose .accordion[open] > :not(summary) * {
-  @apply-text-body-16;
+  @apply-text-body-14;
 }
 
 .prose .accordion summary,
@@ -71,6 +71,6 @@
   margin-bottom: 0 !important;
 }
 
-.prose .accordion[open] > * + * {
+.prose .accordion[open] > :not(summary) * + * {
   margin-top: 0.75rem;
 }
