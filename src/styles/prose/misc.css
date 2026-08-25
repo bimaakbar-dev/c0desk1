@@ -1,4 +1,23 @@
 /* src/styles/prose/components/misc.css */
+.prose .prop-dl {
+  @apply text-body-14;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+.prose .prop-dt {
+  font-weight: 500;
+  color: var(--fg-strong);
+  margin: 0;
+}
+
+.prose .prop-dd {
+  margin: 0;
+  color: var(--fg-subtle);
+}
 
 .prose sub,
 .prose sup {
