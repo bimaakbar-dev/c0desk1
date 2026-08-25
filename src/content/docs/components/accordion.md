@@ -10,7 +10,7 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-09T02:40:00Z
+lastUpdated: 2026-08-25T22:38:59Z
 seo:
   title: "Accordion"
   description: "Collapsible content block for FAQs and technical details."
@@ -38,6 +38,7 @@ Can include paragraphs, lists, code blocks, and other components.
 ::::
 
 > [!NOTE]
+> Note
 > - Accordion is open by default
 > - The title renders as the `<summary>` element
 > - Content can be anything — paragraphs, lists, code blocks, images, or other components
