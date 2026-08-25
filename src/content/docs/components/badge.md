@@ -10,7 +10,7 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-09T02:40:00Z
+lastUpdated: 2026-08-26T02:40:00Z
 seo:
   title: "Badge"
   description: "Small inline label with color variants and optional icon."
@@ -19,11 +19,10 @@ seo:
 
 Badge renders a small inline label with optional color variant and icon.
 
-## Syntax
+## Usage
 
 ::::tabs
 :::tab[Markdown]
-
 ```md
 :badge[Stable]
 
@@ -33,10 +32,9 @@ Badge renders a small inline label with optional color variant and icon.
 
 :badge[Deprecated]{variant="danger"}
 ```
-
 :::
-:::tab[MDX]
 
+:::tab[MDX]
 ```mdx
 <Badge>Stable</Badge>
 
@@ -48,12 +46,10 @@ Badge renders a small inline label with optional color variant and icon.
 
 <Badge variant="danger">Deprecated</Badge>
 ```
-
 :::
 ::::
 
 :::card[Preview]
-
 :badge[Stable]
 
 :badge[Beta]{variant="warning"}
@@ -63,28 +59,38 @@ Badge renders a small inline label with optional color variant and icon.
 :badge[Deprecated]{variant="danger"}
 :::
 
-## Variants
-
-| Variant   | Color       |
-| --------- | ----------- |
-| `default` | Neutral     |
-| `new`     | Accent      |
-| `warning` | Yellow      |
-| `success` | Green       |
-| `info`    | Blue        |
-| `danger`  | Red         |
-| `outline` | Transparent |
-| `ghost`   | Transparent |
-
 ## Attributes
 
-| Attribute | Required | Description                              |
-| --------- | -------- | ---------------------------------------- |
-| `variant` | No       | Badge color variant (default: `default`) |
-| `icon`    | No       | Icon displayed before the label          |
-| `class`   | No       | Additional CSS classes                   |
+::::card[Props]
+:::accordion[`variant`]
+**Type:** `default` | `new` | `warning` | `success` | `info` | `danger` | `outline` | `ghost`
 
-## Notes
+**Default:** `default`
 
-- Badge is an inline component — it can be placed inside a paragraph
-- Icon appears on the left side of the label
+**Required:** *Optional*
+
+Badge color variant theme.
+:::
+
+:::accordion[`icon`]
+**Type:** `string`
+
+**Required:** *Optional*
+
+Icon displayed on the left side of the badge label.
+:::
+
+:::accordion[`class`]
+**Type:** `string`
+
+**Required:** *Optional*
+
+Additional CSS classes for custom styling.
+:::
+::::
+
+> [!NOTE]
+> Badge is an inline component — it can be placed seamlessly inside paragraphs or headers.
+
+> [!TIP]
+> The icon automatically appears on the left side of the badge label.
