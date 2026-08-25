@@ -19,10 +19,10 @@ seo:
 
 Accordion renders a collapsible `<details>` element with a styled summary. Works in both `.md` and `.mdx` files.
 
-## Syntax
+## Usage
 
 ```md
-:::accordion[Title]
+:::accordion[This is title]
 Content goes here.
 
 Can include paragraphs, lists, code blocks, and other components.
@@ -30,16 +30,15 @@ Can include paragraphs, lists, code blocks, and other components.
 ```
 
 ::::card[Preview]
-:::accordion[Title]
+:::accordion[This is title]
 Content goes here.
 
 Can include paragraphs, lists, code blocks, and other components.
 :::
 ::::
 
-## Notes
-
-- Accordion is open by default
-- The title renders as the `<summary>` element
-- Content can be anything — paragraphs, lists, code blocks, images, or other components
-- Must be written as a block-level element, not inline
+> [!NOTE]
+> - Accordion is open by default
+> - The title renders as the `<summary>` element
+> - Content can be anything — paragraphs, lists, code blocks, images, or other components
+> - Must be written as a block-level element, not inline
