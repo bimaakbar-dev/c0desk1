@@ -1,6 +1,15 @@
 // src/lib/mdx/satteri-dl.ts
 import { defineMdastPlugin } from "satteri";
 
+function extractText(node: any): string {
+  if (!node) return "";
+  if (typeof node.value === "string") return node.value;
+  if (Array.isArray(node.children)) {
+    return node.children.map(extractText).join("");
+  }
+  return "";
+}
+
 export const satteriDl = defineMdastPlugin({
   name: "satteri-dl",
 
@@ -13,7 +22,6 @@ export const satteriDl = defineMdastPlugin({
     const children = node.children || [];
     const dlChildren: any[] = [];
 
-    // Ubah kontainer utama menjadi <dl>
     ctx.setProperty(node, "data", {
       ...(node.data || {}),
       hName: "dl",
@@ -23,29 +31,27 @@ export const satteriDl = defineMdastPlugin({
       },
     });
 
-    // Ambil hanya anak yang valid (biasanya paragraf)
-    const validParagraphs = children.filter(
-      (child: any) => child && child.type === "paragraph"
-    );
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
 
-    // Petukan secara berpasangan: Genap = dt, Ganjil = dd
-    validParagraphs.forEach((child: any, index: number) => {
-      const isTerm = index % 2 === 0;
-      const tag = isTerm ? "dt" : "dd";
-      const className = isTerm ? "prop-dt" : "prop-dd";
-
-      dlChildren.push({
-        ...child,
-        data: {
-          ...(child.data || {}),
-          hName: tag,
-          hProperties: {
-            ...(child.data?.hProperties || {}),
-            className: [className],
+      if (child.type === "paragraph") {
+        const tag = i % 2 === 0 ? "dt" : "dd";
+        
+        dlChildren.push({
+          ...child,
+          data: {
+            ...(child.data || {}),
+            hName: tag,
+            hProperties: {
+              ...(child.data?.hProperties || {}),
+              className: [tag === "dt" ? "prop-dt" : "prop-dd"],
+            },
           },
-        },
-      });
-    });
+        });
+      } else {
+        dlChildren.push(child);
+      }
+    }
 
     ctx.setProperty(node, "children", dlChildren as any);
   },
