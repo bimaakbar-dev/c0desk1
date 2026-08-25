@@ -35,7 +35,6 @@ export const satteriDl = defineMdastPlugin({
       const child = children[i];
 
       if (child.type === "paragraph") {
-        const text = extractText(child);
         const tag = i % 2 === 0 ? "dt" : "dd";
         
         dlChildren.push({
