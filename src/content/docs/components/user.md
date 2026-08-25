@@ -80,21 +80,24 @@ User is an inline component — it can be placed inside a paragraph.
 :::accordion
 `avatar`
 
-**Required:** optional
+**Required:** *optional*
+
 Avatar image URL — renders as a rounded image
 :::
 
 :::accordion
 `role`
 
-**Required:** optional
+**Required:** *optional*
+
 Role label displayed after the name with a `·` separator
 :::
 
 :::accordion
 `url`
 
-**Required:** optional
+**Required:** *optional*
+
 Wraps the user in a link
 :::
 ::::
