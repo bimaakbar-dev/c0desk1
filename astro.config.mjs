@@ -30,6 +30,7 @@ import {
   satteriCard,
   satteriChangelog,
   satteriCodeBlock,
+  satteriDl,
   satteriExternalLink,
   satteriFigure,
   satteriFileTree,
