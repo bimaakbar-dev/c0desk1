@@ -66,10 +66,8 @@ Badge renders a small inline label with optional color variant and icon.
 :::dl
 Type
 `default` | `new` | `warning` | `success` | `info` | `danger` | `outline` | `ghost`
-
 Default
 `default`
-
 Required
 *Optional*
 :::
@@ -81,7 +79,6 @@ Badge color variant theme.
 :::dl
 Type
 `string`
-
 Required
 *Optional*
 :::
@@ -93,7 +90,6 @@ Icon displayed on the left side of the badge label.
 :::dl
 Type
 `string`
-
 Required
 *Optional*
 :::
