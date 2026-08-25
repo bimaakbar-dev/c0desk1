@@ -10,7 +10,7 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-15T20:49:00Z
+lastUpdated: 2026-08-26T02:19:00Z
 seo:
   title: "User"
   description: "Display a user profile with avatar, name, and role."
@@ -19,7 +19,7 @@ seo:
 
 User renders an inline profile with an avatar, name, optional role, and optional link.
 
-## Syntax
+## Usage
 
 ::::tabs
 :::tab[Markdown]
@@ -75,15 +75,25 @@ User renders an inline profile with an avatar, name, optional role, and optional
 
 ## Attributes
 
-| Attribute | Required | Description                                              |
-| --------- | -------- | -------------------------------------------------------- |
-| `avatar`  | **No**   | Avatar image URL — renders as a rounded image            |
-| `role`    | **No**   | Role label displayed after the name with a `·` separator |
-| `url`     | **No**   | Wraps the user in a link                                 |
-| `class`   | **No**   | Additional CSS classes                                   |
+::::card[Props]
+:::accordion[`avatar`]
+**Required:** optional
+Avatar image URL — renders as a rounded image
+:::
 
-## Notes
+:::accoridon[`role`]
+**Required:** optional
+Role label displayed after the name with a `·` separator
+:::
 
-- User is an inline component — it can be placed inside a paragraph
-- A placeholder avatar is shown if `avatar` is not provided
-- External links automatically include `rel="noopener noreferrer nofollow"`
+:::accoridon[`url`]
+**Required:** optional
+Wraps the user in a link
+:::
+::::
+
+> [!NOTE]
+> ##Note
+> User is an inline component — it can be placed inside a paragraph
+> A placeholder avatar is shown if `avatar` is not provided
+> External links automatically include `rel="noopener noreferrer nofollow"`
