@@ -99,7 +99,6 @@ Created by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/819
 Connect with :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 ```
 :::
-
 :::tab[MDX]
 ```mdx
 Connect with <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">
