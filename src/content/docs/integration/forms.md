@@ -6,10 +6,10 @@ category: "Integration"
 order: 2
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@Stradocs.web.id"
 seo:
   title: "Forms"
   description: "Set up the contact form with Formspree integration."
@@ -17,14 +17,13 @@ seo:
 lastUpdated: 2026-08-12T15:02:00Z
 ---
 
-Unloyd includes a contact form powered by [Formspree](https://formspree.io) — a free service that forwards submissions to your email. No backend required.
+Stradocs includes a contact form powered by [Formspree](https://formspree.io) — a free service that forwards submissions to your email. No backend required.
 
 ---
 
 ## Setup
 
 :::steps
-
 1. ### Create a Formspree Account
    - Go to [Formspree](https://formspree.io) and create a free account
    - Create a new form and copy the endpoint URL
@@ -43,17 +42,35 @@ Unloyd includes a contact form powered by [Formspree](https://formspree.io) — 
 
    ```ts
    export const FORM_CONFIG = {
-     labels: { name: "Name", email: "Email", subject: "Subject", message: "Message" },
-     placeholders: { name: "John Doe", email: "john@example.com", ... },
-     success: { title: "Message Sent", description: "We'll get back to you within 24 hours." },
-     error: { title: "Something went wrong", description: "Please check your connection and try again." },
-     button: { text: "Send Message", loading: "Sending..." },
+      labels: { 
+         name: "Name", 
+         email: "Email", 
+         subject: "Subject", 
+         message: "Message" 
+      },
+      placeholders: { 
+         name: "John Doe", 
+         email: "john@example.com", 
+         ... 
+      },
+      success: { 
+         title: "Message Sent", 
+         description: "We'll get back to you within 24 hours." 
+      },
+      error: { 
+         title: "Something went wrong", 
+         description: "Please check your connection and try again." 
+      },
+      button: { 
+         text: "Send Message", 
+         loading: "Sending..." 
+      },
    } as const;
    ```
 
 4. ### Deploy
    The form is ready once the environment variable is set and the site is deployed.
-   :::
+:::
 
 ## Formspree Free Plan
 
@@ -65,10 +82,3 @@ Unloyd includes a contact form powered by [Formspree](https://formspree.io) — 
 | Spam protection     | ✓            |
 
 Upgrade to a paid plan if you need higher limits.
-
-## Privacy Considerations
-
-Form submissions may contain personal data. Make sure your site has:
-
-- A **Privacy Policy** page
-- Clear notice to users about how their data is used
