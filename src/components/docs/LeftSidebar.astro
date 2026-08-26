@@ -16,14 +16,14 @@ import GithubStar from "@components/GithubStar.astro";
 
 <aside
   id="left-sidebar"
-  class="fixed inset-x-0 top-(--header-height) z-45 hidden h-screen w-full border-r border-(--border) bg-(--bg) lg:sticky lg:z-0 lg:block"
+  class="fixed inset-x-0 top-(--header-height) bottom-(--safe-bottom) z-45 hidden h-screen w-full border-r border-(--border) bg-(--bg) lg:sticky lg:z-0 lg:block"
 >
-  <div class="flex h-full flex-col">
+  <div class="flex h-full flex-col pb-(--safe-bottom)">
     <div class="flex-1 scrollbar-gutter-stable overflow-y-auto py-4 lg:py-2">
       <SidebarMenu />
     </div>
     <div
-      class="mb-(--safe-bottom) inline-flex shrink-0 justify-center border-t border-(--border-subtle) p-4 lg:hidden"
+      class="inline-flex justify-center border-t border-(--border) px-4 pt-2 pb-(--safe-bottom) lg:hidden "
     >
       <Card variant="primary" padding="xs" radius="sm">
         <div class="flex items-center justify-between">
