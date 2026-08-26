@@ -19,7 +19,7 @@ seo:
 
 Callout blocks highlight important information with a colored accent and icon. They work in both `.md` and `.mdx` files — the syntax is identical in both.
 
-## Syntax
+## Usage
 
 ```md
 > [!NOTE]
@@ -42,7 +42,6 @@ Callout blocks highlight important information with a colored accent and icon. T
 ```
 
 :::card[Preview]
-
 > [!NOTE]
 > General information.
 
@@ -64,16 +63,18 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 ## Variants
 
-| Type        | Color  |
-| ----------- | ------ |
-| `NOTE`      | Muted  |
-| `TIP`       | Accent |
-| `IMPORTANT` | Purple |
-| `WARNING`   | Yellow |
-| `CAUTION`   | Orange |
-| `DANGER`    | Red    |
+:::::card[Props]
+::::accordion[`[!Type]`]
+:::dl
+::dt[Type]
+`NOTE` | `TIP` | `IMPORTANT` | `WARNING` | `CAUTION` | `DANGER`
+::dt[Required]
+*True*
+:::
 
-## Notes
-- Type must be uppercase: `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`, `DANGER`
-- Content can include multiple paragraphs, lists, and code blocks
-- Must be written as a block-level element, not inline
+Type must be uppercase.
+::::
+:::::
+
+> [!NOTE]
+> Must be written as a block-level element, not inline

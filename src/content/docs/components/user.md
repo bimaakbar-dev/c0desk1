@@ -28,15 +28,15 @@ By default, if no attributes are provided, the component renders the name text a
 
 ::::tabs
 :::tab[Markdown]
-```md
+~~~markdown
 Published by :user[Bima Akbar]
-```
+~~~
 :::
 
 :::tab[MDX]
-```mdx
+~~~mdx
 Published by <User>Bima Akbar</User>
-```
+~~~
 :::
 ::::
 
@@ -49,15 +49,15 @@ You can pass a direct image URL via the `avatar` attribute to display a custom c
 
 ::::tabs
 :::tab[Markdown]
-```md
+~~~markdown
 Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
-```
+~~~
 :::
 
 :::tab[MDX]
-```mdx
+~~~mdx
 Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">Bima Akbar</User>
-```
+~~~
 :::
 ::::
 
@@ -66,19 +66,19 @@ Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/8
 :::
 
 ### Add Role Description
-Use the `role` attribute to append a job title or subtitle next to the name, automatically separated by a middle dot (`·`) symbol.
+Use the `role` attribute to append a job title or subtitle next to the name, automatically separated by a middle dot `·` symbol.
 
 ::::tabs
 :::tab[Markdown]
-```md
+~~~markdown
 Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
-```
+~~~
 :::
 
 :::tab[MDX]
-```mdx
+~~~mdx
 Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">Bima Akbar</User>
-```
+~~~
 :::
 ::::
 
@@ -89,17 +89,17 @@ Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/8
 ### Clickable Profile Link
 ​Add the `url` attribute to wrap the entire component inside a hyperlink anchor, allowing readers to click through to a profile, GitHub repository, or social media link.
 
-​::::tabs
+::::tabs
 :::tab[Markdown]
-```md
+~~~markdown
 Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
-```
+~~~
 :::
 
 :::tab[MDX]
-```mdx
+~~~mdx
 Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
-```
+~~~
 :::
 ::::
 

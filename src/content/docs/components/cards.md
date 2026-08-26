@@ -24,7 +24,7 @@ Card renders an info box with an optional icon, title, and content. Adding `href
 ::::tabs
 :::tab[Markdown]
 
-```md
+```markdown
 :::card[Title]
 Card with title and content.
 :::
@@ -47,10 +47,9 @@ Minimal card, content only.
 ```
 
 :::
-
 :::tab[MDX]
 
-```html
+```mdx
 <Card title="Title"> Card with title and content. </Card>
 
 <Card title="Title" icon="star"> Card with icon and title. </Card>
@@ -87,25 +86,42 @@ Minimal card, content only.
 :::
 ::::
 
-## Variants
-
-| Variant  | Syntax                        |
-| -------- | ----------------------------- |
-| Full     | `:::card[Title]{icon="star"}` |
-| No icon  | `:::card[Title]`              |
-| No title | `:::card{icon="info"}`        |
-| Minimal  | `:::card`                     |
-
 ## Attributes
 
-| Attribute | Required | Description                            |
-| --------- | -------- | -------------------------------------- |
-| `icon`    | No       | Icon name                              |
-| `href`    | No       | Makes the entire card a clickable link |
-| `class`   | No       | Additional CSS classes                 |
+:::card[Props]
+::::accordion[`icon`]
+:::dl
+::dt[Required]
+No
 
-## Notes
+::dt[Type]
+string
+:::
+Icon name 
+::::
 
-- Card is a block component — must be written on its own line
-- Icon appears above the title
-- Content can include paragraphs, lists, code blocks, and other components
+::::accordion[`href`]
+:::dl
+::dt[Required]
+No
+
+::dt[Type]
+string
+:::
+Makes the entire card a clickable link
+::::
+
+::::accordion[`class`]
+:::dl
+::dt[Required]
+No
+
+::dt[Type]
+string
+:::
+Additional CSS classes
+::::
+:::
+
+> [!NOTE]
+> Card is a block component — must be written on its own line

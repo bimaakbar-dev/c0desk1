@@ -19,9 +19,8 @@ seo:
 
 Grid wraps components into a responsive 2-column layout. Collapses to 1 column on mobile.
 
-## Syntax
-
-```md
+## Usage
+```markdown
 ::::grid
 :::card[Title]{icon="info"}
 Card content 1
@@ -34,7 +33,6 @@ Card content 2
 ```
 
 :::card[Preview]
-
 ::::grid
 :::card[Title]{icon="info"}
 Card content 1
@@ -46,8 +44,5 @@ Card content 2
 ::::
 :::
 
-## Notes
-
-- Grid has no attributes — always 2 columns with a `1rem` gap
-- Intended for wrapping block components like Card and Callout
-- On mobile: 1 column, `0.75rem` gap
+> [!NOTE]
+> Grid has no attributes — always 2 columns

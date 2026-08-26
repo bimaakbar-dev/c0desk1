@@ -19,24 +19,19 @@ seo:
 
 Button renders an inline link styled as a button, with optional icon and variant.
 
-## Syntax
+## Usage
 
 ::::tabs
 :::tab[Markdown]
 
-```md
+```markdown
 :button[Download]{url="/" icon="download"}
 
 :button[GitHub]{url="https://github.com" icon="github"}
-
-:button[View Demo]{url="/" variant="primary"}
-
-:button[Learn More]{url="/" variant="secondary"}
 ```
-
 :::
-:::tab[MDX]
 
+:::tab[MDX]
 ```mdx
 <Button url="/" icon="download">
   Download
@@ -45,55 +40,57 @@ Button renders an inline link styled as a button, with optional icon and variant
 <Button url="https://github.com" icon="github">
   GitHub
 </Button>
-
-<Button url="/" variant="primary">
-  View Demo
-</Button>
-
-<Button url="/" variant="secondary">
-  Learn More
-</Button>
 ```
-
 :::
 ::::
 
 :::card[Preview]
-
 :button[Download]{url="/" icon="download"}
 
 :button[GitHub]{url="https://github.com" icon="github"}
-
-:button[View Demo]{url="/" variant="primary"}
-
-:button[Learn More]{url="/" variant="secondary"}
 :::
-
-## Variants
-
-| Variant     | Style                   |
-| ----------- | ----------------------- |
-| `primary`   | Solid (default)         |
-| `secondary` | Light outline           |
-| `success`   | Green                   |
-| `danger`    | Red                     |
-| `outline`   | Transparent with border |
-| `ghost`     | Transparent, no border  |
 
 ## Attributes
 
-| Attribute | Required | Description                                                        |
-| --------- | -------- | ------------------------------------------------------------------ |
-| `url`     | Yes      | Link destination                                                   |
-| `icon`    | No       | Icon name (e.g. `download`, `github`, `external`, `arrow`, `star`) |
-| `variant` | No       | Button style (default: `primary`)                                  |
-| `block`   | No       | Full-width button                                                  |
-| `class`   | No       | Additional CSS classes                                             |
+:::card[Props]
+::::accordion[`url`]
+:::dl
+::dt[Required]
+Yes
 
-## Notes
+::dt[Type]
+string
+:::
 
-- Button is an inline component — it can be placed inside a paragraph
-- External URLs (`http`/`https`) open in a new tab automatically
-- Internal URLs (`/`, `#`) open in the same tab
-- Icon appears on the left side of the label
-- `block` makes the button full-width, useful for CTAs
+Link destination
+::::
+
+::::accordion[`icon`]
+:::dl
+::dt[Required]
+Optional
+
+::dt[Type]
+string
+:::
+
+Icon name (e.g. `download`, `github`, `external`, `arrow`, `star`)
+::::
+
+::::accordion[`class`]
+:::dl
+::dt[Required]
+Optional
+
+::dt[Type]
+string
+:::
+Additional CSS
+::::
+:::
+
+> [!NOTE]
+> Internal URLs `/`, `#` open in the same tab
+
+> [!TIP]
+> Icon appears on the left side of the label

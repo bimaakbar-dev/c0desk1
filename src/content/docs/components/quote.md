@@ -19,12 +19,12 @@ seo:
 
 Quote renders a `<figure>` with a `<blockquote>` and an optional `<figcaption>` for user attribution.
 
-## Syntax
+## Usage
 
 ::::tabs
 :::tab[Markdown]
 
-```md
+```markdown
 :::quote
 Unloyd made my docs look great.
 
@@ -38,10 +38,7 @@ Unloyd made my docs look great.
 ```mdx
 <Quote>
   Unloyd made my docs look great.
-  <User
-    avatar="https://avatars.githubusercontent.com/u/81931118?v=4"
-    url="https://github.com/bimaakbar-dev"
-  >
+  <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">
     Bima Akbar
   </User>
 </Quote>
@@ -59,9 +56,5 @@ Unloyd made my docs look great.
 :::
 ::::
 
-## Notes
-
-- Text content renders inside `<blockquote>`
-- `:user` renders inside `<figcaption>` — attribution is optional
-- Without `:user`, only `<blockquote>` is rendered
-- Must be written as a block-level element, not inline
+> [!NOTE]
+> Without `:user` / `<User>`, only `<blockquote>` is rendered

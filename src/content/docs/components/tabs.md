@@ -19,42 +19,55 @@ seo:
 
 Tabs groups content into selectable panels. Works in both `.md` and `.mdx` files.
 
-## Syntax
-
+## Usage
 Wrap with `::::tabs` (4 colons), and use `:::tab[label]` (3 colons) for each tab:
 
-```md
+~~~markdown
 ::::tabs
 :::tab[npm]
+```bash
 npm install astro
-:::
-:::tab[pnpm]
-pnpm add astro
-:::
-:::tab[yarn]
-yarn add astro
-:::
-::::
 ```
-
-:::card[Preview]
-
-::::tabs
-:::tab[npm]
-npm install astro
 :::
+
 :::tab[pnpm]
+```bash
 pnpm add astro
+```
 :::
+
 :::tab[yarn]
+```bash
 yarn add astro
+```
 :::
 ::::
+~~~
+
+:::::card[Preview]
+::::tabs
+:::tab[npm]
+~~~bash
+npm install astro
+~~~
 :::
 
-## Notes
+:::tab[pnpm]
+~~~bash
+pnpm add astro
+~~~
+:::
 
-- The first tab is active by default
-- Tab labels go inside `[]` after `tab`
-- Tab content can include text, code blocks, lists, and other components
-- Must be written as a block-level element, not inline
+:::tab[yarn]
+~~~bash
+yarn add astro
+~~~
+:::
+::::
+:::::
+
+> [!TIP] 
+> The first tab is active by default
+
+> [!NOTE]
+> Tab labels go inside `[]` after `tab`

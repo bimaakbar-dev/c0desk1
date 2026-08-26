@@ -21,48 +21,70 @@ Icon renders an inline SVG icon. Color follows `currentColor` and can be overrid
 
 ## Usage
 
-```md
-:icon[star]
-
-:icon[star]{size="lg"}
-
-:icon[github]{size="sm"}
-
-Click :icon[arrow-right] to continue.
-```
-
-:::card[Preview]
-:icon[star]
+::::tabs
+:::tab[Markdown]
+```markdown
+:icon[star]{size="sm"}
 
 :icon[star]{size="md"}
 
 :icon[star]{size="lg"}
 
-:icon[github]
+Click :icon[arrow-right] to continue.
+```
+:::
 
-:icon[twitter]
+:::tab[MDX]
+```mdx
+<Icon name='start' size='sm' />
 
-:icon[youtube]
+<Icon name='start' size='md' />
+
+<Icon name='start' size='lg' />
+
+Click <Icon name='arrow-right' /> to continue.
+```
+:::
+::::
+
+:::card[Preview]
+:icon[star]{size="sm"}
+
+:icon[star]
+
+:icon[star]{size="lg"}
 
 Click :icon[arrow-right] to continue.
 :::
 
-## Sizes
-
-| Value | Size           |
-| ----- | -------------- |
-| `sm`  | 12px           |
-| `md`  | 16px (default) |
-| `lg`  | 20px           |
-
 ## Attributes
 
-| Attribute | Required | Description                                     |
-| --------- | -------- | ----------------------------------------------- |
-| `size`    | No       | Icon size — `sm`, `md`, or `lg` (default: `md`) |
-| `class`   | No       | Additional CSS classes                          |
+:::card[Props]
+::::accordion[`name`]
+:::dl
+::dt[Required]
+Yes
 
-## Notes
+::dt[Type]
+string
+:::
+Icon name
+::::
 
-- Icon is an inline component — it can be placed inside a paragraph
-- Icons use SVG mask, consistent with Button, Badge, Card, and Filetree
+::::accordion[`size`]
+:::dl
+::dt[Required]
+No
+
+::dt[Type]
+string
+
+::dt[Value]
+`sm` | `md` | `lg`
+:::
+Icon size — `sm`, `md`, or `lg` (default: `md`)
+::::
+:::
+
+> [!NOTE]
+> Icons use SVG mask, consistent with Button, Badge, Card, and Filetree

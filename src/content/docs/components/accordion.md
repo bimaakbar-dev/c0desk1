@@ -38,8 +38,4 @@ Can include paragraphs, lists, code blocks, and other components.
 ::::
 
 > [!NOTE]
-> Note
-> - Accordion is open by default
-> - The title renders as the `<summary>` element
-> - Content can be anything — paragraphs, lists, code blocks, images, or other components
-> - Must be written as a block-level element, not inline
+> Accordion is close by default

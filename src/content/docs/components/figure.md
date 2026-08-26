@@ -24,7 +24,7 @@ Figure wraps an image in a `<figure>` element with an optional caption. Without 
 ::::tabs
 :::tab[Markdown]
 
-```md
+```markdown
 ![Alt text](https://placehold.co/600x400){This is a caption}
 ```
 
@@ -44,8 +44,8 @@ Figure wraps an image in a `<figure>` element with an optional caption. Without 
 ![Alt text](../../../assets/images/og-image.webp){This is a caption}
 :::
 
-## Notes
+> [!NOTE]
+> Caption is plain text only — emphasis and links are not supported
 
-- Caption is plain text only — emphasis and links are not supported
-- Caption is optional — without it, the image renders as a plain `<img>`
-- Must be written as a block-level element, not inline
+> [!TIP]
+> Caption is optional — without it, the image renders as a plain `<img>`
