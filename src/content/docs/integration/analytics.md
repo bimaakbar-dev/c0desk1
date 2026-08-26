@@ -42,7 +42,7 @@ Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set th
 
    > [!NOTE]
    > The script uses `data-consent="required"` and is integrated with the cookie consent system.
-   > :::
+:::
 
 ## Yandex Metrica
 
@@ -60,7 +60,7 @@ Unloyd supports Google Analytics (GA4) and Yandex Metrica out of the box. Set th
 
 3. ### Deploy
    The script loads automatically on build. No further setup needed.
-   :::
+:::
 
 ## How It Works
 
