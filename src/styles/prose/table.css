@@ -8,9 +8,7 @@
   max-width: 100%;
   overflow-x: auto;
   scrollbar-color: var(--border-subtle) transparent;
-
   scrollbar-width: thin;
-
   -webkit-overflow-scrolling: touch;
 }
 
@@ -58,12 +56,12 @@
 .prose td {
   @apply text-numeric-14;
   vertical-align: baseline;
-  padding: 0.625rem 1rem;
 }
 
 .prose th {
   color: var(--fg-strong);
   font-weight: 500;
+  padding: 0.5rem 1rem;
 }
 
 .prose th:not([align]) {
@@ -80,6 +78,7 @@
 }
 
 .prose td {
+  padding: 0.65rem 1rem;
   word-break: normal;
   overflow-wrap: anywhere;
 }
