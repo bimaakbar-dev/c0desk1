@@ -50,13 +50,13 @@ You can pass a direct image URL via the `avatar` attribute to display a custom c
 ::::tabs
 :::tab[Markdown]
 ```md
-Maintained by :user[Bima Akbar]{avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)"}
+:user[Bima Akbar]{avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)"}
 ```
 :::
 
 :::tab[MDX]
 ```mdx
-Maintained by <User avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)">
+<User avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)">
   Bima Akbar
 </User>
 ```
@@ -64,7 +64,7 @@ Maintained by <User avatar="[https://avatars.githubusercontent.com/u/81931118?v=
 ::::
 
 :::card[Preview]
-Maintained by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
 :::
 
 ### Add Role Description
@@ -73,13 +73,13 @@ Use the `role` attribute to append a job title or subtitle next to the name, aut
 ::::tabs
 :::tab[Markdown]
 ```md
-Created by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 ```
 :::
 
 :::tab[MDX]
 ```mdx
-Created by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">
   Bima Akbar
 </User>
 ```
@@ -87,7 +87,7 @@ Created by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" r
 ::::
 
 :::card[Preview]
-Created by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 :::
 
 ### Clickable Profile Link
@@ -96,12 +96,13 @@ Created by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/819
 ​::::tabs
 :::tab[Markdown]
 ```md
-Connect with :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 ```
 :::
+
 :::tab[MDX]
 ```mdx
-Connect with <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">
+<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">
   Bima Akbar
 </User>
 ```
@@ -109,7 +110,7 @@ Connect with <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4"
 ::::
 
 :::card[Preview]
-Connect with :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
 :::
 
 ## Attributes
