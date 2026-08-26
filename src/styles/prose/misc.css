@@ -15,7 +15,7 @@
 
 .prose .prop-dt {
   font-weight: 600;
-  color: var(--fg-strong, inherit);
+  color: var(--fg-strong);
   margin: 0;
   white-space: nowrap;
   letter-spacing: -0.01em;
@@ -23,18 +23,16 @@
 
 .prose .prop-dd {
   margin: 0;
-  color: var(--fg-subtle, #666);
+  color: var(--fg-muted);
   min-width: 0;
   word-break: break-word;
   overflow-wrap: break-word;
+  font-family: var(--font-mono);
 }
 
 .prose .prop-dd code {
-  --code-bg: var(--bg-subtle);
   @apply text-code-14;
   padding: 0.125rem 0.3rem;
-  border-radius: 4px;
-  background-color: var(--code-bg, rgba(128, 128, 128, 0.1));
 }
 
 .prose sub,
