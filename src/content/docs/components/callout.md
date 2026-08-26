@@ -67,7 +67,11 @@ Callout blocks highlight important information with a colored accent and icon. T
 ::::accordion[`[!Type]`]
 :::dl
 ::dt[Type]
+string
+
+::dt[Value]
 `NOTE` | `TIP` | `IMPORTANT` | `WARNING` | `CAUTION` | `DANGER`
+
 ::dt[Required]
 *True*
 :::
