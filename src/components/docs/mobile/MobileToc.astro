@@ -1,5 +1,6 @@
 ---
 // src/components/docs/mobile/MobileToc.astro
+
 export interface Props {
   title?: string;
   headings: {
@@ -325,13 +326,8 @@ const openLabel = title || "On this page";
     position: relative;
     flex: 1;
     flex-direction: column;
-    border-bottom: 1px solid var(--border-subtle);
-    width: 100%;
-  }
 
-  .mobile-toc-details[open] .mobile-toc-nav {
-    /*border-top: 1px solid var(--border);*/
-    border-bottom: 1px solid var(--border-subtle);
+    width: 100%;
   }
 
   .mobile-toc-summary {
@@ -339,8 +335,6 @@ const openLabel = title || "On this page";
     flex-shrink: 0;
     align-items: center;
     gap: 0.5rem;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     cursor: pointer;
     background-color: var(--bg);
     padding: 0.5rem 1rem;
@@ -349,6 +343,7 @@ const openLabel = title || "On this page";
     font-size: 14px;
     list-style: none;
     user-select: none;
+    border-bottom: 1px solid var(--border);
   }
 
   .mobile-toc-summary::-webkit-details-marker {
@@ -360,7 +355,6 @@ const openLabel = title || "On this page";
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
-    aspect-ratio: 1/1;
     width: 1em;
     height: 1em;
     color: var(--fg-muted);
@@ -416,7 +410,7 @@ const openLabel = title || "On this page";
   .mobile-toc-title-active {
     transform: translateY(0);
     opacity: 1;
-    color: var(--fg-muted);
+    color: var(--fg);
   }
 
   .mobile-toc-details[open] .mobile-toc-title-active {
@@ -441,7 +435,6 @@ const openLabel = title || "On this page";
     justify-content: center;
     align-items: center;
     transition: transform var(--duration) var(--ease-out);
-    aspect-ratio: 1/1;
     width: 1em;
     height: 1em;
     color: var(--fg-muted);
@@ -463,7 +456,6 @@ const openLabel = title || "On this page";
     -webkit-backdrop-filter: blur(20px);
     transition: opacity var(--duration) var(--ease-out);
     box-shadow: var(--shadow-lg);
-    border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     background-color: var(--bg);
     padding: 0.5rem 0.5rem 1rem;
@@ -475,8 +467,7 @@ const openLabel = title || "On this page";
 
   .mobile-toc-details[open] .mobile-toc-nav {
     opacity: 1;
-    border-top-color: var(--border-subtle);
-    border-bottom-color: var(--border-subtle);
+    border-bottom-color: var(--border);
     pointer-events: auto;
   }
 
@@ -509,7 +500,7 @@ const openLabel = title || "On this page";
   }
 
   .mobile-toc-indicator.indicator-inactive {
-    background-color: var(--border-subtle);
+    background-color: var(--border);
   }
 
   .mobile-toc-indicator.indicator-active {
@@ -539,7 +530,6 @@ const openLabel = title || "On this page";
 
   @media (hover: hover) {
     .mobile-toc-link:hover {
-      background-color: var(--bg-muted);
       color: var(--fg-strong);
     }
     .mobile-toc-summary:hover {
