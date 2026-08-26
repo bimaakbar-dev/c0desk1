@@ -30,11 +30,6 @@
   font-family: var(--font-mono);
 }
 
-.prose .prop-dd code {
-  @apply text-code-14;
-  padding-block: 0.125rem;
-}
-
 .prose sub,
 .prose sup {
   position: relative;
