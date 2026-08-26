@@ -16,7 +16,8 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background-color: var(--bg-subtle);
-  padding: 1.125rem;
+  padding-inline: 1rem;
+  padding-block: 0.65rem;
   overflow: hidden;
 }
 
