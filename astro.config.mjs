@@ -66,7 +66,7 @@ export default defineConfig({
         gfm: {
           footnotes: {
             label: "Footnotes",
-            backContent: "↑",
+            backContent: "↗",
             backLabel: "Back to reference {reference}",
           },
         },
