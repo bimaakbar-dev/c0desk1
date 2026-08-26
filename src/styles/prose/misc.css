@@ -15,8 +15,8 @@
 }
 
 .prose .prop-dt {
-  font-weight: 600;
-  color: var(--fg-strong, inherit);
+  font-weight: 500;
+  color: var(--accent, inherit);
   margin: 0;
   white-space: nowrap;
   letter-spacing: -0.01em;
