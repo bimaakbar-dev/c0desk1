@@ -50,13 +50,13 @@ You can pass a direct image URL via the `avatar` attribute to display a custom c
 ::::tabs
 :::tab[Markdown]
 ```md
-Published by :user[Bima Akbar]{avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
 ```
 :::
 
 :::tab[MDX]
 ```mdx
-Published by <User avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)">
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">
   Bima Akbar
 </User>
 ```
