@@ -32,7 +32,7 @@
 
 .prose .prop-dd code {
   @apply text-code-14;
-  padding-inline: 0.125rem;
+  padding-block: 0.125rem;
 }
 
 .prose sub,
