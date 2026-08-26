@@ -6,7 +6,7 @@ category: "Guide"
 order: 3
 draft: false
 author:
-  name: "Stardux Team"
+  name: "Stradocs Team"
   role: "Developer"
   url: "https://github.com/stardux"
   email: "hello@unloyd.web.id"
@@ -17,7 +17,7 @@ seo:
 lastUpdated: 2026-08-16
 ---
 
-Stardux keeps its configuration in the `src/config/` directory. You can customize your site's identity, navigation, page content, SEO, forms, and more without modifying component code.
+Stradocs keeps its configuration in the `src/config/` directory. You can customize your site's identity, navigation, page content, SEO, forms, and more without modifying component code.
 
 :::filetree
 
@@ -39,7 +39,7 @@ Stardux keeps its configuration in the `src/config/` directory. You can customiz
   - schema.ts
   - seo.ts
   - site.ts
-    :::
+:::
 
 ## `site.ts` — Site Identity
 
@@ -123,13 +123,13 @@ The values inside verification and analytics are loaded from environment variabl
 ## Navigation
 
 Navigation settings are located in the `src/config/navs/` directory.
-:::filetree
 
+:::filetree
 - src/config/navs/
   - docsSidebar.ts
   - globalNavs.ts
   - ...
-    :::
+:::
 
 ### `globalNavs.ts` Global navigation
 
@@ -293,7 +293,6 @@ Some configuration values are loaded from environment variables.
 Create a `.env` file by copying `.env.example`:
 
 ```env
-
 # Site
 PUBLIC_SITE_URL=https://your-site.com
 
