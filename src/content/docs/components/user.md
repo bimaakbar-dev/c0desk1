@@ -10,7 +10,7 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-26T02:19:00Z
+lastUpdated: 2026-08-26T10:22:00Z
 seo:
   title: "User"
   description: "Display a user profile with avatar, name, and role."
@@ -50,13 +50,13 @@ You can pass a direct image URL via the `avatar` attribute to display a custom c
 ::::tabs
 :::tab[Markdown]
 ```md
-:user[Bima Akbar]{avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)"}
+Published by :user[Bima Akbar]{avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)"}
 ```
 :::
 
 :::tab[MDX]
 ```mdx
-<User avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)">
+Published by <User avatar="[https://avatars.githubusercontent.com/u/81931118?v=4](https://avatars.githubusercontent.com/u/81931118?v=4)">
   Bima Akbar
 </User>
 ```
@@ -64,7 +64,7 @@ You can pass a direct image URL via the `avatar` attribute to display a custom c
 ::::
 
 :::card[Preview]
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4"}
 :::
 
 ### Add Role Description
@@ -73,13 +73,13 @@ Use the `role` attribute to append a job title or subtitle next to the name, aut
 ::::tabs
 :::tab[Markdown]
 ```md
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 ```
 :::
 
 :::tab[MDX]
 ```mdx
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">
   Bima Akbar
 </User>
 ```
@@ -87,30 +87,30 @@ Use the `role` attribute to append a job title or subtitle next to the name, aut
 ::::
 
 :::card[Preview]
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer"}
 :::
 
 ### Clickable Profile Link
 ​Add the `url` attribute to wrap the entire component inside a hyperlink anchor, allowing readers to click through to a profile, GitHub repository, or social media link.
 
-​:::::tabs
-::::tab[Markdown]
+​::::tabs
+:::tab[Markdown]
 ```md
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
 ```
-::::
+:::
 
-::::tab[MDX]
+:::tab[MDX]
 ```mdx
-<User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev">
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">
   Bima Akbar
 </User>
 ```
+:::
 ::::
-:::::
 
 :::card[Preview]
-:user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer" url="https://github.com/bimaakbar-dev"}
+Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev"}
 :::
 
 ## Attributes
