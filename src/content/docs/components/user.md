@@ -56,9 +56,7 @@ Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/8
 
 :::tab[MDX]
 ```mdx
-Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">
-  Bima Akbar
-</User>
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4">Bima Akbar</User>
 ```
 :::
 ::::
@@ -79,9 +77,7 @@ Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/8
 
 :::tab[MDX]
 ```mdx
-Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">
-  Bima Akbar
-</User>
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" role="Developer">Bima Akbar</User>
 ```
 :::
 ::::
@@ -102,9 +98,7 @@ Published by :user[Bima Akbar]{avatar="https://avatars.githubusercontent.com/u/8
 
 :::tab[MDX]
 ```mdx
-Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">
-  Bima Akbar
-</User>
+Published by <User avatar="https://avatars.githubusercontent.com/u/81931118?v=4" url="https://github.com/bimaakbar-dev">Bima Akbar</User>
 ```
 :::
 ::::
