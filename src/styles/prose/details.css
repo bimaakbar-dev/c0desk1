@@ -9,10 +9,10 @@
   background-color: var(--bg-subtle);
   user-select: none;
   color: var(--fg-strong);
-  @apply text-heading-16;
 }
 
 .prose .accordion summary {
+  @apply text-heading-16;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -47,7 +47,6 @@
 
 .prose .accordion[open] > :not(summary) {
   padding: 0.5rem 0.75rem;
-  @apply text-body-14;
 }
 
 .prose .accordion[open] > :not(summary) :first-child {
@@ -56,6 +55,10 @@
 
 .prose .accordion[open] > :not(summary) :last-child {
   margin-bottom: 0 !important;
+}
+
+.prose .accordion[open] > :not(summary) > * {
+  @apply text-body-14;
 }
 
 .prose .accordion[open] > :not(summary) * + * {
