@@ -6,10 +6,10 @@ category: "Components"
 order: 2
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Stradocs Team"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T03:20:00Z
 seo:
   title: "Callout"
@@ -21,7 +21,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 ## Usage
 
-```md
+```markdown
 > [!NOTE]
 > General information.
 
@@ -63,7 +63,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 ## Variants
 
-:::::card[Props]
+:::card[Props]
 ::::accordion[`[!Type]`]
 :::dl
 ::dt[Type]
@@ -73,12 +73,12 @@ string
 `NOTE` | `TIP` | `IMPORTANT` | `WARNING` | `CAUTION` | `DANGER`
 
 ::dt[Required]
-*True*
+true
 :::
 
 Type must be uppercase.
 ::::
-:::::
+:::
 
 > [!NOTE]
 > Must be written as a block-level element, not inline
