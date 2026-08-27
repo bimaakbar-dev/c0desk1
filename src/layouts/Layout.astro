@@ -1,6 +1,9 @@
 ---
 // src/layouts/Layout.astro
-import { SITE, type buildMeta as BuildMetaFn } from "@/consts";
+import { 
+  SITE, 
+  type buildMeta as BuildMetaFn 
+} from "@/consts";
 
 import Head from "@components/Head.astro";
 import ThemeProvider from "@components/ThemeProvider.astro";
@@ -42,7 +45,7 @@ const {
   <Head {meta} {schema} {isHome} {canonical} {author} {publisher} {next} {prev}>
     <ThemeProvider />
   </Head>
-  <body>
+  <body class:list={isHome ? 'home ' : ''}>
     <SkipLink />
     <Search />
     <Page>
