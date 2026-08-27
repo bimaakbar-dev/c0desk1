@@ -90,7 +90,7 @@ const PAGE_SIZE = 5;
     class="flex shrink-0 items-center justify-end gap-1.5 border-t border-(--border-subtle) px-3 py-2"
   >
     <span class="text-xs text-(--fg-muted)">Powered by</span>
-    <span class="text-xs font-medium text-(--fg-muted)">Pagefind</span>
+    <span class="text-xs font-medium text-(--fg-strong)">Pagefind</span>
   </div>
 </dialog>
 
@@ -104,7 +104,9 @@ const PAGE_SIZE = 5;
       <div
         class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md bg-(--bg-muted) text-(--fg-muted)"
       >
-        <span data-slot="type-icon" class="size-4"></span>
+        <span data-slot="type-icon" class="size-4">
+          <Icon name='file' class="size-full" />
+        </span>
       </div>
       <div class="flex min-w-0 flex-1 flex-col gap-0.5">
         <div class="flex items-center gap-2">
