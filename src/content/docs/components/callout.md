@@ -10,14 +10,14 @@ author:
   role: "Developer"
   url: "https://github.com/bimaakbar-dev"
   email: "hello@stradocs.web.id"
-lastUpdated: 2026-08-09T03:20:00Z
+lastUpdated: 2026-08-28T00:20:00Z
 seo:
   title: "Callout"
   description: "Highlight important information with colored callout blocks."
   noIndex: false
 ---
 
-Callout blocks highlight important information with a colored accent and icon. They work in both `.md` and `.mdx` files — the syntax is identical in both.
+Callout or asides blocks highlight important information with a colored accent and icon. They work in both `.md` and `.mdx` files — the syntax is identical in both.
 
 ## Usage
 
@@ -42,6 +42,7 @@ Callout blocks highlight important information with a colored accent and icon. T
 ```
 
 :::card[Preview]
+
 > [!NOTE]
 > General information.
 
@@ -59,25 +60,29 @@ Callout blocks highlight important information with a colored accent and icon. T
 
 > [!DANGER]
 > This may cause irreversible effects.
+
 :::
 
 ## Variants
 
 :::card[Props]
-::::accordion[`[!Type]`]
-:::dl
-::dt[Type]
-string
 
-::dt[Value]
-`NOTE` | `TIP` | `IMPORTANT` | `WARNING` | `CAUTION` | `DANGER`
+::::accordion[`[!Type]`]
+
+:::dl
+::dt[Type:]
+`string`
+
+::dt[Value:]
+`NOTE | TIP | IMPORTANT | WARNING | CAUTION | DANGER`
 
 ::dt[Required]
-true
+`yes`
 :::
 
 Type must be uppercase.
 ::::
+
 :::
 
 > [!NOTE]
