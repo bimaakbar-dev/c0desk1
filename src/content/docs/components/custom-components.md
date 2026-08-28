@@ -6,10 +6,10 @@ category: "Components"
 order: 1
 draft: false
 author:
-  name: "Unloyd Team"
+  name: "Bima Akbar"
   role: "Developer"
-  url: "https://github.com/unloyd"
-  email: "hello@unloyd.web.id"
+  url: "https://github.com/bimaakbar-dev"
+  email: "hello@stradocs.web.id"
 lastUpdated: 2026-08-09T02:27:00Z
 seo:
   title: "Custom Components"
@@ -26,17 +26,45 @@ There are two directive types:
 
 ## Block Components
 
-| Component                                | Syntax         | Description                     |
-| ---------------------------------------- | -------------- | ------------------------------- |
-| [Callout](/docs/components/callout/)     | `> [!NOTE]`    | Highlight important information |
-| [Steps](/docs/components/steps/)         | `:::steps`     | Step-by-step guide              |
-| [Tabs](/docs/components/tabs/)           | `::::tabs`     | Tabbed content                  |
-| [Filetree](/docs/components/filetree/)   | `:::filetree`  | Folder and file structure       |
-| [Accordion](/docs/components/accordion/) | `:::accordion` | Collapsible content             |
-| [Video](/docs/components/video/)         | `::video[...]` | Video embed                     |
-| [Card](/docs/components/card/)           | `:::card`      | Info box with icon and link     |
-| [Grid](/docs/components/grid/)           | `:::grid`      | Responsive grid                 |
-| [Quote](/docs/components/quote/)         | `:::quote`     | Custom Blockquote with `:user`  |
+:::grid
+
+::::card[Callout]{href="/components/callout/}
+Highlight important information
+::::
+
+::::card[Steps]{href="/components/steps/}
+Step-by-step guide
+::::
+
+::::card[Tabs]{href="/components/tabs/}
+Tabbed content
+::::
+
+::::card[File Tree]{href="/components/filetree/}
+Folder and file structure
+::::
+
+::::card[Accordion]{href="/components/accordion/}
+Collapsible content
+::::
+
+::::card[Video]{href="/components/video/}
+Video embed
+::::
+
+::::card[Card]{href="/components/card/}
+Info box with icon and link
+::::
+
+::::card[Grid]{href="/components/grid/}
+Responsive grid
+::::
+
+::::card[Quote]{href="/components/quote/}
+Custom Blockquote
+::::
+
+:::
 
 ## Inline Components
 
