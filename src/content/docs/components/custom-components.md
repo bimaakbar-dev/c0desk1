@@ -28,39 +28,39 @@ There are two directive types:
 
 :::grid
 
-::::card[Callout]{href="/components/callout/}
+::::card[Callout]{href="/docs/callout/}
 Highlight important information
 ::::
 
-::::card[Steps]{href="/components/steps/}
+::::card[Steps]{href="/docs/steps/}
 Step-by-step guide
 ::::
 
-::::card[Tabs]{href="/components/tabs/}
+::::card[Tabs]{href="/docs/tabs/}
 Tabbed content
 ::::
 
-::::card[File Tree]{href="/components/filetree/}
+::::card[File Tree]{href="/docs/filetree/}
 Folder and file structure
 ::::
 
-::::card[Accordion]{href="/components/accordion/}
+::::card[Accordion]{href="/docs/accordion/}
 Collapsible content
 ::::
 
-::::card[Video]{href="/components/video/}
+::::card[Video]{href="/docs/video/}
 Video embed
 ::::
 
-::::card[Card]{href="/components/card/}
+::::card[Card]{href="/docs/card/}
 Info box with icon and link
 ::::
 
-::::card[Grid]{href="/components/grid/}
+::::card[Grid]{href="/docs/grid/}
 Responsive grid
 ::::
 
-::::card[Quote]{href="/components/quote/}
+::::card[Quote]{href="/docs/quote/}
 Custom Blockquote
 ::::
 
@@ -68,15 +68,28 @@ Custom Blockquote
 
 ## Inline Components
 
-| Component                          | Syntax         | Description              |
-| ---------------------------------- | -------------- | ------------------------ |
-| [User](/docs/components/user/)     | `:user[...]`   | User profile with avatar |
-| [Badge](/docs/components/badge/)   | `:badge[...]`  | Small colored label      |
-| [Button](/docs/components/button/) | `:button[...]` | Button with icon         |
-| [Icon](/docs/components/icon/)     | `:icon[...]`   | SVG icon                 |
+:::grid
+
+::::card[User]{href="/docs/user/"}
+User profile with avata
+::::
+
+::::card[Badge]{href="/docs/badge/"}
+Small colored label
+::::
+
+::::card[Button]{href="/docs/button/"}
+Button with icon
+::::
+
+::::card[Icon]{href="/docs/icon/"}
+SVG icon
+::::
+
+:::
 
 ## Media
 
-| Component                          | Syntax                 | Description        |
-| ---------------------------------- | ---------------------- | ------------------ |
-| [Figure](/docs/components/figure/) | `![alt](url){caption}` | Image with caption |
+:::card[Figure]{href="/docs/figure/"}
+Image with caption
+:::
