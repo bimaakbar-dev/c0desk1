@@ -3,20 +3,9 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "@astrojs/ts-plugin"
-      }
-    ],
-    "verbatimModuleSyntax": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@docs/*": ["./src/components/docs/*"],
-      "@blog/*": ["./src/components/blog/*"],
-      "@ui/*": ["./src/components/ui/*"],
-      "@lib/*": ["./src/lib/*"]
+      "~/*": ["./src/*"]
     }
   }
 }
