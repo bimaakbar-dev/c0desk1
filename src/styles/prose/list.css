@@ -1,247 +1,274 @@
-.sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
-	color: var(--sl-color-white);
-	line-height: var(--sl-line-height-headings);
+/* src/styles/prose/list.css */
+
+.prose .steps,
+.prose .steps-container > ol,
+.prose .steps-container > ul {
+  counter-reset: step;
+  margin: 2rem 0;
+  padding: 0;
+  list-style: none;
 }
 
-.sl-markdown-content :is(h1 code, h2 code, h3 code, h4 code, h5 code, h6 code):not(:where(.not-content *)) {
-	font-size: inherit;
+.prose .steps h2,
+.prose .steps h3,
+.prose .steps h4 {
+  @apply text-heading-16;
+  color: var(--fg-strong);
 }
 
-/* Heading */
-.sl-markdown-content h1:not(:where(.not-content *)) {
-	font-weight: 700;
-}
-.sl-markdown-content h2:not(:where(.not-content *)) {
-	font-weight: 600;
-}
-.sl-markdown-content h3:not(:where(.not-content *)) {
-	font-weight: 500;
-}
-.sl-markdown-content h4:not(:where(.not-content *)) {
-	font-weight: 500;
-}
-.sl-markdown-content h5:not(:where(.not-content *)) {
-	font-weight: 500;
-}
-.sl-markdown-content h6:not(:where(.not-content *)) {
-	font-weight: 500;
+.prose .steps * .heading-anchor {
+  width: 0.85rem;
+  height: 0.85rem;
 }
 
-/* Link */
-.sl-markdown-content a:not(:where(.not-content *)) {
-	font-weight: 500;
-	color: var(--sl-color-white);
-	text-decoration-color: var(--sl-color-text-accent);
-	text-decoration-thickness: 2px;
-	text-underline-offset: 2px;
-}
-.sl-markdown-content a:hover:not(:where(.not-content *)) {
-	color: var(--sl-color-text-accent);
+.prose .steps ul,
+.prose .steps ol,
+.prose .steps p {
+  @apply text-body-16;
 }
 
-/* Bold */
-.sl-markdown-content :is(strong, b):not(:where(.not-content *)) {
-	font-weight: 500;
-	color: var(--sl-color-white);
-}
-/* Italic */
-.sl-markdown-content :is(em, i):not(:where(.not-content *)) {
-	color: var(--sl-color-gray-3);
-}
+.prose .steps > li,
+.prose .steps-container > ol > li,
+.prose .steps-container > ul > li {
+  position: relative;
+  counter-increment: step;
+  padding-bottom: 1.25rem;
+  padding-inline-start: 2.5rem;
+  padding-left: 2.5rem;
+  min-height: 1.75rem;
 
-/* List */
-.sl-markdown-content :is(ul, ol):not(:where(.not-content *))::marker {
-	color: var(--sl-color-gray-4);
-}
-
-/* Task List */
-.sl-markdown-content input[type="checkbox"]:not(:where(.not-content *)) {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 0.25rem;
-    background-color: transparent;
-    display: inline-grid;
-    place-content: center;
-    margin-inline-end: 0.5rem;
-    vertical-align: -0.125em;
-    cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+  --step-circle-size: 1.65rem;
+  --step-line-width: 1.5px;
 }
 
-.sl-markdown-content input[type="checkbox"]:not(:where(.not-content *)):hover {
-    border-color: var(--sl-color-gray-3);
+.prose .steps > li::marker,
+.prose .steps-container > ol > li::marker,
+.prose .steps-container > ul > li::marker {
+  content: "";
 }
 
-.sl-markdown-content input[type="checkbox"]:not(:where(.not-content *)):checked {
-    background-color: var(--sl-color-text-accent);
-    border-color: var(--sl-color-text-accent);
+.prose .steps > li::before,
+.prose .steps-container > ol > li::before,
+.prose .steps-container > ul > li::before {
+  @apply text-numeric-14;
+
+  display: flex;
+  position: absolute;
+
+  top: calc(
+    (
+        (var(--text-body-16-line-height) * var(--text-body-16-size)) -
+          var(--step-circle-size)
+      ) /
+      2
+  );
+  justify-content: center;
+  align-items: center;
+  inset-inline-start: 0;
+  box-shadow: 0 0 0 var(--step-line-width) var(--bg-muted);
+  border: var(--step-line-width) solid rgb(from var(--border) r g b / 100%);
+
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  padding: 0 !important;
+  aspect-ratio: 1 / 1;
+
+  width: var(--step-circle-size);
+  height: var(--step-circle-size);
+
+  content: counter(step);
+
+  color: var(--fg-strong);
 }
 
-.sl-markdown-content input[type="checkbox"]:not(:where(.not-content *)):checked::before {
-    content: "";
-    width: 0.55rem;
-    height: 0.3rem;
-    border-left: 2px solid var(--sl-color-text-invert);
-    border-bottom: 2px solid var(--sl-color-text-invert);
-    transform: rotate(-45deg) translate(1px, -1px);
+.prose .steps > li:has(> :first-child:is(h2, h3, h4))::before,
+.prose .steps-container > ol > li:has(> :first-child:is(h2, h3, h4))::before,
+.prose .steps-container > ul > li:has(> :first-child:is(h2, h3, h4))::before {
+  top: calc(
+    (
+        (var(--text-heading-16-line-height) * var(--text-heading-16-size)) -
+          var(--step-circle-size)
+      ) /
+      2
+  );
 }
 
-.sl-markdown-content li:has(> input[type="checkbox"]):not(:where(.not-content *)) {
-    list-style-type: none;
-    margin-inline-start: -1.25rem;
+.prose .steps > li::after,
+.prose .steps-container > ol > li::after,
+.prose .steps-container > ul > li::after {
+  position: absolute;
+  top: 2rem;
+  bottom: 0;
+  margin-left: calc(var(--step-line-width) / -2);
+  inset-inline-start: calc(var(--step-circle-size) / 2);
+  background-color: rgb(from var(--border) r g b / 100%);
+  width: var(--step-line-width);
+  content: "";
 }
 
-/* Definisi list */
-.sl-markdown-content dt:not(:where(.not-content *)) {
-	font-weight: 500;
+.prose .steps > li:last-child::after,
+.prose .steps-container > ol > li:last-child::after,
+.prose .steps-container > ul > li:last-child::after {
+  display: none;
 }
 
-/* Code block */
-.sl-markdown-content code:not(:where(.not-content *)) {
-	background-color: var(--sl-color-bg-inline-code);
-	border: 1px solid var(--sl-color-gray-5);
-	border-radius: 0.5rem;
-	font-size: var(--sl-text-code-sm);
+.prose .steps > li > :first-child,
+.prose .steps-container > ol > li > :first-child,
+.prose .steps-container > ul > li > :first-child {
+  margin-top: 0 !important;
 }
 
-.sl-markdown-content pre:not(:where(.not-content *)) {
-	border: 1px solid var(--sl-color-gray-5);
-	font-size: var(--sl-text-code);
+.prose .steps > li > :last-child,
+.prose .steps-container > ol > li > :last-child,
+.prose .steps-container > ul > li > :last-child {
+  margin-bottom: 0 !important;
 }
 
-/* Blockquote */
-.sl-markdown-content blockquote:not(:where(.not-content *)) {
-    position: relative;
-    border-inline-start: none;
-	padding-inline-start: 1.5rem;
-	padding-inline-end: 1rem;
-	padding-block: 1rem;
+.prose .steps > li:last-child,
+.prose .steps-container > ol > li:last-child,
+.prose .steps-container > ul > li:last-child {
+  padding-bottom: 0 !important;
 }
 
-.sl-markdown-content blockquote:not(:where(.not-content *))::before {
-    content: "";
-    position: absolute;
-    inset-block: 1rem;
-    inset-inline-start: 0;
-    width: 3px;
-    background: var(--sl-color-accent);
-    border-radius: 999px;
+/* --- List Styling (UL / OL) --- */
+
+.prose ul,
+.prose ol {
+  @apply text-body-16;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  color: var(--fg);
 }
 
-/* Table */
-.sl-markdown-content table:not(:where(.not-content *)) {
-	display: block;
-	width: 100%;
-    min-width: max-content;
-	overflow: auto;
-	border-spacing: 0;
-	table-layout: auto;
-    border-collapse: separate;
+.prose ul ::marker,
+.prose ol ::marker {
+  color: var(--fg-subtle);
 }
 
-.sl-markdown-content :is(thead):not(:where(.not-content *)) {
-    background: transparent;
+.prose ul {
+  list-style-type: disc;
+  list-style-position: outside;
 }
 
-.sl-markdown-content :is(thead th):not(:where(.not-content *)) {
-    background-color: var(--sl-color-gray-6);
-    border-block: 1px solid var(--sl-color-hairline);
-    white-space: nowrap;
+.prose ol {
+  list-style-type: decimal;
+  list-style-position: outside;
 }
 
-.sl-markdown-content :is(thead tr:first-child th:first-child):not(:where(.not-content *)) {
-    border-inline-start: 1px solid var(--sl-color-hairline);
-    border-start-start-radius: 0.5rem;
-    border-end-start-radius: 0.5rem;
+.prose ol ol {
+  list-style-type: lower-alpha;
 }
 
-.sl-markdown-content :is(thead tr:first-child th:last-child):not(:where(.not-content *)) {
-    border-inline-end: 1px solid var(--sl-color-hairline);
-    border-start-end-radius: 0.5rem;
-    border-end-end-radius: 0.5rem;
+.prose ol ol ol {
+  list-style-type: lower-roman;
 }
 
-.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
-	border-bottom: none;
-	padding: 0;
+.prose li {
+  margin-bottom: 8px;
 }
 
-.sl-markdown-content :is(th):not(:where(.not-content *)) {
-    color: var(--sl-color-white);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+.prose li > * {
+  margin-bottom: 8px;
 }
 
-.sl-markdown-content :is(tbody tr:not(:first-child) td):not(:where(.not-content *)) {
-    border-top: 1px solid var(--sl-color-hairline);
+.prose li:last-child {
+  margin-bottom: 0;
 }
 
-.sl-markdown-content :is(td):not(:where(.not-content *)) {
-    word-break: normal;
-    overflow-wrap: anywhere;
-    padding: 0.5rem 1rem;
+.prose ol li {
+  padding-left: 0.5rem;
 }
 
-.sl-markdown-content :is(td a, td code):not(:where(.not-content *)) {
-    white-space: nowrap;
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+  margin: 8px 0;
 }
 
-@media (hover: hover) {
-  .sl-markdown-content :is(tbody tr:hover td):not(:where(.not-content *)) {
-    background: var(--sl-color-gray-5);
-  }
+/* --- Task List / Checkbox --- */
+.prose ul:has(input[type="checkbox"]) {
+  padding-left: 1rem;
+  list-style: none;
 }
 
-/* Hr */
-.sl-markdown-content hr:not(:where(.not-content *)) {
-	border-bottom: 1px solid var(--sl-color-hairline);
+.prose ul:has(input[type="checkbox"]) li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 8px;
+  padding: 0 !important;
 }
 
-/* Details */
-.sl-markdown-content details:not(:where(.not-content *)) {
-	--sl-details-border-color: var(--sl-color-gray-5);
-	--sl-details-border-color--hover: var(--sl-color-text-accent);
+.prose ul:has(input[type="checkbox"]) li::before {
+  content: none;
+}
 
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"] {
+  position: relative;
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
+
+  --checkbox-size: 1.125rem;
+  transition: all var(--duration) var(--ease-out);
+  margin-top: calc(
+    (
+        (var(--text-body-16-line-height) * var(--text-body-16-size)) -
+          var(--checkbox-size)
+      ) /
+      2
+  );
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
 	border-inline-start: 2px solid var(--sl-details-border-color);
 }
-.sl-markdown-content details:not([open]):hover:not(:where(.not-content *)),
-.sl-markdown-content details:has(> summary:hover):not(:where(.not-content *)) {
-	border-color: var(--sl-details-border-color--hover);
-}
-.sl-markdown-content summary:not(:where(.not-content *)) {
-	color: var(--sl-color-white);
-	font-weight: 500;
+
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:hover {
+  border-color: var(--fg-strong);
 }
 
-.sl-markdown-content summary:not(:where(.not-content *))::before {
-	--sl-details-marker-size: 1.25rem;
-	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.8 11.3 10.6 7a1 1 0 1 0-1.4 1.5l3.5 3.5-3.5 3.5a1 1 0 0 0 0 1.4 1 1 0 0 0 .7.3 1 1 0 0 0 .7-.3l4.2-4.2a1 1 0 0 0 0-1.4Z'/%3E%3C/svg%3E%0A");
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.8 11.3 10.6 7a1 1 0 1 0-1.4 1.5l3.5 3.5-3.5 3.5a1 1 0 0 0 0 1.4 1 1 0 0 0 .7.3 1 1 0 0 0 .7-.3l4.2-4.2a1 1 0 0 0 0-1.4Z'/%3E%3C/svg%3E%0A");
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked {
+  border-color: var(--accent);
+  background-color: var(--bg-muted);
 }
 
-/* Components */
-.sl-markdown-content .starlight-aside :is(th, td, hr, blockquote):not(:where(.not-content *)) {
-	border-color: var(--sl-color-gray-4);
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:checked::after {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: solid var(--bg);
+  border-width: 0 1.5px 1.5px 0;
+  width: calc(var(--checkbox-size) * 0.28);
+  height: calc(var(--checkbox-size) * 0.55);
+  content: "";
 }
 
-@supports (border-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, transparent)) {
-	.sl-markdown-content .starlight-aside :is(th, td, hr, blockquote):not(:where(.not-content *)) {
-		border-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 30%, transparent);
-	}
+.prose ul:has(input[type="checkbox"]) li input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--border);
+  background-color: var(--bg-muted);
+}
+.prose
+  ul:has(input[type="checkbox"])
+  li
+  input[type="checkbox"]:disabled:checked {
+  opacity: 1;
+  border-color: var(--accent-ring);
+  background-color: var(--accent);
 }
 
-@supports (border-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 12%, transparent)) {
-	.sl-markdown-content .starlight-aside code:not(:where(.not-content *)) {
-		background-color: color-mix(in srgb, var(--sl-color-asides-text-accent) 12%, transparent);
-	}
-}
-
-.sl-markdown-content .starlight-aside details:not(:where(.not-content *)) {
-	--sl-details-border-color: var(--sl-color-asides-border);
-	--sl-details-border-color--hover: var(--sl-color-asides-text-accent);
+@media (min-width: 50rem) {
+  .prose ul,
+  .prose ol,
+  .prose ul:has(input[type="checkbox"]) {
+    @apply text-body-16;
+  }
 }
