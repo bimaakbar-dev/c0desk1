@@ -41,25 +41,25 @@
 
 :root[data-theme="dark"] {
   /* --- BACKGROUND (Stealth Noir Pure Black) --- */
-  --bg: rgb(5, 5, 5);
-  --bg-subtle: rgb(10, 10, 10);
-  --bg-muted: rgb(18, 18, 18);
-  --bg-elevated: rgb(26, 26, 26);
-  --bg-overlay: rgb(5, 5, 5 / 0.85);
+  --bg: hsla(0, 0%, 6%, 1.0);
+  --bg-subtle: hsla(0, 0%, 8%, 1.0);
+  --bg-muted: hsla(0, 0%, 12.9%, 0.8);
+  --bg-elevated: hsla(0, 0%, 8%, 1.0);
+  --bg-overlay: hsla(223, 13%, 10%, 0.66);
 
   /* --- FOREGROUND / TEKS (Subtle Silver Monochromatic) --- */
-  --fg: rgb(168, 168, 168);
-  --fg-strong: rgb(240, 240, 240);
-  --fg-muted: rgb(115, 115, 115);
-  --fg-subtle: rgb(82, 82, 82);
-  --fg-dim: rgb(50, 50, 50);
-  --fg-disabled: rgb(38, 38, 38);
-  --fg-inverted: rgb(5, 5, 5);
+  --fg: hsl(0, 0%, 96%);
+  --fg-strong: hsl(0, 0%, 98%);
+  --fg-muted: hsla(0, 0%, 60%, 0.8);
+  --fg-subtle: hsla(0, 0%, 35%, 0.8);
+  --fg-dim: hsla(0, 0%, 35%, 0.8);
+  --fg-disabled: hsla(0, 0%, 35%, 0.8);
+  --fg-inverted: hsl(0, 0%, 98%);
 
   /* --- BORDER (Ultra-Subtle Lines) --- */
-  --border: rgb(30, 30, 30);
-  --border-strong: rgb(50, 50, 50);
-  --border-subtle: rgb(15, 15, 15);
+  --border: hsla(0, 0%, 12.9%, 0.8);
+  --border-strong: hsla(0, 0%, 12.9%, 0.8);
+  --border-subtle: hsla(0, 0%, 8%, 1.0);
 
   /* --- SURFACE ALIAS --- */
   --surface: var(--bg);
