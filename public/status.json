@@ -1,0 +1,23 @@
+{
+  "mode": "idle",
+  "agents": {
+    "ares": {
+      "name": "Ares",
+      "role": "Scout & Niche Research",
+      "state": "idle",
+      "bubble": "Scanning niches..."
+    },
+    "zeus": {
+      "name": "Zeus",
+      "role": "Script & Visual Direction",
+      "state": "idle",
+      "bubble": "Drafting script..."
+    },
+    "hera": {
+      "name": "Hera",
+      "role": "Curator & Brief Editor",
+      "state": "idle",
+      "bubble": "Curating brief..."
+    }
+  }
+}

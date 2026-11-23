@@ -1,0 +1,57 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Layout.astro";
+import AgentPanel from "../components/AgentPanel";
+import Chatbox from "../components/Chatbox";
+import FloatingBar from "../components/FloatingBar";
+---
+<Layout title="c0desk1 Studio">
+  <main class="h-screen flex flex-col bg-background text-foreground">
+    <header class="h-14 shrink-0 border-b border-border px-4 md:px-6 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <rect x="0" y="0" width="8" height="8" rx="2" fill="currentColor"></rect>
+          <rect x="12" y="0" width="8" height="8" rx="2" fill="currentColor" opacity="0.6"></rect>
+          <rect x="0" y="12" width="8" height="8" rx="2" fill="currentColor" opacity="0.6"></rect>
+          <rect x="12" y="12" width="8" height="8" rx="2" fill="currentColor" opacity="0.3"></rect>
+        </svg>
+        <div class="flex items-baseline gap-1.5">
+          <span class="text-sm font-semibold tracking-tight">c0desk1</span>
+          <span class="text-sm text-muted-foreground">Studio</span>
+          <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 ml-1">Microstock</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-muted-foreground">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span>3 agent siap</span>
+      </div>
+    </header>
+
+    <div class="flex-1 min-h-0 overflow-y-auto lg:overflow-hidden p-3 md:p-4 pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:h-full lg:min-h-0">
+        <AgentPanel agentId="hera" client:only="react" />
+        <AgentPanel agentId="ares" client:only="react" />
+        <AgentPanel agentId="hades" client:only="react" />
+
+        <div class="bg-card border border-border rounded-xl p-4 flex flex-col h-full min-h-[280px]">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-semibold">Anda</h3>
+              <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-white/10 bg-white/5 text-foreground/70">Komandan</span>
+            </div>
+            <span class="text-[11px] text-muted-foreground">Console</span>
+          </div>
+          <div class="flex-1 min-h-0">
+            <Chatbox client:only="react" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <FloatingBar client:only="react" />
+  </main>
+</Layout>
