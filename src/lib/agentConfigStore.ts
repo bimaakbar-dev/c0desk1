@@ -37,13 +37,7 @@ export const MODEL_PRESETS: Record<Provider, string[]> = {
     "gemini-2.5-flash",
     "gemini-3.8-live",
   ],
-  groq: [
-    "openai/gpt-oss-120b",
-    "openai/gpt-oss-20b",
-    "qwen/qwen3-32b",
-    "llama-3.1-8b-instant",
-    "meta-llama/llama-4-scout-17b-16e-instruct",
-  ],
+  groq: ["openai/gpt-oss-120b", "openai/gpt-oss-20b"],
   "openai-compatible": [],
 };
 
@@ -127,6 +121,10 @@ function migrateAgent(agentId: AgentId, raw: any): AgentConfig {
     }
   }
 
+  cfg.apiKeys.groq = "";
+  if (!MODEL_PRESETS.groq.includes(cfg.models.groq)) {
+    cfg.models.groq = PROVIDER_DEFAULTS.groq.model;
+  }
   return cfg;
 }
 
@@ -149,6 +147,12 @@ function load(): Record<AgentId, AgentConfig> {
 export const configsStore = atom<Record<AgentId, AgentConfig>>(load());
 
 if (canUseStorage()) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(configsStore.get()));
+  } catch (e) {
+    console.warn("[c0desk1] gagal memperbarui konfigurasi tersimpan", e);
+  }
+
   configsStore.listen((v) => {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(v));
@@ -171,6 +175,7 @@ export function getAgentConfig(agentId: AgentId): AgentConfig {
 }
 
 export function getApiKey(cfg: AgentConfig): string {
+  if (cfg.provider === "groq") return "server-managed";
   return cfg.apiKeys?.[cfg.provider] || "";
 }
 

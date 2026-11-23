@@ -9,8 +9,11 @@ export interface AutomationStatusSnapshot {
   daily: {
     date: string;
     generated: number;
+    requestsStarted: number;
     limit: number;
     remaining: number;
+    estimatedNeurons: number;
+    neuronLimit: number;
     storageBytes: number;
     egressBytes: number;
   };
@@ -29,15 +32,23 @@ export async function getAutomationStatus(): Promise<AutomationStatusSnapshot | 
       .maybeSingle(),
     supabase
       .from("ares_daily_usage")
-      .select("generated_count, storage_bytes, egress_bytes")
+      .select("generated_count, image_request_count, estimated_neurons, storage_bytes, egress_bytes")
       .eq("usage_date", usageDate)
       .maybeSingle(),
+
   ]);
 
   if (controlResult.error || usageResult.error || !controlResult.data) return null;
 
   const generated = usageResult.data?.generated_count ?? 0;
-  const limit = Math.min(300, controlResult.data.max_images_per_day);
+  const requestsStarted = usageResult.data?.image_request_count ?? 0;
+  const estimatedNeurons = Number(usageResult.data?.estimated_neurons ?? 0);
+  const limit = Math.min(250, controlResult.data.max_images_per_day);
+  const neuronLimit = 9_500;
+  const remaining = Math.max(
+    0,
+    Math.min(limit - requestsStarted, Math.floor((neuronLimit - estimatedNeurons) / 60))
+  );
 
   return {
     automation: {
@@ -48,8 +59,11 @@ export async function getAutomationStatus(): Promise<AutomationStatusSnapshot | 
     daily: {
       date: usageDate,
       generated,
+      requestsStarted,
       limit,
-      remaining: Math.max(0, limit - generated),
+      remaining,
+      estimatedNeurons,
+      neuronLimit,
       storageBytes: usageResult.data?.storage_bytes ?? 0,
       egressBytes: usageResult.data?.egress_bytes ?? 0,
     },

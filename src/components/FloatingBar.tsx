@@ -198,7 +198,7 @@ export default function FloatingBar() {
         {fabOpen && (
           <div className="w-64 bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl p-2 space-y-1">
             <div className="flex items-center justify-between px-2.5 py-1.5 text-xs text-muted-foreground border-b border-border mb-1">
-              <span>Kuota Harian</span>
+              <span>Kuota Pipeline Lokal</span>
               <span className="flex items-center gap-1.5 font-mono text-foreground/90">
                 <span
                   className={`w-2 h-2 rounded-full ${
