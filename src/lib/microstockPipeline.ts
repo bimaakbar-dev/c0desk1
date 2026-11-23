@@ -1,6 +1,7 @@
 import { pipelineStore } from "./pipelineStore";
 import { bus, type Attachment } from "./studioBus";
-import { getAgentConfig, getApiKey, getModel } from "./agentConfigStore";
+import { getAgentConfig, getApiKey } from "./agentConfigStore";
+import JSZip from "jszip";
 import { callLLM } from "./providers";
 import { agentStateStore } from "./agentStateStore";
 import { checkQuota, quotaStore, DAILY_LIMIT } from "./dailyQuotaStore";
@@ -19,6 +20,8 @@ interface PipelinePlanItem {
 export interface GeneratedAsset {
   planId: string;
   title: string;
+  filename: string;
+  mimeType: string;
   imageUrl: string;
   blob: Blob;
   prompt: string;
@@ -27,6 +30,7 @@ export interface GeneratedAsset {
 
 export interface QCReportItem {
   planId: string;
+  filename: string;
   title: string;
   approved: boolean;
   score: number;
@@ -369,27 +373,47 @@ Gunakan aspectRatio dari: "16:9", "1:1", "4:5", atau "9:16". Buat 2 rencana gamb
   }
 }
 
-function buildPlaceholderAsset(item: PipelinePlanItem, index: number): GeneratedAsset {
-  const palette = ["#18181b", "#1e293b", "#172554", "#1f2937"];
-  const bg = palette[index % palette.length];
-  const safeTitle = item.title.replace(/[<>&"]/g, "");
-  const safePrompt = item.plan.prompt.slice(0, 90).replace(/[<>&"]/g, "");
+function fileExtension(mediaType: string): string {
+  if (mediaType === "image/jpeg") return "jpg";
+  if (mediaType === "image/webp") return "webp";
+  if (mediaType === "image/png") return "png";
+  throw new Error("Model mengembalikan format gambar yang tidak didukung.");
+}
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
-    <rect width="1280" height="720" fill="${bg}" />
-    <rect x="48" y="48" width="1184" height="624" rx="20" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2" />
-    <text x="88" y="140" fill="#a1a1aa" font-family="monospace" font-size="22">GALEVOR · ARES DRAFT ASSET</text>
-    <text x="88" y="220" fill="#fafafa" font-family="sans-serif" font-size="44" font-weight="600">${safeTitle}</text>
-    <text x="88" y="290" fill="#d4d4d8" font-family="sans-serif" font-size="24">${safePrompt}</text>
-  </svg>`;
+async function generateAsset(
+  item: PipelinePlanItem,
+  index: number,
+  signal?: AbortSignal
+): Promise<GeneratedAsset> {
+  const response = await fetch("/api/generate-image", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: item.plan.prompt,
+      negativePrompt: item.plan.negativePrompt,
+      aspectRatio: item.plan.aspectRatio,
+    }),
+    signal,
+  });
 
-  const blob = new Blob([svg], { type: "image/svg+xml" });
-  const imageUrl = URL.createObjectURL(blob);
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+    throw new Error(payload?.error || `Generasi gambar gagal (${response.status}).`);
+  }
+
+  const blob = await response.blob();
+  const mimeType = blob.type.toLowerCase().split(";")[0];
+  const extension = fileExtension(mimeType);
+  if (blob.size === 0 || blob.size > 20 * 1024 * 1024) {
+    throw new Error("Ukuran gambar yang dikembalikan tidak valid.");
+  }
 
   return {
     planId: item.id,
     title: item.title,
-    imageUrl,
+    filename: `${item.id}-${index + 1}.${extension}`,
+    mimeType,
+    imageUrl: URL.createObjectURL(blob),
     blob,
     prompt: item.plan.prompt,
     keywords: item.keywords,
@@ -402,6 +426,10 @@ async function runAres(
 ): Promise<GeneratedAsset[]> {
   const cfg = getAgentConfig("ares");
   const quota = checkQuota();
+  if (!cfg.enabled) throw new Error("Ares dinonaktifkan di konfigurasi.");
+  if (!quota.ok || quota.remaining < items.length) {
+    throw new Error(`Kuota lokal tidak cukup untuk ${items.length} gambar.`);
+  }
 
   bus.emit({
     type: "agent",
@@ -409,11 +437,12 @@ async function runAres(
     patch: {
       status: "working",
       gaze: "center",
-      bubble: `Menghasilkan ${items.length} aset...`,
+      bubble: `Menghasilkan ${items.length} gambar AI...`,
     },
   });
 
   const assets: GeneratedAsset[] = [];
+  const failures: string[] = [];
 
   for (let i = 0; i < items.length; i++) {
     if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
@@ -425,16 +454,33 @@ async function runAres(
       patch: {
         status: "working",
         gaze: "center",
-        bubble: shortBubble(`Render ${i + 1}/${items.length}: ${item.title}`),
+        bubble: shortBubble(`Gambar ${i + 1}/${items.length}: ${item.title}`),
       },
     });
 
-    if (cfg.enabled && getApiKey(cfg) && quota.remaining > i) {
+    try {
+      const asset = await generateAsset(item, i, signal);
+      assets.push(asset);
       recordQuotaUsage(1);
+    } catch (error) {
+      if (signal?.aborted || (error instanceof DOMException && error.name === "AbortError")) {
+        assets.forEach((asset) => URL.revokeObjectURL(asset.imageUrl));
+        throw error;
+      }
+      const message = error instanceof Error ? error.message : "Generasi gagal.";
+      failures.push(`${item.title}: ${message}`);
+      pushLog({ level: "warn", agent: "ares", text: `Aset ${i + 1} gagal: ${message}` });
+      if (/batas generasi|coba lagi nanti/i.test(message)) break;
     }
+  }
 
-    await delay(500, signal);
-    assets.push(buildPlaceholderAsset(item, i));
+  if (assets.length === 0) {
+    bus.emit({
+      type: "agent",
+      id: "ares",
+      patch: { status: "error", gaze: "center", bubble: "Tidak ada gambar berhasil" },
+    });
+    throw new Error(failures[0] || "Ares tidak berhasil menghasilkan gambar.");
   }
 
   bus.emit({
@@ -443,10 +489,13 @@ async function runAres(
     patch: {
       status: "success",
       gaze: "hades",
-      bubble: `${assets.length} aset -> Hades`,
+      bubble: `${assets.length} gambar -> Hades`,
     },
   });
 
+  if (failures.length > 0) {
+    pushLog({ level: "warn", agent: "ares", text: `${failures.length} aset tidak berhasil dibuat.` });
+  }
   return assets;
 }
 
@@ -469,10 +518,11 @@ async function runHades(
 
   const items: QCReportItem[] = assets.map((asset, idx) => ({
     planId: asset.planId,
+    filename: asset.filename,
     title: asset.title,
     approved: true,
     score: 90 - idx * 2,
-    notes: "Komposisi bersih, siap metadata microstock.",
+    notes: "Metadata disusun dari prompt; verifikasi visual tetap diperlukan.",
     englishTitle: asset.title,
     englishKeywords: Array.from(
       new Set([...asset.keywords, "microstock", "commercial", "high resolution"])
@@ -545,13 +595,32 @@ Balas HANYA JSON valid:
   return items;
 }
 
+async function buildImagesAttachment(topic: string, assets: GeneratedAsset[]): Promise<Attachment> {
+  const zip = new JSZip();
+  assets.forEach((asset) => zip.file(asset.filename, asset.blob));
+  const slug =
+    topic
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 32) || "microstock";
+
+  return {
+    kind: "zip",
+    filename: `${slug}-images.zip`,
+    label: `Gambar AI (${slug})`,
+    count: assets.length,
+    blob: await zip.generateAsync({ type: "blob" }),
+  };
+}
+
 function buildCsvAttachment(topic: string, reports: QCReportItem[]): Attachment {
   const escapeCsv = (val: string) => `"${val.replace(/"/g, '""')}"`;
   const lines = [
     "Filename,Title,Keywords,Approved,Score,Notes",
     ...reports.map((r, i) =>
       [
-        escapeCsv(`${r.planId}-${i + 1}.svg`),
+        escapeCsv(r.filename),
         escapeCsv(r.englishTitle),
         escapeCsv(r.englishKeywords.join(", ")),
         escapeCsv(r.approved ? "YES" : "NO"),
@@ -691,12 +760,15 @@ export const microstockPipeline = {
         },
       });
 
-      const csvAttachment = buildCsvAttachment(activeTopic, qcReports);
+      const [imagesAttachment, csvAttachment] = await Promise.all([
+        buildImagesAttachment(activeTopic, assets),
+        Promise.resolve(buildCsvAttachment(activeTopic, qcReports)),
+      ]);
       const summaryText = [
         `Pipeline selesai untuk topik "${activeTopic}".`,
         `• Hera: ${insight.trendSummary}`,
-        `• Ares: ${assets.length} aset diproses (${getModel(getAgentConfig("ares"))}).`,
-        `• Hades: ${qcReports.length} aset diperiksa (${issueCount} catatan isu).`,
+        `• Ares: ${assets.length}/${items.length} gambar AI sungguhan berhasil dibuat.`,
+        `• Hades: ${qcReports.length} aset diberi metadata (${issueCount} catatan isu); tinjau visual sebelum upload.`,
       ].join("\n");
 
       bus.emit({
@@ -704,7 +776,12 @@ export const microstockPipeline = {
         message: {
           from: "hades",
           text: summaryText,
-          attachments: [csvAttachment],
+          attachments: [imagesAttachment, csvAttachment],
+          imagePreviews: assets.map((asset) => ({
+            url: asset.imageUrl,
+            title: asset.title,
+            alt: `Gambar AI: ${asset.title}`,
+          })),
         },
       });
 
