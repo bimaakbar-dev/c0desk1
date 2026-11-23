@@ -3,12 +3,16 @@ export const prerender = false;
 
 import Layout from "../layouts/Layout.astro";
 import AgentPanel from "../components/AgentPanel";
+import AutomationStatus from "../components/AutomationStatus";
 import Chatbox from "../components/Chatbox";
 import FloatingBar from "../components/FloatingBar";
+import { getAutomationStatus } from "../lib/automationStatus";
+
+const automationStatus = await getAutomationStatus();
 ---
 <Layout title="c0desk1 Studio">
   <main class="h-screen flex flex-col text-foreground">
-    <header class="h-14 shrink-0 px-4 md:px-6 flex items-center justify-between">
+    <header class="min-h-14 shrink-0 px-4 py-2 md:px-6 flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2.5">
         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
           <rect x="0" y="0" width="8" height="8" rx="2" fill="currentColor"></rect>
@@ -22,13 +26,7 @@ import FloatingBar from "../components/FloatingBar";
           <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 ml-1">Microstock</span>
         </div>
       </div>
-      <div class="flex items-center gap-2 text-xs text-muted-foreground">
-        <span class="relative flex h-2 w-2">
-          <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span>3 agent siap</span>
-      </div>
+      <AutomationStatus snapshot={automationStatus} />
     </header>
 
     <div class="flex-1 min-h-0 overflow-y-auto lg:overflow-hidden p-3 md:p-4 pb-24">
