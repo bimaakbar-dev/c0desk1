@@ -22,7 +22,7 @@ export interface GeneratedAsset {
   title: string;
   filename: string;
   mimeType: string;
-  imageUrl: string;
+
   blob: Blob;
   prompt: string;
   keywords: string[];
@@ -413,7 +413,7 @@ async function generateAsset(
     title: item.title,
     filename: `${item.id}-${index + 1}.${extension}`,
     mimeType,
-    imageUrl: URL.createObjectURL(blob),
+
     blob,
     prompt: item.plan.prompt,
     keywords: item.keywords,
@@ -464,7 +464,7 @@ async function runAres(
       recordQuotaUsage(1);
     } catch (error) {
       if (signal?.aborted || (error instanceof DOMException && error.name === "AbortError")) {
-        assets.forEach((asset) => URL.revokeObjectURL(asset.imageUrl));
+
         throw error;
       }
       const message = error instanceof Error ? error.message : "Generasi gagal.";
@@ -595,54 +595,54 @@ Balas HANYA JSON valid:
   return items;
 }
 
-async function buildImagesAttachment(topic: string, assets: GeneratedAsset[]): Promise<Attachment> {
-  const zip = new JSZip();
-  assets.forEach((asset) => zip.file(asset.filename, asset.blob));
-  const slug =
+function topicSlug(topic: string): string {
+  return (
     topic
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "")
-      .slice(0, 32) || "microstock";
-
-  return {
-    kind: "zip",
-    filename: `${slug}-images.zip`,
-    label: `Gambar AI (${slug})`,
-    count: assets.length,
-    blob: await zip.generateAsync({ type: "blob" }),
-  };
+      .slice(0, 32) || "microstock"
+  );
 }
 
-function buildCsvAttachment(topic: string, reports: QCReportItem[]): Attachment {
+function buildCsvContent(reports: QCReportItem[]): string {
   const escapeCsv = (val: string) => `"${val.replace(/"/g, '""')}"`;
   const lines = [
     "Filename,Title,Keywords,Approved,Score,Notes",
-    ...reports.map((r, i) =>
+    ...reports.map((report) =>
       [
-        escapeCsv(r.filename),
-        escapeCsv(r.englishTitle),
-        escapeCsv(r.englishKeywords.join(", ")),
-        escapeCsv(r.approved ? "YES" : "NO"),
-        escapeCsv(String(r.score)),
-        escapeCsv(r.notes),
+        escapeCsv(report.filename),
+        escapeCsv(report.englishTitle),
+        escapeCsv(report.englishKeywords.join(", ")),
+        escapeCsv(report.approved ? "YES" : "NO"),
+        escapeCsv(String(report.score)),
+        escapeCsv(report.notes),
       ].join(",")
     ),
   ];
+  return lines.join("\n");
+}
 
-  const slug =
-    topic
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")
-      .slice(0, 32) || "microstock";
+async function buildPackageAttachment(
+  topic: string,
+  assets: GeneratedAsset[],
+  reports: QCReportItem[]
+): Promise<Attachment> {
+  const zip = new JSZip();
+  const slug = topicSlug(topic);
+  assets.forEach((asset) => zip.file(asset.filename, asset.blob));
+  zip.file(`${slug}-metadata.csv`, buildCsvContent(reports));
+  zip.file(
+    "README.txt",
+    `Paket microstock untuk: ${topic}\nBerisi ${assets.length} gambar, metadata CSV, dan hasil QC.\n`
+  );
 
   return {
-    kind: "csv",
-    filename: `${slug}-metadata.csv`,
-    label: `Metadata CSV (${slug})`,
-    count: reports.length,
-    blob: new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" }),
+    kind: "zip",
+    filename: `${slug}-complete-package.zip`,
+    label: `Paket lengkap: ${assets.length} gambar + CSV`,
+    count: assets.length,
+    blob: await zip.generateAsync({ type: "blob" }),
   };
 }
 
@@ -760,15 +760,12 @@ export const microstockPipeline = {
         },
       });
 
-      const [imagesAttachment, csvAttachment] = await Promise.all([
-        buildImagesAttachment(activeTopic, assets),
-        Promise.resolve(buildCsvAttachment(activeTopic, qcReports)),
-      ]);
+      const packageAttachment = await buildPackageAttachment(activeTopic, assets, qcReports);
       const summaryText = [
         `Pipeline selesai untuk topik "${activeTopic}".`,
         `• Hera: ${insight.trendSummary}`,
         `• Ares: ${assets.length}/${items.length} gambar AI sungguhan berhasil dibuat.`,
-        `• Hades: ${qcReports.length} aset diberi metadata (${issueCount} catatan isu); tinjau visual sebelum upload.`,
+        `• Hades: ${qcReports.length} aset diberi metadata (${issueCount} catatan isu). ZIP berisi seluruh gambar, CSV metadata, dan README.`
       ].join("\n");
 
       bus.emit({
@@ -776,12 +773,7 @@ export const microstockPipeline = {
         message: {
           from: "hades",
           text: summaryText,
-          attachments: [imagesAttachment, csvAttachment],
-          imagePreviews: assets.map((asset) => ({
-            url: asset.imageUrl,
-            title: asset.title,
-            alt: `Gambar AI: ${asset.title}`,
-          })),
+          attachments: [packageAttachment],
         },
       });
 

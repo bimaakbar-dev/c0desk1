@@ -25,17 +25,12 @@ export interface Attachment {
   label?: string;
 }
 
-export interface ImagePreview {
-  url: string;
-  title: string;
-  alt: string;
-}
 
 export interface UserMessage {
   from: AgentId;
   text: string;
   attachments?: Attachment[];
-  imagePreviews?: ImagePreview[];
+
 }
 
 export type StudioEvent =

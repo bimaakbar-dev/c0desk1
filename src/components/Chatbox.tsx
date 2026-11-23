@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useStore } from "@nanostores/react";
-import { bus, AGENT_META, AGENT_IDS, type Attachment, type ImagePreview } from "../lib/studioBus";
+import { bus, AGENT_META, AGENT_IDS, type Attachment } from "../lib/studioBus";
 import { microstockPipeline } from "../lib/microstockPipeline";
 import { pipelineStore } from "../lib/pipelineStore";
 import { chatWithAgent, parseInput } from "../lib/agentChat";
@@ -13,7 +13,6 @@ interface DisplayMsg {
   agentName?: string;
   agentAccent?: string;
   attachments?: Attachment[];
-  imagePreviews?: ImagePreview[];
 }
 
 export default function Chatbox() {
@@ -40,7 +39,6 @@ export default function Chatbox() {
             agentName: meta.name,
             agentAccent: meta.accent,
             attachments: e.message.attachments,
-            imagePreviews: e.message.imagePreviews,
           },
         ]);
       }
@@ -63,6 +61,14 @@ export default function Chatbox() {
     }
 
     const parsed = parseInput(raw);
+
+    if (parsed.kind === "pipeline") {
+      if (pipeline.running) return;
+      setMessages((prev) => [...prev, { id: Date.now(), text: raw, sender: "user" }]);
+      setInput("");
+      void microstockPipeline.start(parsed.topic);
+      return;
+    }
 
     if (parsed.kind === "ignored") {
       setMessages((prev) => [...prev, { id: Date.now(), text: raw, sender: "user" }]);
@@ -140,7 +146,7 @@ export default function Chatbox() {
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-4 gap-2">
             <p className="text-xs text-muted-foreground max-w-sm leading-relaxed">
-              Panggil agent dengan <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hera</code>, <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@ares</code>, <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hades</code>, atau <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@all</code> — ketik <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">/pipeline</code> agar Hera memilih niche sendiri, atau <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">/pipeline &lt;topik&gt;</code> untuk mengarahkan topik.
+              Chat dengan <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hera</code>, <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@ares</code>, atau <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hades</code>. Minta Hera bekerja dengan <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hera mulai bekerja</code> atau <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">@hera riset &lt;topik&gt;</code>; <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90">/pipeline</code> tetap tersedia.
             </p>
           </div>
         ) : (
@@ -180,23 +186,7 @@ export default function Chatbox() {
                 >
                   {m.text}
                 </div>
-                {m.imagePreviews && m.imagePreviews.length > 0 && (
-                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3" aria-label="Preview gambar yang dihasilkan">
-                    {m.imagePreviews.map((image) => (
-                      <figure key={image.url} className="overflow-hidden rounded-xl border border-border bg-card">
-                        <img
-                          src={image.url}
-                          alt={image.alt}
-                          loading="lazy"
-                          className="aspect-[4/3] w-full object-cover"
-                        />
-                        <figcaption className="truncate px-2 py-1.5 text-[11px] text-muted-foreground">
-                          {image.title}
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                )}
+
                 {m.attachments && m.attachments.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {m.attachments.map((att) => (
@@ -277,7 +267,7 @@ export default function Chatbox() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={busy ? "Tunggu..." : "/pipeline (otomatis) atau /pipeline <topik>..."}
+          placeholder={busy ? "Tunggu..." : "Chat dengan @hera, atau minta @hera mulai bekerja..."}
           disabled={busy}
           className="flex-1 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground disabled:opacity-50"
         />
