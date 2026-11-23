@@ -131,6 +131,48 @@ async function callGemini<T>(cfg: AgentConfig, opts: CallOptions): Promise<CallR
   return { text, json, latencyMs: Math.round(performance.now() - t0), model };
 }
 
+async function callGroqProxy<T>(cfg: AgentConfig, opts: CallOptions): Promise<CallResult<T>> {
+  const t0 = performance.now();
+  if (opts.image) throw new Error("Input gambar belum didukung untuk model Groq ini.");
+
+  const res = await fetch("/api/agent-llm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: opts.signal,
+    body: JSON.stringify({
+      model: getModel(cfg),
+      system: opts.system,
+      user: opts.user,
+      temperature: cfg.temperature,
+      topP: cfg.topP,
+      maxOutputTokens: cfg.maxOutputTokens,
+      schema: opts.schema,
+      schemaName: opts.schemaName,
+    }),
+  });
+
+  if (!res.ok) throw await readError(res);
+  const data = await res.json();
+  const text = typeof data.text === "string" ? data.text : "";
+  if (!text) throw new Error("Groq mengembalikan respons kosong.");
+
+  let json: T | undefined;
+  if (opts.schema) {
+    try {
+      json = JSON.parse(text) as T;
+    } catch {
+      throw new Error("Respons Groq bukan JSON valid.");
+    }
+  }
+
+  return {
+    text,
+    json,
+    latencyMs: Math.round(performance.now() - t0),
+    model: typeof data.model === "string" ? data.model : getModel(cfg),
+  };
+}
+
 async function callOpenAICompatible<T>(cfg: AgentConfig, opts: CallOptions): Promise<CallResult<T>> {
   const t0 = performance.now();
   const apiKey = getApiKey(cfg);
@@ -199,7 +241,11 @@ export async function callLLM<T = unknown>(
   const retries = opts.retries ?? cfg.maxRetries;
   return withRetry(
     () =>
-      cfg.provider === "gemini" ? callGemini<T>(cfg, opts) : callOpenAICompatible<T>(cfg, opts),
+      cfg.provider === "gemini"
+        ? callGemini<T>(cfg, opts)
+        : cfg.provider === "groq"
+          ? callGroqProxy<T>(cfg, opts)
+          : callOpenAICompatible<T>(cfg, opts),
     retries,
     opts.signal,
     (attempt, waitMs, err) => {

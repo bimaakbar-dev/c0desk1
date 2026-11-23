@@ -47,7 +47,7 @@ export default function SettingsModal({ agentId, onClose }: Props) {
 
   const patch = (p: Partial<AgentConfig>) => setDraft((d) => ({ ...d, ...p }));
 
-  const currentKey = draft.apiKeys[draft.provider] || "";
+  const currentKey = draft.provider === "groq" ? "" : draft.apiKeys[draft.provider] || "";
   const currentModel = draft.models[draft.provider] || PROVIDER_DEFAULTS[draft.provider].model;
 
   const setCurrentKey = (key: string) => {
@@ -163,7 +163,7 @@ export default function SettingsModal({ agentId, onClose }: Props) {
             <label className="text-[11px] text-muted-foreground">Provider</label>
             <div className="grid grid-cols-3 gap-1.5 mt-1">
               {(["gemini", "groq", "openai-compatible"] as Provider[]).map((p) => {
-                const hasKey = !!(draft.apiKeys[p] || "").trim();
+                const hasKey = p === "groq" || !!(draft.apiKeys[p] || "").trim();
                 return (
                   <button
                     key={p}
@@ -184,29 +184,38 @@ export default function SettingsModal({ agentId, onClose }: Props) {
             </div>
           </div>
 
-          <div>
-            <label className="text-[11px] text-muted-foreground">
-              API Key · {PROVIDER_LABEL[draft.provider]}
-            </label>
-            <div className="relative mt-1">
-              <input
-                type={showKey ? "text" : "password"}
-                value={currentKey}
-                onChange={(e) => setCurrentKey(e.target.value)}
-                placeholder={PROVIDER_PLACEHOLDER[draft.provider]}
-                className="w-full bg-muted border border-border rounded-lg px-3 py-2 pr-16 text-sm outline-none focus:border-white/25 font-mono"
-              />
-              <button
-                onClick={() => setShowKey((s) => !s)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground hover:text-foreground px-1.5 py-1"
-              >
-                {showKey ? "Sembunyi" : "Lihat"}
-              </button>
+          {draft.provider === "groq" ? (
+            <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2.5">
+              <p className="text-xs font-medium text-emerald-300">Kunci Groq dikelola server</p>
+              <p className="mt-1 text-[10px] leading-relaxed text-muted-foreground">
+                GROQ_API_KEY dibaca dari environment server dan tidak disimpan di browser.
+              </p>
             </div>
-            <p className="text-[10px] text-muted-foreground/70 mt-1">
-              Setiap provider punya key sendiri. Berganti provider tidak menimpa key lain.
-            </p>
-          </div>
+          ) : (
+            <div>
+              <label className="text-[11px] text-muted-foreground">
+                API Key · {PROVIDER_LABEL[draft.provider]}
+              </label>
+              <div className="relative mt-1">
+                <input
+                  type={showKey ? "text" : "password"}
+                  value={currentKey}
+                  onChange={(e) => setCurrentKey(e.target.value)}
+                  placeholder={PROVIDER_PLACEHOLDER[draft.provider]}
+                  className="w-full bg-muted border border-border rounded-lg px-3 py-2 pr-16 text-sm outline-none focus:border-white/25 font-mono"
+                />
+                <button
+                  onClick={() => setShowKey((s) => !s)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground hover:text-foreground px-1.5 py-1"
+                >
+                  {showKey ? "Sembunyi" : "Lihat"}
+                </button>
+              </div>
+              <p className="text-[10px] text-muted-foreground/70 mt-1">
+                Setiap provider punya key sendiri. Berganti provider tidak menimpa key lain.
+              </p>
+            </div>
+          )}
 
           <div>
             <label className="text-[11px] text-muted-foreground">Base URL</label>
@@ -215,7 +224,8 @@ export default function SettingsModal({ agentId, onClose }: Props) {
               value={draft.baseUrl}
               onChange={(e) => patch({ baseUrl: e.target.value })}
               placeholder="https://..."
-              className="mt-1 w-full bg-muted border border-border rounded-lg px-3 py-2 text-xs outline-none focus:border-white/25 font-mono"
+              disabled={draft.provider === "groq"}
+              className="mt-1 w-full bg-muted border border-border rounded-lg px-3 py-2 text-xs outline-none focus:border-white/25 font-mono disabled:opacity-60"
             />
           </div>
 
@@ -371,20 +381,22 @@ export default function SettingsModal({ agentId, onClose }: Props) {
             >
               {testing ? "Menguji..." : "Test koneksi"}
             </button>
-            <button
-              onClick={async () => {
-                const models = await listAvailableModels(currentKey);
-                const imageModels = models.filter((m) => m.methods.includes("generateContent"));
-                pushLog({
-                  level: "info",
-                  agent: agentId,
-                  text: `Model tersedia: ${imageModels.map((m) => m.name).join(", ").slice(0, 200)}`,
-                });
-              }}
-              className="px-2.5 py-1.5 text-[11px] rounded-lg border border-border hover:bg-muted"
-            >
-              Cek model
-            </button>
+            {draft.provider === "gemini" && (
+              <button
+                onClick={async () => {
+                  const models = await listAvailableModels(currentKey);
+                  const imageModels = models.filter((m) => m.methods.includes("generateContent"));
+                  pushLog({
+                    level: "info",
+                    agent: agentId,
+                    text: `Model tersedia: ${imageModels.map((m) => m.name).join(", ").slice(0, 200)}`,
+                  });
+                }}
+                className="px-2.5 py-1.5 text-[11px] rounded-lg border border-border hover:bg-muted"
+              >
+                Cek model
+              </button>
+            )}
           </div>
           <div className="flex gap-1.5">
             <button
