@@ -9,7 +9,8 @@ export const prerender = false;
 const MAX_BODY_BYTES = 12_000;
 const MAX_PROMPT_LENGTH = 4_000;
 const ASPECT_RATIOS = new Set(["1:1", "4:5", "16:9", "9:16"]);
-const DEFAULT_MODEL = "google/gemini-2.5-flash-image";
+// Keep empty until a $0 image model is verified; never fall back to a paid Gateway model.
+const VERIFIED_ZERO_COST_IMAGE_MODELS = new Set<string>();
 
 let rateLimiter: Ratelimit | undefined;
 
@@ -108,6 +109,11 @@ export async function POST({ request }: { request: Request }): Promise<Response>
     return jsonError("Rasio gambar tidak didukung.", 400);
   }
 
+  const model = env.ARES_IMAGE_MODEL?.trim() || "";
+  if (!model || !VERIFIED_ZERO_COST_IMAGE_MODELS.has(model)) {
+    return jsonError("Generasi gambar dijeda sampai model berbiaya $0 terverifikasi.", 503);
+  }
+
   const limiter = getRateLimiter();
   if (!limiter) return jsonError("Pembatas penggunaan belum dikonfigurasi.", 503);
 
@@ -128,7 +134,6 @@ export async function POST({ request }: { request: Request }): Promise<Response>
     return jsonError("Batas generasi sementara tercapai. Coba lagi nanti.", 429, retryAfter);
   }
 
-  const model = env.ARES_IMAGE_MODEL?.trim() || DEFAULT_MODEL;
   const fullPrompt = negativePrompt
     ? `${prompt}\n\nAvoid: ${negativePrompt}`
     : prompt;
