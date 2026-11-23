@@ -58,7 +58,7 @@ const base = (agent: AgentId): AgentConfig => ({
   provider: "gemini",
   apiKeys: emptyApiKeys(),
   models: {
-    gemini: agent === "ares" ? "gemini-2.5-flash" : "gemini-3.8-flash",
+    gemini: "gemini-3.8-flash",
     groq: "openai/gpt-oss-120b",
     "openai-compatible": "",
   },
@@ -66,8 +66,8 @@ const base = (agent: AgentId): AgentConfig => ({
   temperature: agent === "hera" ? 0.7 : 0.4,
   topP: 0.95,
   maxOutputTokens: 8192,
-  throttleMs: 400,
-  maxRetries: 2,
+  throttleMs: 600,
+  maxRetries: 3,
   systemPrompt: "",
   assetsPerRun: 3,
 });

@@ -137,12 +137,15 @@ export class AvatarEngine {
         }
       }
 
-      const targets = {
+      const rawLid = this.blinkPhase >= 0 ? Math.sin(this.blinkPhase * Math.PI) : 0;
+      const clampedLidTarget = Math.min(1, Math.max(0, rawLid));
+
+      const targets: AvatarState = {
         squash: this.target.squash + breath,
         eyeOffsetX: this.target.eyeOffsetX + wanderX,
         eyeOffsetY: this.target.eyeOffsetY + wanderY,
-        eyeScale: this.target.eyeScale,
-        lidClosed: this.blinkPhase >= 0 ? Math.sin(this.blinkPhase * Math.PI) : 0,
+        eyeScale: Math.max(0.1, this.target.eyeScale),
+        lidClosed: clampedLidTarget,
       };
 
       for (const k of Object.keys(targets) as (keyof AvatarState)[]) {
@@ -153,8 +156,23 @@ export class AvatarEngine {
           k === "squash" ? 0.1 : 0.2,
           k === "squash" ? 0.8 : 0.72
         );
-        this.state[k] = nv;
-        this.velocities[k] = nvel;
+
+        if (k === "lidClosed") {
+          const bounded = Math.min(1, Math.max(0, nv));
+          if (bounded < 0.001 && clampedLidTarget === 0) {
+            this.state.lidClosed = 0;
+            this.velocities.lidClosed = 0;
+          } else {
+            this.state.lidClosed = bounded;
+            this.velocities.lidClosed = nvel;
+          }
+        } else if (k === "eyeScale") {
+          this.state.eyeScale = Math.max(0.1, nv);
+          this.velocities.eyeScale = nvel;
+        } else {
+          this.state[k] = nv;
+          this.velocities[k] = nvel;
+        }
       }
 
       this.onUpdate({ ...this.state });

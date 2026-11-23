@@ -1,54 +1,98 @@
-import { getAgentConfig, getApiKey } from "./agentConfigStore";
+import { getAgentConfig, getApiKey, getModel } from "./agentConfigStore";
 import { callLLM } from "./providers";
-import { bus, AGENT_META, type AgentId } from "./studioBus";
-import type { StudioState } from "./agentStateStore";
+import { bus, AGENT_IDS, AGENT_META, type AgentId } from "./studioBus";
+import { agentStateStore, type StudioState } from "./agentStateStore";
+import { checkQuota } from "./dailyQuotaStore";
 import { getHistory, appendTurn } from "./chatHistoryStore";
 
 const PERSONAS: Record<AgentId, string> = {
   hera: `Kamu adalah Hera, peneliti pasar microstock di c0desk1 Studio.
 Karakter: analitis, teliti, bicara padat data dan ringkas.
-Atasanmu adalah Komandan (user). Bicaralah dengan hormat dan profesional.
-Tugasmu: riset tren Adobe Stock, analisis kompetitor, susun prompt gambar untuk Ares.
-Jawab dalam Bahasa Indonesia (kecuali istilah teknis seperti nama model atau keyword English).`,
+Tugasmu: riset tren microstock, analisis sudut kompetitor, dan menyusun prompt gambar untuk Ares.
+Jawab dalam Bahasa Indonesia.`,
   ares: `Kamu adalah Ares, generator gambar di c0desk1 Studio.
-Karakter: pragmatis, cepat, fokus hasil dan efisiensi.
-Atasanmu adalah Komandan (user).
-Tugasmu: menerima prompt plan dari Hera, generate gambar via Gemini Image, serahkan ke Hades.
+Karakter: pragmatis, cepat, fokus hasil dan teknis model gambar.
+Tugasmu: menerima prompt plan dari Hera dan menghasilkan aset gambar.
 Jawab dalam Bahasa Indonesia.`,
   hades: `Kamu adalah Hades, spesialis metadata & quality control di c0desk1 Studio.
-Karakter: perfeksionis, detail, tidak kompromi soal kualitas.
-Atasanmu adalah Komandan (user).
-Tugasmu: analisis gambar via vision, buat title/keywords/category DALAM BAHASA INGGRIS (target buyer global), QC kualitas visual, kemas output ke CSV + ZIP.
-Catatan penting: metadata yang kamu hasilkan wajib English; tapi saat ngobrol dengan Komandan, jawab dalam Bahasa Indonesia.`,
+Karakter: perfeksionis, detail, fokus kualitas visual dan ekspor CSV + ZIP.
+Tugasmu: QC kualitas aset dan menyusun metadata English.
+Jawab dalam Bahasa Indonesia.`,
 };
 
 export interface ChatContext {
+  enabled: boolean;
+  provider: string;
+  model: string;
+  hasApiKey: boolean;
+  quotaUsed: number;
+  quotaLimit: number;
   lastTopic?: string | null;
   lastInsightSummary?: string;
   lastPlansCount?: number;
   totalGenerated?: number;
+  lastGeneratedAt?: number | null;
   totalQC?: number;
   lastIssueCount?: number;
+  lastRunAt?: number | null;
 }
 
 export function buildContext(agentId: AgentId, state: StudioState): ChatContext {
+  const cfg = getAgentConfig(agentId);
+  const quota = checkQuota();
+  const baseCtx: ChatContext = {
+    enabled: cfg.enabled,
+    provider: cfg.provider,
+    model: getModel(cfg),
+    hasApiKey: Boolean(getApiKey(cfg)),
+    quotaUsed: quota.used,
+    quotaLimit: quota.limit,
+  };
+
   if (agentId === "hera") {
     return {
+      ...baseCtx,
       lastTopic: state.hera.lastTopic,
       lastInsightSummary: state.hera.lastInsight?.trendSummary,
       lastPlansCount: state.hera.lastPlans?.length,
+      lastRunAt: state.hera.lastRunAt,
     };
   }
   if (agentId === "ares") {
-    return { totalGenerated: state.ares.totalGenerated };
+    return {
+      ...baseCtx,
+      totalGenerated: state.ares.totalGenerated,
+      lastGeneratedAt: state.ares.lastRunAt,
+      lastRunAt: state.ares.lastRunAt,
+    };
   }
   return {
+    ...baseCtx,
     totalQC: state.hades.totalQC,
     lastIssueCount: state.hades.lastIssueCount,
+    lastRunAt: state.hades.lastRunAt,
   };
 }
 
-function shortBubble(text: string, max = 60): string {
+function formatFallbackStatusReply(agentId: AgentId, ctx: ChatContext): string {
+  const name = AGENT_META[agentId].name;
+  if (!ctx.enabled) {
+    return `${name} sedang dinonaktifkan (${ctx.provider} · ${ctx.model}).`;
+  }
+  const keyState = ctx.hasApiKey ? "API key siap" : "API key belum diisi";
+  if (agentId === "hera") {
+    const topicInfo = ctx.lastTopic
+      ? `topik terakhir "${ctx.lastTopic}" (${ctx.lastPlansCount ?? 0} prompt)`
+      : "belum ada riset dijalankan";
+    return `${name} (${ctx.model}, ${keyState}): ${topicInfo}.`;
+  }
+  if (agentId === "ares") {
+    return `${name} (${ctx.model}, ${keyState}): ${ctx.totalGenerated ?? 0} gambar dihasilkan, kuota ${ctx.quotaUsed}/${ctx.quotaLimit}.`;
+  }
+  return `${name} (${ctx.model}, ${keyState}): ${ctx.totalQC ?? 0} aset di-QC (${ctx.lastIssueCount ?? 0} catatan isu).`;
+}
+
+function shortBubble(text: string, max = 56): string {
   const oneLine = text.replace(/\s+/g, " ").trim();
   return oneLine.length <= max ? oneLine : oneLine.slice(0, max).trimEnd() + "...";
 }
@@ -56,58 +100,71 @@ function shortBubble(text: string, max = 60): string {
 export async function chatWithAgent(
   agentId: AgentId,
   userMessage: string,
-  ctx: ChatContext,
   signal?: AbortSignal
 ): Promise<string> {
+  const state = agentStateStore.get();
+  const ctx = buildContext(agentId, state);
   const cfg = getAgentConfig(agentId);
-  if (!cfg.enabled) throw new Error(`${AGENT_META[agentId].name} sedang nonaktif.`);
-  if (!getApiKey(cfg)) throw new Error(`API key ${AGENT_META[agentId].name} belum diisi.`);
+  const name = AGENT_META[agentId].name;
+
+  if (!cfg.enabled) {
+    return formatFallbackStatusReply(agentId, ctx);
+  }
+
+  if (!getApiKey(cfg)) {
+    const reply = formatFallbackStatusReply(agentId, ctx);
+    bus.emit({
+      type: "agent",
+      id: agentId,
+      patch: { status: "idle", gaze: "user", bubble: "API key belum diset" },
+    });
+    setTimeout(() => {
+      bus.emit({
+        type: "agent",
+        id: agentId,
+        patch: { status: "idle", gaze: "center", bubble: null },
+      });
+    }, 3500);
+    return reply;
+  }
 
   const history = getHistory(agentId);
-
-  const ctxText =
-    Object.entries(ctx)
-      .filter(([, v]) => v !== undefined && v !== null && v !== "")
-      .map(([k, v]) => `- ${k}: ${v}`)
-      .join("\n") || "(belum ada aktivitas)";
+  const ctxText = Object.entries(ctx)
+    .filter(([, v]) => v !== undefined && v !== null && v !== "")
+    .map(([k, v]) => `- ${k}: ${v}`)
+    .join("\n");
 
   const historyText =
     history.length > 0
       ? `\n\nRiwayat percakapan sebelumnya:\n${history
-          .map(
-            (t) =>
-              `${t.role === "user" ? "Komandan" : AGENT_META[agentId].name}: ${t.content}`
-          )
+          .map((t) => `${t.role === "user" ? "User" : name}: ${t.content}`)
           .join("\n")}`
       : "";
 
   const system = cfg.systemPrompt || PERSONAS[agentId];
 
-  // ---- Animasi: mulai berpikir ----
   bus.emit({
     type: "agent",
     id: agentId,
-    patch: { status: "thinking", gaze: "user", bubble: "Membaca pesan..." },
+    patch: { status: "thinking", gaze: "user", bubble: "Mengecek kondisi..." },
   });
 
   try {
     const res = await callLLM(cfg, {
       system,
-      user: `Konteks kerjamu:\n${ctxText}${historyText}\n\nPesan baru dari Komandan: "${userMessage}"\n\nBalas sebagai ${AGENT_META[agentId].name}, maksimal 200 kata.`,
+      user: `Data kondisi real-time kamu:\n${ctxText}${historyText}\n\nPesan baru: "${userMessage}"\n\nJawab singkat, jujur sesuai data real di atas, maksimal 140 kata.`,
       signal,
       retries: 0,
     });
 
     const reply = res.text.trim();
 
-    // ---- Animasi: selesai, bubble tampil sebentar ----
     bus.emit({
       type: "agent",
       id: agentId,
       patch: { status: "success", gaze: "user", bubble: shortBubble(reply) },
     });
 
-    // Bersihkan bubble setelah 4 detik
     setTimeout(() => {
       bus.emit({
         type: "agent",
@@ -121,6 +178,7 @@ export async function chatWithAgent(
 
     return reply;
   } catch (err: any) {
+    const fallback = `${name}: gagal menghubungi ${ctx.model} (${err?.message ?? "error"}).`;
     bus.emit({
       type: "agent",
       id: agentId,
@@ -133,19 +191,29 @@ export async function chatWithAgent(
         patch: { status: "idle", gaze: "center", bubble: null },
       });
     }, 3000);
-    throw err;
+    throw new Error(fallback);
   }
 }
 
 export type ParsedInput =
-  | { kind: "chat"; agent: AgentId; text: string }
-  | { kind: "pipeline"; text: string };
+  | { kind: "chat"; targets: AgentId[]; text: string }
+  | { kind: "ignored"; text: string };
 
 export function parseInput(input: string): ParsedInput {
   const trimmed = input.trim();
-  const m = trimmed.match(/^@(hera|ares|hades)\s+([\s\S]+)$/i);
-  if (m) {
-    return { kind: "chat", agent: m[1].toLowerCase() as AgentId, text: m[2] };
+
+  const allMatch = trimmed.match(/^@all(?:\s+([\s\S]*))?$/i);
+  if (allMatch) {
+    const body = (allMatch[1] || "").trim() || "Bagaimana kondisi kalian saat ini?";
+    return { kind: "chat", targets: [...AGENT_IDS], text: body };
   }
-  return { kind: "pipeline", text: trimmed };
+
+  const singleMatch = trimmed.match(/^@(hera|ares|hades)(?:\s+([\s\S]*))?$/i);
+  if (singleMatch) {
+    const target = singleMatch[1].toLowerCase() as AgentId;
+    const body = (singleMatch[2] || "").trim() || "Bagaimana kondisimu saat ini?";
+    return { kind: "chat", targets: [target], text: body };
+  }
+
+  return { kind: "ignored", text: trimmed };
 }

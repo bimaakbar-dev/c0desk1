@@ -23,6 +23,8 @@ const { title } = Astro.props;
     />
   </head>
   <body>
-    <slot />
+    <div class="min-h-screen w-full studio-grid-bg text-foreground">
+      <slot />
+    </div>
   </body>
 </html>

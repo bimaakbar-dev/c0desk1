@@ -18,6 +18,11 @@ const initial: AvatarState = {
   lidClosed: 0,
 };
 
+function clampNonNegative(val: number, fallback = 0): number {
+  if (!Number.isFinite(val) || val <= 0) return fallback;
+  return val;
+}
+
 export default function GrokBotAvatar({ agentId, accent, status, gaze, bubble }: Props) {
   const [s, setS] = useState<AvatarState>(initial);
   const engineRef = useRef<AvatarEngine | null>(null);
@@ -39,8 +44,19 @@ export default function GrokBotAvatar({ agentId, accent, status, gaze, bubble }:
     engineRef.current?.setGaze(gaze);
   }, [gaze]);
 
-  const bodyTransform = `scaleY(${1 - s.squash}) scaleX(${1 + s.squash * 0.5})`;
-  const eyeTransform = `translate(${s.eyeOffsetX}px, ${s.eyeOffsetY}px) scale(${s.eyeScale})`;
+  const safeLid = Math.min(1, clampNonNegative(s.lidClosed, 0));
+  const lidHeight = Math.max(0, Number((16 * safeLid).toFixed(2)));
+
+  const safeSquash = Number.isFinite(s.squash) ? s.squash : 0;
+  const bodyScaleY = Math.max(0.1, Number((1 - safeSquash).toFixed(4)));
+  const bodyScaleX = Math.max(0.1, Number((1 + safeSquash * 0.5).toFixed(4)));
+  const eyeScale = Math.max(0.1, Number((Number.isFinite(s.eyeScale) ? s.eyeScale : 1).toFixed(4)));
+
+  const safeOffsetX = Number.isFinite(s.eyeOffsetX) ? Number(s.eyeOffsetX.toFixed(2)) : 0;
+  const safeOffsetY = Number.isFinite(s.eyeOffsetY) ? Number(s.eyeOffsetY.toFixed(2)) : 0;
+
+  const bodyTransform = `scaleY(${bodyScaleY}) scaleX(${bodyScaleX})`;
+  const eyeTransform = `translate(${safeOffsetX}px, ${safeOffsetY}px) scale(${eyeScale})`;
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
@@ -50,7 +66,7 @@ export default function GrokBotAvatar({ agentId, accent, status, gaze, bubble }:
       />
 
       <div className="relative">
-        <svg width="150" height="150" viewBox="0 0 100 100" style={{ overflow: "visible" }}>
+        <svg width="176" height="176" viewBox="0 0 100 100" style={{ overflow: "visible" }}>
           <defs>
             <radialGradient id={`body-${agentId}`} cx="50%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#fafafa" />
@@ -83,8 +99,8 @@ export default function GrokBotAvatar({ agentId, accent, status, gaze, bubble }:
           >
             <rect x="30" y="42" width="12" height="16" rx="6" fill="#0a0a0a" />
             <rect x="58" y="42" width="12" height="16" rx="6" fill="#0a0a0a" />
-            <rect x="30" y="42" width="12" height={16 * s.lidClosed} rx="6" fill="#e8e8ec" />
-            <rect x="58" y="42" width="12" height={16 * s.lidClosed} rx="6" fill="#e8e8ec" />
+            <rect x="30" y="42" width="12" height={lidHeight} rx="6" fill="#e8e8ec" />
+            <rect x="58" y="42" width="12" height={lidHeight} rx="6" fill="#e8e8ec" />
           </g>
         </svg>
 
@@ -92,7 +108,7 @@ export default function GrokBotAvatar({ agentId, accent, status, gaze, bubble }:
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 z-20">
             <div
               key={bubble}
-              className="animate-bubble-in relative bg-foreground text-background text-[11px] font-medium px-2.5 py-1.5 rounded-lg shadow-xl max-w-[200px] text-center leading-snug"
+              className="animate-bubble-in relative bg-foreground text-background text-xs font-medium px-3 py-1.5 rounded-lg shadow-xl max-w-[230px] text-center leading-snug"
             >
               {bubble}
               <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-foreground" />

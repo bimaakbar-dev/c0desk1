@@ -32,6 +32,11 @@
 
   body {
     background-color: var(--color-background);
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: top center;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -70,4 +75,13 @@
 
 .animate-bubble-in {
   animation: bubble-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.studio-grid-bg {
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: top center;
 }
