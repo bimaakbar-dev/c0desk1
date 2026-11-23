@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useStore } from "@nanostores/react";
-import { bus, AGENT_META, AGENT_IDS, type Attachment } from "../lib/studioBus";
+import { bus, AGENT_META, AGENT_IDS, type Attachment, type ImagePreview } from "../lib/studioBus";
 import { microstockPipeline } from "../lib/microstockPipeline";
 import { pipelineStore } from "../lib/pipelineStore";
 import { chatWithAgent, parseInput } from "../lib/agentChat";
@@ -13,6 +13,7 @@ interface DisplayMsg {
   agentName?: string;
   agentAccent?: string;
   attachments?: Attachment[];
+  imagePreviews?: ImagePreview[];
 }
 
 export default function Chatbox() {
@@ -39,6 +40,7 @@ export default function Chatbox() {
             agentName: meta.name,
             agentAccent: meta.accent,
             attachments: e.message.attachments,
+            imagePreviews: e.message.imagePreviews,
           },
         ]);
       }
@@ -115,7 +117,7 @@ export default function Chatbox() {
     a.href = url;
     a.download = filename;
     a.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
   };
 
   const insertMention = (tag: string) => {
@@ -178,6 +180,23 @@ export default function Chatbox() {
                 >
                   {m.text}
                 </div>
+                {m.imagePreviews && m.imagePreviews.length > 0 && (
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3" aria-label="Preview gambar yang dihasilkan">
+                    {m.imagePreviews.map((image) => (
+                      <figure key={image.url} className="overflow-hidden rounded-xl border border-border bg-card">
+                        <img
+                          src={image.url}
+                          alt={image.alt}
+                          loading="lazy"
+                          className="aspect-[4/3] w-full object-cover"
+                        />
+                        <figcaption className="truncate px-2 py-1.5 text-[11px] text-muted-foreground">
+                          {image.title}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
                 {m.attachments && m.attachments.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {m.attachments.map((att) => (
