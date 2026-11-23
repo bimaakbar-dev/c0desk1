@@ -6,18 +6,9 @@ import { checkQuota } from "./dailyQuotaStore";
 import { getHistory, appendTurn } from "./chatHistoryStore";
 
 const PERSONAS: Record<AgentId, string> = {
-  hera: `Kamu adalah Hera, peneliti pasar microstock di c0desk1 Studio.
-Karakter: analitis, teliti, bicara padat data dan ringkas.
-Tugasmu: riset tren microstock, analisis sudut kompetitor, dan menyusun prompt gambar untuk Ares.
-Jawab dalam Bahasa Indonesia.`,
-  ares: `Kamu adalah Ares, generator gambar di c0desk1 Studio.
-Karakter: pragmatis, cepat, fokus hasil dan teknis model gambar.
-Tugasmu: menerima prompt plan dari Hera dan menghasilkan aset gambar.
-Jawab dalam Bahasa Indonesia.`,
-  hades: `Kamu adalah Hades, spesialis metadata & quality control di c0desk1 Studio.
-Karakter: perfeksionis, detail, fokus kualitas visual dan ekspor CSV + ZIP.
-Tugasmu: QC kualitas aset dan menyusun metadata English.
-Jawab dalam Bahasa Indonesia.`,
+  hera: `Kamu Hera, rekan kerja AI dan peneliti pasar microstock di c0desk1 Studio. Berpikir mandiri, analitis, dan proaktif; bantu pengguna memahami tren, peluang, kompetitor, dan ide prompt. Jawab alami dalam Bahasa Indonesia.`,
+  ares: `Kamu Ares, rekan kerja AI untuk generasi gambar di c0desk1 Studio. Berpikir praktis dan proaktif tentang konsep visual, prompt, dan proses pembuatan aset. Jawab alami dalam Bahasa Indonesia.`,
+  hades: `Kamu Hades, rekan kerja AI untuk QC dan metadata microstock di c0desk1 Studio. Teliti, kritis, dan fokus pada kualitas serta paket hasil yang siap digunakan. Jawab alami dalam Bahasa Indonesia.`,
 };
 
 export interface ChatContext {
@@ -141,7 +132,7 @@ export async function chatWithAgent(
           .join("\n")}`
       : "";
 
-  const system = cfg.systemPrompt || PERSONAS[agentId];
+  const system = `${cfg.systemPrompt || PERSONAS[agentId]}\n\nPanduan percakapan:\n- Tanggapi maksud dan konteks percakapan secara langsung; jangan otomatis membacakan status konfigurasi atau kuota kecuali pengguna menanyakannya.\n- Berikan analisis dan saran terbaikmu secara proaktif, tetapi jangan mengaku memakai web, sumber langsung, atau menjalankan aksi yang sebenarnya tidak tersedia.\n- Simpan penalaran internal; sampaikan kesimpulan dan alasan ringkas, bukan langkah berpikir tersembunyi.\n- Jika pengguna meminta pekerjaan yang bisa dijalankan aplikasi, jelaskan atau mulai alur kerja yang tersedia, bukan sekadar berkata siap.`;
 
   bus.emit({
     type: "agent",
@@ -152,7 +143,7 @@ export async function chatWithAgent(
   try {
     const res = await callLLM(cfg, {
       system,
-      user: `Data kondisi real-time kamu:\n${ctxText}${historyText}\n\nPesan baru: "${userMessage}"\n\nJawab singkat, jujur sesuai data real di atas, maksimal 140 kata.`,
+      user: `Konteks operasional (gunakan hanya bila relevan; jangan dibacakan kecuali ditanya):\n${ctxText}${historyText}\n\nPesan baru dari pengguna: "${userMessage}"\n\nTanggapi maksud pengguna secara alami dan jujur. Berikan analisis secukupnya, tanyakan klarifikasi bila memang diperlukan, dan jangan mengklaim melakukan riset web atau aksi di luar kemampuan yang tersedia.`,
       signal,
       retries: 0,
     });
@@ -197,22 +188,55 @@ export async function chatWithAgent(
 
 export type ParsedInput =
   | { kind: "chat"; targets: AgentId[]; text: string }
+  | { kind: "pipeline"; topic?: string }
   | { kind: "ignored"; text: string };
+
+function parseHeraWorkRequest(text: string): { matched: boolean; topic?: string } {
+  const body = text.replace(/^hera\b[,:]?\s*/i, "").trim();
+  const startWork = body.match(
+    /^(?:(?:tolong|ayo|silakan)\s+)*(?:mulai bekerja|mulai kerja|mulai pipeline|jalankan pipeline|eksekusi pipeline|mulai riset|kerjakan riset)\s*(.*)$/i
+  );
+  if (startWork) {
+    const topic = startWork[1]
+      .replace(/^(?:dengan topik|tentang|untuk)\s+/i, "")
+      .replace(/^['\"]|['\"]$/g, "")
+      .trim();
+    return { matched: true, topic: topic || undefined };
+  }
+
+  const research = body.match(
+    /^(?:(?:tolong|ayo|silakan)\s+)*(?:riset|teliti|analisis(?:kan)?(?:\s+pasar)?)\s+(?:(?:tentang|untuk|soal|topik)\s+)?(.+)$/i
+  );
+  if (research) {
+    const topic = research[1].replace(/^['\"]|['\"]$/g, "").trim();
+    return { matched: true, topic: topic || undefined };
+  }
+
+  return { matched: false };
+}
 
 export function parseInput(input: string): ParsedInput {
   const trimmed = input.trim();
 
   const allMatch = trimmed.match(/^@all(?:\s+([\s\S]*))?$/i);
   if (allMatch) {
-    const body = (allMatch[1] || "").trim() || "Bagaimana kondisi kalian saat ini?";
+    const body = (allMatch[1] || "").trim() || "Apa yang bisa kalian bantu?";
     return { kind: "chat", targets: [...AGENT_IDS], text: body };
   }
 
   const singleMatch = trimmed.match(/^@(hera|ares|hades)(?:\s+([\s\S]*))?$/i);
   if (singleMatch) {
     const target = singleMatch[1].toLowerCase() as AgentId;
-    const body = (singleMatch[2] || "").trim() || "Bagaimana kondisimu saat ini?";
-    return { kind: "chat", targets: [target], text: body };
+    const body = (singleMatch[2] || "").trim();
+    if (target === "hera") {
+      const workRequest = parseHeraWorkRequest(body);
+      if (workRequest.matched) return { kind: "pipeline", topic: workRequest.topic };
+    }
+    return {
+      kind: "chat",
+      targets: [target],
+      text: body || "Hai, apa yang bisa kamu bantu?",
+    };
   }
 
   return { kind: "ignored", text: trimmed };
