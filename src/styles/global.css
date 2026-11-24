@@ -395,6 +395,32 @@
   .office-game .office-toolbar > [role="status"] { box-shadow: 0 2px 0 #c7cfaa; }
 }
 
+.office-monitor { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, .9fr) minmax(240px, .8fr); gap: 12px; margin-top: 22px; }
+.monitor-card { min-width: 0; border: 2px solid #727858; border-radius: 5px; background: #fff4d5; box-shadow: 0 4px 0 #c6b58e; padding: 16px; }
+.monitor-card h2 { margin: 4px 0 6px; color: #384b3b; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; font-weight: 800; letter-spacing: -.05em; }
+.monitor-card p:not(.section-eyebrow) { margin: 0; color: #77775f; font-size: 10px; line-height: 1.55; }
+.telegram-card { display: flex; align-items: flex-start; gap: 12px; }
+.telegram-card > div { flex: 1; }
+.monitor-icon { display: flex; width: 34px; height: 34px; flex: 0 0 34px; align-items: center; justify-content: center; border: 2px solid #657955; background: #dce8c7; color: #4f7052; font-family: ui-monospace, monospace; font-size: 10px; font-weight: 800; }
+.telegram-indicator,.feed-live { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color: #61734e; font-family: ui-monospace, monospace; font-size: 8px; font-weight: 800; }
+.telegram-indicator i,.feed-live i { width: 7px; height: 7px; border-radius: 50%; background: #729661; box-shadow: 0 0 0 3px #e0e9cd; }
+.monitor-stages { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.monitor-stages span { display: inline-flex; align-items: center; gap: 5px; border: 1px solid #d8cfad; background: #fff9e7; padding: 5px 7px; color: #8a8469; font-size: 8px; }
+.monitor-stages span.is-current { border-color: #84956d; background: #e8efcf; color: #536d4b; }
+.monitor-stages span.is-done { color: #68845d; }
+.monitor-stages i { font-style: normal; font-weight: 800; }
+.monitor-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.monitor-empty { margin-top: 14px !important; }
+.office-footer { display: flex; justify-content: space-between; gap: 12px; margin: 13px 2px 0; color: #77775f; font-family: ui-monospace, monospace; font-size: 9px; }
+.office-game .office-workstations { max-width: 1120px; gap: clamp(10px, 2vw, 24px); }
+.office-game .agent-tile.monitor-only { min-height: 250px; cursor: default; }
+.office-game .agent-tile.monitor-only:hover { transform: none; background: #fff4d5; }
+.office-game .agent-tile.monitor-only .agent-avatar-stage { min-height: 128px; }
+.office-game .agent-tile.monitor-only .agent-avatar-stage svg { width: 105px; height: 105px; }
+.office-game .agent-tile.monitor-only > div:last-child > span { display: none; }
+.office-game .office-toolbar [role="status"] { max-width: min(530px, 62vw); }
+@media (max-width: 900px) { .office-monitor { grid-template-columns: repeat(2, minmax(0, 1fr)); }.activity-monitor { grid-column: 1 / -1; } }
+@media (max-width: 680px) { .office-monitor { grid-template-columns: 1fr; gap: 9px; margin-top: 15px; }.activity-monitor { grid-column: auto; }.monitor-card { padding: 13px; }.telegram-card { flex-wrap: wrap; }.office-footer { flex-direction: column; gap: 4px; font-size: 8px; }.office-game .agent-tile.monitor-only { min-height: 310px; }.office-game .agent-tile.monitor-only .agent-avatar-stage { min-height: 175px; }.office-game .agent-tile.monitor-only .agent-avatar-stage svg { width: 130px; height: 130px; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
