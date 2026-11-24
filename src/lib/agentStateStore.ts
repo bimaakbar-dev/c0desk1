@@ -9,7 +9,7 @@ export interface StudioState {
     lastRunAt: number | null;
   };
   ares: {
-    totalGenerated: number;
+    totalPrompts: number;
     lastRunAt: number | null;
   };
   hades: {
@@ -21,7 +21,7 @@ export interface StudioState {
 
 export const agentStateStore = atom<StudioState>({
   hera: { lastTopic: null, lastInsight: null, lastPlans: null, lastRunAt: null },
-  ares: { totalGenerated: 0, lastRunAt: null },
+  ares: { totalPrompts: 0, lastRunAt: null },
   hades: { totalQC: 0, lastIssueCount: 0, lastRunAt: null },
 });
 
@@ -37,7 +37,7 @@ export function recordAres(count: number) {
   const s = agentStateStore.get();
   agentStateStore.set({
     ...s,
-    ares: { totalGenerated: s.ares.totalGenerated + count, lastRunAt: Date.now() },
+    ares: { totalPrompts: s.ares.totalPrompts + count, lastRunAt: Date.now() },
   });
 }
 

@@ -1,8 +1,14 @@
 import { bus } from "./studioBus";
-import { getAgentConfig, getApiKey, getModel, type AgentConfig } from "./agentConfigStore";
+import {
+  getAgentConfig,
+  getApiKey,
+  MODEL_PRESETS,
+  PROVIDER_DEFAULTS,
+  type AgentConfig,
+} from "./agentConfigStore";
+import { callLLM } from "./providers";
 import { pushLog } from "./logStore";
-import { checkQuota, incrementQuota, DAILY_LIMIT } from "./dailyQuotaStore";
-import type { PromptPlan } from "./heraAgent";
+import type { HeraInsight, PromptPlan } from "./heraAgent";
 
 export interface AresAsset {
   filename: string;
@@ -15,234 +21,147 @@ export interface AresAsset {
   megapixels: number;
 }
 
-const FALLBACK_CANDIDATES = ["gemini-3.8-flash", "gemini-3.6-flash"];
-
-async function getImageDimensions(blob: Blob): Promise<{ width: number; height: number }> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(blob);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve({ width: img.width, height: img.height });
-    };
-    img.onerror = (err) => {
-      URL.revokeObjectURL(url);
-      reject(err);
-    };
-    img.src = url;
-  });
+export interface AresPromptInput {
+  id: string;
+  title: string;
+  keywords: string[];
+  plan: PromptPlan;
 }
 
-const sleep = (ms: number, signal?: AbortSignal) =>
-  new Promise<void>((resolve, reject) => {
-    if (signal?.aborted) return reject(new Error("Dibatalkan."));
-    const t = setTimeout(resolve, ms);
-    signal?.addEventListener(
-      "abort",
-      () => {
-        clearTimeout(t);
-        reject(new Error("Dibatalkan."));
-      },
-      { once: true }
-    );
-  });
+export type AresPrompt = AresPromptInput;
 
-async function generateImageWithModel(
-  baseUrl: string,
-  apiKey: string,
-  model: string,
-  plan: PromptPlan,
-  maxRetries: number,
-  signal?: AbortSignal
-): Promise<Blob> {
-  const url = `${baseUrl}/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-  const fullPrompt = plan.negativePrompt
-    ? `${plan.prompt}\n\nAvoid: ${plan.negativePrompt}`
-    : plan.prompt;
+interface RawAresPrompt {
+  id?: string;
+  title?: string;
+  prompt?: string;
+  negativePrompt?: string;
+  aspectRatio?: string;
+  keywords?: string[];
+}
 
-  let lastErr: Error = new Error(`Model ${model} gagal.`);
-
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    if (signal?.aborted) throw new Error("Dibatalkan.");
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      signal,
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-        generationConfig: {
-          responseModalities: ["IMAGE", "TEXT"],
-          ...(plan.aspectRatio ? { imageConfig: { aspectRatio: plan.aspectRatio } } : {}),
+const PROMPT_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    prompts: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          id: { type: "string" },
+          title: { type: "string" },
+          prompt: { type: "string" },
+          negativePrompt: { type: "string" },
+          aspectRatio: { type: "string", enum: ["1:1", "4:5", "16:9", "9:16"] },
+          keywords: { type: "array", items: { type: "string" } },
         },
-      }),
-    });
+        required: ["id", "title", "prompt", "negativePrompt", "aspectRatio", "keywords"],
+      },
+    },
+  },
+  required: ["prompts"],
+};
 
-    if (res.ok) {
-      const data = await res.json();
-      const parts = data.candidates?.[0]?.content?.parts ?? [];
-      const inline = parts.find((p: any) => p.inlineData?.data);
+const DEFAULT_PROMPT_SYSTEM = `Kamu adalah Ares, prompt engineer microstock di c0desk1 Studio.
+Ubah ide awal menjadi prompt gambar yang jelas, orisinal, dan siap dipakai di generator gambar MANUAL. Jangan pernah membuat atau mengklaim membuat gambar.
 
-      if (!inline?.inlineData?.data) {
-        const textPart = parts.find((p: any) => typeof p.text === "string")?.text?.trim();
-        const reason =
-          data.candidates?.[0]?.finishReason ||
-          textPart ||
-          "Tidak ada inlineData gambar di respons model";
-        throw new Error(`${model}: ${reason}`);
-      }
+Aturan:
+- Tulis prompt gambar dan negative prompt dalam bahasa Inggris.
+- Prompt harus spesifik pada subjek, suasana, pencahayaan, lensa/komposisi, material, dan ruang copy space bila relevan.
+- Optimalkan untuk kebutuhan komersial dan pencarian stock; hindari merek, logo, watermark, dan teks yang dapat dibaca.
+- Pertahankan satu konsep berbeda untuk setiap id masukan; jangan menambah atau menghapus item.
+- Pertahankan keyword yang relevan dan tambahkan buyer-search keywords seperlunya.
+- Gunakan rasio 1:1, 4:5, 16:9, atau 9:16.
+Kembalikan JSON saja sesuai skema.`;
 
-      const mimeType = inline.inlineData.mimeType || "image/png";
-      const base64 = String(inline.inlineData.data).replace(/\s+/g, "");
-      const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-      return new Blob([bytes], { type: mimeType });
-    }
-
-    let detail = `HTTP ${res.status}`;
-    try {
-      const errBody = await res.json();
-      detail = errBody?.error?.message || detail;
-    } catch {}
-
-    lastErr = new Error(`${model}: ${detail}`);
-    const transient = res.status === 429 || res.status === 503 || /high demand/i.test(detail);
-
-    if (!transient || attempt === maxRetries) {
-      throw lastErr;
-    }
-
-    const backoffMs = Math.min(8000, 1200 * 2 ** attempt);
-    pushLog({
-      level: "warn",
-      agent: "ares",
-      text: `${model} sedang padat, retry ${attempt + 1}/${maxRetries} (${backoffMs}ms)...`,
-    });
-    await sleep(backoffMs, signal);
-  }
-
-  throw lastErr;
+export function resolveAresConfig(config: AgentConfig): AgentConfig {
+  if (getApiKey(config)) return config;
+  const groqModel = config.models.groq;
+  return {
+    ...config,
+    provider: "groq",
+    baseUrl: PROVIDER_DEFAULTS.groq.baseUrl,
+    models: {
+      ...config.models,
+      groq: MODEL_PRESETS.groq.includes(groqModel)
+        ? groqModel
+        : PROVIDER_DEFAULTS.groq.model,
+    },
+  };
 }
 
-async function generateImage(
-  cfg: AgentConfig,
-  plan: PromptPlan,
+function normalizePrompt(value: RawAresPrompt | undefined, source: AresPromptInput): AresPrompt {
+  const allowedRatios = ["1:1", "4:5", "16:9", "9:16"] as const;
+  const ratio = allowedRatios.includes(value?.aspectRatio as (typeof allowedRatios)[number])
+    ? (value!.aspectRatio as PromptPlan["aspectRatio"])
+    : source.plan.aspectRatio;
+  const keywords = Array.isArray(value?.keywords)
+    ? value.keywords
+        .filter((word): word is string => typeof word === "string")
+        .map((word) => word.trim().toLowerCase())
+        .filter(Boolean)
+        .slice(0, 30)
+    : source.keywords;
+
+  return {
+    ...source,
+    title: (typeof value?.title === "string" ? value.title.trim() : source.title).slice(0, 120),
+    keywords,
+    plan: {
+      prompt: (typeof value?.prompt === "string" ? value.prompt.trim() : source.plan.prompt).slice(0, 1_600),
+      negativePrompt:
+        (typeof value?.negativePrompt === "string" ? value.negativePrompt.trim() : source.plan.negativePrompt).slice(0, 1_000),
+      aspectRatio: ratio,
+    },
+  };
+}
+
+export async function runAres(
+  inputs: AresPromptInput[],
+  insight: HeraInsight,
   signal?: AbortSignal
-): Promise<Blob> {
-  const apiKey = getApiKey(cfg);
-  const primaryModel = getModel(cfg);
-  const baseUrl = (cfg.baseUrl || "https://generativelanguage.googleapis.com/v1beta").replace(
-    /\/$/,
-    ""
-  );
-  const retries = Math.max(0, cfg.maxRetries ?? 2);
-  const candidates = Array.from(new Set([primaryModel, ...FALLBACK_CANDIDATES]));
+): Promise<AresPrompt[]> {
+  const savedConfig = getAgentConfig("ares");
+  if (!savedConfig.enabled) throw new Error("Ares dinonaktifkan di konfigurasi.");
 
-  let lastErr: any = null;
-  for (let idx = 0; idx < candidates.length; idx++) {
-    const candidate = candidates[idx];
-    try {
-      if (idx > 0) {
-        bus.emit({
-          type: "agent",
-          id: "ares",
-          patch: { status: "working", gaze: "center", bubble: `Coba ${candidate}...` },
-        });
-      }
-      return await generateImageWithModel(baseUrl, apiKey, candidate, plan, retries, signal);
-    } catch (err: any) {
-      lastErr = err;
-      if (signal?.aborted || /Dibatalkan/i.test(err?.message ?? "")) throw err;
-    }
+  const config = resolveAresConfig(savedConfig);
+  bus.emit({
+    type: "agent",
+    id: "ares",
+    patch: { status: "working", gaze: "center", bubble: `Menyempurnakan ${inputs.length} prompt...` },
+  });
+
+  const response = await callLLM<{ prompts: RawAresPrompt[] }>(config, {
+    system: config.systemPrompt || DEFAULT_PROMPT_SYSTEM,
+    user: `Insight riset Hera:\n${JSON.stringify(insight)}\n\nPrompt awal:\n${JSON.stringify(
+      inputs.map(({ id, title, keywords, plan }) => ({ id, title, keywords, ...plan }))
+    )}\n\nSempurnakan tepat ${inputs.length} prompt. Jaga id yang sama.`,
+    schema: PROMPT_SCHEMA,
+    schemaName: "ares_prompt_bundle",
+    signal,
+  });
+
+  const generated = response.json?.prompts;
+  const expectedIds = new Set(inputs.map((input) => input.id));
+  if (
+    !Array.isArray(generated) ||
+    generated.length !== inputs.length ||
+    new Set(generated.map((item) => item.id)).size !== inputs.length ||
+    generated.some((item) => !item.id || !expectedIds.has(item.id))
+  ) {
+    throw new Error("Ares tidak mengembalikan prompt unik yang sesuai dengan rencana Hera.");
   }
 
-  throw lastErr ?? new Error("Semua model gambar gagal merespons.");
-}
+  const byId = new Map(generated.map((item) => [item.id!, item]));
+  const prompts = inputs.map((input) => normalizePrompt(byId.get(input.id), input));
 
-export async function runAres(plans: PromptPlan[], signal?: AbortSignal): Promise<AresAsset[]> {
-  const cfg = getAgentConfig("ares");
-  if (!cfg.enabled) throw new Error("Ares dinonaktifkan di konfigurasi.");
-  if (!getApiKey(cfg)) {
-    throw new Error("API key Ares belum diisi. Klik panel Ares untuk mengisi API key.");
-  }
-  if (cfg.provider !== "gemini") {
-    throw new Error(
-      `Provider Ares saat ini "${cfg.provider}". Ganti ke Gemini untuk generate gambar.`
-    );
-  }
+  bus.emit({
+    type: "agent",
+    id: "ares",
+    patch: { status: "success", gaze: "user", bubble: `${prompts.length} prompt siap dikirim` },
+  });
+  pushLog({ level: "info", agent: "ares", text: `${prompts.length} prompt selesai disusun.` });
 
-  const assets: AresAsset[] = [];
-  const errors: string[] = [];
-  const n = plans.length;
-
-  for (let i = 0; i < n; i++) {
-    if (signal?.aborted) throw new Error("Dibatalkan.");
-
-    const q = checkQuota();
-    if (!q.ok) {
-      pushLog({
-        level: "warn",
-        agent: "ares",
-        text: `Kuota harian habis (${q.used}/${q.limit}).`,
-      });
-      bus.emit({
-        type: "agent",
-        id: "ares",
-        patch: { status: "error", gaze: "center", bubble: `Kuota habis (${q.limit}/hari)` },
-      });
-      break;
-    }
-
-    const plan = plans[i];
-
-    bus.emit({
-      type: "agent",
-      id: "ares",
-      patch: { status: "working", gaze: "center", bubble: `Generate ${i + 1}/${n}...` },
-    });
-
-    try {
-      const blob = await generateImage(cfg, plan, signal);
-      incrementQuota(1);
-
-      const dims = await getImageDimensions(blob);
-      const megapixels = (dims.width * dims.height) / 1_000_000;
-      const ext = blob.type.includes("jpeg") || blob.type.includes("jpg") ? "jpg" : "png";
-
-      assets.push({
-        filename: `c0desk1_${Date.now()}_${i + 1}.${ext}`,
-        blob,
-        prompt: plan.prompt,
-        negativePrompt: plan.negativePrompt,
-        aspectRatio: plan.aspectRatio,
-        width: dims.width,
-        height: dims.height,
-        megapixels,
-      });
-    } catch (e: any) {
-      const msg = e?.message ?? "Gagal generate gambar";
-      errors.push(msg);
-      pushLog({ level: "warn", agent: "ares", text: `Aset ${i + 1} gagal: ${msg}` });
-    }
-
-    if (i < n - 1) {
-      await sleep(cfg.throttleMs, signal);
-    }
-  }
-
-  if (assets.length === 0) {
-    const detail = errors[0] ? ` (${errors[0]})` : "";
-    throw new Error(`Ares tidak menghasilkan aset apa pun${detail}.`);
-  }
-
-  if (assets.length < n) {
-    pushLog({
-      level: "warn",
-      agent: "ares",
-      text: `${assets.length}/${n} gambar berhasil (kuota harian ${DAILY_LIMIT}).`,
-    });
-  } else {
-    pushLog({ level: "info", agent: "ares", text: `${assets.length} gambar selesai.` });
-  }
-
-  return assets;
+  return prompts;
 }
