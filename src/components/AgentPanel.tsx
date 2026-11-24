@@ -75,7 +75,7 @@ export default function AgentPanel({ agentId, onOpenSettings }: Props) {
         }}
         aria-label={`${meta.name}, ${STATUS_LABEL[status]}. Buka pengaturan agent.`}
         title={`Klik untuk mengatur ${meta.name}`}
-        className={`agent-tile group relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-2xl border p-4 transition-all duration-300 cursor-pointer select-none sm:min-h-[270px] ${
+        className={`agent-tile group relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-2xl border p-4 transition-all duration-300 cursor-pointer select-none sm:min-h-[330px] ${
           active
             ? "agent-tile-active"
             : "border-border hover:border-white/20"
