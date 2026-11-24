@@ -2,12 +2,13 @@ import { getAgentConfig, getApiKey, getModel } from "./agentConfigStore";
 import { callLLM } from "./providers";
 import { bus, AGENT_IDS, AGENT_META, type AgentId } from "./studioBus";
 import { agentStateStore, type StudioState } from "./agentStateStore";
-import { checkQuota } from "./dailyQuotaStore";
+import { resolveAresConfig } from "./aresAgent";
 import { getHistory, appendTurn } from "./chatHistoryStore";
 
 const PERSONAS: Record<AgentId, string> = {
   hera: `Kamu Hera, rekan kerja AI dan peneliti pasar microstock di c0desk1 Studio. Berpikir mandiri, analitis, dan proaktif; bantu pengguna memahami tren, peluang, kompetitor, dan ide prompt. Jawab alami dalam Bahasa Indonesia.`,
-  ares: `Kamu Ares, rekan kerja AI untuk generasi gambar di c0desk1 Studio. Berpikir praktis dan proaktif tentang konsep visual, prompt, dan proses pembuatan aset. Jawab alami dalam Bahasa Indonesia.`,
+  ares: `Kamu Ares, prompt engineer microstock di c0desk1 Studio. Tugasmu menyempurnakan konsep menjadi prompt gambar komersial yang jelas dan siap dipakai pengguna pada generator gambar manual. Jangan membuat atau mengklaim membuat gambar. Jawab alami dalam Bahasa Indonesia.`,
+
   hades: `Kamu Hades, rekan kerja AI untuk QC dan metadata microstock di c0desk1 Studio. Teliti, kritis, dan fokus pada kualitas serta paket hasil yang siap digunakan. Jawab alami dalam Bahasa Indonesia.`,
 };
 
@@ -16,12 +17,11 @@ export interface ChatContext {
   provider: string;
   model: string;
   hasApiKey: boolean;
-  quotaUsed: number;
-  quotaLimit: number;
+
   lastTopic?: string | null;
   lastInsightSummary?: string;
   lastPlansCount?: number;
-  totalGenerated?: number;
+  totalPrompts?: number;
   lastGeneratedAt?: number | null;
   totalQC?: number;
   lastIssueCount?: number;
@@ -29,15 +29,13 @@ export interface ChatContext {
 }
 
 export function buildContext(agentId: AgentId, state: StudioState): ChatContext {
-  const cfg = getAgentConfig(agentId);
-  const quota = checkQuota();
+  const savedConfig = getAgentConfig(agentId);
+  const cfg = agentId === "ares" ? resolveAresConfig(savedConfig) : savedConfig;
   const baseCtx: ChatContext = {
     enabled: cfg.enabled,
     provider: cfg.provider,
     model: getModel(cfg),
     hasApiKey: Boolean(getApiKey(cfg)),
-    quotaUsed: quota.used,
-    quotaLimit: quota.limit,
   };
 
   if (agentId === "hera") {
@@ -52,7 +50,7 @@ export function buildContext(agentId: AgentId, state: StudioState): ChatContext 
   if (agentId === "ares") {
     return {
       ...baseCtx,
-      totalGenerated: state.ares.totalGenerated,
+      totalPrompts: state.ares.totalPrompts,
       lastGeneratedAt: state.ares.lastRunAt,
       lastRunAt: state.ares.lastRunAt,
     };
@@ -78,7 +76,7 @@ function formatFallbackStatusReply(agentId: AgentId, ctx: ChatContext): string {
     return `${name} (${ctx.model}, ${keyState}): ${topicInfo}.`;
   }
   if (agentId === "ares") {
-    return `${name} (${ctx.model}, ${keyState}): ${ctx.totalGenerated ?? 0} gambar dihasilkan, kuota ${ctx.quotaUsed}/${ctx.quotaLimit}.`;
+    return `${name} (${ctx.model}, ${keyState}): ${ctx.totalPrompts ?? 0} prompt disusun.`;
   }
   return `${name} (${ctx.model}, ${keyState}): ${ctx.totalQC ?? 0} aset di-QC (${ctx.lastIssueCount ?? 0} catatan isu).`;
 }
@@ -95,7 +93,8 @@ export async function chatWithAgent(
 ): Promise<string> {
   const state = agentStateStore.get();
   const ctx = buildContext(agentId, state);
-  const cfg = getAgentConfig(agentId);
+  const savedConfig = getAgentConfig(agentId);
+  const cfg = agentId === "ares" ? resolveAresConfig(savedConfig) : savedConfig;
   const name = AGENT_META[agentId].name;
 
   if (!cfg.enabled) {

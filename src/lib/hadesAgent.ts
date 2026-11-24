@@ -1,4 +1,4 @@
-import { getAgentConfig } from "./agentConfigStore";
+import { getAgentConfig, getApiKey } from "./agentConfigStore";
 import { callLLM } from "./providers";
 import { pushLog } from "./logStore";
 import type { AresAsset } from "./aresAgent";
@@ -88,7 +88,10 @@ function normalize(m: HadesMetadata, index: number): HadesMetadata {
 export async function runHades(assets: AresAsset[], signal?: AbortSignal): Promise<HadesResult> {
   const cfg = getAgentConfig("hades");
   if (!cfg.enabled) throw new Error("Hades dinonaktifkan.");
-  if (!cfg.apiKeys) throw new Error("API key Hades (vision) belum diisi.");
+  if (cfg.provider === "groq") {
+    throw new Error("Hades memerlukan model vision. Pilih Gemini atau provider kompatibel yang mendukung gambar.");
+  }
+  if (!getApiKey(cfg)) throw new Error("API key Hades (vision) belum diisi.");
 
   const enriched: HadesAsset[] = [];
   const needsUpscale: string[] = [];
@@ -137,6 +140,7 @@ export async function runHades(assets: AresAsset[], signal?: AbortSignal): Promi
     if (norm.keywords.length < 10) {
       norm.quality_issues.push(`Keywords kurang (${norm.keywords.length})`);
     }
+    norm.quality_ok = norm.quality_ok && norm.quality_issues.length === 0;
 
     pushLog({
       level: norm.quality_issues.length === 0 ? "info" : "warn",
@@ -182,7 +186,7 @@ async function buildImagesZip(assets: HadesAsset[]): Promise<Blob> {
 
   const readme = [
     `c0desk1 Studio — Microstock Images`,
-    `Generated: ${new Date().toISOString()}`,
+    `QC date: ${new Date().toISOString()}`,
     ``,
     `Jumlah: ${assets.length} gambar`,
     ``,

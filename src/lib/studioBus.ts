@@ -56,7 +56,7 @@ export const bus = new StudioBus();
 
 export const AGENT_META: Record<AgentId, { name: string; role: string; accent: string }> = {
   hera: { name: "Hera", role: "Research", accent: "#a78bfa" },
-  ares: { name: "Ares", role: "Generator", accent: "#fb923c" },
+  ares: { name: "Ares", role: "Pembuat prompt", accent: "#fb923c" },
   hades: { name: "Hades", role: "QC & Delivery", accent: "#22d3ee" },
 };
 

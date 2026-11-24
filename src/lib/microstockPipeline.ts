@@ -4,8 +4,8 @@ import { getAgentConfig, getApiKey } from "./agentConfigStore";
 import JSZip from "jszip";
 import { callLLM } from "./providers";
 import { agentStateStore } from "./agentStateStore";
-import { checkQuota, quotaStore, DAILY_LIMIT } from "./dailyQuotaStore";
 import { pushLog } from "./logStore";
+import { runAres, type AresPrompt } from "./aresAgent";
 import type { HeraInsight, PromptPlan } from "./heraAgent";
 
 type PlanAspectRatio = PromptPlan["aspectRatio"];
@@ -17,27 +17,6 @@ interface PipelinePlanItem {
   plan: PromptPlan;
 }
 
-export interface GeneratedAsset {
-  planId: string;
-  title: string;
-  filename: string;
-  mimeType: string;
-
-  blob: Blob;
-  prompt: string;
-  keywords: string[];
-}
-
-export interface QCReportItem {
-  planId: string;
-  filename: string;
-  title: string;
-  approved: boolean;
-  score: number;
-  notes: string;
-  englishTitle: string;
-  englishKeywords: string[];
-}
 
 const VALID_ASPECT_RATIOS: PlanAspectRatio[] = ["16:9", "1:1", "4:5", "9:16"];
 
@@ -100,15 +79,6 @@ function parseJsonLoose<T>(raw: string): T | null {
   }
 }
 
-function recordQuotaUsage(amount = 1): void {
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const current = quotaStore.get();
-  const baseUsed = current.date === todayStr ? current.used : 0;
-  quotaStore.set({
-    date: todayStr,
-    used: Math.min(DAILY_LIMIT, baseUsed + amount),
-  });
-}
 
 async function pickAutonomousNiche(signal?: AbortSignal): Promise<string> {
   const state = agentStateStore.get();
@@ -373,228 +343,6 @@ Gunakan aspectRatio dari: "16:9", "1:1", "4:5", atau "9:16". Buat 2 rencana gamb
   }
 }
 
-function fileExtension(mediaType: string): string {
-  if (mediaType === "image/jpeg") return "jpg";
-  if (mediaType === "image/webp") return "webp";
-  if (mediaType === "image/png") return "png";
-  throw new Error("Model mengembalikan format gambar yang tidak didukung.");
-}
-
-async function generateAsset(
-  item: PipelinePlanItem,
-  index: number,
-  signal?: AbortSignal
-): Promise<GeneratedAsset> {
-  const response = await fetch("/api/generate-image", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      prompt: item.plan.prompt,
-      negativePrompt: item.plan.negativePrompt,
-      aspectRatio: item.plan.aspectRatio,
-    }),
-    signal,
-  });
-
-  if (!response.ok) {
-    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-    throw new Error(payload?.error || `Generasi gambar gagal (${response.status}).`);
-  }
-
-  const blob = await response.blob();
-  const mimeType = blob.type.toLowerCase().split(";")[0];
-  const extension = fileExtension(mimeType);
-  if (blob.size === 0 || blob.size > 20 * 1024 * 1024) {
-    throw new Error("Ukuran gambar yang dikembalikan tidak valid.");
-  }
-
-  return {
-    planId: item.id,
-    title: item.title,
-    filename: `${item.id}-${index + 1}.${extension}`,
-    mimeType,
-
-    blob,
-    prompt: item.plan.prompt,
-    keywords: item.keywords,
-  };
-}
-
-async function runAres(
-  items: PipelinePlanItem[],
-  signal?: AbortSignal
-): Promise<GeneratedAsset[]> {
-  const cfg = getAgentConfig("ares");
-  const quota = checkQuota();
-  if (!cfg.enabled) throw new Error("Ares dinonaktifkan di konfigurasi.");
-  if (!quota.ok || quota.remaining < items.length) {
-    throw new Error(`Kuota lokal tidak cukup untuk ${items.length} gambar.`);
-  }
-
-  bus.emit({
-    type: "agent",
-    id: "ares",
-    patch: {
-      status: "working",
-      gaze: "center",
-      bubble: `Menghasilkan ${items.length} gambar AI...`,
-    },
-  });
-
-  const assets: GeneratedAsset[] = [];
-  const failures: string[] = [];
-
-  for (let i = 0; i < items.length; i++) {
-    if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-    const item = items[i];
-
-    bus.emit({
-      type: "agent",
-      id: "ares",
-      patch: {
-        status: "working",
-        gaze: "center",
-        bubble: shortBubble(`Gambar ${i + 1}/${items.length}: ${item.title}`),
-      },
-    });
-
-    try {
-      const asset = await generateAsset(item, i, signal);
-      assets.push(asset);
-      recordQuotaUsage(1);
-    } catch (error) {
-      if (signal?.aborted || (error instanceof DOMException && error.name === "AbortError")) {
-
-        throw error;
-      }
-      const message = error instanceof Error ? error.message : "Generasi gagal.";
-      failures.push(`${item.title}: ${message}`);
-      pushLog({ level: "warn", agent: "ares", text: `Aset ${i + 1} gagal: ${message}` });
-      if (/batas generasi|coba lagi nanti/i.test(message)) break;
-    }
-  }
-
-  if (assets.length === 0) {
-    bus.emit({
-      type: "agent",
-      id: "ares",
-      patch: { status: "error", gaze: "center", bubble: "Tidak ada gambar berhasil" },
-    });
-    throw new Error(failures[0] || "Ares tidak berhasil menghasilkan gambar.");
-  }
-
-  bus.emit({
-    type: "agent",
-    id: "ares",
-    patch: {
-      status: "success",
-      gaze: "hades",
-      bubble: `${assets.length} gambar -> Hades`,
-    },
-  });
-
-  if (failures.length > 0) {
-    pushLog({ level: "warn", agent: "ares", text: `${failures.length} aset tidak berhasil dibuat.` });
-  }
-  return assets;
-}
-
-async function runHades(
-  assets: GeneratedAsset[],
-  signal?: AbortSignal
-): Promise<QCReportItem[]> {
-  const cfg = getAgentConfig("hades");
-  bus.emit({
-    type: "agent",
-    id: "hades",
-    patch: {
-      status: "checking",
-      gaze: "center",
-      bubble: `QC ${assets.length} aset...`,
-    },
-  });
-
-  await delay(450, signal);
-
-  const items: QCReportItem[] = assets.map((asset, idx) => ({
-    planId: asset.planId,
-    filename: asset.filename,
-    title: asset.title,
-    approved: true,
-    score: 90 - idx * 2,
-    notes: "Metadata disusun dari prompt; verifikasi visual tetap diperlukan.",
-    englishTitle: asset.title,
-    englishKeywords: Array.from(
-      new Set([...asset.keywords, "microstock", "commercial", "high resolution"])
-    ),
-  }));
-
-  if (cfg.enabled && getApiKey(cfg)) {
-    try {
-      const res = await callLLM(cfg, {
-        system: `Kamu adalah Hades, spesialis QC & metadata microstock.
-Balas HANYA JSON valid:
-{
-  "items": [
-    {
-      "planId": "plan-1",
-      "approved": true,
-      "score": 92,
-      "notes": "catatan singkat Bahasa Indonesia",
-      "englishTitle": "Commercial Stock Title",
-      "englishKeywords": ["keyword1", "keyword2"]
-    }
-  ]
-}`,
-        user: `Periksa dan beri metadata English untuk aset berikut:\n${JSON.stringify(
-          assets.map((a) => ({
-            planId: a.planId,
-            title: a.title,
-            prompt: a.prompt,
-            keywords: a.keywords,
-          }))
-        )}`,
-        signal,
-        retries: 0,
-      });
-
-      const parsed = parseJsonLoose<{ items?: Partial<QCReportItem>[] }>(res.text);
-      if (Array.isArray(parsed?.items) && parsed.items.length > 0) {
-        parsed.items.forEach((pItem, idx) => {
-          const base = items[idx] ?? items.find((x) => x.planId === pItem.planId);
-          if (!base) return;
-          base.approved = pItem.approved ?? base.approved;
-          base.score = typeof pItem.score === "number" ? pItem.score : base.score;
-          base.notes = pItem.notes || base.notes;
-          base.englishTitle = pItem.englishTitle || base.englishTitle;
-          if (Array.isArray(pItem.englishKeywords) && pItem.englishKeywords.length > 0) {
-            base.englishKeywords = pItem.englishKeywords;
-          }
-        });
-      }
-    } catch (err: any) {
-      if (err?.name === "AbortError") throw err;
-      pushLog({
-        level: "warn",
-        agent: "hades",
-        text: `QC metadata menggunakan fallback (${err?.message ?? "LLM error"}).`,
-      });
-    }
-  }
-
-  bus.emit({
-    type: "agent",
-    id: "hades",
-    patch: {
-      status: "success",
-      gaze: "user",
-      bubble: `QC selesai (${items.length} aset)`,
-    },
-  });
-
-  return items;
-}
-
 function topicSlug(topic: string): string {
   return (
     topic
@@ -605,43 +353,60 @@ function topicSlug(topic: string): string {
   );
 }
 
-function buildCsvContent(reports: QCReportItem[]): string {
-  const escapeCsv = (val: string) => `"${val.replace(/"/g, '""')}"`;
-  const lines = [
-    "Filename,Title,Keywords,Approved,Score,Notes",
-    ...reports.map((report) =>
-      [
-        escapeCsv(report.filename),
-        escapeCsv(report.englishTitle),
-        escapeCsv(report.englishKeywords.join(", ")),
-        escapeCsv(report.approved ? "YES" : "NO"),
-        escapeCsv(String(report.score)),
-        escapeCsv(report.notes),
-      ].join(",")
-    ),
-  ];
-  return lines.join("\n");
+function formatTelegramMessages(topic: string, prompts: AresPrompt[]): string[] {
+  return prompts.map((item, index) =>
+    [
+      `c0desk1 Studio — Ares prompt ${index + 1}/${prompts.length}`,
+      `Topik: ${topic}`,
+      `Judul: ${item.title}`,
+      `Prompt: ${item.plan.prompt}`,
+      `Negative prompt: ${item.plan.negativePrompt}`,
+      `Aspect ratio: ${item.plan.aspectRatio}`,
+      `Keywords: ${item.keywords.slice(0, 20).join(", ").slice(0, 600)}`,
+    ].join("\n")
+  );
 }
 
-async function buildPackageAttachment(
+async function sendToTelegram(messages: string[], signal?: AbortSignal): Promise<void> {
+  const response = await fetch("/api/telegram-send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages }),
+    signal,
+  });
+  const result = (await response.json().catch(() => null)) as { error?: string } | null;
+  if (!response.ok) {
+    throw new Error(result?.error || `Telegram gagal mengirim prompt (${response.status}).`);
+  }
+}
+
+async function buildPromptAttachment(
   topic: string,
-  assets: GeneratedAsset[],
-  reports: QCReportItem[]
+  insight: HeraInsight,
+  prompts: AresPrompt[]
 ): Promise<Attachment> {
   const zip = new JSZip();
   const slug = topicSlug(topic);
-  assets.forEach((asset) => zip.file(asset.filename, asset.blob));
-  zip.file(`${slug}-metadata.csv`, buildCsvContent(reports));
-  zip.file(
-    "README.txt",
-    `Paket microstock untuk: ${topic}\nBerisi ${assets.length} gambar, metadata CSV, dan hasil QC.\n`
-  );
+  const promptText = prompts
+    .map((item, index) =>
+      [
+        `PROMPT ${index + 1}: ${item.title}`,
+        `Prompt: ${item.plan.prompt}`,
+        `Negative prompt: ${item.plan.negativePrompt}`,
+        `Aspect ratio: ${item.plan.aspectRatio}`,
+        `Keywords: ${item.keywords.join(", ")}`,
+      ].join("\n")
+    )
+    .join("\n\n---\n\n");
+
+  zip.file(`${slug}-prompts.txt`, `Topik: ${topic}\n\n${promptText}\n`);
+  zip.file(`${slug}-market-research.json`, JSON.stringify(insight, null, 2));
 
   return {
     kind: "zip",
-    filename: `${slug}-complete-package.zip`,
-    label: `Paket lengkap: ${assets.length} gambar + CSV`,
-    count: assets.length,
+    filename: `${slug}-prompt-bundle.zip`,
+    label: `Bundle ${prompts.length} prompt + riset`,
+    count: prompts.length,
     blob: await zip.generateAsync({ type: "blob" }),
   };
 }
@@ -650,20 +415,27 @@ export const microstockPipeline = {
   async start(topic?: string): Promise<void> {
     if (pipelineStore.get().running) return;
 
+    const requestedTopic = topic?.trim() || "";
+    if (requestedTopic.length > 180) {
+      bus.emit({
+        type: "user-message",
+        message: { from: "hera", text: "Topik maksimal 180 karakter." },
+      });
+      return;
+    }
+
     controller = new AbortController();
     const signal = controller.signal;
-    const autonomous = !topic || !topic.trim();
-
+    const autonomous = !requestedTopic;
     pipelineStore.set({
       running: true,
-      topic: autonomous ? "Auto-Scout" : topic!.trim(),
+      topic: autonomous ? "Auto-Scout" : requestedTopic,
       phase: "hera",
       stage: "researching",
     });
 
     try {
-      let activeTopic = topic?.trim() || "";
-
+      let activeTopic = requestedTopic;
       if (autonomous) {
         bus.emit({
           type: "agent",
@@ -675,17 +447,12 @@ export const microstockPipeline = {
           },
         });
         activeTopic = await pickAutonomousNiche(signal);
-        pipelineStore.set({
-          running: true,
-          topic: activeTopic,
-          phase: "hera",
-          stage: "researching",
-        });
+        pipelineStore.set({ running: true, topic: activeTopic, phase: "hera", stage: "researching" });
         bus.emit({
           type: "user-message",
           message: {
             from: "hera",
-            text: `Inisiatif mandiri — saya pilih niche "${activeTopic}" (permintaan komersial jelas & kompetisi relatif rendah) dan mulai menyusun rencana prompt.`,
+            text: `Inisiatif mandiri — saya memilih niche "${activeTopic}" dan mulai menyiapkan prompt untuk generator gambar manual.`,
           },
         });
       }
@@ -697,7 +464,7 @@ export const microstockPipeline = {
           ...agentStateStore.get().hera,
           lastTopic: activeTopic,
           lastInsight: insight,
-          lastPlans: items.map((x) => x.plan),
+          lastPlans: items.map((item) => item.plan),
           lastRunAt: Date.now(),
         },
       });
@@ -706,119 +473,80 @@ export const microstockPipeline = {
         type: "handoff",
         from: "hera",
         to: "ares",
-        payload: {
-          topic: activeTopic,
-          plansCount: items.length,
-        },
+        payload: { topic: activeTopic, plansCount: items.length },
       });
+      pipelineStore.set({ running: true, topic: activeTopic, phase: "ares", stage: "writing-prompts" });
 
-      pipelineStore.set({
-        running: true,
-        topic: activeTopic,
-        phase: "ares",
-        stage: "working",
-      });
-
-      const assets = await runAres(items, signal);
-      const prevState = agentStateStore.get();
+      const prompts = await runAres(items, insight, signal);
+      const previousState = agentStateStore.get();
       agentStateStore.set({
-        ...prevState,
+        ...previousState,
+        hera: { ...previousState.hera, lastPlans: prompts.map((item) => item.plan) },
         ares: {
-          ...prevState.ares,
-          totalGenerated: (prevState.ares.totalGenerated ?? 0) + assets.length,
+          ...previousState.ares,
+          totalPrompts: previousState.ares.totalPrompts + prompts.length,
           lastRunAt: Date.now(),
         },
       });
 
-      bus.emit({
-        type: "handoff",
-        from: "ares",
-        to: "hades",
-        payload: {
-          topic: activeTopic,
-          assetsCount: assets.length,
-        },
-      });
-
-      pipelineStore.set({
-        running: true,
-        topic: activeTopic,
-        phase: "hades",
-        stage: "checking",
-      });
-
-      const qcReports = await runHades(assets, signal);
-      const issueCount = qcReports.filter((r) => !r.approved || r.score < 75).length;
-      const latestState = agentStateStore.get();
-      agentStateStore.set({
-        ...latestState,
-        hades: {
-          ...latestState.hades,
-          totalQC: (latestState.hades.totalQC ?? 0) + qcReports.length,
-          lastIssueCount: issueCount,
-          lastRunAt: Date.now(),
-        },
-      });
-
-      const packageAttachment = await buildPackageAttachment(activeTopic, assets, qcReports);
-      const summaryText = [
-        `Pipeline selesai untuk topik "${activeTopic}".`,
-        `• Hera: ${insight.trendSummary}`,
-        `• Ares: ${assets.length}/${items.length} gambar AI sungguhan berhasil dibuat.`,
-        `• Hades: ${qcReports.length} aset diberi metadata (${issueCount} catatan isu). ZIP berisi seluruh gambar, CSV metadata, dan README.`
-      ].join("\n");
+      pipelineStore.set({ running: true, topic: activeTopic, phase: "ares", stage: "sending-telegram" });
+      const attachment = await buildPromptAttachment(activeTopic, insight, prompts);
+      let deliveryMessage: string;
+      try {
+        await sendToTelegram(formatTelegramMessages(activeTopic, prompts), signal);
+        deliveryMessage = `Telegram menerima ${prompts.length} prompt untuk generator gambar manual.`;
+        pushLog({ level: "info", agent: "ares", text: `Mengirim ${prompts.length} prompt ke Telegram.` });
+      } catch (deliveryError) {
+        if (signal.aborted) throw deliveryError;
+        const reason = deliveryError instanceof Error ? deliveryError.message : "koneksi gagal";
+        deliveryMessage = `Prompt belum terkirim ke Telegram: ${reason}. Unduh bundle di bawah; gambar tidak dibuat oleh aplikasi.`;
+        pushLog({ level: "warn", agent: "ares", text: reason });
+      }
 
       bus.emit({
         type: "user-message",
         message: {
-          from: "hades",
-          text: summaryText,
-          attachments: [packageAttachment],
+          from: "ares",
+          text: [
+            `Rencana untuk "${activeTopic}" siap.`,
+            `Hera: ${insight.trendSummary}`,
+            `Ares: ${prompts.length} prompt disempurnakan.`,
+            deliveryMessage,
+            "Langkah berikutnya: buat gambar secara manual, lalu unggah ke @hades untuk QC dan metadata.",
+          ].join("\n\n"),
+          attachments: [attachment],
         },
       });
 
-      pushLog({
-        level: "info",
-        agent: "hades",
-        text: `Pipeline "${activeTopic}" selesai (${qcReports.length} aset).`,
+      bus.emit({
+        type: "agent",
+        id: "ares",
+        patch: { status: "success", gaze: "user", bubble: "Prompt dikirim; menunggu gambar manual" },
       });
-    } catch (err: any) {
-      if (err?.name === "AbortError") {
+      setTimeout(() => {
+        bus.emit({ type: "agent", id: "ares", patch: { status: "idle", gaze: "center", bubble: null } });
+      }, 5_000);
+      pushLog({ level: "info", agent: "ares", text: `Pipeline prompt "${activeTopic}" selesai.` });
+    } catch (error) {
+      if (signal.aborted) {
         pushLog({ level: "warn", text: "Pipeline dihentikan oleh pengguna." });
-        bus.emit({
-          type: "agent",
-          id: "hera",
-          patch: { status: "idle", gaze: "center", bubble: null },
-        });
-        bus.emit({
-          type: "agent",
-          id: "ares",
-          patch: { status: "idle", gaze: "center", bubble: null },
-        });
-        bus.emit({
-          type: "agent",
-          id: "hades",
-          patch: { status: "idle", gaze: "center", bubble: null },
-        });
+        for (const id of ["hera", "ares", "hades"] as const) {
+          bus.emit({ type: "agent", id, patch: { status: "idle", gaze: "center", bubble: null } });
+        }
       } else {
-        const msg = err?.message ?? "Pipeline gagal dijalankan.";
-        pushLog({ level: "error", text: msg });
+        const message = error instanceof Error ? error.message : "Pipeline gagal dijalankan.";
+        const from = pipelineStore.get().phase === "ares" ? "ares" : "hera";
+        pushLog({ level: "error", agent: from, text: message });
         bus.emit({
-          type: "user-message",
-          message: {
-            from: "hades",
-            text: `Pipeline terhenti: ${msg}`,
-          },
+          type: "agent",
+          id: from,
+          patch: { status: "error", gaze: "center", bubble: "Pipeline gagal" },
         });
+        bus.emit({ type: "user-message", message: { from, text: `Pipeline terhenti: ${message}` } });
       }
     } finally {
       controller = null;
-      pipelineStore.set({
-        running: false,
-        topic: null,
-        phase: null,
-        stage: null,
-      });
+      pipelineStore.set({ running: false, topic: null, phase: null, stage: null });
     }
   },
 
@@ -826,3 +554,4 @@ export const microstockPipeline = {
     controller?.abort();
   },
 };
+

@@ -13,7 +13,7 @@ export default function OfficeRoom({ snapshot }: Props) {
   const [chatOpen, setChatOpen] = useState(false);
 
   return (
-    <main className="office-app min-h-screen flex flex-col text-foreground">
+    <main className="office-app office-game min-h-screen flex flex-col text-foreground">
       <header className="office-header">
         <a href="/" className="office-brand" aria-label="c0desk1 Studio beranda">
           <span className="brand-mark" aria-hidden="true"><i /><i /><i /><i /></span>
@@ -31,9 +31,9 @@ export default function OfficeRoom({ snapshot }: Props) {
       <section className="office-main" aria-labelledby="office-title">
         <div className="office-world-header">
           <div>
-            <p className="section-eyebrow">YOUR TEAM, IN MOTION</p>
-            <h1 id="office-title">Creative office</h1>
-            <p className="office-subtitle">An open floor for ideas, research, and making things happen.</p>
+            <p className="section-eyebrow">OFFICE LIFE · IDLE STUDIO</p>
+            <h1 id="office-title">Your creative office</h1>
+            <p className="office-subtitle">Ares prepares the prompts. You create the images, then Hades takes over.</p>
           </div>
           <div className="office-headcount" aria-label="Three AI teammates">
             <span className="headcount-avatars" aria-hidden="true"><i>H</i><i>A</i><i>D</i></span>
@@ -48,7 +48,7 @@ export default function OfficeRoom({ snapshot }: Props) {
             <div className="office-shelf"><i /><i /><i /></div>
           </div>
           <div className="office-floor">
-            <div className="office-floor-label"><span>OPEN OFFICE</span><span>INTERACT WITH A TEAMMATE TO CONFIGURE</span></div>
+            <div className="office-floor-label"><span>CREATIVE FLOOR</span><span>03 AGENTS · IDLE WORK IN PROGRESS</span></div>
             <div className="office-workstations">
               <AgentPanel agentId="hera" />
               <AgentPanel agentId="ares" />
@@ -61,7 +61,7 @@ export default function OfficeRoom({ snapshot }: Props) {
               <span><strong>Your desk</strong><small>Team lead</small></span>
             </div>
           </div>
-          <div className="office-room-footer"><span>CREATIVE FLOOR · OPEN PLAN</span><span>STUDIO 01</span></div>
+          <div className="office-room-footer"><span>OFFICE LIFE · CREATIVE FLOOR</span><span>SHIFT 01</span></div>
         </div>
       </section>
 
